@@ -1,2 +1,2 @@
-# StocK-Ticker
-A stock ticker app
+# Crypto-Ticker
+A crypto ticker app
