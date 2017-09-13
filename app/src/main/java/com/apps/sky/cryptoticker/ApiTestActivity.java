@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -32,6 +34,8 @@ public class ApiTestActivity extends AppCompatActivity {
         t1 = (TextView) findViewById(R.id.textViewName);
         new JSONTask().execute(url);
     }
+
+
 
 
     public class JSONTask extends AsyncTask<String,String, String > {
