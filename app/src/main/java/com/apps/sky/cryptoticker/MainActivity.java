@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String text = listView.getItemAtPosition(i).toString();
-                Intent intent = new Intent(MainActivity.this, ApiTestActivity.class);
+                Intent intent = new Intent(MainActivity.this, StockPageActivity.class);
                 intent.putExtra("crypto", "" + text.toLowerCase());
                 startActivity(intent);
             }
