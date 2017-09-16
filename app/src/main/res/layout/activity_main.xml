@@ -8,11 +8,13 @@
 
     <ListView
         android:id="@+id/list_view"
-        android:layout_width="373dp"
-        android:layout_height="498dp"
-        tools:layout_editor_absoluteX="4dp"
+        android:layout_width="388dp"
+        android:layout_height="552dp"
+        tools:layout_editor_absoluteX="-9dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="8dp"
-        tools:layout_editor_absoluteY="5dp" />
+        android:layout_marginBottom="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="0dp"
+        app:layout_constraintVertical_bias="0.0" />
 
 </android.support.constraint.ConstraintLayout>

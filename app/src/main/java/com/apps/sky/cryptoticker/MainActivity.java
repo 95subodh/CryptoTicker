@@ -1,7 +1,5 @@
 package com.apps.sky.cryptoticker;
 
-import android.app.SearchManager;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
@@ -13,9 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -60,15 +56,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-//    public void sendMessage(View view)
-//    {
-//        EditText editText = (EditText) findViewById(R.id.edittext_id);
-//
-//        Intent intent = new Intent(MainActivity.this, ApiTestActivity.class);
-//        intent.putExtra("crypto",editText.getText().toString().toLowerCase());
-//        startActivity(intent);
-//    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -93,11 +80,20 @@ public class MainActivity extends AppCompatActivity {
                         templist.add(temp);
                     }
                 }
+                System.out.println(newText);
+
+                if (newText.length() > 0) {
+                    listView.setVisibility(View.VISIBLE);
+                }
+                else {
+                    listView.setVisibility(View.GONE);
+                }
+
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(MainActivity.this,
                         android.R.layout.simple_list_item_1, templist);
                 listView.setAdapter(adapter);
 
-                return false;
+                return true;
             }
         });
 
