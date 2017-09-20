@@ -46,6 +46,7 @@ public class StockPageActivity extends AppCompatActivity {
      */
     private ViewPager mViewPager;
     private String url;
+    private static String name, price, change, rank, cap, avlsup, totsup, lstupd;
     private TextView coinName, coinPrice, coinChange, coinRank, coinCap, coinAvailSupply, coinTotSupply, coinLstUpdate;
 
     @Override
@@ -70,6 +71,8 @@ public class StockPageActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
+
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,6 +82,32 @@ public class StockPageActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void fillInfoFromJSON() {
+
+        coinName = (TextView) findViewById(R.id.coinName);
+        coinName.setText(name);
+        coinPrice = (TextView) findViewById(R.id.coinPrice);
+        coinPrice.setText(price);
+        coinAvailSupply = (TextView) findViewById(R.id.coinAvailSupply);
+        coinAvailSupply.setText(avlsup);
+        coinCap = (TextView) findViewById(R.id.coinCap);
+        coinCap.setText(cap);
+        coinLstUpdate = (TextView) findViewById(R.id.coinLstUpdate);
+        coinLstUpdate.setText(lstupd);
+        coinRank = (TextView) findViewById(R.id.coinRank);
+        coinRank.setText(rank);
+        coinTotSupply = (TextView) findViewById(R.id.coinTotSupply);
+        coinTotSupply.setText(totsup);
+        coinChange = (TextView) findViewById(R.id.coinChange);
+        coinChange.setText(change);
+//        if(Integer.parseInt(change)<0){
+//            coinChange.setTextColor(Color.RED);
+//        }
+//        else {
+//            coinChange.setTextColor(Color.GREEN);
+//        }
     }
 
 
@@ -120,12 +149,15 @@ public class StockPageActivity extends AppCompatActivity {
                 case 0:
                     StockTab1 stockTab1 = new StockTab1();
                     new JSONTask().execute(url);
+//                    fillInfoFromJSON();
+//                    new JSONTask().execute(url);
                     return stockTab1;
                 case 1:
                     StockTab2 stockTab2 = new StockTab2();
                     return stockTab2;
                 case 2:
                     StockTab3 stockTab3 = new StockTab3();
+//                    fillInfoFromJSON();
                     return stockTab3;
                 default:
                     return null;
@@ -178,11 +210,17 @@ public class StockPageActivity extends AppCompatActivity {
 
                 String finalJson = buffer.toString();
                 JSONArray jarr = new JSONArray(finalJson);
-                JSONObject parentObject = jarr.getJSONObject(0);
-                String name = parentObject.getString("name");
-                String price = parentObject.getString("price_inr");
 
-                return name+" - "+price;
+                JSONObject parentObject = jarr.getJSONObject(0);
+                name = parentObject.getString("name");
+                price = parentObject.getString("price_inr");
+                change = parentObject.getString("percent_change_24h");
+                rank = parentObject.getString("rank");
+                cap = parentObject.getString("market_cap_inr");
+                avlsup = parentObject.getString("available_supply");
+                totsup = parentObject.getString("total_supply");
+                lstupd = parentObject.getString("last_updated");
+                return price;
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();
@@ -208,7 +246,9 @@ public class StockPageActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-            coinName.setText(result);
+//            coinName = (TextView) findViewById(R.id.coinName);
+//            coinName.setText(name);
+            fillInfoFromJSON();
         }
     }
 }

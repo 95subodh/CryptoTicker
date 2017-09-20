@@ -4,8 +4,6 @@
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="title_activity_stock_page">StockPageActivity</string>
-    <string name="action_settings">Settings</string>
-    <string name="section_format">Hello World from section: %1$d</string>
     <string name="stock_tab1_title">PRICE</string>
     <string name="stock_tab2_title">NEWS</string>
     <string name="stock_tab3_title">PREDICTIONS</string>
