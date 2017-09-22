@@ -108,19 +108,19 @@
         android:id="@+id/coinLstUpdateDummy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="39dp"
-        android:layout_toEndOf="@+id/coinTotSupplyDummy"
-        android:text="Last Updated on:" />
+        android:text="Last Updated on:"
+        android:layout_below="@+id/coinTotSupplyDummy"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="58dp" />
 
     <TextView
         android:id="@+id/coinLstUpdate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="time"
         android:layout_alignBaseline="@+id/coinLstUpdateDummy"
         android:layout_alignBottom="@+id/coinLstUpdateDummy"
-        android:layout_alignStart="@+id/coinTotSupply" />
+        android:layout_alignStart="@+id/coinTotSupply"
+        android:text="time" />
 
 
 </RelativeLayout>
