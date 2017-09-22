@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="list_item_padding">32dp</dimen>
+    <dimen name="large_text">30dp</dimen>
+    <dimen name="medium_text">24dp</dimen>
+    <dimen name="small_text">16dp</dimen>
+</resources>
