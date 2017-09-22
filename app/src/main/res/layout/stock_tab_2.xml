@@ -9,9 +9,39 @@
     tools:context="com.apps.sky.cryptoticker.StockPageActivity">
 
     <TextView
-        android:id="@+id/section_label2"
+        android:id="@+id/newsImageUrl"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="tab2" />
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="212dp"
+        android:text="imageurl" />
 
+    <TextView
+        android:id="@+id/newsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/newsImageUrl"
+        android:layout_below="@+id/newsImageUrl"
+        android:layout_marginTop="61dp"
+        android:text="newstitle" />
+
+    <TextView
+        android:id="@+id/newsDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/newsTitle"
+        android:layout_below="@+id/newsTitle"
+        android:layout_marginTop="58dp"
+        android:text="description" />
+
+    <TextView
+        android:id="@+id/newsUrl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/newsTitle"
+        android:layout_alignStart="@+id/newsImageUrl"
+        android:layout_marginBottom="86dp"
+        android:text="url" />
 </RelativeLayout>
