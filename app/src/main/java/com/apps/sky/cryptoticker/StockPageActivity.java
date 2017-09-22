@@ -109,6 +109,7 @@ public class StockPageActivity extends AppCompatActivity {
                     return stockTab1;
                 case 1:
                     StockTab2 stockTab2 = new StockTab2();
+                    stockTab2.crypto = crypto_name;
                     return stockTab2;
                 case 2:
                     StockTab3 stockTab3 = new StockTab3();
