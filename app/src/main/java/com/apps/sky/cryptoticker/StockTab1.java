@@ -1,5 +1,6 @@
 package com.apps.sky.cryptoticker;
 
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -63,12 +64,12 @@ public class StockTab1 extends Fragment {
         coinTotSupply.setText(totsup);
         coinChange = (TextView) getView().findViewById(R.id.coinChange);
         coinChange.setText(change);
-//        if(Integer.parseInt(change)<0){
-//            coinChange.setTextColor(Color.RED);
-//        }
-//        else {
-//            coinChange.setTextColor(Color.GREEN);
-//        }
+        if (change.charAt(0) == '-') {
+            coinChange.setTextColor(Color.RED);
+        }
+        else {
+            coinChange.setTextColor(Color.parseColor("#ff99cc00"));
+        }
     }
 
     public class JSONTask extends AsyncTask<String,String, String > {
@@ -133,8 +134,6 @@ public class StockTab1 extends Fragment {
         @Override
         protected void onPostExecute(String result) {
 //            super.onPostExecute(result);
-//            coinName = (TextView) findViewById(R.id.coinName);
-//            coinName.setText(name);
             fillInfoFromJSON();
         }
     }
