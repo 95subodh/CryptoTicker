@@ -20,6 +20,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 /**
  * Created by subodhyadav on 16/09/17.
@@ -46,23 +48,25 @@ public class StockTab1 extends Fragment {
         return rootView;
     }
 
+    private String commaSeperateInteger(String num){
+        return NumberFormat.getNumberInstance(Locale.US).format(Float.valueOf(num));
+    }
+
     private void fillInfoFromJSON() {
 
-        coinName = (TextView) getView().findViewById(R.id.coinName);
+        coinName = getView().findViewById(R.id.coinName);
         coinName.setText(name);
-        coinPrice = (TextView) getView().findViewById(R.id.coinPrice);
-        coinPrice.setText(price);
-        coinAvailSupply = (TextView) getView().findViewById(R.id.coinAvailSupply);
-        coinAvailSupply.setText(avlsup);
-        coinCap = (TextView) getView().findViewById(R.id.coinCap);
-        coinCap.setText(cap);
-        coinLstUpdate = (TextView) getView().findViewById(R.id.coinLstUpdate);
-        coinLstUpdate.setText(lstupd);
-        coinRank = (TextView) getView().findViewById(R.id.coinRank);
+        coinPrice = getView().findViewById(R.id.coinPrice);
+        coinPrice.setText(commaSeperateInteger(price));
+        coinAvailSupply = getView().findViewById(R.id.coinAvailSupply);
+        coinAvailSupply.setText(commaSeperateInteger(avlsup));
+        coinCap = getView().findViewById(R.id.coinCap);
+        coinCap.setText(commaSeperateInteger(cap));
+        coinRank = getView().findViewById(R.id.coinRank);
         coinRank.setText(rank);
-        coinTotSupply = (TextView) getView().findViewById(R.id.coinTotSupply);
-        coinTotSupply.setText(totsup);
-        coinChange = (TextView) getView().findViewById(R.id.coinChange);
+        coinTotSupply = getView().findViewById(R.id.coinTotSupply);
+        coinTotSupply.setText(commaSeperateInteger(totsup));
+        coinChange = getView().findViewById(R.id.coinChange);
         coinChange.setText(change);
         if (change.charAt(0) == '-') {
             coinChange.setTextColor(Color.RED);
@@ -70,6 +74,12 @@ public class StockTab1 extends Fragment {
         else {
             coinChange.setTextColor(Color.parseColor("#ff99cc00"));
         }
+
+        coinLstUpdate = getView().findViewById(R.id.coinLstUpdate);
+        String lastUpdTime = new java.text.SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(new java.util.Date (Integer.valueOf(lstupd)*1000));
+//        Date lastUpdTime = new Date(Long.parseLong(lstupd));
+        coinLstUpdate.setText(lastUpdTime);
+
     }
 
     public class JSONTask extends AsyncTask<String,String, String > {
