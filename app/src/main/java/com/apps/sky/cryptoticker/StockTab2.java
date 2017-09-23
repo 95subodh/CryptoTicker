@@ -81,6 +81,7 @@ public class StockTab2 extends Fragment {
                     linkToImage = obj.getString("urlToImage");
                 }
                     return finalJson;
+//                return name+" - "+price;
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();
