@@ -3,10 +3,11 @@ package com.apps.sky.cryptoticker;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -19,6 +20,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 
 /**
  * Created by subodhyadav on 16/09/17.
@@ -26,22 +28,49 @@ import java.net.URL;
 
 public class StockTab2 extends Fragment {
 
-    private String url;
-    public String crypto;
+    private View rootView;
+
+    public  String crypto;
     private String key = "23b11fdf774042e6bd138b5448af5403";
     private String source = "sources=google-news";
     private String language = "en";
-    private String status;
-    private String title, link, linkToImage, description;
+    private String status, url;
+    ArrayList<NewsObject> news = new ArrayList<NewsObject>();
+
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter adapter;
+    private RecyclerView.LayoutManager layoutManager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.stock_tab_2, container, false);
+
+        if (rootView == null) {
+            rootView = inflater.inflate(R.layout.stock_tab_2, container, false);
+        }
+
         url = "http://beta.newsapi.org/v2/everything?q=" + crypto + "&apiKey=" + key + "&language=" + language;
         new JSONTask().execute(url);
+
+        recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
+        recyclerView.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(rootView.getContext());
+        recyclerView.setLayoutManager(layoutManager);
+
         return rootView;
     }
+
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        ((MyRecyclerViewAdapter) adapter).setOnItemClickListener(new MyRecyclerViewAdapter
+//                .MyClickListener() {
+//            @Override
+//            public void onItemClick(int position, View v) {
+//                System.out.println(" Clicked on Item " + position);
+//            }
+//        });
+//    }
 
     public class JSONTask extends AsyncTask<String,String, String > {
 
@@ -71,16 +100,21 @@ public class StockTab2 extends Fragment {
                 JSONObject parentObject = new JSONObject(finalJson);
                 status = parentObject.getString("status");
                 JSONArray articles = parentObject.getJSONArray("articles");
-                //*********      this contains 10 news articles       ***********//
-                for (int i=0 ; /*i<articles.length()*/ i<1; i++){
-                    JSONObject obj = articles.getJSONObject(i);
 
-                    title = obj.getString("title");
-                    link = obj.getString("url");
-                    description = obj.getString("description");
-                    linkToImage = obj.getString("urlToImage");
+                //*********      this contains 10 news articles       ***********//
+                for (int i=0 ; i<articles.length(); i++){
+
+                    JSONObject obj = articles.getJSONObject(i);
+                    NewsObject currentNews = new NewsObject();
+
+                    currentNews.setTitle(obj.getString("title"));
+                    currentNews.setPublishedDate(obj.getString("publishedAt"));
+                    currentNews.setURL(obj.getJSONObject("source").getString("name"));
+                    currentNews.setImage(obj.getString("urlToImage"));
+
+                    news.add(i, currentNews);
                 }
-                    return finalJson;
+                return finalJson;
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();
@@ -106,15 +140,9 @@ public class StockTab2 extends Fragment {
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-            TextView t1,t2,t3,t4;
-            t1 = getView().findViewById(R.id.newsUrl);
-            t2 = getView().findViewById(R.id.newsImageUrl);
-            t3 = getView().findViewById(R.id.newsTitle);
-            t4 = getView().findViewById(R.id.newsDescription);
-            t1.setText(link);
-            t2.setText(linkToImage);
-            t3.setText(title);
-            t4.setText(description);
+
+            adapter = new MyRecyclerViewAdapter(news);
+            recyclerView.setAdapter(adapter);
         }
     }
 }
