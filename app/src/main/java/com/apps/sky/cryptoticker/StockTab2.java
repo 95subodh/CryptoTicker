@@ -114,7 +114,6 @@ public class StockTab2 extends Fragment {
 
                     news.add(i, currentNews);
                 }
-
                 return finalJson;
 
             } catch (MalformedURLException e) {
