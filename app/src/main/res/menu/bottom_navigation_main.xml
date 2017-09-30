@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_my_portfolio"
+        android:enabled="true"
+        android:title="@string/text_my_portfolio"
+        android:icon="@drawable/ic_action_my_portfolio"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_trending"
+        android:enabled="true"
+        android:title="@string/text_trending"
+        android:icon="@drawable/ic_action_trending"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_chat"
+        android:enabled="true"
+        android:title="@string/text_chat"
+        android:icon="@drawable/ic_action_chat"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_settings"
+        android:enabled="true"
+        android:title="@string/text_settings"
+        android:icon="@drawable/ic_action_settings"
+        app:showAsAction="ifRoom" />
+</menu>

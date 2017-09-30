@@ -1,11 +1,14 @@
 <resources>
     <string name="app_name">CryptoTicker</string>
     <string name="title_activity_tabbed">TabbedActivity</string>
-    <string name="action_settings">Settings</string>
+    <string name="text_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="title_activity_stock_page">StockPageActivity</string>
     <string name="stock_tab1_title">PRICE</string>
     <string name="stock_tab2_title">NEWS</string>
     <string name="stock_tab3_title">PREDICTIONS</string>
+    <string name="text_my_portfolio">My Portfolio</string>
+    <string name="text_chat">Chat</string>
+    <string name="text_trending">Trending</string>
 
 </resources>
