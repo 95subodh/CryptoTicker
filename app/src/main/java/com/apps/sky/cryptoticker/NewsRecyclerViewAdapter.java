@@ -78,13 +78,13 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
 
 //        if (viewType == 0) {
 //            view = LayoutInflater.from(parent.getContext())
-//                    .inflate(R.layout.news_card_view_2, parent, false);
+//                    .inflate(R.layout.news_card_item_view_2, parent, false);
 //            DataObjectHolder2 dataObjectHolder = new DataObjectHolder2(view);
 //            return dataObjectHolder;
 //        }
 //        else {
             view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.news_card_view_1, parent, false);
+                    .inflate(R.layout.news_card_item_view_1, parent, false);
             DataObjectHolder1 dataObjectHolder = new DataObjectHolder1(view);
             return dataObjectHolder;
 //        }
