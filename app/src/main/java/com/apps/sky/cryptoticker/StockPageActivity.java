@@ -47,7 +47,9 @@ public class StockPageActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                //--------add values here -------
 //                editor.putString("currency_name", crypto_name);
+
                 Snackbar.make(view, "Currency added to your portfolio :)", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }

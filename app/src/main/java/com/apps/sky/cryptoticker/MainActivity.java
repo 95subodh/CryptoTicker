@@ -122,7 +122,10 @@ public class MainActivity extends AppCompatActivity {
         items.add("syscoin");
 
         for (int i = 0; i < 5; ++i) {
+
+            //--------retrieve values here instead of this line-------
             crypto = items.get(i);
+
             url = "https://api.coinmarketcap.com/v1/ticker/"+crypto+"/?convert=INR";
             new MainActivity.JSONTask().execute(url);
         }
