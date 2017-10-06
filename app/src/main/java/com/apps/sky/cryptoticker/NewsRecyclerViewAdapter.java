@@ -13,7 +13,7 @@ import java.util.ArrayList;
  * Created by ankitaverma on 26/09/17.
  */
 
-public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private ArrayList<NewsObject> mDataset;
     private static MyClickListener myClickListener;
     private Integer cardType;
@@ -68,7 +68,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         this.myClickListener = myClickListener;
     }
 
-    public MyRecyclerViewAdapter(ArrayList<NewsObject> myDataset) {
+    public NewsRecyclerViewAdapter(ArrayList<NewsObject> myDataset) {
         mDataset = myDataset;
     }
 

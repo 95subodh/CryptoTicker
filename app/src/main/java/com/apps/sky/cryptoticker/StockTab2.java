@@ -63,7 +63,7 @@ public class StockTab2 extends Fragment {
 //    @Override
 //    public void onResume() {
 //        super.onResume();
-//        ((MyRecyclerViewAdapter) adapter).setOnItemClickListener(new MyRecyclerViewAdapter
+//        ((NewsRecyclerViewAdapter) adapter).setOnItemClickListener(new NewsRecyclerViewAdapter
 //                .MyClickListener() {
 //            @Override
 //            public void onItemClick(int position, View v) {
@@ -141,7 +141,7 @@ public class StockTab2 extends Fragment {
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
 
-            adapter = new MyRecyclerViewAdapter(news);
+            adapter = new NewsRecyclerViewAdapter(news);
             recyclerView.setAdapter(adapter);
         }
     }

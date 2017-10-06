@@ -7,23 +7,26 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
 public class  MainActivity extends AppCompatActivity {
 
-    Integer BOTTOM_NAVIGATION_BAR_VISIBILITY = 1;
     ListView listView;
     ArrayList<String> items;
     BottomNavigationView bottomNavigationView;
+    View myPortfolioView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +35,12 @@ public class  MainActivity extends AppCompatActivity {
         bottomNavigationView = (BottomNavigationView)
                 findViewById(R.id.bottom_navigation);
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
+
+        LayoutInflater inflater = LayoutInflater.from(this);
+        RelativeLayout layout = (RelativeLayout) inflater.inflate(R.layout.my_portfolio_card, null, false);
+        LinearLayout linear = (LinearLayout) findViewById(R.id.my_portfolio_view);
+        linear.addView(layout);
+        myPortfolioView = (View) linear;
 
         bottomNavigationView.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -108,7 +117,6 @@ public class  MainActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String newText) {
                 ArrayList<String> templist = new ArrayList<>();
-//                bottomNavigationView.setVisibility(View.INVISIBLE);
                 for (String temp : items) {
                     if (temp.toLowerCase().contains(newText.toLowerCase())) {
                         templist.add(temp);
@@ -130,17 +138,21 @@ public class  MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+
         searchView.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
             @Override
             public void onViewAttachedToWindow(View view) {
                 bottomNavigationView.setVisibility(View.INVISIBLE);
+                myPortfolioView.setVisibility(View.INVISIBLE);
             }
 
             @Override
             public void onViewDetachedFromWindow(View view) {
                 bottomNavigationView.setVisibility(View.VISIBLE);
+                myPortfolioView.setVisibility(View.VISIBLE);
             }
         });
+
         return super.onCreateOptionsMenu(menu);
     }
 
