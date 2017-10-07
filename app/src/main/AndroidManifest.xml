@@ -3,6 +3,7 @@
     package="com.apps.sky.cryptoticker">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -20,7 +21,6 @@
             </intent-filter>
 
         </activity>
-        <activity android:name=".ApiTestActivity" />
         <activity
             android:name=".StockPageActivity"
             android:label="@string/title_activity_stock_page"
