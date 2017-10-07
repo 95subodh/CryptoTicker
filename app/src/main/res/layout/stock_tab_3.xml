@@ -16,4 +16,33 @@
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
 
+    <TextView
+        android:id="@+id/storageDemotextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"
+        android:text="TextView" />
+
+    <Button
+        android:id="@+id/storageDemobutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="62dp"
+        android:text="click me to store" />
+
+    <EditText
+        android:id="@+id/storageDemoeditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/storageDemobutton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="39dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="enter text to be stored" />
+
 </RelativeLayout>
