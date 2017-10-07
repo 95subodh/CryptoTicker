@@ -1,12 +1,16 @@
 package com.apps.sky.cryptoticker;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -14,16 +18,36 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 
-public class  MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
 
-    Integer BOTTOM_NAVIGATION_BAR_VISIBILITY = 1;
     ListView listView;
     ArrayList<String> items;
     BottomNavigationView bottomNavigationView;
+    View myPortfolioView, myCurrentPortfolioView;
+
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter adapter;
+    private RecyclerView.LayoutManager layoutManager;
+
+    private String url;
+    public String crypto;
+    ArrayList<MyPortfolioObject> myPortfolioArray = new ArrayList<MyPortfolioObject>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +56,25 @@ public class  MainActivity extends AppCompatActivity {
         bottomNavigationView = (BottomNavigationView)
                 findViewById(R.id.bottom_navigation);
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
+
+        LayoutInflater inflater = LayoutInflater.from(this);
+
+        RelativeLayout current_portfolio_layout = (RelativeLayout) inflater.inflate(R.layout.my_current_portfolio_card, null, false);
+        RelativeLayout current_portfolio_view = (RelativeLayout) findViewById(R.id.my_current_portfolio_view);
+        current_portfolio_view.addView(current_portfolio_layout);
+        myCurrentPortfolioView = (View) current_portfolio_view;
+
+        RelativeLayout my_portfolio_layout = (RelativeLayout) inflater.inflate(R.layout.my_portfolio_card, null, false);
+        RelativeLayout my_portfolio_view = (RelativeLayout) findViewById(R.id.my_portfolio_view);
+        my_portfolio_view.addView(my_portfolio_layout);
+        myPortfolioView = (View) my_portfolio_view;
+
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        recyclerView.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        adapter = new MyPortfolioRecyclerViewAdapter(myPortfolioArray);
+        recyclerView.setAdapter(adapter);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -78,6 +121,15 @@ public class  MainActivity extends AppCompatActivity {
         items.add("nexus");
         items.add("syscoin");
 
+        for (int i = 0; i < 5; ++i) {
+
+            //--------retrieve values here instead of this line-------
+            crypto = items.get(i);
+
+            url = "https://api.coinmarketcap.com/v1/ticker/"+crypto+"/?convert=INR";
+            new MainActivity.JSONTask().execute(url);
+        }
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -87,6 +139,72 @@ public class  MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    public class JSONTask extends AsyncTask<String,String, String > {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            HttpURLConnection connection = null;
+            BufferedReader reader = null;
+
+            try {
+                URL url = new URL(params[0]);
+                connection = (HttpURLConnection) url.openConnection();
+                connection.connect();
+                InputStream stream = connection.getInputStream();
+                reader = new BufferedReader(new InputStreamReader(stream));
+                StringBuffer buffer = new StringBuffer();
+                String line ="";
+                while ((line = reader.readLine()) != null){
+                    buffer.append(line);
+                }
+
+                String finalJson = buffer.toString();
+                JSONArray jarr = new JSONArray(finalJson);
+
+                JSONObject parentObject = jarr.getJSONObject(0);
+                MyPortfolioObject currency_details = new MyPortfolioObject();
+                currency_details.setTitle(parentObject.getString("name"));
+                currency_details.setCurrentPrice("$" + parentObject.getString("price_inr"));
+                currency_details.setMyProfit("34.08%");
+
+                myPortfolioArray.add(currency_details);
+                return finalJson;
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } finally {
+                if(connection != null) {
+                    connection.disconnect();
+                }
+                try {
+                    if(reader != null) {
+                        reader.close();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return  null;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+
+            adapter = new MyPortfolioRecyclerViewAdapter(myPortfolioArray);
+            recyclerView.setAdapter(adapter);
+        }
     }
 
     @Override
@@ -108,7 +226,6 @@ public class  MainActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String newText) {
                 ArrayList<String> templist = new ArrayList<>();
-//                bottomNavigationView.setVisibility(View.INVISIBLE);
                 for (String temp : items) {
                     if (temp.toLowerCase().contains(newText.toLowerCase())) {
                         templist.add(temp);
@@ -130,17 +247,23 @@ public class  MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+
         searchView.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
             @Override
             public void onViewAttachedToWindow(View view) {
                 bottomNavigationView.setVisibility(View.INVISIBLE);
+                myCurrentPortfolioView.setVisibility(View.INVISIBLE);
+                myPortfolioView.setVisibility(View.INVISIBLE);
             }
 
             @Override
             public void onViewDetachedFromWindow(View view) {
                 bottomNavigationView.setVisibility(View.VISIBLE);
+                myCurrentPortfolioView.setVisibility(View.VISIBLE);
+                myPortfolioView.setVisibility(View.VISIBLE);
             }
         });
+
         return super.onCreateOptionsMenu(menu);
     }
 

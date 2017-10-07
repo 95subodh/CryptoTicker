@@ -13,7 +13,7 @@ import java.util.ArrayList;
  * Created by ankitaverma on 26/09/17.
  */
 
-public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private ArrayList<NewsObject> mDataset;
     private static MyClickListener myClickListener;
     private Integer cardType;
@@ -68,7 +68,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         this.myClickListener = myClickListener;
     }
 
-    public MyRecyclerViewAdapter(ArrayList<NewsObject> myDataset) {
+    public NewsRecyclerViewAdapter(ArrayList<NewsObject> myDataset) {
         mDataset = myDataset;
     }
 
@@ -78,13 +78,13 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
 //        if (viewType == 0) {
 //            view = LayoutInflater.from(parent.getContext())
-//                    .inflate(R.layout.news_card_view_2, parent, false);
+//                    .inflate(R.layout.news_card_item_view_2, parent, false);
 //            DataObjectHolder2 dataObjectHolder = new DataObjectHolder2(view);
 //            return dataObjectHolder;
 //        }
 //        else {
             view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.news_card_view_1, parent, false);
+                    .inflate(R.layout.news_card_item_view_1, parent, false);
             DataObjectHolder1 dataObjectHolder = new DataObjectHolder1(view);
             return dataObjectHolder;
 //        }
