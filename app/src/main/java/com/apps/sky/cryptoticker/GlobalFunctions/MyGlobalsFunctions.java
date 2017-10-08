@@ -42,7 +42,7 @@ public class MyGlobalsFunctions {
             return true;
     }
 
-    public void storeStringFromFile(String fileName, String fileDirectory, String outputString) {
+    public void storeStringToFile(String fileName, String fileDirectory, String outputString) {
         File myDir = mContext.getFilesDir();
 
         try {

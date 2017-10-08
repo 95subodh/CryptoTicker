@@ -37,7 +37,7 @@ public class StockNewsTab extends Fragment {
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
-    final MyGlobalsFunctions myGlobalsFunctions = new MyGlobalsFunctions(getContext());
+    MyGlobalsFunctions myGlobalsFunctions;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,6 +48,7 @@ public class StockNewsTab extends Fragment {
         }
 
         url = "http://beta.newsapi.org/v2/everything?q=" + crypto + "&apiKey=" + key + "&language=" + language;
+        myGlobalsFunctions = new MyGlobalsFunctions(getContext());
         new JSONTask().execute(url);
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
@@ -70,34 +71,45 @@ public class StockNewsTab extends Fragment {
 //        });
 //    }
 
+    public void setVals(String finalJson) throws JSONException {
+        JSONObject parentObject = new JSONObject(finalJson);
+        status = parentObject.getString("status");
+        JSONArray articles = parentObject.getJSONArray("articles");
+
+        //*********      this contains 10 news articles       ***********//
+        for (int i=0 ; i<articles.length(); i++){
+
+            JSONObject obj = articles.getJSONObject(i);
+            NewsObject currentNews = new NewsObject();
+
+            currentNews.setTitle(obj.getString("title"));
+            currentNews.setPublishedDate(obj.getString("publishedAt"));
+            currentNews.setURL(obj.getJSONObject("source").getString("name"));
+//                    currentNews.setImage(obj.getString("urlToImage"));
+
+            news.add(i, currentNews);
+        }
+    }
+
     public class JSONTask extends AsyncTask<String,String, String > {
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            try {
+                String finalJson = myGlobalsFunctions.retieveStringFromFile(crypto,getString(R.string.crypto_info_dir));
+                if (finalJson != null)
+                    setVals(finalJson);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
 
         @Override
         protected String doInBackground(String... params) {
             try {
                 String finalJson = myGlobalsFunctions.fetchJSONasString(params[0]);
-                JSONObject parentObject = new JSONObject(finalJson);
-                status = parentObject.getString("status");
-                JSONArray articles = parentObject.getJSONArray("articles");
-
-                //*********      this contains 10 news articles       ***********//
-                for (int i=0 ; i<articles.length(); i++){
-
-                    JSONObject obj = articles.getJSONObject(i);
-                    NewsObject currentNews = new NewsObject();
-
-                    currentNews.setTitle(obj.getString("title"));
-                    currentNews.setPublishedDate(obj.getString("publishedAt"));
-                    currentNews.setURL(obj.getJSONObject("source").getString("name"));
-//                    currentNews.setImage(obj.getString("urlToImage"));
-
-                    news.add(i, currentNews);
-                }
+                setVals(finalJson);
                 return finalJson;
 
             } catch (IOException e) {

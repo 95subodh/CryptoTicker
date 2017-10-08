@@ -39,7 +39,7 @@ public class StockPredictionTab extends Fragment {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                myGlobalDemo.storeStringFromFile("mysecondfile","text",storeDemoEditText.getText().toString());
+                myGlobalDemo.storeStringToFile("mysecondfile","text",storeDemoEditText.getText().toString());
             }
         });
         storeDemoRetireveButton = rootView.findViewById(R.id.storeDemoRetrieveButton);
