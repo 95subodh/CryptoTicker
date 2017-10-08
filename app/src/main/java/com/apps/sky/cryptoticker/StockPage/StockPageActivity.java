@@ -1,4 +1,4 @@
-package com.apps.sky.cryptoticker;
+package com.apps.sky.cryptoticker.StockPage;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +14,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
+import com.apps.sky.cryptoticker.R;
+import com.apps.sky.cryptoticker.StockPage.StockInfoTab.StockInfoTab;
+import com.apps.sky.cryptoticker.StockPage.StockNewsTab.StockNewsTab;
+import com.apps.sky.cryptoticker.StockPage.StockPredictionTab.StockPredictionTab;
 
 public class StockPageActivity extends AppCompatActivity {
 
@@ -100,10 +105,7 @@ public class StockPageActivity extends AppCompatActivity {
         }
 
         @Override
-        public int getCount() {
-            // Show 3 total pages.
-            return 3;
-        }
+        public int getCount() { return 3; }
 
         @Override
         public CharSequence getPageTitle(int position) {

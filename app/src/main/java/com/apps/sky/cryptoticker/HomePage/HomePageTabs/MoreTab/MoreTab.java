@@ -1,4 +1,4 @@
-package com.apps.sky.cryptoticker;
+package com.apps.sky.cryptoticker.HomePage.HomePageTabs.MoreTab;
 
 import android.content.Context;
 import android.net.Uri;
@@ -8,16 +8,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.apps.sky.cryptoticker.R;
+
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link TrendingTab.OnFragmentInteractionListener} interface
+ * {@link MoreTab.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link TrendingTab#newInstance} factory method to
+ * Use the {@link MoreTab#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class TrendingTab extends Fragment {
+public class MoreTab extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -29,7 +31,7 @@ public class TrendingTab extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public TrendingTab() {
+    public MoreTab() {
         // Required empty public constructor
     }
 
@@ -39,11 +41,11 @@ public class TrendingTab extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment TrendingTab.
+     * @return A new instance of fragment MoreTab.
      */
     // TODO: Rename and change types and number of parameters
-    public static TrendingTab newInstance(String param1, String param2) {
-        TrendingTab fragment = new TrendingTab();
+    public static MoreTab newInstance(String param1, String param2) {
+        MoreTab fragment = new MoreTab();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -64,7 +66,7 @@ public class TrendingTab extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.trending_tab, container, false);
+        return inflater.inflate(R.layout.more_tab, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

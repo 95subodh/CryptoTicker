@@ -1,4 +1,4 @@
-package com.apps.sky.cryptoticker;
+package com.apps.sky.cryptoticker.StockPage.StockInfoTab;
 
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.apps.sky.cryptoticker.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,7 +42,7 @@ public class StockInfoTab extends Fragment {
                              Bundle savedInstanceState) {
 
         if (rootView == null) {
-            rootView = inflater.inflate(R.layout.stock_tab_1, container, false);
+            rootView = inflater.inflate(R.layout.stock_info_tab, container, false);
         }
 
         url = "https://api.coinmarketcap.com/v1/ticker/"+crypto+"/?convert=INR";

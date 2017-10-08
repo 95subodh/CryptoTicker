@@ -1,4 +1,4 @@
-package com.apps.sky.cryptoticker;
+package com.apps.sky.cryptoticker.HomePage.HomePageTabs.MyPortfolioTab;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -7,15 +7,13 @@ import android.util.Log;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 /**
- * Created by ankitaverma on 26/09/17.
+ * Created by ankitaverma on 06/10/17.
  */
 
-public class NewsObject {
-    private String title, publishedDate, link;
+public class MyPortfolioObject {
+    private String title, currentPrice, myProfit;
     private Bitmap btmp;
 
     public String getTitle() {
@@ -26,35 +24,25 @@ public class NewsObject {
         this.title = title;
     }
 
-    public String getPublishedDate() {
-        return publishedDate;
+    public String getCurrentPrice() {
+        return currentPrice;
     }
 
-    public void setPublishedDate(String originalDate) {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-        Calendar calendar = Calendar.getInstance();
-        try {
-            calendar.setTime(formatter.parse(originalDate));
-        }
-        catch (Exception e) {
-            System.out.println(e);
-        }
-        this.publishedDate = calendar.getTime().toString().substring(0, 11);
+    public void setCurrentPrice(String currentPrice) { this.currentPrice = currentPrice; }
+
+    public String getMyProfit() {
+        return myProfit;
     }
 
-    public String getURL() {
-        return link;
+    public void setMyProfit(String myProfit) {
+        this.myProfit = myProfit;
     }
 
-    public void setURL(String link) {
-        this.link = link;
-    }
-
-    public Bitmap getImage() {
+    public Bitmap getIcon() {
         return btmp;
     }
 
-    public void setImage(String ImageUrl) {
+    public void setIcon(String ImageUrl) {
         try {
             URL url = new URL(ImageUrl);
             HttpURLConnection urlcon = (HttpURLConnection) url.openConnection();

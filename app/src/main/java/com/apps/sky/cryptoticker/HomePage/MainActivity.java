@@ -1,4 +1,4 @@
-package com.apps.sky.cryptoticker;
+package com.apps.sky.cryptoticker.HomePage;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,7 +17,10 @@ import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
+
+import com.apps.sky.cryptoticker.HomePage.BottomNavigationBar.BottomNavigationViewHelper;
+import com.apps.sky.cryptoticker.R;
+import com.apps.sky.cryptoticker.StockPage.StockPageActivity;
 
 import java.util.ArrayList;
 
@@ -26,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     ListView listView;
     ArrayList<String> items;
     BottomNavigationView bottomNavigationView;
+    RelativeLayout relative;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,46 +38,36 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView = (BottomNavigationView)
                 findViewById(R.id.bottom_navigation);
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
-
-        LayoutInflater inflater = LayoutInflater.from(this);
-
-//        RelativeLayout current_portfolio_layout = (RelativeLayout) inflater.inflate(R.layout.my_current_portfolio_card, null, false);
-//        RelativeLayout current_portfolio_view = (RelativeLayout) findViewById(R.id.my_current_portfolio_view);
-//        current_portfolio_view.addView(current_portfolio_layout);
-//        myCurrentPortfolioView = (View) current_portfolio_view;
+        relative = (RelativeLayout) findViewById(R.id.tab_content);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                        RelativeLayout relative = (RelativeLayout) findViewById(R.id.tab_content);
                         LayoutInflater inflater = LayoutInflater.from(getBaseContext());
+                        relative.removeAllViews();
+
                         switch (item.getItemId()) {
                             case R.id.action_watchlist:
-                                RelativeLayout watchlist_relative = (RelativeLayout) findViewById(R.id.tab_content);
                                 FrameLayout watchlist_frame = (FrameLayout) inflater.inflate(R.layout.watchlist_tab, null, false);
-                                watchlist_relative.addView(watchlist_frame);
-                                Toast.makeText(MainActivity.this, "Watchlist Clicked", Toast.LENGTH_SHORT).show();
+                                relative.addView(watchlist_frame);
                                 break;
 
                             case R.id.action_my_portfolio:
-                                RelativeLayout my_portfolio_relative = (RelativeLayout) findViewById(R.id.tab_content);
                                 FrameLayout my_portfolio_frame = (FrameLayout) inflater.inflate(R.layout.my_portfolio_tab, null, false);
-                                my_portfolio_relative.addView(my_portfolio_frame);
-                                Toast.makeText(MainActivity.this, "My Portfolio Clicked", Toast.LENGTH_SHORT).show();
+                                relative.addView(my_portfolio_frame);
                                 break;
 
                             case R.id.action_trending:
-                                RelativeLayout trending_relative = (RelativeLayout) findViewById(R.id.tab_content);
                                 FrameLayout trending_frame = (FrameLayout) inflater.inflate(R.layout.trending_tab, null, false);
-                                trending_relative.addView(trending_frame);
-                                Toast.makeText(MainActivity.this, "Trending Clicked", Toast.LENGTH_SHORT).show();
+                                relative.addView(trending_frame);
                                 break;
 
                             case R.id.action_more:
-                                RelativeLayout more_relative = (RelativeLayout) findViewById(R.id.tab_content);
                                 FrameLayout more_frame = (FrameLayout) inflater.inflate(R.layout.more_tab, null, false);
-                                more_relative.addView(more_frame);
-                                Toast.makeText(MainActivity.this, "More Clicked", Toast.LENGTH_SHORT).show();
+                                relative.addView(more_frame);
                                 break;
 
                         }
@@ -156,11 +150,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onViewAttachedToWindow(View view) {
                 bottomNavigationView.setVisibility(View.INVISIBLE);
+                relative.setVisibility(View.INVISIBLE);
+
             }
 
             @Override
             public void onViewDetachedFromWindow(View view) {
                 bottomNavigationView.setVisibility(View.VISIBLE);
+                relative.setVisibility(View.VISIBLE);
             }
         });
 
