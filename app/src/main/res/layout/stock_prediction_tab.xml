@@ -9,12 +9,12 @@
     tools:context="com.apps.sky.cryptoticker.StockPage.StockPageActivity">
 
     <TextView
-        android:id="@+id/section_label3"
+        android:id="@+id/storageDemoRetrieveTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="COMING SOON....."
+        android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:text="COMING SOON....." />
 
     <TextView
         android:id="@+id/storageDemotextView"
@@ -44,5 +44,14 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:hint="enter text to be stored" />
+
+    <Button
+        android:id="@+id/storeDemoRetrieveButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/storageDemotextView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="55dp"
+        android:text="Click me to retrieve" />
 
 </RelativeLayout>

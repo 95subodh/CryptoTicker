@@ -23,6 +23,7 @@ import com.apps.sky.cryptoticker.R;
 import com.apps.sky.cryptoticker.StockPage.StockPageActivity;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -78,21 +79,9 @@ public class MainActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.list_view);
 
         items = new ArrayList<>();
-        items.add("bitcoin");
-        items.add("atc-coin");
-        items.add("ripple");
-        items.add("litecoin");
-        items.add("ethereum");
-        items.add("dash");
-        items.add("bitconnect");
-        items.add("lisk");
-        items.add("tether");
-        items.add("waves");
-        items.add("bitshares");
-        items.add("eos");
-        items.add("metal");
-        items.add("nexus");
-        items.add("syscoin");
+        String[] otherList = new String[] {"atc-coin","bitcoin","bitconnect","bitshares","dash","eos","ethereum","golem-network-tokens",
+                "lisk","litecoin","metal","nexus","omisego","ripple","rupee","syscoin","tether","the-champcoin","waves"};
+        items.addAll(Arrays.asList(otherList));
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
