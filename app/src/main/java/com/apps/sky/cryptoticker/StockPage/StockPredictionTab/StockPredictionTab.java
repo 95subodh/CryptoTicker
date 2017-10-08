@@ -25,8 +25,8 @@ import java.io.InputStreamReader;
  */
 
 public class StockPredictionTab extends Fragment {
-    Button storeDemoButton;
-    TextView storeDemoTextView;
+    Button storeDemoButton, storeDemoRetireveButton;
+    TextView storeDemoTextView, storeDemoRetrieveTextView;
     EditText storeDemoEditText;
     private View rootView;
 
@@ -49,29 +49,42 @@ public class StockPredictionTab extends Fragment {
                 storeMyFilePlease(storeDemoEditText.getText().toString());
             }
         });
+        storeDemoRetireveButton = rootView.findViewById(R.id.storeDemoRetrieveButton);
+        storeDemoRetrieveTextView = rootView.findViewById(R.id.storageDemoRetrieveTextView);
+        storeDemoRetireveButton.setOnClickListener( new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                retieveMyFilePlease();
+            }
+        });
 
         return rootView;
     }
 
     private void storeMyFilePlease(String outputString) {
         String filename = "mysecondfile";
-//        String outputString = "Hello world!";
         File myDir = getContext().getFilesDir();
 
         try {
             File secondFile = new File(myDir + "/text/", filename);
             if (secondFile.getParentFile().mkdirs()) {
                 secondFile.createNewFile();
-                FileOutputStream fos = new FileOutputStream(secondFile);
-
-                fos.write(outputString.getBytes());
-                fos.flush();
-                fos.close();
             }
+            FileOutputStream fos = new FileOutputStream(secondFile);
+
+            fos.write(outputString.getBytes());
+            fos.flush();
+            fos.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
 
+    private void retieveMyFilePlease() {
+        String filename = "mysecondfile";
+        File myDir = getContext().getFilesDir();
         try {
             File secondInputFile = new File(myDir + "/text/", filename);
             InputStream secondInputStream = new BufferedInputStream(new FileInputStream(secondInputFile));
@@ -83,10 +96,14 @@ public class StockPredictionTab extends Fragment {
             }
             r.close();
             secondInputStream.close();
-            storeDemoTextView.setText(total);
+            storeDemoRetrieveTextView.setText(total);
             Log.d("File", "File contents: " + total);
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void deleteMyFile(String fileName){
+        getContext().deleteFile(fileName);
     }
 }
