@@ -27,7 +27,7 @@ import java.util.Locale;
  * Created by subodhyadav on 16/09/17.
  */
 
-public class StockTab1 extends Fragment {
+public class StockInfoTab extends Fragment {
 
     private View rootView;
     private static String name, price, change, rank, cap, avlsup, totsup, lstupd;
@@ -39,10 +39,11 @@ public class StockTab1 extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        url = "https://api.coinmarketcap.com/v1/ticker/"+crypto+"/?convert=INR";
         if (rootView == null) {
             rootView = inflater.inflate(R.layout.stock_tab_1, container, false);
         }
+
+        url = "https://api.coinmarketcap.com/v1/ticker/"+crypto+"/?convert=INR";
         new JSONTask().execute(url);
 
         return rootView;

@@ -22,21 +22,23 @@ import java.io.InputStreamReader;
  * Created by subodhyadav on 16/09/17.
  */
 
-public class StockTab3 extends Fragment {
+public class StockPredictionTab extends Fragment {
     Button storeDemoButton;
     TextView storeDemoTextView;
     EditText storeDemoEditText;
     private View rootView;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         if (rootView == null) {
-            rootView = inflater.inflate(R.layout.stock_tab_1, container, false);
+            rootView = inflater.inflate(R.layout.stock_tab_3, container, false);
         }
-//        View rootView = inflater.inflate(R.layout.stock_tab_3, container, false);
-        storeDemoButton = getView().findViewById(R.id.storageDemobutton);
-        storeDemoTextView = getView().findViewById(R.id.storageDemotextView);
-        storeDemoEditText = getView().findViewById(R.id.storageDemoeditText);
+
+        storeDemoButton = rootView.findViewById(R.id.storageDemobutton);
+        storeDemoTextView = rootView.findViewById(R.id.storageDemotextView);
+        storeDemoEditText = rootView.findViewById(R.id.storageDemoeditText);
         storeDemoButton.setOnClickListener( new View.OnClickListener() {
 
             @Override

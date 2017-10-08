@@ -26,7 +26,7 @@ import java.util.ArrayList;
  * Created by subodhyadav on 16/09/17.
  */
 
-public class StockTab2 extends Fragment {
+public class StockNewsTab extends Fragment {
 
     private View rootView;
 
