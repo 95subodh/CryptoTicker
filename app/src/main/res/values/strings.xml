@@ -7,8 +7,13 @@
     <string name="stock_tab1_title">PRICE</string>
     <string name="stock_tab2_title">NEWS</string>
     <string name="stock_tab3_title">PREDICTIONS</string>
+    <string name="text_watchlist">Watchlist</string>
     <string name="text_my_portfolio">My Portfolio</string>
+    <string name="text_more">More</string>
     <string name="text_chat">Chat</string>
     <string name="text_trending">Trending</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

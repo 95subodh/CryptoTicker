@@ -84,16 +84,16 @@ public class StockPageActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             switch (position){
                 case 0:
-                    StockTab1 stockTab1 = new StockTab1();
-                    stockTab1.crypto = crypto_name;
-                    return stockTab1;
+                    StockInfoTab stockInfoTab = new StockInfoTab();
+                    stockInfoTab.crypto = crypto_name;
+                    return stockInfoTab;
                 case 1:
-                    StockTab2 stockTab2 = new StockTab2();
-                    stockTab2.crypto = crypto_name;
-                    return stockTab2;
+                    StockNewsTab stockNewsTab = new StockNewsTab();
+                    stockNewsTab.crypto = crypto_name;
+                    return stockNewsTab;
                 case 2:
-                    StockTab3 stockTab3 = new StockTab3();
-                    return stockTab3;
+                    StockPredictionTab stockPredictionTab = new StockPredictionTab();
+                    return stockPredictionTab;
                 default:
                     return null;
             }

@@ -11,12 +11,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/bottom_navigation_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:orientation="vertical">
+        android:layout_alignParentBottom="true">
 
         <android.support.design.widget.BottomNavigationView
             android:id="@+id/bottom_navigation"
@@ -27,30 +26,38 @@
             app:itemTextColor="@drawable/nav_item_color_state"
             app:menu="@menu/bottom_navigation_main" />
 
-    </LinearLayout>
+    </RelativeLayout>
 
-    <LinearLayout
+    <RelativeLayout
+        android:id="@+id/tab_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_above="@id/bottom_navigation_view" >
 
-        <RelativeLayout
-            android:id="@+id/my_current_portfolio_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-        </RelativeLayout>
+    </RelativeLayout>
 
-        <RelativeLayout
-            android:id="@+id/my_portfolio_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_below="@+id/my_current_portfolio_view"
-            android:layout_above="@+id/bottom_navigation_view"
-            android:layout_marginBottom="66dp">
-        </RelativeLayout>
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:orientation="vertical">-->
 
-    </LinearLayout>
+        <!--<RelativeLayout-->
+            <!--android:id="@+id/my_current_portfolio_view"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="vertical">-->
+        <!--</RelativeLayout>-->
+
+        <!--<RelativeLayout-->
+            <!--android:id="@+id/my_portfolio_view"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="vertical"-->
+            <!--android:layout_below="@+id/my_current_portfolio_view"-->
+            <!--android:layout_above="@+id/bottom_navigation_view"-->
+            <!--android:layout_marginBottom="66dp">-->
+        <!--</RelativeLayout>-->
+
+    <!--</LinearLayout>-->
 
 </RelativeLayout>

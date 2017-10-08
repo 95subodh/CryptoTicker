@@ -3,6 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/action_watchlist"
+        android:enabled="true"
+        android:title="Watchlist"
+        android:icon="@drawable/ic_action_watchlist"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/action_my_portfolio"
         android:enabled="true"
         android:title="@string/text_my_portfolio"
@@ -15,15 +21,21 @@
         android:icon="@drawable/ic_action_trending"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/action_chat"
+        android:id="@+id/action_more"
         android:enabled="true"
-        android:title="@string/text_chat"
-        android:icon="@drawable/ic_action_chat"
+        android:title="More"
+        android:icon="@drawable/ic_action_more"
         app:showAsAction="ifRoom" />
-    <item
-        android:id="@+id/action_settings"
-        android:enabled="true"
-        android:title="@string/text_settings"
-        android:icon="@drawable/ic_action_settings"
-        app:showAsAction="ifRoom" />
+    <!--<item-->
+        <!--android:id="@+id/action_chat"-->
+        <!--android:enabled="true"-->
+        <!--android:title="@string/text_chat"-->
+        <!--android:icon="@drawable/ic_action_chat"-->
+        <!--app:showAsAction="ifRoom" />-->
+    <!--<item-->
+        <!--android:id="@+id/action_settings"-->
+        <!--android:enabled="true"-->
+        <!--android:title="@string/text_settings"-->
+        <!--android:icon="@drawable/ic_action_settings"-->
+        <!--app:showAsAction="ifRoom" />-->
 </menu>
