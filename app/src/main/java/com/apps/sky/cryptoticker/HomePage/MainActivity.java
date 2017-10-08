@@ -4,21 +4,24 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import com.apps.sky.cryptoticker.HomePage.BottomNavigationBar.BottomNavigationViewHelper;
+import com.apps.sky.cryptoticker.HomePage.HomePageTabs.MoreTab.MoreTab;
+import com.apps.sky.cryptoticker.HomePage.HomePageTabs.MyPortfolioTab.MyPortfolioTab;
+import com.apps.sky.cryptoticker.HomePage.HomePageTabs.TrendingTab.TrendingTab;
+import com.apps.sky.cryptoticker.HomePage.HomePageTabs.WatchlistTab.WatchlistTab;
 import com.apps.sky.cryptoticker.R;
 import com.apps.sky.cryptoticker.StockPage.StockPageActivity;
 
@@ -39,6 +42,9 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView = (BottomNavigationView)
                 findViewById(R.id.bottom_navigation);
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
+        Fragment fragment = new WatchlistTab();
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment, fragment.getClass().getSimpleName()).addToBackStack(null).commit();
+
         relative = (RelativeLayout) findViewById(R.id.tab_content);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(
@@ -46,29 +52,27 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-                        RelativeLayout relative = (RelativeLayout) findViewById(R.id.tab_content);
-                        LayoutInflater inflater = LayoutInflater.from(getBaseContext());
-                        relative.removeAllViews();
+                        Fragment fragment;
 
                         switch (item.getItemId()) {
                             case R.id.action_watchlist:
-                                FrameLayout watchlist_frame = (FrameLayout) inflater.inflate(R.layout.watchlist_tab, null, false);
-                                relative.addView(watchlist_frame);
+                                fragment = new WatchlistTab();
+                                getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment, fragment.getClass().getSimpleName()).addToBackStack(null).commit();
                                 break;
 
                             case R.id.action_my_portfolio:
-                                FrameLayout my_portfolio_frame = (FrameLayout) inflater.inflate(R.layout.my_portfolio_tab, null, false);
-                                relative.addView(my_portfolio_frame);
+                                fragment = new MyPortfolioTab();
+                                getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment, fragment.getClass().getSimpleName()).addToBackStack(null).commit();
                                 break;
 
                             case R.id.action_trending:
-                                FrameLayout trending_frame = (FrameLayout) inflater.inflate(R.layout.trending_tab, null, false);
-                                relative.addView(trending_frame);
+                                fragment = new TrendingTab();
+                                getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment, fragment.getClass().getSimpleName()).addToBackStack(null).commit();
                                 break;
 
                             case R.id.action_more:
-                                FrameLayout more_frame = (FrameLayout) inflater.inflate(R.layout.more_tab, null, false);
-                                relative.addView(more_frame);
+                                fragment = new MoreTab();
+                                getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment, fragment.getClass().getSimpleName()).addToBackStack(null).commit();
                                 break;
 
                         }
