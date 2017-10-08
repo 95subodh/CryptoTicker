@@ -9,19 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.apps.sky.cryptoticker.GlobalFunctions.MyGlobalsFunctions;
 import com.apps.sky.cryptoticker.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.text.NumberFormat;
 import java.util.Locale;
 
@@ -36,6 +31,7 @@ public class StockInfoTab extends Fragment {
     private TextView coinName, coinPrice, coinChange, coinRank, coinCap, coinAvailSupply, coinTotSupply, coinLstUpdate;
     private String url;
     public String crypto;
+    final MyGlobalsFunctions myGlobalsFunctions = new MyGlobalsFunctions(getContext());
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -94,22 +90,8 @@ public class StockInfoTab extends Fragment {
 
         @Override
         protected String doInBackground(String... params) {
-            HttpURLConnection connection = null;
-            BufferedReader reader = null;
-
             try {
-                URL url = new URL(params[0]);
-                connection = (HttpURLConnection) url.openConnection();
-                connection.connect();
-                InputStream stream = connection.getInputStream();
-                reader = new BufferedReader(new InputStreamReader(stream));
-                StringBuffer buffer = new StringBuffer();
-                String line ="";
-                while ((line = reader.readLine()) != null){
-                    buffer.append(line);
-                }
-
-                String finalJson = buffer.toString();
+                String finalJson = myGlobalsFunctions.fetchJSONasString(params[0]);
                 JSONArray jarr = new JSONArray(finalJson);
 
                 JSONObject parentObject = jarr.getJSONObject(0);
@@ -123,23 +105,10 @@ public class StockInfoTab extends Fragment {
                 lstupd = parentObject.getString("last_updated");
                 return price;
 
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (JSONException e) {
                 e.printStackTrace();
-            } finally {
-                if(connection != null) {
-                    connection.disconnect();
-                }
-                try {
-                    if(reader != null) {
-                        reader.close();
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
             }
             return  null;
         }

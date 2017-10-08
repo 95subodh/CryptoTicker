@@ -9,19 +9,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.apps.sky.cryptoticker.GlobalFunctions.MyGlobalsFunctions;
 import com.apps.sky.cryptoticker.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 
 public class WatchlistTab extends Fragment {
@@ -32,6 +27,7 @@ public class WatchlistTab extends Fragment {
     private RecyclerView.LayoutManager layoutManager;
     private String url;
     public String crypto;
+    final MyGlobalsFunctions myGlobalsFunctions = new MyGlobalsFunctions(getContext());
     ArrayList<String> items;
     ArrayList<WatchlistObject> watchlistArray = new ArrayList<WatchlistObject>();
 
@@ -92,22 +88,8 @@ public class WatchlistTab extends Fragment {
 
         @Override
         protected String doInBackground(String... params) {
-            HttpURLConnection connection = null;
-            BufferedReader reader = null;
-
             try {
-                URL url = new URL(params[0]);
-                connection = (HttpURLConnection) url.openConnection();
-                connection.connect();
-                InputStream stream = connection.getInputStream();
-                reader = new BufferedReader(new InputStreamReader(stream));
-                StringBuffer buffer = new StringBuffer();
-                String line ="";
-                while ((line = reader.readLine()) != null){
-                    buffer.append(line);
-                }
-
-                String finalJson = buffer.toString();
+                String finalJson = myGlobalsFunctions.fetchJSONasString(params[0]);
                 JSONArray jarr = new JSONArray(finalJson);
 
                 JSONObject parentObject = jarr.getJSONObject(0);
@@ -119,23 +101,10 @@ public class WatchlistTab extends Fragment {
                 watchlistArray.add(currency_details);
                 return finalJson;
 
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (JSONException e) {
                 e.printStackTrace();
-            } finally {
-                if(connection != null) {
-                    connection.disconnect();
-                }
-                try {
-                    if(reader != null) {
-                        reader.close();
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
             }
             return  null;
         }
