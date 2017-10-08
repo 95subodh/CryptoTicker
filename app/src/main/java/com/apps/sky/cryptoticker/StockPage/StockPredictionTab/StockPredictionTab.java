@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.apps.sky.cryptoticker.GlobalFunctions.MyGlobalsFunctions;
 import com.apps.sky.cryptoticker.R;
 
 import java.io.BufferedInputStream;
@@ -41,12 +42,13 @@ public class StockPredictionTab extends Fragment {
         storeDemoButton = rootView.findViewById(R.id.storageDemobutton);
         storeDemoTextView = rootView.findViewById(R.id.storageDemotextView);
         storeDemoEditText = rootView.findViewById(R.id.storageDemoeditText);
+        final MyGlobalsFunctions myGlobalDemo = new MyGlobalsFunctions(getContext());
         storeDemoButton.setOnClickListener( new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                storeMyFilePlease(storeDemoEditText.getText().toString());
+                myGlobalDemo.storeStringFromFile("mysecondfile","text",storeDemoEditText.getText().toString());
             }
         });
         storeDemoRetireveButton = rootView.findViewById(R.id.storeDemoRetrieveButton);
@@ -56,7 +58,8 @@ public class StockPredictionTab extends Fragment {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                retieveMyFilePlease();
+                String fetchedString = myGlobalDemo.retieveStringFromFile("mysecondfile","text");
+                storeDemoRetrieveTextView.setText(fetchedString);
             }
         });
 
@@ -68,7 +71,7 @@ public class StockPredictionTab extends Fragment {
         File myDir = getContext().getFilesDir();
 
         try {
-            File secondFile = new File(myDir + "/text/", filename);
+            File secondFile = new File(myDir + "/text2/", filename);
             if (secondFile.getParentFile().mkdirs()) {
                 secondFile.createNewFile();
             }
@@ -86,7 +89,7 @@ public class StockPredictionTab extends Fragment {
         String filename = "mysecondfile";
         File myDir = getContext().getFilesDir();
         try {
-            File secondInputFile = new File(myDir + "/text/", filename);
+            File secondInputFile = new File(myDir + "/text2/", filename);
             InputStream secondInputStream = new BufferedInputStream(new FileInputStream(secondInputFile));
             BufferedReader r = new BufferedReader(new InputStreamReader(secondInputStream));
             StringBuilder total = new StringBuilder();
