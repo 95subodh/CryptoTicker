@@ -27,7 +27,7 @@ public class WatchlistTab extends Fragment {
     private RecyclerView.LayoutManager layoutManager;
     private String url;
     public String crypto;
-    final MyGlobalsFunctions myGlobalsFunctions = new MyGlobalsFunctions(getContext());
+    MyGlobalsFunctions myGlobalsFunctions;
     ArrayList<String> items;
     ArrayList<WatchlistObject> watchlistArray = new ArrayList<WatchlistObject>();
 
@@ -49,6 +49,7 @@ public class WatchlistTab extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         adapter = new WatchlistRecyclerViewAdapter(watchlistArray);
         recyclerView.setAdapter(adapter);
+        myGlobalsFunctions = new MyGlobalsFunctions(getContext());
 
         items = new ArrayList<>();
         items.add("bitcoin");
@@ -79,26 +80,37 @@ public class WatchlistTab extends Fragment {
         return rootView;
     }
 
+    public void setVals(String finalJson) throws JSONException {
+        JSONArray jarr = new JSONArray(finalJson);
+
+        JSONObject parentObject = jarr.getJSONObject(0);
+        WatchlistObject currency_details = new WatchlistObject();
+        currency_details.setTitle(parentObject.getString("name"));
+        currency_details.setCurrentPrice("$" + parentObject.getString("price_inr"));
+        currency_details.setChange(parentObject.getString("percent_change_24h"));
+        watchlistArray.add(currency_details);
+    }
+
     public class JSONTask extends AsyncTask<String,String, String > {
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            try {
+                String finalJson = myGlobalsFunctions.retieveStringFromFile(crypto,getString(R.string.crypto_info_dir));
+                if (finalJson != null)
+                    setVals(finalJson);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
 
         @Override
         protected String doInBackground(String... params) {
             try {
                 String finalJson = myGlobalsFunctions.fetchJSONasString(params[0]);
-                JSONArray jarr = new JSONArray(finalJson);
-
-                JSONObject parentObject = jarr.getJSONObject(0);
-                WatchlistObject currency_details = new WatchlistObject();
-                currency_details.setTitle(parentObject.getString("name"));
-                currency_details.setCurrentPrice("$" + parentObject.getString("price_inr"));
-                currency_details.setChange(parentObject.getString("percent_change_24h"));
-
-                watchlistArray.add(currency_details);
+                myGlobalsFunctions.storeStringToFile(crypto,getString(R.string.crypto_info_dir),finalJson);
+                setVals(finalJson);
                 return finalJson;
 
             } catch (IOException e) {

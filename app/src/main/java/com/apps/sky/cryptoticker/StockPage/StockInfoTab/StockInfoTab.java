@@ -31,7 +31,7 @@ public class StockInfoTab extends Fragment {
     private TextView coinName, coinPrice, coinChange, coinRank, coinCap, coinAvailSupply, coinTotSupply, coinLstUpdate;
     private String url;
     public String crypto;
-    final MyGlobalsFunctions myGlobalsFunctions = new MyGlobalsFunctions(getContext());
+    MyGlobalsFunctions myGlobalsFunctions;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -42,6 +42,7 @@ public class StockInfoTab extends Fragment {
         }
 
         url = "https://api.coinmarketcap.com/v1/ticker/"+crypto+"/?convert=INR";
+        myGlobalsFunctions = new MyGlobalsFunctions(getContext());
         new JSONTask().execute(url);
 
         return rootView;
@@ -81,28 +82,41 @@ public class StockInfoTab extends Fragment {
 
     }
 
+    public void setVals(String finalJson) throws JSONException {
+        JSONArray jarr = new JSONArray(finalJson);
+
+        JSONObject parentObject = jarr.getJSONObject(0);
+        name = parentObject.getString("name");
+        price = parentObject.getString("price_inr");
+        change = parentObject.getString("percent_change_24h");
+        rank = parentObject.getString("rank");
+        cap = parentObject.getString("market_cap_inr");
+        avlsup = parentObject.getString("available_supply");
+        totsup = parentObject.getString("total_supply");
+        lstupd = parentObject.getString("last_updated");
+    }
+
     public class JSONTask extends AsyncTask<String,String, String > {
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            try {
+                String finalJson = myGlobalsFunctions.retieveStringFromFile(crypto,getString(R.string.crypto_info_dir));
+                if (finalJson != null)
+                    setVals(finalJson);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
 
         @Override
         protected String doInBackground(String... params) {
             try {
+//                final MyGlobalsFunctions myGlobalsFunctions = new MyGlobalsFunctions(getContext());
                 String finalJson = myGlobalsFunctions.fetchJSONasString(params[0]);
-                JSONArray jarr = new JSONArray(finalJson);
-
-                JSONObject parentObject = jarr.getJSONObject(0);
-                name = parentObject.getString("name");
-                price = parentObject.getString("price_inr");
-                change = parentObject.getString("percent_change_24h");
-                rank = parentObject.getString("rank");
-                cap = parentObject.getString("market_cap_inr");
-                avlsup = parentObject.getString("available_supply");
-                totsup = parentObject.getString("total_supply");
-                lstupd = parentObject.getString("last_updated");
+                myGlobalsFunctions.storeStringToFile(crypto,getString(R.string.crypto_info_dir),finalJson);
+                setVals(finalJson);
                 return price;
 
             } catch (IOException e) {
