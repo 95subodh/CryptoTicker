@@ -1,4 +1,4 @@
-package com.apps.sky.cryptoticker;
+package com.apps.sky.cryptoticker.StockPage.StockPredictionTab;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.apps.sky.cryptoticker.R;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -33,7 +35,7 @@ public class StockPredictionTab extends Fragment {
                              Bundle savedInstanceState) {
 
         if (rootView == null) {
-            rootView = inflater.inflate(R.layout.stock_tab_3, container, false);
+            rootView = inflater.inflate(R.layout.stock_prediction_tab, container, false);
         }
 
         storeDemoButton = rootView.findViewById(R.id.storageDemobutton);
