@@ -87,22 +87,26 @@ public class WatchlistTab extends Fragment {
         WatchlistObject currency_details = new WatchlistObject();
         currency_details.setTitle(parentObject.getString("name"));
         currency_details.setCurrentPrice("$" + parentObject.getString("price_inr"));
-        currency_details.setChange(parentObject.getString("percent_change_24h"));
+        String change = parentObject.getString("percent_change_24h");
+        currency_details.setChange(change);
         watchlistArray.add(currency_details);
+        if (change.charAt(0) == '-') { currency_details.setChangeColor(false); }
+        else { currency_details.setChangeColor(true); }
     }
 
     public class JSONTask extends AsyncTask<String,String, String > {
 
+        String finalJson;
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            try {
-                String finalJson = myGlobalsFunctions.retieveStringFromFile(crypto,getString(R.string.crypto_info_dir));
-                if (finalJson != null)
-                    setVals(finalJson);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+//            try {
+//                finalJson = myGlobalsFunctions.retieveStringFromFile(crypto,getString(R.string.crypto_info_dir));
+//                if (finalJson != null)
+//                    setVals(finalJson);
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
         }
 
         @Override

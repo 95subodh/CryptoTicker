@@ -18,9 +18,9 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import com.apps.sky.cryptoticker.HomePage.BottomNavigationBar.BottomNavigationViewHelper;
+import com.apps.sky.cryptoticker.HomePage.HomePageTabs.ChatTab.ChatTab;
 import com.apps.sky.cryptoticker.HomePage.HomePageTabs.MoreTab.MoreTab;
 import com.apps.sky.cryptoticker.HomePage.HomePageTabs.MyPortfolioTab.MyPortfolioTab;
-import com.apps.sky.cryptoticker.HomePage.HomePageTabs.TrendingTab.TrendingTab;
 import com.apps.sky.cryptoticker.HomePage.HomePageTabs.WatchlistTab.WatchlistTab;
 import com.apps.sky.cryptoticker.R;
 import com.apps.sky.cryptoticker.StockPage.StockPageActivity;
@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
                 findViewById(R.id.bottom_navigation);
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
         Fragment fragment = new WatchlistTab();
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment, fragment.getClass().getSimpleName()).addToBackStack(null).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
 
         relative = (RelativeLayout) findViewById(R.id.tab_content);
 
@@ -52,30 +52,30 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-                        Fragment fragment;
+                        Fragment fragment = new WatchlistTab();
 
                         switch (item.getItemId()) {
                             case R.id.action_watchlist:
                                 fragment = new WatchlistTab();
-                                getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment, fragment.getClass().getSimpleName()).addToBackStack(null).commit();
                                 break;
 
                             case R.id.action_my_portfolio:
                                 fragment = new MyPortfolioTab();
-                                getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment, fragment.getClass().getSimpleName()).addToBackStack(null).commit();
                                 break;
 
-                            case R.id.action_trending:
-                                fragment = new TrendingTab();
-                                getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment, fragment.getClass().getSimpleName()).addToBackStack(null).commit();
+                            case R.id.action_chat:
+                                fragment = new ChatTab();
                                 break;
+
+//                            case R.id.action_trending:
+//                                fragment = new TrendingTab();
+//                                break;
 
                             case R.id.action_more:
                                 fragment = new MoreTab();
-                                getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment, fragment.getClass().getSimpleName()).addToBackStack(null).commit();
                                 break;
-
                         }
+                        getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
                         return true;
                     }
                 });

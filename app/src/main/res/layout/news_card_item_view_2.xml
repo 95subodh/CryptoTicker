@@ -21,7 +21,7 @@
             android:background="@android:color/background_dark">
 
             <TextView
-                android:id="@+id/newsTitle2"
+                android:id="@+id/news_title2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
@@ -35,10 +35,10 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/newsUrl2"
+                android:id="@+id/news_url2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/newsTitle2"
+                android:layout_below="@+id/news_title2"
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="8dp"
                 android:text="url"
@@ -46,10 +46,10 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/newsDate2"
+                android:id="@+id/news_date2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/newsUrl2"
+                android:layout_below="@+id/news_url2"
                 android:layout_marginBottom="16dp"
                 android:layout_marginLeft="16dp"
                 android:fontFamily="sans-serif-condensed"

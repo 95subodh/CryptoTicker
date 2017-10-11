@@ -14,12 +14,12 @@
             android:layout_height="wrap_content">
 
             <RelativeLayout
-                android:id="@+id/PortfolioHeadingView"
+                android:id="@+id/portfolio_heading_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/portfolioHeading"
+                    android:id="@+id/portfolio_heading"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
@@ -35,10 +35,10 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/myCurrentPortfolioCardView"
+                android:id="@+id/my_current_portfolio_card_view_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/PortfolioHeadingView">
+                android:layout_below="@+id/portfolio_heading_view">
 
                 <android.support.v7.widget.CardView
                     xmlns:card_view="http://schemas.android.com/apk/res-auto"
@@ -58,14 +58,14 @@
                         android:background="@android:color/background_dark">
 
                         <RelativeLayout
-                            android:id="@+id/currentPortfolioView"
+                            android:id="@+id/current_portfolio_view"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="16dp"
                             android:layout_centerHorizontal="true" >
 
                             <TextView
-                                android:id="@+id/currentPortfolioValue"
+                                android:id="@+id/current_portfolio_value"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerHorizontal="true"
@@ -76,10 +76,10 @@
                                 android:textStyle="bold" />
 
                             <TextView
-                                android:id="@+id/currentPortfolioValueDummy"
+                                android:id="@+id/current_portfolio_value_dummy"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_below="@+id/currentPortfolioValue"
+                                android:layout_below="@+id/current_portfolio_value"
                                 android:layout_centerHorizontal="true"
                                 android:fontFamily="sans-serif-condensed"
                                 android:text="CURRENT PORTFOLIO VALUE"
@@ -89,16 +89,16 @@
                         </RelativeLayout>
 
                         <RelativeLayout
-                            android:id="@+id/totalCostView"
+                            android:id="@+id/total_cost_view"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="8dp"
                             android:layout_marginBottom="16dp"
                             android:layout_marginTop="24dp"
-                            android:layout_below="@+id/currentPortfolioView">
+                            android:layout_below="@+id/current_portfolio_view">
 
                             <TextView
-                                android:id="@+id/totalCost"
+                                android:id="@+id/total_cost"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerHorizontal="true"
@@ -109,11 +109,11 @@
                                 android:textStyle="bold" />
 
                             <TextView
-                                android:id="@+id/totalCostDummy"
+                                android:id="@+id/total_cost_dummy"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerHorizontal="true"
-                                android:layout_below="@+id/totalCost"
+                                android:layout_below="@+id/total_cost"
                                 android:fontFamily="sans-serif-condensed"
                                 android:text="TOTAL COST"
                                 android:textColor="@android:color/background_light"
@@ -123,16 +123,16 @@
 
 
                         <RelativeLayout
-                            android:id="@+id/totalProfitView"
+                            android:id="@+id/total_profit_view"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="24dp"
                             android:layout_marginBottom="16dp"
-                            android:layout_below="@+id/currentPortfolioView"
+                            android:layout_below="@+id/current_portfolio_view"
                             android:layout_centerHorizontal="true">
 
                             <TextView
-                                android:id="@+id/totalProfit"
+                                android:id="@+id/total_profit"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerHorizontal="true"
@@ -143,10 +143,10 @@
                                 android:textStyle="bold" />
 
                             <TextView
-                                android:id="@+id/totalProfitDummy"
+                                android:id="@+id/total_profit_dummy"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_below="@+id/totalProfit"
+                                android:layout_below="@+id/total_profit"
                                 android:layout_centerHorizontal="true"
                                 android:fontFamily="sans-serif-condensed"
                                 android:text="TOTAL PROFIT"
@@ -157,16 +157,16 @@
 
 
                         <RelativeLayout
-                            android:id="@+id/totalProfitPercentageView"
+                            android:id="@+id/total_profit_percentage_view"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
                             android:layout_marginRight="8dp"
                             android:layout_marginTop="24dp"
-                            android:layout_below="@+id/currentPortfolioView">
+                            android:layout_below="@+id/current_portfolio_view">
 
                             <TextView
-                                android:id="@+id/totalProfitPercentage"
+                                android:id="@+id/total_profit_percentage"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerHorizontal="true"
@@ -177,11 +177,11 @@
                                 android:textStyle="bold" />
 
                             <TextView
-                                android:id="@+id/totalProfitPercentageDummy"
+                                android:id="@+id/total_profit_percentage_dummy"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerHorizontal="true"
-                                android:layout_below="@+id/totalProfitPercentage"
+                                android:layout_below="@+id/total_profit_percentage"
                                 android:fontFamily="sans-serif-condensed"
                                 android:text="TOTAL PROFIT"
                                 android:textColor="@android:color/background_light"
@@ -204,12 +204,12 @@
             android:layout_below="@+id/my_current_portfolio_view">
 
             <RelativeLayout
-                android:id="@+id/myPortfolioHeadingView"
+                android:id="@+id/my_portfolio_heading_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/myPortfolioHeading"
+                    android:id="@+id/my_portfolio_heading"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
@@ -225,11 +225,11 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/myPortfolioCardView"
+                android:id="@+id/my_portfolio_card_view_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:layout_below="@+id/myPortfolioHeadingView"
+                android:layout_below="@+id/my_portfolio_heading_view"
                 android:background="@android:color/background_dark">
 
                 <android.support.v7.widget.CardView
@@ -247,7 +247,7 @@
                         android:background="@android:color/background_dark">
 
                         <RelativeLayout
-                            android:id="@+id/myPortfolioDetailsView"
+                            android:id="@+id/my_portfolio_details_view"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="16dp"
@@ -256,7 +256,7 @@
                             android:layout_centerVertical="true">
 
                             <TextView
-                                android:id="@+id/myPortfolioCoinName"
+                                android:id="@+id/my_portfolio_coin_name"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="sans-serif-condensed"
@@ -266,19 +266,19 @@
                                 android:textStyle="bold" />
 
                             <TextView
-                                android:id="@+id/myPortfolioCurrentPrice"
+                                android:id="@+id/my_portfolio_current_price"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="sans-serif-condensed"
                                 android:text="Current Price"
                                 android:layout_marginRight="24dp"
-                                android:layout_toLeftOf="@+id/myPortfolioMyProfit"
+                                android:layout_toLeftOf="@+id/my_portfolio_my_profit"
                                 android:textColor="@android:color/background_light"
                                 android:textSize="18sp"
                                 android:textStyle="bold" />
 
                             <TextView
-                                android:id="@+id/myPortfolioMyProfit"
+                                android:id="@+id/my_portfolio_my_profit"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="sans-serif-condensed"
@@ -299,7 +299,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/myPortfolioCardView">
+                android:layout_below="@+id/my_portfolio_card_view_layout">
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recycler_view"

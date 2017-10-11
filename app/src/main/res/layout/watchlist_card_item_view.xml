@@ -14,7 +14,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_gravity="center">
+        android:layout_gravity="center"
+        android:elevation="4dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -22,7 +23,7 @@
             android:background="@android:color/background_dark">
 
             <ImageView
-                android:id="@+id/watchlistItemIcon"
+                android:id="@+id/watchlist_item_icon"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_alignParentStart="true"
@@ -31,12 +32,12 @@
                 app:srcCompat="@android:drawable/screen_background_dark" />
 
             <TextView
-                android:id="@+id/watchlistItemTitle"
+                android:id="@+id/watchlist_item_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
                 android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/watchlistItemIcon"
+                android:layout_toRightOf="@+id/watchlist_item_icon"
                 android:fontFamily="sans-serif-condensed"
                 android:text="Bitcoin"
                 android:textColor="@android:color/background_light"
@@ -44,7 +45,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/watchlistItemCurrentPrice"
+                android:id="@+id/watchlist_item_current_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="16dp"
@@ -56,14 +57,14 @@
                 android:textColor="@android:color/darker_gray" />
 
             <TextView
-                android:id="@+id/watchlistItemChange"
+                android:id="@+id/watchlist_item_change"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="16dp"
                 android:layout_marginTop="2dp"
                 android:layout_marginBottom="16dp"
                 android:layout_alignParentEnd="true"
-                android:layout_below="@+id/watchlistItemCurrentPrice"
+                android:layout_below="@+id/watchlist_item_current_price"
                 android:fontFamily="sans-serif-condensed"
                 android:text="67.03%"
                 android:textSize="16sp"
