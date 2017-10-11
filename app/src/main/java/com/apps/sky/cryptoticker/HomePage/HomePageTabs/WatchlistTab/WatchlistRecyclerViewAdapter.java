@@ -1,5 +1,6 @@
 package com.apps.sky.cryptoticker.HomePage.HomePageTabs.WatchlistTab;
 
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,10 +31,10 @@ public class WatchlistRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
 
         public DataObjectHolder(View itemView) {
             super(itemView);
-            title = (TextView) itemView.findViewById(R.id.watchlistItemTitle);
-            currentPrice = (TextView) itemView.findViewById(R.id.watchlistItemCurrentPrice);
-            myChange = (TextView) itemView.findViewById(R.id.watchlistItemChange);
-            icon = (ImageView) itemView.findViewById(R.id.watchlistItemIcon);
+            title = (TextView) itemView.findViewById(R.id.watchlist_item_title);
+            currentPrice = (TextView) itemView.findViewById(R.id.watchlist_item_current_price);
+            myChange = (TextView) itemView.findViewById(R.id.watchlist_item_change);
+            icon = (ImageView) itemView.findViewById(R.id.watchlist_item_icon);
 
             itemView.setOnClickListener(this);
         }
@@ -68,6 +69,13 @@ public class WatchlistRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
         ((DataObjectHolder)holder).currentPrice.setText(mDataset.get(position).getCurrentPrice());
         ((DataObjectHolder)holder).myChange.setText(mDataset.get(position).getChange());
         ((DataObjectHolder)holder).icon.setImageBitmap(mDataset.get(position).getIcon());
+
+        if (mDataset.get(position).getChangeColor() == false) {
+            ((DataObjectHolder)holder).myChange.setTextColor(Color.RED);
+        }
+        else {
+            ((DataObjectHolder)holder).myChange.setTextColor(Color.parseColor("#ff99cc00"));
+        }
     }
 
     public void addItem(WatchlistObject dataObj, int index) {

@@ -14,6 +14,7 @@ import java.net.URL;
 
 public class WatchlistObject {
     private String title, currentPrice, change;
+    boolean color;
     private Bitmap btmp;
 
     public String getTitle() {
@@ -29,6 +30,10 @@ public class WatchlistObject {
     }
 
     public void setCurrentPrice(String currentPrice) { this.currentPrice = currentPrice; }
+
+    public boolean getChangeColor() { return color; }
+
+    public void setChangeColor(boolean color) { this.color = color; }
 
     public String getChange() {
         return change;

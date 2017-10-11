@@ -15,23 +15,23 @@
         android:icon="@drawable/ic_action_my_portfolio"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/action_trending"
+        android:id="@+id/action_chat"
         android:enabled="true"
-        android:title="@string/text_trending"
-        android:icon="@drawable/ic_action_trending"
+        android:title="@string/text_chat"
+        android:icon="@drawable/ic_action_chat"
         app:showAsAction="ifRoom" />
+    <!--<item-->
+        <!--android:id="@+id/action_trending"-->
+        <!--android:enabled="true"-->
+        <!--android:title="@string/text_trending"-->
+        <!--android:icon="@drawable/ic_action_trending"-->
+        <!--app:showAsAction="ifRoom" />-->
     <item
         android:id="@+id/action_more"
         android:enabled="true"
         android:title="More"
         android:icon="@drawable/ic_action_more"
         app:showAsAction="ifRoom" />
-    <!--<item-->
-        <!--android:id="@+id/action_chat"-->
-        <!--android:enabled="true"-->
-        <!--android:title="@string/text_chat"-->
-        <!--android:icon="@drawable/ic_action_chat"-->
-        <!--app:showAsAction="ifRoom" />-->
     <!--<item-->
         <!--android:id="@+id/action_settings"-->
         <!--android:enabled="true"-->

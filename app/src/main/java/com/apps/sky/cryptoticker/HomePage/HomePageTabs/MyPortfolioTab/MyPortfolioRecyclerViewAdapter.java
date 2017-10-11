@@ -30,10 +30,10 @@ public class MyPortfolioRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
 
         public DataObjectHolder(View itemView) {
             super(itemView);
-            title = (TextView) itemView.findViewById(R.id.myPortfolioItemTitle);
-            currentPrice = (TextView) itemView.findViewById(R.id.myPortfolioItemCurrentPrice);
-            myProfit = (TextView) itemView.findViewById(R.id.myPortfolioItemMyProfit);
-            icon = (ImageView) itemView.findViewById(R.id.myPortfolioItemIcon);
+            title = (TextView) itemView.findViewById(R.id.my_portfolio_item_title);
+            currentPrice = (TextView) itemView.findViewById(R.id.my_portfolio_item_current_price);
+            myProfit = (TextView) itemView.findViewById(R.id.my_portfolio_item_my_profit);
+            icon = (ImageView) itemView.findViewById(R.id.my_portfolio_item_icon);
 
             itemView.setOnClickListener(this);
         }

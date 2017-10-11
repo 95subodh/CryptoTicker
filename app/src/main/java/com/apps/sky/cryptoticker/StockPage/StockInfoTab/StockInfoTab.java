@@ -54,19 +54,19 @@ public class StockInfoTab extends Fragment {
 
     private void fillInfoFromJSON() {
 
-        coinName = getView().findViewById(R.id.coinName);
+        coinName = getView().findViewById(R.id.coin_name);
         coinName.setText(name);
-        coinPrice = getView().findViewById(R.id.coinPrice);
+        coinPrice = getView().findViewById(R.id.coin_price);
         coinPrice.setText(commaSeperateInteger(price));
-        coinAvailSupply = getView().findViewById(R.id.coinAvailSupply);
+        coinAvailSupply = getView().findViewById(R.id.coin_avail_supply);
         coinAvailSupply.setText(commaSeperateInteger(avlsup));
-        coinCap = getView().findViewById(R.id.coinCap);
+        coinCap = getView().findViewById(R.id.coin_cap);
         coinCap.setText(commaSeperateInteger(cap));
-        coinRank = getView().findViewById(R.id.coinRank);
+        coinRank = getView().findViewById(R.id.coin_rank);
         coinRank.setText(rank);
-        coinTotSupply = getView().findViewById(R.id.coinTotSupply);
+        coinTotSupply = getView().findViewById(R.id.coin_tot_supply);
         coinTotSupply.setText(commaSeperateInteger(totsup));
-        coinChange = getView().findViewById(R.id.coinChange);
+        coinChange = getView().findViewById(R.id.coin_change);
         coinChange.setText(change);
         if (change.charAt(0) == '-') {
             coinChange.setTextColor(Color.RED);
@@ -75,7 +75,7 @@ public class StockInfoTab extends Fragment {
             coinChange.setTextColor(Color.parseColor("#ff99cc00"));
         }
 
-        coinLstUpdate = getView().findViewById(R.id.coinLstUpdate);
+        coinLstUpdate = getView().findViewById(R.id.coin_lst_update);
         String lastUpdTime = new java.text.SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(new java.util.Date (Integer.valueOf(lstupd)*1000));
 //        Date lastUpdTime = new Date(Long.parseLong(lstupd));
         coinLstUpdate.setText(lastUpdTime);

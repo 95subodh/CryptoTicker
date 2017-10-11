@@ -30,20 +30,20 @@ public class StockPredictionTab extends Fragment {
             rootView = inflater.inflate(R.layout.stock_prediction_tab, container, false);
         }
 
-        storeDemoButton = rootView.findViewById(R.id.storageDemobutton);
-        storeDemoTextView = rootView.findViewById(R.id.storageDemotextView);
-        storeDemoEditText = rootView.findViewById(R.id.storageDemoeditText);
+        storeDemoButton = rootView.findViewById(R.id.storage_demo_button);
+        storeDemoTextView = rootView.findViewById(R.id.storage_demo_text_view);
+        storeDemoEditText = rootView.findViewById(R.id.storage_demo_edit_text);
         final MyGlobalsFunctions myGlobalDemo = new MyGlobalsFunctions(getContext());
         storeDemoButton.setOnClickListener( new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                myGlobalDemo.storeStringToFile("mysecondfile","text",storeDemoEditText.getText().toString());
+                myGlobalDemo.storeStringToFile("mysecondfile","text",storeDemoButton.getText().toString());
             }
         });
-        storeDemoRetireveButton = rootView.findViewById(R.id.storeDemoRetrieveButton);
-        storeDemoRetrieveTextView = rootView.findViewById(R.id.storageDemoRetrieveTextView);
+        storeDemoRetireveButton = rootView.findViewById(R.id.store_demo_retrieve_button);
+        storeDemoRetrieveTextView = rootView.findViewById(R.id.storage_demo_retrieve_text_view);
         storeDemoRetireveButton.setOnClickListener( new View.OnClickListener() {
 
             @Override

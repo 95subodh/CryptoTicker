@@ -30,10 +30,10 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
 
         public DataObjectHolder1(View itemView) {
             super(itemView);
-            title = (TextView) itemView.findViewById(R.id.newsTitle1);
-            url = (TextView) itemView.findViewById(R.id.newsUrl1);
-            publishedAt = (TextView) itemView.findViewById(R.id.newsDate1);
-            img = (ImageView) itemView.findViewById(R.id.newsImageUrl1);
+            title = (TextView) itemView.findViewById(R.id.news_title1);
+            url = (TextView) itemView.findViewById(R.id.news_url1);
+            publishedAt = (TextView) itemView.findViewById(R.id.news_date1);
+            img = (ImageView) itemView.findViewById(R.id.news_image_url1);
 
             itemView.setOnClickListener(this);
         }
@@ -53,9 +53,9 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
 
         public DataObjectHolder2(View itemView) {
             super(itemView);
-            title = (TextView) itemView.findViewById(R.id.newsTitle1);
-            url = (TextView) itemView.findViewById(R.id.newsUrl1);
-            publishedAt = (TextView) itemView.findViewById(R.id.newsDate1);
+            title = (TextView) itemView.findViewById(R.id.news_title1);
+            url = (TextView) itemView.findViewById(R.id.news_url1);
+            publishedAt = (TextView) itemView.findViewById(R.id.news_date1);
 
             itemView.setOnClickListener(this);
         }

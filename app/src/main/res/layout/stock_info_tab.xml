@@ -11,7 +11,7 @@
     tools:context="com.apps.sky.cryptoticker.StockPage.StockPageActivity">
 
     <TextView
-        android:id="@+id/coinName"
+        android:id="@+id/coin_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -23,11 +23,11 @@
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/coinPrice"
+        android:id="@+id/coin_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/coinName"
-        android:layout_toLeftOf="@+id/coinName"
+        android:layout_alignBottom="@+id/coin_name"
+        android:layout_toLeftOf="@+id/coin_name"
         android:layout_alignParentEnd="true"
         android:layout_marginRight="8sp"
         android:layout_marginLeft="16sp"
@@ -38,10 +38,10 @@
 
 
     <TextView
-        android:id="@+id/coinRank"
+        android:id="@+id/coin_rank"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/coinName"
+        android:layout_below="@+id/coin_name"
         android:layout_alignParentStart="true"
         android:layout_marginLeft="8sp"
         android:layout_marginTop="@dimen/list_item_padding"
@@ -51,10 +51,10 @@
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/coinRankDummy"
+        android:id="@+id/coin_rank_dummy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/coinRank"
+        android:layout_below="@+id/coin_rank"
         android:layout_alignParentStart="true"
         android:layout_marginLeft="8sp"
         android:fontFamily="sans-serif-condensed"
@@ -64,22 +64,22 @@
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/coinCap"
+        android:id="@+id/coin_cap"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8sp"
         android:layout_marginTop="@dimen/list_item_padding"
-        android:layout_below="@+id/coinRankDummy"
+        android:layout_below="@+id/coin_rank_dummy"
         android:fontFamily="sans-serif-condensed"
         android:textColor="@android:color/holo_green_light"
         android:textSize="@dimen/medium_text"
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/coinCapDummy"
+        android:id="@+id/coin_cap_dummy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/coinCap"
+        android:layout_below="@+id/coin_cap"
         android:layout_alignParentStart="true"
         android:layout_marginLeft="8sp"
         android:fontFamily="sans-serif-condensed"
@@ -89,11 +89,11 @@
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/coinAvailSupply"
+        android:id="@+id/coin_avail_supply"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/coinCapDummy"
+        android:layout_below="@+id/coin_cap_dummy"
         android:layout_marginTop="@dimen/list_item_padding"
         android:layout_marginLeft="8sp"
         android:fontFamily="sans-serif-condensed"
@@ -102,7 +102,7 @@
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/coinAvailSupplyDummy"
+        android:id="@+id/coin_avail_supply_dummy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8sp"
@@ -113,14 +113,14 @@
         android:textStyle="bold"
         android:layout_centerVertical="true"
         android:textSize="@dimen/small_text"
-        android:layout_below="@+id/coinAvailSupply" />
+        android:layout_below="@+id/coin_avail_supply" />
 
     <TextView
-        android:id="@+id/coinTotSupply"
+        android:id="@+id/coin_tot_supply"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/coinAvailSupplyDummy"
+        android:layout_below="@+id/coin_avail_supply_dummy"
         android:layout_marginTop="@dimen/list_item_padding"
         android:layout_marginLeft="8sp"
         android:fontFamily="sans-serif-condensed"
@@ -129,11 +129,11 @@
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/coinTotSupplyDummy"
+        android:id="@+id/coin_tot_supply_dummy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/coinTotSupply"
+        android:layout_below="@+id/coin_tot_supply"
         android:layout_marginLeft="8sp"
         android:fontFamily="sans-serif-condensed"
         android:text="Total Supply"
@@ -142,11 +142,11 @@
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/coinLstUpdate"
+        android:id="@+id/coin_lst_update"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/coinTotSupplyDummy"
+        android:layout_below="@+id/coin_tot_supply_dummy"
         android:layout_marginTop="@dimen/list_item_padding"
         android:layout_marginLeft="8sp"
         android:fontFamily="sans-serif-condensed"
@@ -155,11 +155,11 @@
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/coinLstUpdateDummy"
+        android:id="@+id/coin_lst_update_dummy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/coinLstUpdate"
+        android:layout_below="@+id/coin_lst_update"
         android:layout_marginLeft="8sp"
         android:fontFamily="sans-serif-condensed"
         android:text="Last Updated on"
@@ -168,11 +168,11 @@
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/coinChange"
+        android:id="@+id/coin_change"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/coinPrice"
-        android:layout_below="@+id/coinPrice"
+        android:layout_alignRight="@+id/coin_price"
+        android:layout_below="@+id/coin_price"
         android:fontFamily="sans-serif-condensed"
         android:textColor="@android:color/white"
         android:textSize="@dimen/medium_text"

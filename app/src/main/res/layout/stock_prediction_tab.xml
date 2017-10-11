@@ -9,7 +9,7 @@
     tools:context="com.apps.sky.cryptoticker.StockPage.StockPageActivity">
 
     <TextView
-        android:id="@+id/storageDemoRetrieveTextView"
+        android:id="@+id/storage_demo_retrieve_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -17,7 +17,7 @@
         android:text="COMING SOON....." />
 
     <TextView
-        android:id="@+id/storageDemotextView"
+        android:id="@+id/storage_demo_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -26,7 +26,7 @@
         android:text="TextView" />
 
     <Button
-        android:id="@+id/storageDemobutton"
+        android:id="@+id/storage_demo_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -35,10 +35,10 @@
         android:text="click me to store" />
 
     <EditText
-        android:id="@+id/storageDemoeditText"
+        android:id="@+id/storage_demo_edit_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/storageDemobutton"
+        android:layout_above="@+id/storage_demo_button"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="39dp"
         android:ems="10"
@@ -46,10 +46,10 @@
         android:hint="enter text to be stored" />
 
     <Button
-        android:id="@+id/storeDemoRetrieveButton"
+        android:id="@+id/store_demo_retrieve_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/storageDemotextView"
+        android:layout_below="@+id/storage_demo_text_view"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="55dp"
         android:text="Click me to retrieve" />
