@@ -13,7 +13,7 @@ import java.net.URL;
  */
 
 public class MyPortfolioObject {
-    private String title, currentPrice, myProfit;
+    private String title, currentPrice, myProfit, crypto;
     private Bitmap btmp;
 
     public String getTitle() {
@@ -22,6 +22,14 @@ public class MyPortfolioObject {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getCrypto() {
+        return crypto;
+    }
+
+    public void setCrypto(String crypto) {
+        this.crypto = crypto;
     }
 
     public String getCurrentPrice() {

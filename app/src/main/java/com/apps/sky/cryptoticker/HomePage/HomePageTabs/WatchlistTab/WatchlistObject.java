@@ -13,7 +13,7 @@ import java.net.URL;
  */
 
 public class WatchlistObject {
-    private String title, currentPrice, change;
+    private String title, currentPrice, change, crypto;
     boolean color;
     private Bitmap btmp;
 
@@ -23,6 +23,14 @@ public class WatchlistObject {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getCrypto() {
+        return crypto;
+    }
+
+    public void setCrypto(String crypto) {
+        this.crypto = crypto;
     }
 
     public String getCurrentPrice() {

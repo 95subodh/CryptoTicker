@@ -86,9 +86,10 @@ public class WatchlistTab extends Fragment {
         JSONObject parentObject = jarr.getJSONObject(0);
         WatchlistObject currency_details = new WatchlistObject();
         currency_details.setTitle(parentObject.getString("name"));
-        currency_details.setCurrentPrice("$" + parentObject.getString("price_inr"));
+        currency_details.setCurrentPrice(parentObject.getString("price_inr"));
         String change = parentObject.getString("percent_change_24h");
         currency_details.setChange(change);
+        currency_details.setCrypto(parentObject.getString("id"));
         watchlistArray.add(currency_details);
         if (change.charAt(0) == '-') { currency_details.setChangeColor(false); }
         else { currency_details.setChangeColor(true); }
