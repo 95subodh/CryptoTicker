@@ -27,6 +27,10 @@
             android:name=".StockPage.StockPageActivity"
             android:label="@string/title_activity_stock_page"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".StockPage.StockNewsTab.WebViewActivity"
+            android:label="@string/title_activity_stock_page"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

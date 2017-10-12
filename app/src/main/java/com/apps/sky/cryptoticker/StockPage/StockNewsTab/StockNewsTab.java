@@ -84,7 +84,8 @@ public class StockNewsTab extends Fragment {
 
             currentNews.setTitle(obj.getString("title"));
             currentNews.setPublishedDate(obj.getString("publishedAt"));
-            currentNews.setURL(obj.getJSONObject("source").getString("name"));
+            currentNews.setAuthor(obj.getJSONObject("source").getString("name"));
+            currentNews.setURL(obj.getString("url"));
 //                    currentNews.setImage(obj.getString("urlToImage"));
 
             news.add(i, currentNews);
