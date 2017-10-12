@@ -3,7 +3,6 @@ package com.apps.sky.cryptoticker.StockPage;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -47,20 +46,45 @@ public class StockPageActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.add_currency);
-        fab.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton add = (FloatingActionButton) findViewById(R.id.add_currency);
+        add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                //--------add values here -------
-//                editor.putString("currency_name", crypto_name);
+//                Dialog dialog = new Dialog(StockPageActivity.this);
+//                dialog.setContentView(R.layout.stock_add_dialog_view);
+//                dialog.setCancelable(true);
+//                RadioButton rd1 = (RadioButton) dialog.findViewById(R.id.watchlist_radio_btn);
+//                RadioButton rd2 = (RadioButton) dialog.findViewById(R.id.my_portfolio_radio_btn);
+//                Button btn = (Button) dialog.findViewById(R.id.add_currency_ok_btn);
+//                btn.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        Snackbar.make(view, "Currency added to your portfolio :)", Snackbar.LENGTH_LONG)
+//                                .setAction("Action", null).show();
+//                    }
+//                });
+//                dialog.show();
 
-                Snackbar.make(view, "Currency added to your portfolio :)", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+//                //--------add values here -------
+//                editor.putString("currency_name", crypto_name);
             }
         });
 
     }
+
+//    @Override
+//    public Dialog onCreateDialog(Bundle savedInstanceState) {
+//        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+//        builder.setTitle("Add this currency to")
+//                .setItems(items, new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        // The 'which' argument contains the index position
+//                        // of the selected item
+//                    }
+//                });
+//        return builder.create();
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
