@@ -3,6 +3,7 @@ package com.apps.sky.cryptoticker.StockPage;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -10,9 +11,12 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 import com.apps.sky.cryptoticker.R;
 import com.apps.sky.cryptoticker.StockPage.StockInfoTab.StockInfoTab;
@@ -24,9 +28,9 @@ public class StockPageActivity extends AppCompatActivity {
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
     private String crypto_name;
-
-//    SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
-//    SharedPreferences.Editor editor = pref.edit();
+    private Boolean isFabOpen = false;
+    private FloatingActionButton add,fab1,fab2;
+    private Animation fab_open,fab_close,rotate_forward,rotate_backward;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,45 +50,60 @@ public class StockPageActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
-        FloatingActionButton add = (FloatingActionButton) findViewById(R.id.add_currency);
+        add = (FloatingActionButton) findViewById(R.id.add_currency);
+        fab1 = (FloatingActionButton)findViewById(R.id.fab1);
+        fab2 = (FloatingActionButton)findViewById(R.id.fab2);
+        fab_open = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
+        fab_close = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fab_close);
+        rotate_forward = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_forward);
+        rotate_backward = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_backward);
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                animateFAB();
+            }
+        });
 
-//                Dialog dialog = new Dialog(StockPageActivity.this);
-//                dialog.setContentView(R.layout.stock_add_dialog_view);
-//                dialog.setCancelable(true);
-//                RadioButton rd1 = (RadioButton) dialog.findViewById(R.id.watchlist_radio_btn);
-//                RadioButton rd2 = (RadioButton) dialog.findViewById(R.id.my_portfolio_radio_btn);
-//                Button btn = (Button) dialog.findViewById(R.id.add_currency_ok_btn);
-//                btn.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        Snackbar.make(view, "Currency added to your portfolio :)", Snackbar.LENGTH_LONG)
-//                                .setAction("Action", null).show();
-//                    }
-//                });
-//                dialog.show();
+        fab1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Currency added to your watchlist :)", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+            }
+        });
 
-//                //--------add values here -------
-//                editor.putString("currency_name", crypto_name);
+        fab2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Currency added to your portfolio :)", Snackbar.LENGTH_LONG).setAction("Action", null).show();
             }
         });
 
     }
 
-//    @Override
-//    public Dialog onCreateDialog(Bundle savedInstanceState) {
-//        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-//        builder.setTitle("Add this currency to")
-//                .setItems(items, new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        // The 'which' argument contains the index position
-//                        // of the selected item
-//                    }
-//                });
-//        return builder.create();
-//    }
+    public void animateFAB(){
+
+        if(isFabOpen){
+
+            add.startAnimation(rotate_backward);
+            fab1.startAnimation(fab_close);
+            fab2.startAnimation(fab_close);
+            fab1.setClickable(false);
+            fab2.setClickable(false);
+            isFabOpen = false;
+            Log.d("Fabs", "close");
+
+        } else {
+
+            add.startAnimation(rotate_forward);
+            fab1.startAnimation(fab_open);
+            fab2.startAnimation(fab_open);
+            fab1.setClickable(true);
+            fab2.setClickable(true);
+            isFabOpen = true;
+            Log.d("Fabs","open");
+
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
