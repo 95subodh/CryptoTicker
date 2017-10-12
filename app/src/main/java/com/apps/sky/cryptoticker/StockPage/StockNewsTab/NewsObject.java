@@ -15,8 +15,16 @@ import java.util.Calendar;
  */
 
 public class NewsObject {
-    private String title, publishedDate, link;
+    private String title, publishedDate, link, author;
     private Bitmap btmp;
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
 
     public String getTitle() {
         return title;

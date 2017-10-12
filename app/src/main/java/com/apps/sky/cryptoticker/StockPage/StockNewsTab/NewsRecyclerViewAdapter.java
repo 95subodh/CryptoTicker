@@ -1,5 +1,7 @@
 package com.apps.sky.cryptoticker.StockPage.StockNewsTab;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,23 +21,32 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
     private ArrayList<NewsObject> mDataset;
     private static MyClickListener myClickListener;
     private Integer cardType;
+    private static Context context;
+    private static String url;
 
     public static class DataObjectHolder1 extends RecyclerView.ViewHolder
             implements View
             .OnClickListener {
         TextView title;
-        TextView url;
+        TextView author;
         TextView publishedAt;
         ImageView img;
 
         public DataObjectHolder1(View itemView) {
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.news_title1);
-            url = (TextView) itemView.findViewById(R.id.news_url1);
+            author = (TextView) itemView.findViewById(R.id.news_url1);
             publishedAt = (TextView) itemView.findViewById(R.id.news_date1);
             img = (ImageView) itemView.findViewById(R.id.news_image_url1);
 
-            itemView.setOnClickListener(this);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, WebViewActivity.class);
+                    intent.putExtra("url", url.toString());
+                    context.startActivity(intent);
+                }
+            });
         }
 
         @Override
@@ -48,13 +59,13 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
             implements View
             .OnClickListener {
         TextView title;
-        TextView url;
+        TextView author;
         TextView publishedAt;
 
         public DataObjectHolder2(View itemView) {
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.news_title1);
-            url = (TextView) itemView.findViewById(R.id.news_url1);
+            author = (TextView) itemView.findViewById(R.id.news_url1);
             publishedAt = (TextView) itemView.findViewById(R.id.news_date1);
 
             itemView.setOnClickListener(this);
@@ -77,6 +88,7 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view;
+        context = parent.getContext();
 
 //        if (viewType == 0) {
 //            view = LayoutInflater.from(parent.getContext())
@@ -101,7 +113,8 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
 //        }
 //        else {
             ((DataObjectHolder1)holder).title.setText(mDataset.get(position).getTitle());
-            ((DataObjectHolder1)holder).url.setText(mDataset.get(position).getURL());
+            ((DataObjectHolder1)holder).author.setText(mDataset.get(position).getAuthor());
+            url = mDataset.get(position).getURL();
             ((DataObjectHolder1)holder).publishedAt.setText(mDataset.get(position).getPublishedDate());
             ((DataObjectHolder1)holder).img.setImageBitmap(mDataset.get(position).getImage());
 //        if (mDataset.get(position).getImage() == null) {
