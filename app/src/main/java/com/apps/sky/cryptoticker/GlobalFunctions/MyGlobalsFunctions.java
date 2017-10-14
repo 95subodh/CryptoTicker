@@ -21,7 +21,6 @@ import java.net.URL;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
 
 /**
@@ -30,7 +29,7 @@ import java.util.Locale;
 
 public class MyGlobalsFunctions {
     Context mContext;
-    private SimpleDateFormat formatter;
+    private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 
     // constructor
     public MyGlobalsFunctions(Context context){
@@ -48,15 +47,15 @@ public class MyGlobalsFunctions {
     }
 
     public String getEpochToNormalDateString (String date) {
+        Log.d("EpochDate: ", (new java.util.Date (Integer.valueOf(date)*1000)).toString());
         return (new java.util.Date (Integer.valueOf(date)*1000)).toString();
     }
 
     private String convertDateToCalendarDate (String date) {
-        formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-        date = formatter.format(new Date(date));
         Calendar calendar = Calendar.getInstance();
         try { calendar.setTime(formatter.parse(date)); }
         catch (Exception e) { System.out.println(e); }
+        Log.d("ConvertedDate: ", calendar.getTime().toString());
         return calendar.getTime().toString();
     }
 
@@ -65,6 +64,7 @@ public class MyGlobalsFunctions {
     }
 
     public String getTimeFormattedDate(String originalDate) {
+        Log.d("TimeFormattedDate: ", convertDateToCalendarDate(originalDate).substring(4, 10) + ", " + convertDateToCalendarDate(originalDate).substring(11, 16));
         return convertDateToCalendarDate(originalDate).substring(4, 10) + ", " + convertDateToCalendarDate(originalDate).substring(11, 16);
     }
 
