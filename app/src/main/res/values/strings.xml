@@ -13,6 +13,8 @@
     <string name="text_chat">Chat</string>
     <string name="text_trending">Trending</string>
     <string name="crypto_info_dir">cryptoinfo</string>
+    <string name="crypto_watchlist_dir">cryptowatch</string>
+    <string name="crypto_watchlist_file">watchlist</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

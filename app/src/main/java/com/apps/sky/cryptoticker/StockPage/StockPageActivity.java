@@ -17,10 +17,14 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
+import com.apps.sky.cryptoticker.GlobalFunctions.MyGlobalsFunctions;
+import com.apps.sky.cryptoticker.HomePage.HomePageTabs.WatchlistTab.WatchlistTab;
 import com.apps.sky.cryptoticker.R;
 import com.apps.sky.cryptoticker.StockPage.StockInfoTab.StockInfoTab;
 import com.apps.sky.cryptoticker.StockPage.StockNewsTab.StockNewsTab;
 import com.apps.sky.cryptoticker.StockPage.StockPredictionTab.StockPredictionTab;
+
+import java.util.ArrayList;
 
 public class StockPageActivity extends AppCompatActivity {
 
@@ -28,6 +32,7 @@ public class StockPageActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     private String crypto_name;
     private Boolean isFabOpen = false;
+    MyGlobalsFunctions myGlobalsFunctions;
     private FloatingActionButton add, fab1, fab2;
     private View fab1_view, fab2_view;
     private Animation fab_open, fab_close, rotate_forward, rotate_backward;
@@ -61,7 +66,8 @@ public class StockPageActivity extends AppCompatActivity {
         fab_close = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fab_close);
         rotate_forward = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_forward);
         rotate_backward = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_backward);
-
+        myGlobalsFunctions = new MyGlobalsFunctions(getApplicationContext());
+      
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -72,8 +78,13 @@ public class StockPageActivity extends AppCompatActivity {
         fab1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                ArrayList<String> watchlistitems = myGlobalsFunctions.retrieveListFromFile(getString(R.string.crypto_watchlist_file), getString(R.string.crypto_watchlist_dir));
+                if(watchlistitems==null || !watchlistitems.contains(crypto_name)){
+                    watchlistitems.add(crypto_name);
+                    myGlobalsFunctions.storeListToFile( getString(R.string.crypto_watchlist_file), getString(R.string.crypto_watchlist_dir), watchlistitems);
+                }
+                Snackbar.make(view, "Currency added to your watchlist :)", Snackbar.LENGTH_LONG).setAction("Action", null).show();
                 Log.d("Fabs", "Currency added to your watchlist :)");
-//                Snackbar.make(view, "Currency added to your watchlist :)", Snackbar.LENGTH_LONG).setAction("Action", null).show();
             }
         });
 

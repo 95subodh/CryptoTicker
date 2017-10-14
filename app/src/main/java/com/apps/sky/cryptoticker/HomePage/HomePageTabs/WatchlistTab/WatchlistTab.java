@@ -28,7 +28,7 @@ public class WatchlistTab extends Fragment {
     private String url;
     public String crypto;
     MyGlobalsFunctions myGlobalsFunctions;
-    ArrayList<String> items;
+    public ArrayList<String> items;
     ArrayList<WatchlistObject> watchlistArray = new ArrayList<WatchlistObject>();
 
     @Override
@@ -51,24 +51,9 @@ public class WatchlistTab extends Fragment {
         recyclerView.setAdapter(adapter);
         myGlobalsFunctions = new MyGlobalsFunctions(getContext());
 
-        items = new ArrayList<>();
-        items.add("bitcoin");
-        items.add("atc-coin");
-        items.add("ripple");
-        items.add("litecoin");
-        items.add("ethereum");
-        items.add("dash");
-        items.add("bitconnect");
-        items.add("lisk");
-        items.add("tether");
-        items.add("waves");
-        items.add("bitshares");
-        items.add("eos");
-        items.add("metal");
-        items.add("nexus");
-        items.add("syscoin");
+        items = myGlobalsFunctions.retrieveListFromFile(getString(R.string.crypto_watchlist_file), getString(R.string.crypto_watchlist_dir));
 
-        for (int i = 0; i < 10; ++i) {
+        for (int i = 0; i < items.size(); ++i) {
 
             //--------retrieve values here instead of this line-------
             crypto = items.get(i);

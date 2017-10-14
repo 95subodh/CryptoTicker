@@ -18,6 +18,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -171,5 +172,29 @@ public class MyGlobalsFunctions {
             }
         }
         return  null;
+    }
+
+    public void storeListToFile(String fileName, String fileDirectory, ArrayList<String> arrayList) {
+        StringBuilder csvList = new StringBuilder();
+        for(String s : arrayList){
+            csvList.append(s);
+            csvList.append(",");
+        }
+
+        storeStringToFile(fileName, fileDirectory, csvList.toString());
+    }
+
+    public ArrayList<String> retrieveListFromFile(String fileName, String fileDirectory) {
+        String csvList = retieveStringFromFile(fileName, fileDirectory);
+        String[] items = {};
+        if (csvList!=null) {
+            items = csvList.split(",");
+        }
+        ArrayList<String> list = new ArrayList<>();
+        for(int i=0; i < items.length; i++){
+            list.add(items[i]);
+        }
+
+        return list;
     }
 }
