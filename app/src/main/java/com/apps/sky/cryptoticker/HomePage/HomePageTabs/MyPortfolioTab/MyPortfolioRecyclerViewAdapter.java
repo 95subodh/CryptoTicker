@@ -9,12 +9,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.apps.sky.cryptoticker.GlobalFunctions.MyGlobalsFunctions;
 import com.apps.sky.cryptoticker.R;
 import com.apps.sky.cryptoticker.StockPage.StockPageActivity;
 
-import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.Locale;
 
 /**
  * Created by ankitaverma on 06/10/17.
@@ -24,6 +23,7 @@ public class MyPortfolioRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
     private ArrayList<MyPortfolioObject> mDataset;
     private static MyClickListener myClickListener;
     private static Context context;
+    private MyGlobalsFunctions myGlobalsFunctions = new MyGlobalsFunctions();
 
     public static class DataObjectHolder extends RecyclerView.ViewHolder
             implements View
@@ -76,15 +76,11 @@ public class MyPortfolioRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
         return dataObjectHolder;
     }
 
-    private String commaSeperateInteger(String num){
-        return NumberFormat.getNumberInstance(Locale.US).format(Float.valueOf(num));
-    }
-
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         ((DataObjectHolder)holder).crypto = mDataset.get(position).getCrypto();
         ((DataObjectHolder)holder).title.setText(mDataset.get(position).getTitle());
-        ((DataObjectHolder)holder).currentPrice.setText(commaSeperateInteger(mDataset.get(position).getCurrentPrice()));
+        ((DataObjectHolder)holder).currentPrice.setText(myGlobalsFunctions.commaSeperateInteger(mDataset.get(position).getCurrentPrice()));
         ((DataObjectHolder)holder).myProfit.setText(mDataset.get(position).getMyProfit());
         ((DataObjectHolder)holder).icon.setImageBitmap(mDataset.get(position).getIcon());
     }

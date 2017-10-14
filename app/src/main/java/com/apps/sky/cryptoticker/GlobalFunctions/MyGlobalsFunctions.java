@@ -1,8 +1,11 @@
 package com.apps.sky.cryptoticker.GlobalFunctions;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.util.Log;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -16,6 +19,10 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
 
 /**
  * Created by subodhyadav on 08/10/17.
@@ -23,14 +30,59 @@ import java.util.ArrayList;
 
 public class MyGlobalsFunctions {
     Context mContext;
+    private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 
     // constructor
     public MyGlobalsFunctions(Context context){
         this.mContext = context;
     }
 
+    public MyGlobalsFunctions() {}
+
     public String getUserName(){
         return "test";
+    }
+
+    public String commaSeperateInteger(String num){
+        return NumberFormat.getNumberInstance(Locale.US).format(Float.valueOf(num));
+    }
+
+    public String getEpochToNormalDateString (String date) {
+        Log.d("EpochDate: ", (new java.util.Date (Integer.valueOf(date)*1000)).toString());
+        return (new java.util.Date (Integer.valueOf(date)*1000)).toString();
+    }
+
+    private String convertDateToCalendarDate (String date) {
+        Calendar calendar = Calendar.getInstance();
+        try { calendar.setTime(formatter.parse(date)); }
+        catch (Exception e) { System.out.println(e); }
+        Log.d("ConvertedDate: ", calendar.getTime().toString());
+        return calendar.getTime().toString();
+    }
+
+    public String getWeekDayFormattedDate(String originalDate) {
+        return convertDateToCalendarDate(originalDate).substring(0, 11);
+    }
+
+    public String getTimeFormattedDate(String originalDate) {
+        Log.d("TimeFormattedDate: ", convertDateToCalendarDate(originalDate).substring(4, 10) + ", " + convertDateToCalendarDate(originalDate).substring(11, 16));
+        return convertDateToCalendarDate(originalDate).substring(4, 10) + ", " + convertDateToCalendarDate(originalDate).substring(11, 16);
+    }
+
+    public Bitmap convertImageURLtoBitmap(String ImageUrl) {
+        try {
+            URL url = new URL(ImageUrl);
+            HttpURLConnection urlcon = (HttpURLConnection) url.openConnection();
+            urlcon.setDoInput(true);
+            urlcon.connect();
+            InputStream in = urlcon.getInputStream();
+            Bitmap mIcon = BitmapFactory.decodeStream(in);
+            return mIcon;
+        } catch (Exception e) {
+            Log.e("Error", e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public boolean isNetworkConnected() {
