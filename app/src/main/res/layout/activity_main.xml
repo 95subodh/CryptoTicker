@@ -6,11 +6,6 @@
     android:layout_height="match_parent"
     tools:context="com.apps.sky.cryptoticker.HomePage.MainActivity">
 
-    <ListView
-        android:id="@+id/list_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
     <RelativeLayout
         android:id="@+id/bottom_navigation_view"
         android:layout_width="match_parent"
@@ -43,5 +38,16 @@
             android:layout_height="match_parent"/>
 
     </RelativeLayout>
+
+    <ListView
+        android:id="@+id/list_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        android:divider="@null"
+        android:background="@color/thirty_per_translucent"
+        android:cacheColorHint="@color/thirty_per_translucent"
+        android:gravity="center"
+        android:visibility="invisible" />
 
 </RelativeLayout>

@@ -1,14 +1,8 @@
 package com.apps.sky.cryptoticker.StockPage.StockNewsTab;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.util.Log;
 
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import com.apps.sky.cryptoticker.GlobalFunctions.MyGlobalsFunctions;
 
 /**
  * Created by ankitaverma on 26/09/17.
@@ -17,6 +11,7 @@ import java.util.Calendar;
 public class NewsObject {
     private String title, publishedDate, link, author;
     private Bitmap btmp;
+    private MyGlobalsFunctions myGlobalsFunctions = new MyGlobalsFunctions();
 
     public String getAuthor() {
         return author;
@@ -38,17 +33,7 @@ public class NewsObject {
         return publishedDate;
     }
 
-    public void setPublishedDate(String originalDate) {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-        Calendar calendar = Calendar.getInstance();
-        try {
-            calendar.setTime(formatter.parse(originalDate));
-        }
-        catch (Exception e) {
-            System.out.println(e);
-        }
-        this.publishedDate = calendar.getTime().toString().substring(0, 11);
-    }
+    public void setPublishedDate(String originalDate) { this.publishedDate = myGlobalsFunctions.getWeekDayFormattedDate(originalDate); }
 
     public String getURL() {
         return link;
@@ -62,19 +47,5 @@ public class NewsObject {
         return btmp;
     }
 
-    public void setImage(String ImageUrl) {
-        try {
-            URL url = new URL(ImageUrl);
-            HttpURLConnection urlcon = (HttpURLConnection) url.openConnection();
-            urlcon.setDoInput(true);
-            urlcon.connect();
-            InputStream in = urlcon.getInputStream();
-            Bitmap mIcon = BitmapFactory.decodeStream(in);
-            this.btmp = mIcon;
-        } catch (Exception e) {
-            Log.e("Error", e.getMessage());
-            e.printStackTrace();
-            this.btmp = null;
-        }
-    }
+    public void setImage(String ImageUrl) { this.btmp = myGlobalsFunctions.convertImageURLtoBitmap(ImageUrl); }
 }

@@ -39,20 +39,21 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        bottomNavigationView = (BottomNavigationView)
-                findViewById(R.id.bottom_navigation);
-        BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
-        Fragment fragment = new WatchlistTab();
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
 
         relative = (RelativeLayout) findViewById(R.id.tab_content);
+        listView = (ListView) findViewById(R.id.list_view);
+        bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
+
+        Fragment fragment = new WatchlistTab();
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
 
         bottomNavigationView.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-                        Fragment fragment = new WatchlistTab();
+                        Fragment fragment;
 
                         switch (item.getItemId()) {
                             case R.id.action_watchlist:
@@ -74,13 +75,15 @@ public class MainActivity extends AppCompatActivity {
                             case R.id.action_more:
                                 fragment = new MoreTab();
                                 break;
+
+                            default:
+                                fragment = new Fragment();
+                                break;
                         }
                         getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
                         return true;
                     }
                 });
-
-        listView = (ListView) findViewById(R.id.list_view);
 
         items = new ArrayList<>();
         String[] otherList = new String[] {"atc-coin","bitcoin","bitconnect","bitshares","dash","eos","ethereum","golem-network-tokens",
@@ -109,30 +112,27 @@ public class MainActivity extends AppCompatActivity {
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public boolean onQueryTextSubmit(String query) {
-
-                return false;
-            }
+            public boolean onQueryTextSubmit(String query) { return false; }
 
             @Override
             public boolean onQueryTextChange(String newText) {
                 ArrayList<String> templist = new ArrayList<>();
-                for (String temp : items) {
-                    if (temp.toLowerCase().contains(newText.toLowerCase())) {
-                        templist.add(temp);
-                    }
-                }
                 System.out.println(newText);
 
                 if (newText.length() > 0) {
+                    for (String temp : items) {
+                        if (temp.toLowerCase().contains(newText.toLowerCase())) {
+                            templist.add(temp);
+                        }
+                    }
                     listView.setVisibility(View.VISIBLE);
                 }
                 else {
-                    listView.setVisibility(View.GONE);
+                    listView.setVisibility(View.INVISIBLE);
                 }
 
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(MainActivity.this,
-                        android.R.layout.simple_list_item_1, templist);
+                        R.layout.search_list_view_item, templist);
                 listView.setAdapter(adapter);
 
                 return true;
@@ -142,15 +142,14 @@ public class MainActivity extends AppCompatActivity {
         searchView.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
             @Override
             public void onViewAttachedToWindow(View view) {
-                bottomNavigationView.setVisibility(View.INVISIBLE);
-                relative.setVisibility(View.INVISIBLE);
+                bottomNavigationView.setClickable(false);
+                relative.setClickable(false);
 
             }
-
             @Override
             public void onViewDetachedFromWindow(View view) {
-                bottomNavigationView.setVisibility(View.VISIBLE);
-                relative.setVisibility(View.VISIBLE);
+                bottomNavigationView.setClickable(true);
+                relative.setClickable(true);
             }
         });
 

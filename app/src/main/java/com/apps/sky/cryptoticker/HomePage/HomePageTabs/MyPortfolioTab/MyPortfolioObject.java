@@ -1,12 +1,8 @@
 package com.apps.sky.cryptoticker.HomePage.HomePageTabs.MyPortfolioTab;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.util.Log;
 
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import com.apps.sky.cryptoticker.GlobalFunctions.MyGlobalsFunctions;
 
 /**
  * Created by ankitaverma on 06/10/17.
@@ -15,6 +11,7 @@ import java.net.URL;
 public class MyPortfolioObject {
     private String title, currentPrice, myProfit, crypto;
     private Bitmap btmp;
+    private MyGlobalsFunctions myGlobalsFunctions = new MyGlobalsFunctions();
 
     public String getTitle() {
         return title;
@@ -50,19 +47,6 @@ public class MyPortfolioObject {
         return btmp;
     }
 
-    public void setIcon(String ImageUrl) {
-        try {
-            URL url = new URL(ImageUrl);
-            HttpURLConnection urlcon = (HttpURLConnection) url.openConnection();
-            urlcon.setDoInput(true);
-            urlcon.connect();
-            InputStream in = urlcon.getInputStream();
-            Bitmap mIcon = BitmapFactory.decodeStream(in);
-            this.btmp = mIcon;
-        } catch (Exception e) {
-            Log.e("Error", e.getMessage());
-            e.printStackTrace();
-            this.btmp = null;
-        }
-    }
+    public void setIcon(String ImageUrl) { this.btmp = myGlobalsFunctions.convertImageURLtoBitmap(ImageUrl); }
+
 }
