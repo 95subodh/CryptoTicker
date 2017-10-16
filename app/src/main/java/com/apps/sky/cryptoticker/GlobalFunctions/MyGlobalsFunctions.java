@@ -197,4 +197,28 @@ public class MyGlobalsFunctions {
 
         return list;
     }
+
+//    public void storeCryptoTradeListToFile(String fileName, String fileDirectory, ArrayList<CryptoTradeObject> arrayList) {
+//        StringBuilder csvList = new StringBuilder();
+//        for(CryptoTradeObject s : arrayList){
+//            csvList.append(s);
+//            csvList.append(",");
+//        }
+//
+//        storeStringToFile(fileName, fileDirectory, csvList.toString());
+//    }
+//
+//    public ArrayList<CryptoTradeObject> retrieveCryptoTradeListFromFile(String fileName, String fileDirectory) {
+//        String csvList = retieveStringFromFile(fileName, fileDirectory);
+//        CryptoTradeObject[] items = {};
+////        if (csvList!=null) {
+////            items = csvList.split(",");
+////        }
+//        ArrayList<CryptoTradeObject> list = new ArrayList<CryptoTradeObject>();
+//        for (int i = 0; i < items.length; i++) {
+//            list.add(items[i]);
+//        }
+//
+//        return list;
+//    }
 }

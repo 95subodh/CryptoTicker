@@ -3,6 +3,7 @@ package com.apps.sky.cryptoticker.StockPage;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -18,8 +19,8 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
 import com.apps.sky.cryptoticker.GlobalFunctions.MyGlobalsFunctions;
-import com.apps.sky.cryptoticker.HomePage.HomePageTabs.WatchlistTab.WatchlistTab;
 import com.apps.sky.cryptoticker.R;
+import com.apps.sky.cryptoticker.StockPage.AddToMyPortfolioForm.AddToMyPortfolioFormActivity;
 import com.apps.sky.cryptoticker.StockPage.StockInfoTab.StockInfoTab;
 import com.apps.sky.cryptoticker.StockPage.StockNewsTab.StockNewsTab;
 import com.apps.sky.cryptoticker.StockPage.StockPredictionTab.StockPredictionTab;
@@ -32,7 +33,7 @@ public class StockPageActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     private String crypto_name;
     private Boolean isFabOpen = false;
-    MyGlobalsFunctions myGlobalsFunctions;
+    private MyGlobalsFunctions myGlobalsFunctions;
     private FloatingActionButton add, fab1, fab2;
     private View fab1_view, fab2_view;
     private Animation fab_open, fab_close, rotate_forward, rotate_backward;
@@ -91,8 +92,10 @@ public class StockPageActivity extends AppCompatActivity {
         fab2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("Fabs", "Currency added to your portfolio :)");
-//                Snackbar.make(view, "Currency added to your portfolio :)", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                Intent intent = new Intent(StockPageActivity.this, AddToMyPortfolioFormActivity.class);
+                intent.putExtra("crypto", "" + crypto_name.toLowerCase());
+                intent.putExtra("only_details", false);
+                startActivity(intent);
             }
         });
 
@@ -105,8 +108,6 @@ public class StockPageActivity extends AppCompatActivity {
             add.startAnimation(rotate_backward);
             fab1_view.startAnimation(fab_close);
             fab2_view.startAnimation(fab_close);
-//            fab1.startAnimation(fab_close);
-//            fab2.startAnimation(fab_close);
             fab1.setClickable(false);
             fab2.setClickable(false);
             isFabOpen = false;
@@ -117,8 +118,6 @@ public class StockPageActivity extends AppCompatActivity {
             add.startAnimation(rotate_forward);
             fab1_view.startAnimation(fab_open);
             fab2_view.startAnimation(fab_open);
-//            fab1.startAnimation(fab_open);
-//            fab2.startAnimation(fab_open);
             fab1.setClickable(true);
             fab2.setClickable(true);
             isFabOpen = true;
