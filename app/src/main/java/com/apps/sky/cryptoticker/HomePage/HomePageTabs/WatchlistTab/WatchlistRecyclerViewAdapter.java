@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,7 +25,8 @@ public class WatchlistRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
     private ArrayList<WatchlistObject> mDataset;
     private static MyClickListener myClickListener;
     private static Context context;
-    private MyGlobalsFunctions myGlobalsFunctions = new MyGlobalsFunctions();
+    public static WatchlistTab watchlistTab;
+    private MyGlobalsFunctions myGlobalsFunctions;
 
     public static class DataObjectHolder extends RecyclerView.ViewHolder
             implements View
@@ -34,13 +36,15 @@ public class WatchlistRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
         TextView currentPrice;
         TextView myChange;
         ImageView icon;
+        ImageButton closeBtn;
 
-        public DataObjectHolder(View itemView) {
+        public DataObjectHolder(final View itemView) {
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.watchlist_item_title);
             currentPrice = (TextView) itemView.findViewById(R.id.watchlist_item_current_price);
             myChange = (TextView) itemView.findViewById(R.id.watchlist_item_change);
             icon = (ImageView) itemView.findViewById(R.id.watchlist_item_icon);
+            closeBtn = (ImageButton) itemView.findViewById(R.id.close_btn);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -70,6 +74,7 @@ public class WatchlistRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         context = parent.getContext();
+        myGlobalsFunctions = new MyGlobalsFunctions(context);
         View view;
         view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.watchlist_card_item_view, parent, false);
@@ -78,19 +83,25 @@ public class WatchlistRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         ((DataObjectHolder)holder).crypto = mDataset.get(position).getCrypto();
         ((DataObjectHolder)holder).title.setText(mDataset.get(position).getTitle());
         ((DataObjectHolder)holder).currentPrice.setText(myGlobalsFunctions.commaSeperateInteger(mDataset.get(position).getCurrentPrice()));
         ((DataObjectHolder)holder).myChange.setText(mDataset.get(position).getChange());
         ((DataObjectHolder)holder).icon.setImageBitmap(mDataset.get(position).getIcon());
 
-        if (mDataset.get(position).getChangeColor() == false) {
-            ((DataObjectHolder)holder).myChange.setTextColor(Color.RED);
-        }
-        else {
-            ((DataObjectHolder)holder).myChange.setTextColor(Color.parseColor("#ff99cc00"));
-        }
+        ((DataObjectHolder)holder).closeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ArrayList<String> watchlistitems = myGlobalsFunctions.retrieveListFromFile(context.getString(R.string.crypto_watchlist_file), context.getString(R.string.crypto_watchlist_dir));
+                watchlistitems.remove(mDataset.get(position).getCrypto());
+                myGlobalsFunctions.storeListToFile( context.getString(R.string.crypto_watchlist_file), context.getString(R.string.crypto_watchlist_dir), watchlistitems);
+                deleteItem(position);
+            }
+        });
+
+        if (mDataset.get(position).getChangeColor() == false) { ((DataObjectHolder)holder).myChange.setTextColor(Color.RED); }
+        else { ((DataObjectHolder)holder).myChange.setTextColor(Color.parseColor("#ff99cc00")); }
     }
 
     public void addItem(WatchlistObject dataObj, int index) {

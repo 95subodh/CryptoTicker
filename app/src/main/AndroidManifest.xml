@@ -14,23 +14,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".HomePage.MainActivity"
-            android:windowSoftInputMode="adjustPan" >
+        <activity
+            android:name=".HomePage.MainActivity"
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".StockPage.StockPageActivity"
             android:label="@string/title_activity_stock_page"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".StockPage.StockNewsTab.WebViewActivity"
             android:label="@string/title_activity_stock_page"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".StockPage.AddToMyPortfolioForm.AddToMyPortfolioFormActivity"></activity>
     </application>
 
 </manifest>

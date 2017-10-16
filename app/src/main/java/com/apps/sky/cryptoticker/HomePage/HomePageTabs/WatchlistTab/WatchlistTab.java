@@ -54,15 +54,16 @@ public class WatchlistTab extends Fragment {
         items = myGlobalsFunctions.retrieveListFromFile(getString(R.string.crypto_watchlist_file), getString(R.string.crypto_watchlist_dir));
 
         for (int i = 0; i < items.size(); ++i) {
-
-            //--------retrieve values here instead of this line-------
             crypto = items.get(i);
-
             url = "https://api.coinmarketcap.com/v1/ticker/"+crypto+"/?convert=INR";
             new JSONTask().execute(url);
         }
-
         return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 
     public void setVals(String finalJson) throws JSONException {
