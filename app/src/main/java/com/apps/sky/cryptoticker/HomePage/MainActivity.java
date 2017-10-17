@@ -34,26 +34,29 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<String> items;
     BottomNavigationView bottomNavigationView;
     RelativeLayout relative;
+    Fragment fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Intent intent = getIntent();
+
         relative = (RelativeLayout) findViewById(R.id.tab_content);
         listView = (ListView) findViewById(R.id.list_view);
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
 
-        Fragment fragment = new WatchlistTab();
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
+        String tab = "";
+        if (intent.hasExtra("tab"))
+            tab = intent.getExtras().getString("tab");
+        assignTab(tab);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-                        Fragment fragment;
 
                         switch (item.getItemId()) {
                             case R.id.action_watchlist:
@@ -99,6 +102,31 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    private void assignTab(String tab) {
+        switch (tab) {
+            case "watchlist" :
+                fragment = new WatchlistTab();
+                break;
+
+            case "my_portfolio" :
+                fragment = new MyPortfolioTab();
+                break;
+
+            case "chat" :
+                fragment = new ChatTab();
+                break;
+
+            case "more" :
+                fragment = new MoreTab();
+                break;
+
+            default:
+                fragment = new WatchlistTab();
+                break;
+        }
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
     }
 
     @Override
