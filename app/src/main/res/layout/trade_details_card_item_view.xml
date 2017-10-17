@@ -32,6 +32,16 @@
                     android:textStyle="bold"/>
 
                 <ImageButton
+                    android:id="@+id/edit_btn"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_toLeftOf="@+id/close_btn"
+                    android:layout_marginRight="8dp"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/ic_action_edit"
+                    android:visibility="invisible"/>
+
+                <ImageButton
                     android:id="@+id/close_btn"
                     android:layout_width="18dp"
                     android:layout_height="18dp"

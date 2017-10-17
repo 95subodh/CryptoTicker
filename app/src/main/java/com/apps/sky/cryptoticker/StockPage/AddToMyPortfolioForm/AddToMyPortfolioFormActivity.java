@@ -12,8 +12,10 @@ import android.widget.TextView;
 
 import com.apps.sky.cryptoticker.GlobalFunctions.CryptoTradeObject;
 import com.apps.sky.cryptoticker.GlobalFunctions.MyGlobalsFunctions;
+import com.apps.sky.cryptoticker.HomePage.MainActivity;
 import com.apps.sky.cryptoticker.R;
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
@@ -22,12 +24,13 @@ import java.util.ArrayList;
 public class AddToMyPortfolioFormActivity extends AppCompatActivity {
 
     private String cryptoName, crypto;
-    private MyGlobalsFunctions myGlobalsFunctions = new MyGlobalsFunctions();
+    private MyGlobalsFunctions myGlobalsFunctions;
 
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter adapter;
+    private TradeRecyclerViewAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
     private boolean onlyDetails;
+    private Button addTrade, submit;
 
     ArrayList<TradeObject> tradeArray = new ArrayList<TradeObject>();
     CryptoTradeObject cryptoTradeObject = new CryptoTradeObject();
@@ -43,24 +46,31 @@ public class AddToMyPortfolioFormActivity extends AppCompatActivity {
         Intent intent = getIntent();
         crypto = intent.getExtras().getString("crypto");
         onlyDetails = intent.getExtras().getBoolean("only_details");
+        myGlobalsFunctions = new MyGlobalsFunctions(this);
 
         TextView title = (TextView) findViewById(R.id.trade_details_heading);
         String tradeName = crypto + " Trade Details";
         title.setText(tradeName);
-        Button addTrade = (Button) findViewById(R.id.add_trade_button);
-        Button submit = (Button) findViewById(R.id.submit_button);
+        addTrade = (Button) findViewById(R.id.add_trade_button);
+        submit = (Button) findViewById(R.id.submit_button);
 
         addTrade.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addTradeCard();
+                if (tradeArray.size() > 0)
+                    addExistingTradeToList();
+                addBlankTradeCard();
             }
         });
 
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addTradeCard();
+                addExistingTradeToList();
+                addCurrencyToMyPortfolio();
+                Intent intent = new Intent(AddToMyPortfolioFormActivity.this, MainActivity.class);
+                intent.putExtra("tab", "my_portfolio");
+                startActivity(intent);
             }
         });
 
@@ -70,17 +80,37 @@ public class AddToMyPortfolioFormActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
 
         getCurrencyTradeDetails();
-        if (!onlyDetails) addTradeCard();
+        if (!onlyDetails) addBlankTradeCard();
 
         adapter = new TradeRecyclerViewAdapter(tradeArray);
         recyclerView.setAdapter(adapter);
     }
 
-    private void addTradeCard() {
+//    @Override
+//    public boolean onTouchEvent(MotionEvent event) {
+//        if (tradeArray.size() > 0) {
+//            submit.setEnabled(true);
+//            addTrade.setEnabled(true);
+//        }
+//        else {
+//            submit.setEnabled(false);
+//            addTrade.setEnabled(false);
+//        }
+//        return super.onTouchEvent(event);
+//    }
+
+    private void addExistingTradeToList() {
+        tradeArray.get(tradeArray.size() - 1).setCost("0");
+        tradeArray.get(tradeArray.size() - 1).setQuantity("0");
+    }
+
+    private void addBlankTradeCard() {
         TradeObject obj = new TradeObject();
         Integer tradeNum = tradeArray.size() + 1;
         obj.setTradeNumber("Trade " + tradeNum.toString());
         tradeArray.add(obj);
+        adapter = new TradeRecyclerViewAdapter(tradeArray);
+        recyclerView.setAdapter(adapter);
     }
 
     private void addCurrencyToMyPortfolio() {
@@ -103,7 +133,13 @@ public class AddToMyPortfolioFormActivity extends AppCompatActivity {
 
         String json = gson.toJson(myGlobalsFunctions.retrieveListFromFile(getString(R.string.crypto_my_portfolio_file), getString(R.string.crypto_my_portfolio_dir)), type);
 
-        ArrayList<CryptoTradeObject> fromJson = gson.fromJson(json, type);
+        ArrayList<CryptoTradeObject> fromJson = new ArrayList<CryptoTradeObject>();
+        try {
+            fromJson = gson.fromJson(json, type);
+        }
+        catch (IllegalStateException | JsonSyntaxException exception) {
+            Log.d("error", "error in parsing json");
+        }
 
         for (CryptoTradeObject trades : fromJson) {
             if (trades.getCrypto() == crypto) {

@@ -3,7 +3,6 @@ package com.apps.sky.cryptoticker.StockPage;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -19,6 +18,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
 import com.apps.sky.cryptoticker.GlobalFunctions.MyGlobalsFunctions;
+import com.apps.sky.cryptoticker.HomePage.MainActivity;
 import com.apps.sky.cryptoticker.R;
 import com.apps.sky.cryptoticker.StockPage.AddToMyPortfolioForm.AddToMyPortfolioFormActivity;
 import com.apps.sky.cryptoticker.StockPage.StockInfoTab.StockInfoTab;
@@ -84,8 +84,11 @@ public class StockPageActivity extends AppCompatActivity {
                     watchlistitems.add(crypto_name);
                     myGlobalsFunctions.storeListToFile( getString(R.string.crypto_watchlist_file), getString(R.string.crypto_watchlist_dir), watchlistitems);
                 }
-                Snackbar.make(view, "Currency added to your watchlist :)", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+
                 Log.d("Fabs", "Currency added to your watchlist :)");
+                Intent intent = new Intent(StockPageActivity.this, MainActivity.class);
+                intent.putExtra("tab", "watchlist");
+                startActivity(intent);
             }
         });
 

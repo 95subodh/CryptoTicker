@@ -29,7 +29,7 @@ public class WatchlistTab extends Fragment {
     public String crypto;
     MyGlobalsFunctions myGlobalsFunctions;
     public ArrayList<String> items;
-    ArrayList<WatchlistObject> watchlistArray = new ArrayList<WatchlistObject>();
+    ArrayList<WatchlistObject> watchlistArray;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,23 +47,34 @@ public class WatchlistTab extends Fragment {
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(rootView.getContext());
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new WatchlistRecyclerViewAdapter(watchlistArray);
-        recyclerView.setAdapter(adapter);
         myGlobalsFunctions = new MyGlobalsFunctions(getContext());
 
         items = myGlobalsFunctions.retrieveListFromFile(getString(R.string.crypto_watchlist_file), getString(R.string.crypto_watchlist_dir));
-
+        watchlistArray = new ArrayList<WatchlistObject>();
         for (int i = 0; i < items.size(); ++i) {
             crypto = items.get(i);
-            url = "https://api.coinmarketcap.com/v1/ticker/"+crypto+"/?convert=INR";
+            url = "https://api.coinmarketcap.com/v1/ticker/" + crypto + "/?convert=INR";
             new JSONTask().execute(url);
         }
+        adapter = new WatchlistRecyclerViewAdapter(watchlistArray);
+        recyclerView.setAdapter(adapter);
         return rootView;
     }
 
     @Override
     public void onResume() {
         super.onResume();
+//        doRefresh();
+
+    }
+
+    public void doRefresh() {
+        items = myGlobalsFunctions.retrieveListFromFile(getString(R.string.crypto_watchlist_file), getString(R.string.crypto_watchlist_dir));
+        if (items.size() > 0 && watchlistArray.size() > 0 && watchlistArray.size() < items.size()) {
+            crypto = items.get(items.size() - 1);
+            url = "https://api.coinmarketcap.com/v1/ticker/" + crypto + "/?convert=INR";
+            new JSONTask().execute(url);
+        }
     }
 
     public void setVals(String finalJson) throws JSONException {

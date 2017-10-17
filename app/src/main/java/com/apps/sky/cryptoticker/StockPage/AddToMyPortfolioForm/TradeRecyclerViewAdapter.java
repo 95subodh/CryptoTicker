@@ -30,6 +30,7 @@ public class TradeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
         EditText costInputView;
         EditText quantityInputView;
         ImageButton closeButton;
+        ImageButton editButton;
 
         public DataObjectHolder(View itemView) {
             super(itemView);
@@ -40,6 +41,7 @@ public class TradeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
             quantityTextView = (TextView) itemView.findViewById(R.id.trade_quantity_text_view);
             quantityInputView = (EditText) itemView.findViewById(R.id.trade_quantity_input_view);
             closeButton = (ImageButton) itemView.findViewById(R.id.close_btn);
+            editButton = (ImageButton) itemView.findViewById(R.id.edit_btn);
 
             itemView.setClickable(false);
         }
@@ -58,6 +60,14 @@ public class TradeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
         mDataset = myDataset;
     }
 
+    public String getCostValue(int position) {
+        return mDataset.get(position).getCost();
+    }
+
+    public String getQuantityValue(int position) {
+        return mDataset.get(position).getQuantity();
+    }
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
@@ -69,10 +79,28 @@ public class TradeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         ((DataObjectHolder)holder).tradeNumber.setText(mDataset.get(position).getTradeNumber());
         ((DataObjectHolder)holder).costInputView.setText(mDataset.get(position).getCost());
         ((DataObjectHolder)holder).quantityInputView.setText(mDataset.get(position).getQuantity());
+
+        mDataset.get(position).setCost(((DataObjectHolder)holder).costInputView.getText().toString());
+        mDataset.get(position).setQuantity(((DataObjectHolder)holder).quantityInputView.getText().toString());
+
+        ((DataObjectHolder)holder).closeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                deleteItem(position);
+            }
+        });
+
+        ((DataObjectHolder)holder).editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((DataObjectHolder)holder).costInputView.setEnabled(true);
+                ((DataObjectHolder)holder).quantityInputView.setEnabled(true);
+            }
+        });
     }
 
     public void addItem(TradeObject dataObj, int index) {
