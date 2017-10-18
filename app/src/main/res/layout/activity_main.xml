@@ -7,37 +7,45 @@
     tools:context="com.apps.sky.cryptoticker.HomePage.MainActivity">
 
     <RelativeLayout
-        android:id="@+id/bottom_navigation_view"
+        android:id="@+id/main_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
+        android:layout_height="match_parent">
 
-        <android.support.design.widget.BottomNavigationView
-            android:id="@+id/bottom_navigation"
+        <RelativeLayout
+            android:id="@+id/bottom_navigation_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:itemBackground="@color/colorPrimary"
-            app:itemIconTint="@drawable/nav_item_color_state"
-            app:itemTextColor="@drawable/nav_item_color_state"
-            app:menu="@menu/bottom_navigation_main" />
+            android:layout_alignParentBottom="true">
 
-    </RelativeLayout>
+            <android.support.design.widget.BottomNavigationView
+                android:id="@+id/bottom_navigation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:itemBackground="@color/colorPrimary"
+                app:itemIconTint="@drawable/nav_item_color_state"
+                app:itemTextColor="@drawable/nav_item_color_state"
+                app:menu="@menu/bottom_navigation_main" />
 
-    <RelativeLayout
-        android:id="@+id/tab_content"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
-        android:layout_above="@id/bottom_navigation_view" >
+        </RelativeLayout>
 
-        <FrameLayout
-            android:id="@+id/container"
+        <RelativeLayout
+            android:id="@+id/tab_content"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_above="@id/bottom_navigation_view" >
+
+            <FrameLayout
+                android:id="@+id/container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        </RelativeLayout>
 
     </RelativeLayout>
+
 
     <ListView
         android:id="@+id/list_view"

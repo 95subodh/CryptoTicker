@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -94,7 +95,9 @@ public class WatchlistRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
             @Override
             public void onClick(View view) {
                 ArrayList<String> watchlistitems = myGlobalsFunctions.retrieveListFromFile(context.getString(R.string.crypto_watchlist_file), context.getString(R.string.crypto_watchlist_dir));
-                watchlistitems.remove(mDataset.get(position).getCrypto());
+                Log.d("watchlistbug", "before: " + ((Integer) watchlistitems.size()).toString());
+                watchlistitems.remove(position);
+                Log.d("watchlistbug", "after: " + ((Integer) watchlistitems.size()).toString());
                 myGlobalsFunctions.storeListToFile( context.getString(R.string.crypto_watchlist_file), context.getString(R.string.crypto_watchlist_dir), watchlistitems);
                 deleteItem(position);
             }
