@@ -48,7 +48,7 @@ public class MyGlobalsFunctions {
     }
 
     public String getEpochToNormalDateString (String date) {
-        Log.d("EpochDate: ", (new java.util.Date (Integer.valueOf(date)*1000)).toString());
+//        Log.d("EpochDate: ", (new java.util.Date (Integer.valueOf(date)*1000)).toString());
         return (new java.util.Date (Integer.valueOf(date)*1000)).toString();
     }
 
@@ -56,7 +56,7 @@ public class MyGlobalsFunctions {
         Calendar calendar = Calendar.getInstance();
         try { calendar.setTime(formatter.parse(date)); }
         catch (Exception e) { System.out.println(e); }
-        Log.d("ConvertedDate: ", calendar.getTime().toString());
+//        Log.d("ConvertedDate: ", calendar.getTime().toString());
         return calendar.getTime().toString();
     }
 
@@ -65,7 +65,7 @@ public class MyGlobalsFunctions {
     }
 
     public String getTimeFormattedDate(String originalDate) {
-        Log.d("TimeFormattedDate: ", convertDateToCalendarDate(originalDate).substring(4, 10) + ", " + convertDateToCalendarDate(originalDate).substring(11, 16));
+//        Log.d("TimeFormattedDate: ", convertDateToCalendarDate(originalDate).substring(4, 10) + ", " + convertDateToCalendarDate(originalDate).substring(11, 16));
         return convertDateToCalendarDate(originalDate).substring(4, 10) + ", " + convertDateToCalendarDate(originalDate).substring(11, 16);
     }
 

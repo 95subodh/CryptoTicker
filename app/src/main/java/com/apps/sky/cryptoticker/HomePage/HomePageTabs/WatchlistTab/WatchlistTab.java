@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,22 +62,6 @@ public class WatchlistTab extends Fragment {
         return rootView;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-//        doRefresh();
-
-    }
-
-    public void doRefresh() {
-        items = myGlobalsFunctions.retrieveListFromFile(getString(R.string.crypto_watchlist_file), getString(R.string.crypto_watchlist_dir));
-        if (items.size() > 0 && watchlistArray.size() > 0 && watchlistArray.size() < items.size()) {
-            crypto = items.get(items.size() - 1);
-            url = "https://api.coinmarketcap.com/v1/ticker/" + crypto + "/?convert=INR";
-            new JSONTask().execute(url);
-        }
-    }
-
     public void setVals(String finalJson) throws JSONException {
         JSONArray jarr = new JSONArray(finalJson);
 
@@ -111,7 +96,6 @@ public class WatchlistTab extends Fragment {
         protected String doInBackground(String... params) {
             try {
                 String finalJson = myGlobalsFunctions.fetchJSONasString(params[0]);
-                myGlobalsFunctions.storeStringToFile(crypto,getString(R.string.crypto_info_dir),finalJson);
                 setVals(finalJson);
                 return finalJson;
 
@@ -126,7 +110,8 @@ public class WatchlistTab extends Fragment {
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-
+            Log.d("watchlistbug", "watchlistArray: " + ((Integer) watchlistArray.size()).toString());
+            Log.d("watchlistbug", "items: " + ((Integer) items.size()).toString());
             adapter = new WatchlistRecyclerViewAdapter(watchlistArray);
             recyclerView.setAdapter(adapter);
         }

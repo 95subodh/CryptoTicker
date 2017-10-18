@@ -8,9 +8,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -35,16 +37,22 @@ public class MainActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
     RelativeLayout relative;
     Fragment fragment;
+    boolean onCreate = false;
+    View mainView;
+    SearchView searchView;
+    MenuItem searchItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        onCreate = true;
         Intent intent = getIntent();
 
         relative = (RelativeLayout) findViewById(R.id.tab_content);
         listView = (ListView) findViewById(R.id.list_view);
+        mainView = findViewById(R.id.main_view);
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
 
@@ -104,6 +112,18 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (onCreate == true) onCreate = false;
+        else {
+            if (searchView.isAttachedToWindow()) {
+                searchView.onActionViewCollapsed();
+                searchView.setQuery("", false);
+            }
+        }
+    }
+
     private void assignTab(String tab) {
         switch (tab) {
             case "watchlist" :
@@ -135,12 +155,25 @@ public class MainActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);
 
-        MenuItem searchItem = menu.findItem(R.id.item_search);
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        searchItem = menu.findItem(R.id.item_search);
+        searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+//        searchView.setIconifiedByDefault(false);
+
+        searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean queryTextFocused) {
+                if(!queryTextFocused) {
+                    searchItem.collapseActionView();
+                    searchView.setQuery("", false);
+                }
+            }
+        });
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public boolean onQueryTextSubmit(String query) { return false; }
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
 
             @Override
             public boolean onQueryTextChange(String newText) {
@@ -172,7 +205,14 @@ public class MainActivity extends AppCompatActivity {
             public void onViewAttachedToWindow(View view) {
                 bottomNavigationView.setClickable(false);
                 relative.setClickable(false);
-
+                bottomNavigationView.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View view, MotionEvent motionEvent) {
+                        searchItem.collapseActionView();
+                        Log.d("onTouch", "onTouch");
+                        return false;
+                    }
+                });
             }
             @Override
             public void onViewDetachedFromWindow(View view) {
