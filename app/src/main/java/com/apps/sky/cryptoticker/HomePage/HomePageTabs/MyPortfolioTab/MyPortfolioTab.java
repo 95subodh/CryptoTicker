@@ -50,16 +50,16 @@ public class MyPortfolioTab extends Fragment {
         }
 
         RelativeLayout current_portfolio_layout = (RelativeLayout) inflater.inflate(R.layout.my_current_portfolio_card, null, false);
-        RelativeLayout current_portfolio_view = (RelativeLayout) rootView.findViewById(R.id.my_current_portfolio_view);
+        RelativeLayout current_portfolio_view = rootView.findViewById(R.id.my_current_portfolio_view);
         current_portfolio_view.addView(current_portfolio_layout);
-        myCurrentPortfolioView = (View) current_portfolio_view;
+        myCurrentPortfolioView = current_portfolio_view;
 
         RelativeLayout my_portfolio_layout = (RelativeLayout) inflater.inflate(R.layout.my_portfolio_card, null, false);
-        RelativeLayout my_portfolio_view = (RelativeLayout) rootView.findViewById(R.id.my_portfolio_view);
+        RelativeLayout my_portfolio_view = rootView.findViewById(R.id.my_portfolio_view);
         my_portfolio_view.addView(my_portfolio_layout);
-        myPortfolioView = (View) my_portfolio_view;
+        myPortfolioView = my_portfolio_view;
 
-        recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
+        recyclerView = rootView.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(rootView.getContext());
         recyclerView.setLayoutManager(layoutManager);
@@ -134,5 +134,4 @@ public class MyPortfolioTab extends Fragment {
             recyclerView.setAdapter(adapter);
         }
     }
-
 }

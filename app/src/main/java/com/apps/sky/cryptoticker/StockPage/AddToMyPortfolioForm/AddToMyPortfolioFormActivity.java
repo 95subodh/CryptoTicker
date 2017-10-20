@@ -100,8 +100,8 @@ public class AddToMyPortfolioFormActivity extends AppCompatActivity {
 //    }
 
     private void addExistingTradeToList() {
-        tradeArray.get(tradeArray.size() - 1).setCost("0");
-        tradeArray.get(tradeArray.size() - 1).setQuantity("0");
+        tradeArray.get(tradeArray.size() - 1).setCost("100");
+        tradeArray.get(tradeArray.size() - 1).setQuantity("5");
     }
 
     private void addBlankTradeCard() {
@@ -120,10 +120,12 @@ public class AddToMyPortfolioFormActivity extends AppCompatActivity {
         Gson gson = new Gson();
         Type type = new TypeToken<ArrayList<CryptoTradeObject>>() {}.getType();
         String json = gson.toJson(cryptoTradeObjectArrayList, type);
-
-        ArrayList<String> myPortfolioItems = myGlobalsFunctions.retrieveListFromFile(getString(R.string.crypto_my_portfolio_file), getString(R.string.crypto_my_portfolio_dir));
-        myPortfolioItems.add(json);
-        myGlobalsFunctions.storeListToFile( getString(R.string.crypto_my_portfolio_file), getString(R.string.crypto_my_portfolio_dir), myPortfolioItems);
+        myGlobalsFunctions.storeStringToFile(getString(R.string.crypto_my_portfolio_file), getString(R.string.crypto_my_portfolio_dir), json);
+//        Gson gson1 = new GsonBuilder().create();
+//        JsonArray myPortfolioItems = gson1.toJsonTree(cryptoTradeObjectArrayList).getAsJsonArray();
+//        ArrayList<String> myPortfolioItems = myGlobalsFunctions.retrieveListFromFile(getString(R.string.crypto_my_portfolio_file), getString(R.string.crypto_my_portfolio_dir));
+//        myPortfolioItems.add(json);
+//        myGlobalsFunctions.storeListToFile( getString(R.string.crypto_my_portfolio_file), getString(R.string.crypto_my_portfolio_dir), json);
 
     }
 
@@ -131,22 +133,16 @@ public class AddToMyPortfolioFormActivity extends AppCompatActivity {
         Gson gson = new Gson();
         Type type = new TypeToken<ArrayList<CryptoTradeObject>>() {}.getType();
 
-        String json = gson.toJson(myGlobalsFunctions.retrieveListFromFile(getString(R.string.crypto_my_portfolio_file), getString(R.string.crypto_my_portfolio_dir)), type);
+        String json = myGlobalsFunctions.retieveStringFromFile(getString(R.string.crypto_my_portfolio_file), getString(R.string.crypto_my_portfolio_dir));
 
-        ArrayList<CryptoTradeObject> fromJson = new ArrayList<CryptoTradeObject>();
         try {
-            fromJson = gson.fromJson(json, type);
+            if (json != null) {
+                cryptoTradeObjectArrayList = gson.fromJson(json, type);
+                cryptoTradeObject = cryptoTradeObjectArrayList.get(0);    /////// This cryptotradeobject contains retrieved values from internal storage
+            }
         }
         catch (IllegalStateException | JsonSyntaxException exception) {
             Log.d("error", "error in parsing json");
-        }
-
-        for (CryptoTradeObject trades : fromJson) {
-            if (trades.getCrypto() == crypto) {
-                tradeArray = trades.getTrades();
-                System.out.println(trades);
-                break;
-            }
         }
     }
 }

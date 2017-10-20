@@ -16,6 +16,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".HomePage.MainActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,10 +27,12 @@
         <activity
             android:name=".StockPage.StockPageActivity"
             android:label="@string/title_activity_stock_page"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".StockPage.StockNewsTab.WebViewActivity"
             android:label="@string/title_activity_stock_page"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".StockPage.AddToMyPortfolioForm.AddToMyPortfolioFormActivity"></activity>
     </application>
