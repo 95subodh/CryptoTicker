@@ -192,7 +192,9 @@ public class MyGlobalsFunctions {
         }
         ArrayList<String> list = new ArrayList<>();
         for(int i=0; i < items.length; i++){
-            list.add(items[i]);
+            if (items[i].length()>0) {
+                list.add(items[i]);
+            }
         }
 
         return list;
