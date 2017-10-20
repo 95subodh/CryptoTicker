@@ -58,11 +58,11 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
 
-        String tab;
+        String tab = "";
         if (intent.hasExtra("tab")) {
             tab = intent.getExtras().getString("tab");
-            assignTab(tab);
         }
+        assignTab(tab);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(
             new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (onCreate == true) onCreate = false;
+        if (onCreate) onCreate = false;
         else {
             if (searchView.isAttachedToWindow()) {
                 searchView.onActionViewCollapsed();
