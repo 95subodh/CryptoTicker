@@ -10,7 +10,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,7 +19,7 @@ import android.view.animation.AnimationUtils;
 import com.apps.sky.cryptoticker.GlobalFunctions.MyGlobalsFunctions;
 import com.apps.sky.cryptoticker.HomePage.MainActivity;
 import com.apps.sky.cryptoticker.R;
-import com.apps.sky.cryptoticker.StockPage.AddToMyPortfolioForm.AddToMyPortfolioFormActivity;
+import com.apps.sky.cryptoticker.HomePage.HomePageTabs.AddToMyPortfolioForm.AddToMyPortfolioFormActivity;
 import com.apps.sky.cryptoticker.StockPage.StockInfoTab.StockInfoTab;
 import com.apps.sky.cryptoticker.StockPage.StockNewsTab.StockNewsTab;
 import com.apps.sky.cryptoticker.StockPage.StockPredictionTab.StockPredictionTab;
@@ -29,9 +28,9 @@ import java.util.ArrayList;
 
 public class StockPageActivity extends AppCompatActivity {
 
-    private SectionsPagerAdapter mSectionsPagerAdapter;
-    private ViewPager mViewPager;
-    private String crypto_name;
+    SectionsPagerAdapter mSectionsPagerAdapter;
+    ViewPager mViewPager;
+    private String cryptoID;
     private Boolean isFabOpen = false;
     private MyGlobalsFunctions myGlobalsFunctions;
     private FloatingActionButton add, fab1, fab2;
@@ -44,7 +43,7 @@ public class StockPageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_stock_page);
 
         Intent intent = getIntent();
-        crypto_name = intent.getExtras().getString("crypto");
+        cryptoID = intent.getExtras().getString("cryptoID");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -80,12 +79,10 @@ public class StockPageActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 ArrayList<String> watchlistitems = myGlobalsFunctions.retrieveListFromFile(getString(R.string.crypto_watchlist_file), getString(R.string.crypto_watchlist_dir));
-                if(watchlistitems==null || !watchlistitems.contains(crypto_name)){
-                    watchlistitems.add(crypto_name);
+                if(watchlistitems==null || !watchlistitems.contains(cryptoID)){
+                    watchlistitems.add(cryptoID);
                     myGlobalsFunctions.storeListToFile( getString(R.string.crypto_watchlist_file), getString(R.string.crypto_watchlist_dir), watchlistitems);
                 }
-
-                Log.d("Fabs", "Currency added to your watchlist :)");
                 Intent intent = new Intent(StockPageActivity.this, MainActivity.class);
                 intent.putExtra("tab", "watchlist");
                 startActivity(intent);
@@ -96,7 +93,7 @@ public class StockPageActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(StockPageActivity.this, AddToMyPortfolioFormActivity.class);
-                intent.putExtra("crypto", "" + crypto_name.toLowerCase());
+                intent.putExtra("cryptoID", "" + cryptoID.toLowerCase());
                 intent.putExtra("only_details", false);
                 startActivity(intent);
             }
@@ -105,27 +102,21 @@ public class StockPageActivity extends AppCompatActivity {
     }
 
     public void animateFAB(){
-
         if(isFabOpen){
-
             add.startAnimation(rotate_backward);
             fab1_view.startAnimation(fab_close);
             fab2_view.startAnimation(fab_close);
             fab1.setClickable(false);
             fab2.setClickable(false);
             isFabOpen = false;
-            Log.d("Fabs", "close");
 
         } else {
-
             add.startAnimation(rotate_forward);
             fab1_view.startAnimation(fab_open);
             fab2_view.startAnimation(fab_open);
             fab1.setClickable(true);
             fab2.setClickable(true);
             isFabOpen = true;
-            Log.d("Fabs","open");
-
         }
     }
 
@@ -138,12 +129,7 @@ public class StockPageActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+        return id == R.id.action_settings || super.onOptionsItemSelected(item);
     }
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
@@ -157,15 +143,15 @@ public class StockPageActivity extends AppCompatActivity {
             switch (position){
                 case 0:
                     StockInfoTab stockInfoTab = new StockInfoTab();
-                    stockInfoTab.crypto = crypto_name;
+                    stockInfoTab.cryptoID = cryptoID;
+                    System.out.println(cryptoID);
                     return stockInfoTab;
                 case 1:
                     StockNewsTab stockNewsTab = new StockNewsTab();
-                    stockNewsTab.crypto = crypto_name;
+                    stockNewsTab.cryptoID = cryptoID;
                     return stockNewsTab;
                 case 2:
-                    StockPredictionTab stockPredictionTab = new StockPredictionTab();
-                    return stockPredictionTab;
+                    return new StockPredictionTab();
                 default:
                     return null;
             }

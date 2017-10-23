@@ -1,4 +1,4 @@
-package com.apps.sky.cryptoticker.StockPage.AddToMyPortfolioForm;
+package com.apps.sky.cryptoticker.HomePage.HomePageTabs.AddToMyPortfolioForm;
 
 /**
  * Created by ankitaverma on 06/10/17.

@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.apps.sky.cryptoticker.GlobalFunctions.MyGlobalsFunctions;
 import com.apps.sky.cryptoticker.R;
-import com.apps.sky.cryptoticker.StockPage.AddToMyPortfolioForm.AddToMyPortfolioFormActivity;
+import com.apps.sky.cryptoticker.HomePage.HomePageTabs.AddToMyPortfolioForm.AddToMyPortfolioFormActivity;
 
 import java.util.ArrayList;
 
@@ -28,13 +28,13 @@ public class MyPortfolioRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
     public static class DataObjectHolder extends RecyclerView.ViewHolder
             implements View
             .OnClickListener {
-        String crypto;
+        String cryptoID;
         TextView title;
         TextView currentPrice;
         TextView myProfit;
         ImageView icon;
 
-        public DataObjectHolder(View itemView) {
+        private DataObjectHolder(View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.my_portfolio_item_title);
             currentPrice = itemView.findViewById(R.id.my_portfolio_item_current_price);
@@ -45,7 +45,7 @@ public class MyPortfolioRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(context, AddToMyPortfolioFormActivity.class);
-                    intent.putExtra("crypto", "" + crypto.toLowerCase());
+                    intent.putExtra("cryptoID", "" + cryptoID.toLowerCase());
                     intent.putExtra("only_details", true);
                     context.startActivity(intent);
                 }
@@ -56,10 +56,6 @@ public class MyPortfolioRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
         public void onClick(View v) {
             myClickListener.onItemClick(getAdapterPosition(), v);
         }
-    }
-
-    public void setOnItemClickListener(MyClickListener myClickListener) {
-        this.myClickListener = myClickListener;
     }
 
     public MyPortfolioRecyclerViewAdapter(ArrayList<MyPortfolioObject> myDataset) {
@@ -79,7 +75,7 @@ public class MyPortfolioRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        ((DataObjectHolder)holder).crypto = mDataset.get(position).getCrypto();
+        ((DataObjectHolder)holder).cryptoID = mDataset.get(position).getCryptoID();
         ((DataObjectHolder)holder).title.setText(mDataset.get(position).getTitle());
         ((DataObjectHolder)holder).currentPrice.setText(myGlobalsFunctions.commaSeperateInteger(mDataset.get(position).getCurrentPrice()));
         ((DataObjectHolder)holder).myProfit.setText(mDataset.get(position).getMyProfit());

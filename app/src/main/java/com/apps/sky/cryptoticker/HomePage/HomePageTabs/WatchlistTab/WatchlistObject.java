@@ -9,8 +9,8 @@ import com.apps.sky.cryptoticker.GlobalFunctions.MyGlobalsFunctions;
  */
 
 public class WatchlistObject {
-    private String title, currentPrice, change, crypto;
-    boolean color;
+    private String title, currentPrice, change, cryptoID;
+    private boolean color;
     private Bitmap btmp;
     private MyGlobalsFunctions myGlobalsFunctions = new MyGlobalsFunctions();
 
@@ -22,12 +22,12 @@ public class WatchlistObject {
         this.title = title;
     }
 
-    public String getCrypto() {
-        return crypto;
+    public String getCryptoID() {
+        return cryptoID;
     }
 
-    public void setCrypto(String crypto) {
-        this.crypto = crypto;
+    public void setCryptoID(String cryptoID) {
+        this.cryptoID = cryptoID;
     }
 
     public String getCurrentPrice() {

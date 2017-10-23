@@ -29,7 +29,7 @@ import java.util.Locale;
  */
 
 public class MyGlobalsFunctions {
-    Context mContext;
+    private Context mContext;
     private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 
     // constructor
@@ -48,7 +48,6 @@ public class MyGlobalsFunctions {
     }
 
     public String getEpochToNormalDateString (String date) {
-//        Log.d("EpochDate: ", (new java.util.Date (Integer.valueOf(date)*1000)).toString());
         return (new java.util.Date (Integer.valueOf(date)*1000)).toString();
     }
 
@@ -56,7 +55,6 @@ public class MyGlobalsFunctions {
         Calendar calendar = Calendar.getInstance();
         try { calendar.setTime(formatter.parse(date)); }
         catch (Exception e) { System.out.println(e); }
-//        Log.d("ConvertedDate: ", calendar.getTime().toString());
         return calendar.getTime().toString();
     }
 
@@ -65,7 +63,6 @@ public class MyGlobalsFunctions {
     }
 
     public String getTimeFormattedDate(String originalDate) {
-//        Log.d("TimeFormattedDate: ", convertDateToCalendarDate(originalDate).substring(4, 10) + ", " + convertDateToCalendarDate(originalDate).substring(11, 16));
         return convertDateToCalendarDate(originalDate).substring(4, 10) + ", " + convertDateToCalendarDate(originalDate).substring(11, 16);
     }
 
@@ -88,11 +85,7 @@ public class MyGlobalsFunctions {
     public boolean isNetworkConnected() {
         ConnectivityManager cm = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo ni = cm.getActiveNetworkInfo();
-        if (ni == null) {
-            // There are no active networks.
-            return false;
-        } else
-            return true;
+        return ni != null;
     }
 
     public void storeStringToFile(String fileName, String fileDirectory, String outputString) {
@@ -147,7 +140,7 @@ public class MyGlobalsFunctions {
             connection.connect();
             InputStream stream = connection.getInputStream();
             reader = new BufferedReader(new InputStreamReader(stream));
-            StringBuffer buffer = new StringBuffer();
+            StringBuilder buffer = new StringBuilder();
             String line ="";
             while ((line = reader.readLine()) != null){
                 buffer.append(line);
@@ -191,9 +184,9 @@ public class MyGlobalsFunctions {
             items = csvList.split(",");
         }
         ArrayList<String> list = new ArrayList<>();
-        for(int i=0; i < items.length; i++){
-            if (items[i].length()>0) {
-                list.add(items[i]);
+        for (String i : items) {
+            if (i.length()>0) {
+                list.add(i);
             }
         }
 

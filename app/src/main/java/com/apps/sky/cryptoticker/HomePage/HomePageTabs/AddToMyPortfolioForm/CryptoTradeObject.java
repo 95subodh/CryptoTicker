@@ -1,6 +1,4 @@
-package com.apps.sky.cryptoticker.GlobalFunctions;
-
-import com.apps.sky.cryptoticker.StockPage.AddToMyPortfolioForm.TradeObject;
+package com.apps.sky.cryptoticker.HomePage.HomePageTabs.AddToMyPortfolioForm;
 
 import java.util.ArrayList;
 
@@ -10,12 +8,12 @@ import java.util.ArrayList;
 
 public class CryptoTradeObject {
 
-    private String crypto;
+    private String cryptoID;
     private ArrayList<TradeObject> trades = new ArrayList<TradeObject>();
 
-    public void setCrypto (String crypto) { this.crypto = crypto; }
+    public void setCryptoID (String cryptoID) { this.cryptoID = cryptoID; }
 
-    public String getCrypto () { return this.crypto; }
+    public String getCryptoID () { return this.cryptoID; }
 
     public void setTrades (ArrayList<TradeObject> trades) { this.trades = trades; }
 

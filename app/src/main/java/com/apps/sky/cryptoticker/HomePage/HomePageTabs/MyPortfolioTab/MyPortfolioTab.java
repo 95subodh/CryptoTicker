@@ -5,19 +5,25 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.apps.sky.cryptoticker.GlobalFunctions.MyGlobalsFunctions;
+import com.apps.sky.cryptoticker.HomePage.HomePageTabs.AddToMyPortfolioForm.CryptoTradeObject;
 import com.apps.sky.cryptoticker.R;
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class MyPortfolioTab extends Fragment {
@@ -27,12 +33,12 @@ public class MyPortfolioTab extends Fragment {
     private View rootView;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
-    private RecyclerView.LayoutManager layoutManager;
+    RecyclerView.LayoutManager layoutManager;
 
-    private String url;
-    public String crypto;
-    final MyGlobalsFunctions myGlobalsFunctions = new MyGlobalsFunctions(getContext());
-    ArrayList<String> items;
+    String url, cryptoID;
+    MyGlobalsFunctions myGlobalsFunctions;
+    ArrayList<CryptoTradeObject> myPortfolioItems;
+    CryptoTradeObject cur_item = new CryptoTradeObject();
     ArrayList<MyPortfolioObject> myPortfolioArray = new ArrayList<MyPortfolioObject>();
 
     @Override
@@ -48,6 +54,8 @@ public class MyPortfolioTab extends Fragment {
         if (rootView == null) {
             rootView = inflater.inflate(R.layout.my_portfolio_tab, container, false);
         }
+
+        myGlobalsFunctions = new MyGlobalsFunctions(rootView.getContext());
 
         RelativeLayout current_portfolio_layout = (RelativeLayout) inflater.inflate(R.layout.my_current_portfolio_card, null, false);
         RelativeLayout current_portfolio_view = rootView.findViewById(R.id.my_current_portfolio_view);
@@ -66,32 +74,33 @@ public class MyPortfolioTab extends Fragment {
         adapter = new MyPortfolioRecyclerViewAdapter(myPortfolioArray);
         recyclerView.setAdapter(adapter);
 
-        items = new ArrayList<>();
-        items.add("bitcoin");
-        items.add("atc-coin");
-        items.add("ripple");
-        items.add("litecoin");
-        items.add("ethereum");
-        items.add("dash");
-        items.add("bitconnect");
-        items.add("lisk");
-        items.add("tether");
-        items.add("waves");
-        items.add("bitshares");
-        items.add("eos");
-        items.add("metal");
-        items.add("nexus");
-        items.add("syscoin");
+        myPortfolioItems = new ArrayList<CryptoTradeObject>();
 
-        for (int i = 0; i < 5; ++i) {
-
-            //--------retrieve values here instead of this line-------
-            crypto = items.get(i);
-
-            url = "https://api.coinmarketcap.com/v1/ticker/"+crypto+"/?convert=INR";
-            new JSONTask().execute(url);
+        Gson gson = new Gson();
+        Type type = new TypeToken<ArrayList<CryptoTradeObject>>() {}.getType();
+        String json = myGlobalsFunctions.retieveStringFromFile(getString(R.string.crypto_my_portfolio_file), getString(R.string.crypto_my_portfolio_dir));
+        try {
+            if (json != null) {
+                myPortfolioItems = gson.fromJson(json, type);
+            }
         }
+        catch (IllegalStateException | JsonSyntaxException exception) {
+            Log.d("error", "error in parsing json");
+        }
+        Log.d("size: ", ((Integer)myPortfolioItems.size()).toString());
+        for (int i = 0; i < myPortfolioItems.size(); ++i) {
 
+            cur_item = myPortfolioItems.get(i);
+            cryptoID = cur_item.getCryptoID();
+            try {
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
+            if (cryptoID != null) {
+                url = "https://api.coinmarketcap.com/v1/ticker/" + cryptoID + "/?convert=INR";
+                new JSONTask().execute(url);
+            }
+        }
         return rootView;
     }
 
@@ -113,7 +122,7 @@ public class MyPortfolioTab extends Fragment {
                 currency_details.setTitle(parentObject.getString("name"));
                 currency_details.setCurrentPrice(parentObject.getString("price_inr"));
                 currency_details.setMyProfit("34.08%");
-                currency_details.setCrypto(parentObject.getString("id"));
+                currency_details.setCryptoID(parentObject.getString("id"));
 
                 myPortfolioArray.add(currency_details);
                 return finalJson;

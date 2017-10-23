@@ -34,7 +34,7 @@
             android:label="@string/title_activity_stock_page"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".StockPage.AddToMyPortfolioForm.AddToMyPortfolioFormActivity"></activity>
+        <activity android:name=".HomePage.HomePageTabs.AddToMyPortfolioForm.AddToMyPortfolioFormActivity"></activity>
     </application>
 
 </manifest>

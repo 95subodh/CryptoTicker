@@ -1,4 +1,4 @@
-package com.apps.sky.cryptoticker.StockPage.AddToMyPortfolioForm;
+package com.apps.sky.cryptoticker.HomePage.HomePageTabs.AddToMyPortfolioForm;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
