@@ -1,6 +1,8 @@
 package com.apps.sky.cryptoticker.HomePage.HomePageTabs.AddToMyPortfolioForm;
 
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -79,18 +81,48 @@ public class TradeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
     }
 
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         ((DataObjectHolder)holder).tradeNumber.setText(mDataset.get(position).getTradeNumber());
         ((DataObjectHolder)holder).costInputView.setText(mDataset.get(position).getCost());
         ((DataObjectHolder)holder).quantityInputView.setText(mDataset.get(position).getQuantity());
 
-        mDataset.get(position).setCost(((DataObjectHolder)holder).costInputView.getText().toString());
-        mDataset.get(position).setQuantity(((DataObjectHolder)holder).quantityInputView.getText().toString());
+        final int pos = holder.getAdapterPosition();
+        ((DataObjectHolder)holder).costInputView.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                mDataset.get(pos).setCost(charSequence.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                mDataset.get(pos).setCost(editable.toString());
+            }
+        });
+
+        ((DataObjectHolder)holder).quantityInputView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                mDataset.get(pos).setQuantity(charSequence.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                mDataset.get(pos).setQuantity(editable.toString());
+            }
+        });
 
         ((DataObjectHolder)holder).closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                deleteItem(position);
+                deleteItem(pos);
             }
         });
 
@@ -103,12 +135,7 @@ public class TradeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
         });
     }
 
-    public void addItem(TradeObject dataObj, int index) {
-        mDataset.add(index, dataObj);
-        notifyItemInserted(index);
-    }
-
-    public void deleteItem(int index) {
+    private void deleteItem(int index) {
         mDataset.remove(index);
         notifyItemRemoved(index);
     }

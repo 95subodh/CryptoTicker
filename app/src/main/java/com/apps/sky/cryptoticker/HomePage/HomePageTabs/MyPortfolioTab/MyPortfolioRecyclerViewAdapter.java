@@ -3,16 +3,23 @@ package com.apps.sky.cryptoticker.HomePage.HomePageTabs.MyPortfolioTab;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.apps.sky.cryptoticker.GlobalFunctions.MyGlobalsFunctions;
-import com.apps.sky.cryptoticker.R;
 import com.apps.sky.cryptoticker.HomePage.HomePageTabs.AddToMyPortfolioForm.AddToMyPortfolioFormActivity;
+import com.apps.sky.cryptoticker.HomePage.HomePageTabs.AddToMyPortfolioForm.CryptoTradeObject;
+import com.apps.sky.cryptoticker.R;
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 /**
@@ -23,7 +30,7 @@ public class MyPortfolioRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
     private ArrayList<MyPortfolioObject> mDataset;
     private static MyClickListener myClickListener;
     private static Context context;
-    private MyGlobalsFunctions myGlobalsFunctions = new MyGlobalsFunctions();
+    private MyGlobalsFunctions myGlobalsFunctions;
 
     public static class DataObjectHolder extends RecyclerView.ViewHolder
             implements View
@@ -33,6 +40,7 @@ public class MyPortfolioRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
         TextView currentPrice;
         TextView myProfit;
         ImageView icon;
+        ImageButton closeBtn;
 
         private DataObjectHolder(View itemView) {
             super(itemView);
@@ -40,6 +48,7 @@ public class MyPortfolioRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
             currentPrice = itemView.findViewById(R.id.my_portfolio_item_current_price);
             myProfit = itemView.findViewById(R.id.my_portfolio_item_my_profit);
             icon = itemView.findViewById(R.id.my_portfolio_item_icon);
+            closeBtn = (ImageButton) itemView.findViewById(R.id.close_btn);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -58,7 +67,7 @@ public class MyPortfolioRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
         }
     }
 
-    public MyPortfolioRecyclerViewAdapter(ArrayList<MyPortfolioObject> myDataset) {
+    MyPortfolioRecyclerViewAdapter(ArrayList<MyPortfolioObject> myDataset) {
         mDataset = myDataset;
     }
 
@@ -66,11 +75,11 @@ public class MyPortfolioRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         context = parent.getContext();
+        myGlobalsFunctions = new MyGlobalsFunctions(context);
         View view;
         view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.my_portfolio_card_item_view, parent, false);
-        DataObjectHolder dataObjectHolder = new DataObjectHolder(view);
-        return dataObjectHolder;
+        return new DataObjectHolder(view);
     }
 
     @Override
@@ -80,14 +89,35 @@ public class MyPortfolioRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
         ((DataObjectHolder)holder).currentPrice.setText(myGlobalsFunctions.commaSeperateInteger(mDataset.get(position).getCurrentPrice()));
         ((DataObjectHolder)holder).myProfit.setText(mDataset.get(position).getMyProfit());
         ((DataObjectHolder)holder).icon.setImageBitmap(mDataset.get(position).getIcon());
+
+        final int pos = ((DataObjectHolder)holder).getAdapterPosition();
+        ((DataObjectHolder)holder).closeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ArrayList<CryptoTradeObject> myPortfolioItems = new ArrayList<CryptoTradeObject>();
+
+                Gson gson = new Gson();
+                Type type = new TypeToken<ArrayList<CryptoTradeObject>>() {}.getType();
+                String json = myGlobalsFunctions.retieveStringFromFile(context.getString(R.string.crypto_my_portfolio_file), context.getString(R.string.crypto_my_portfolio_dir));
+
+                try {
+                    if (json != null) {
+                        myPortfolioItems = gson.fromJson(json, type);
+
+                        myPortfolioItems.remove(pos);
+                        deleteItem(pos);
+
+                        json = gson.toJson(myPortfolioItems, type);
+                        myGlobalsFunctions.storeStringToFile(context.getString(R.string.crypto_my_portfolio_file), context.getString(R.string.crypto_my_portfolio_dir), json);
+                    }
+                } catch (IllegalStateException | JsonSyntaxException exception) {
+                    Log.d("error", "error in parsing json");
+                }
+            }
+        });
     }
 
-    public void addItem(MyPortfolioObject dataObj, int index) {
-        mDataset.add(index, dataObj);
-        notifyItemInserted(index);
-    }
-
-    public void deleteItem(int index) {
+    private void deleteItem(int index) {
         mDataset.remove(index);
         notifyItemRemoved(index);
     }

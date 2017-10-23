@@ -23,13 +23,14 @@ import java.util.ArrayList;
 public class AddToMyPortfolioFormActivity extends AppCompatActivity {
 
     private String cryptoName, cryptoID;
-    private MyGlobalsFunctions myGlobalsFunctions;
+    private MyGlobalsFunctions myGlobalFunctions;
 
     private RecyclerView recyclerView;
     private TradeRecyclerViewAdapter adapter;
     RecyclerView.LayoutManager layoutManager;
     boolean onlyDetails;
     Button addTrade, submit;
+    boolean coinPresent = false;
 
     ArrayList<TradeObject> tradeArray = new ArrayList<TradeObject>();
     CryptoTradeObject cryptoTradeObject = new CryptoTradeObject();
@@ -40,12 +41,11 @@ public class AddToMyPortfolioFormActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_add_to_my_portfolio_form);
-        Log.d("Fabs", "Currency added to your portfolio :)");
 
         Intent intent = getIntent();
         cryptoID = intent.getExtras().getString("cryptoID");
         onlyDetails = intent.getExtras().getBoolean("only_details");
-        myGlobalsFunctions = new MyGlobalsFunctions(this);
+        myGlobalFunctions = new MyGlobalsFunctions(this);
 
         TextView title = findViewById(R.id.trade_details_heading);
         String tradeName = cryptoID + " Trade Details";
@@ -56,8 +56,6 @@ public class AddToMyPortfolioFormActivity extends AppCompatActivity {
         addTrade.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (tradeArray.size() > 0)
-                    addExistingTradeToList();
                 addBlankTradeCard();
             }
         });
@@ -65,7 +63,6 @@ public class AddToMyPortfolioFormActivity extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addExistingTradeToList();
                 addCurrencyToMyPortfolio();
                 Intent intent = new Intent(AddToMyPortfolioFormActivity.this, MainActivity.class);
                 intent.putExtra("tab", "my_portfolio");
@@ -85,24 +82,6 @@ public class AddToMyPortfolioFormActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
     }
 
-//    @Override
-//    public boolean onTouchEvent(MotionEvent event) {
-//        if (tradeArray.size() > 0) {
-//            submit.setEnabled(true);
-//            addTrade.setEnabled(true);
-//        }
-//        else {
-//            submit.setEnabled(false);
-//            addTrade.setEnabled(false);
-//        }
-//        return super.onTouchEvent(event);
-//    }
-
-    private void addExistingTradeToList() {
-        tradeArray.get(tradeArray.size() - 1).setCost("100");
-        tradeArray.get(tradeArray.size() - 1).setQuantity("5");
-    }
-
     private void addBlankTradeCard() {
         TradeObject obj = new TradeObject();
         Integer tradeNum = tradeArray.size() + 1;
@@ -115,29 +94,40 @@ public class AddToMyPortfolioFormActivity extends AppCompatActivity {
     private void addCurrencyToMyPortfolio() {
         cryptoTradeObject.setCryptoID(cryptoID);
         cryptoTradeObject.setTrades(tradeArray);
-        cryptoTradeObjectArrayList.add(cryptoTradeObject);
+        if (!coinPresent) cryptoTradeObjectArrayList.add(cryptoTradeObject);
+        else {
+            for (int i = 0; i < cryptoTradeObjectArrayList.size(); ++i) {
+                if (cryptoTradeObjectArrayList.get(i).getCryptoID().equals(cryptoID)) {
+                    cryptoTradeObjectArrayList.get(i).setTrades(tradeArray);
+                }
+            }
+        }
         Gson gson = new Gson();
         Type type = new TypeToken<ArrayList<CryptoTradeObject>>() {}.getType();
         String json = gson.toJson(cryptoTradeObjectArrayList, type);
-        myGlobalsFunctions.storeStringToFile(getString(R.string.crypto_my_portfolio_file), getString(R.string.crypto_my_portfolio_dir), json);
-//        Gson gson1 = new GsonBuilder().create();
-//        JsonArray myPortfolioItems = gson1.toJsonTree(cryptoTradeObjectArrayList).getAsJsonArray();
-//        ArrayList<String> myPortfolioItems = myGlobalsFunctions.retrieveListFromFile(getString(R.string.crypto_my_portfolio_file), getString(R.string.crypto_my_portfolio_dir));
-//        myPortfolioItems.add(json);
-//        myGlobalsFunctions.storeListToFile( getString(R.string.crypto_my_portfolio_file), getString(R.string.crypto_my_portfolio_dir), json);
-
+        myGlobalFunctions.storeStringToFile(getString(R.string.crypto_my_portfolio_file), getString(R.string.crypto_my_portfolio_dir), json);
     }
 
     private void getCurrencyTradeDetails() {
         Gson gson = new Gson();
         Type type = new TypeToken<ArrayList<CryptoTradeObject>>() {}.getType();
 
-        String json = myGlobalsFunctions.retieveStringFromFile(getString(R.string.crypto_my_portfolio_file), getString(R.string.crypto_my_portfolio_dir));
+        String json = myGlobalFunctions.retieveStringFromFile(getString(R.string.crypto_my_portfolio_file), getString(R.string.crypto_my_portfolio_dir));
 
         try {
             if (json != null) {
                 cryptoTradeObjectArrayList = gson.fromJson(json, type);
-                cryptoTradeObject = cryptoTradeObjectArrayList.get(0);    /////// This cryptotradeobject contains retrieved values from internal storage
+                if (cryptoTradeObjectArrayList.size() > 0) {
+                    for (CryptoTradeObject item : cryptoTradeObjectArrayList) {
+                        if (item.getCryptoID().equals(cryptoID)) {
+                            cryptoTradeObject = item;
+                            coinPresent = true;
+                        }
+                    }
+                    tradeArray = cryptoTradeObject.getTrades();
+                    adapter = new TradeRecyclerViewAdapter(tradeArray);
+                    recyclerView.setAdapter(adapter);
+                }
             }
         }
         catch (IllegalStateException | JsonSyntaxException exception) {

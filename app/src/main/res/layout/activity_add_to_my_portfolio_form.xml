@@ -6,57 +6,64 @@
     android:layout_height="match_parent"
     tools:context=".HomePage.HomePageTabs.AddToMyPortfolioForm.AddToMyPortfolioFormActivity">
 
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/trade_details_heading"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_margin="16dp"
-            android:text="Trade Details"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="24dp"
-            android:textStyle="bold" />
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:layout_below="@+id/trade_details_heading" />
-
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/recycler_view"
-            android:layout_marginTop="32dp"
-            android:layout_marginBottom="32dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp">
+            android:layout_height="wrap_content">
 
-            <Button
-                android:id="@+id/add_trade_button"
-                android:layout_width="170dp"
+            <TextView
+                android:id="@+id/trade_details_heading"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:background="@color/colorAccent"
-                android:text="Add Trade"/>
+                android:layout_centerHorizontal="true"
+                android:layout_margin="16dp"
+                android:text="Trade Details"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="24sp"
+                android:textStyle="bold" />
 
-            <Button
-                android:id="@+id/submit_button"
-                android:layout_toRightOf="@+id/add_trade_button"
-                android:layout_width="170dp"
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
+                android:layout_margin="8dp"
+                android:layout_below="@+id/trade_details_heading" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/recycler_view"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="32dp"
                 android:layout_marginLeft="16dp"
-                android:layout_alignParentEnd="true"
-                android:background="@color/colorAccent"
-                android:text="Submit" />
+                android:layout_marginRight="16dp">
+
+                <Button
+                    android:id="@+id/add_trade_button"
+                    android:layout_width="170dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:background="@color/colorAccent"
+                    android:text="Add Trade"/>
+
+                <Button
+                    android:id="@+id/submit_button"
+                    android:layout_toRightOf="@+id/add_trade_button"
+                    android:layout_width="170dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_alignParentEnd="true"
+                    android:background="@color/colorAccent"
+                    android:text="Submit" />
+
+            </RelativeLayout>
 
         </RelativeLayout>
 
-    </RelativeLayout>
+    </ScrollView>
 
 </android.support.design.widget.CoordinatorLayout>

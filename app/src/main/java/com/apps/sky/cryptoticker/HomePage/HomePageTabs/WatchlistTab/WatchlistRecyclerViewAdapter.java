@@ -62,7 +62,7 @@ class WatchlistRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         }
     }
 
-    public WatchlistRecyclerViewAdapter(ArrayList<WatchlistObject> myDataset) {
+    WatchlistRecyclerViewAdapter(ArrayList<WatchlistObject> myDataset) {
         mDataset = myDataset;
     }
 
@@ -89,9 +89,9 @@ class WatchlistRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         ((DataObjectHolder)holder).closeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ArrayList<String> watchlistitems = myGlobalsFunctions.retrieveListFromFile(context.getString(R.string.crypto_watchlist_file), context.getString(R.string.crypto_watchlist_dir));
-                watchlistitems.remove(pos);
-                myGlobalsFunctions.storeListToFile( context.getString(R.string.crypto_watchlist_file), context.getString(R.string.crypto_watchlist_dir), watchlistitems);
+                ArrayList<String> watchlistItems = myGlobalsFunctions.retrieveListFromFile(context.getString(R.string.crypto_watchlist_file), context.getString(R.string.crypto_watchlist_dir));
+                watchlistItems.remove(pos);
+                myGlobalsFunctions.storeListToFile( context.getString(R.string.crypto_watchlist_file), context.getString(R.string.crypto_watchlist_dir), watchlistItems);
                 deleteItem(pos);
             }
         });
