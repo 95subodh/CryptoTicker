@@ -36,7 +36,6 @@ dependencies {
     compile 'com.android.support:support-v4:26.+'
     compile 'com.google.code.gson:gson:2.8.0'
     testCompile 'junit:junit:4.12'
-    compile 'com.pusher:pusher-java-client:1.0.0'
     compile 'com.loopj.android:android-async-http:1.4.9' // for our HTTP requests later
     compile 'com.google.code.gson:gson:2.2.4' // for parsing JSON
     compile 'com.squareup.picasso:picasso:2.1.1' // for image rendering

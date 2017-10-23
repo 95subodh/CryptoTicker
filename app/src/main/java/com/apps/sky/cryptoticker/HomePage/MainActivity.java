@@ -73,15 +73,18 @@ public class MainActivity extends AppCompatActivity {
 
                     switch (item.getItemId()) {
                         case R.id.action_watchlist:
-                            fragment = new WatchlistTab();
+                            if (!WatchlistTab.class.equals(fragment.getClass()))
+                                fragment = new WatchlistTab();
                             break;
 
                         case R.id.action_my_portfolio:
-                            fragment = new MyPortfolioTab();
+                            if (!MyPortfolioTab.class.equals(fragment.getClass()))
+                                fragment = new MyPortfolioTab();
                             break;
 
                         case R.id.action_chat:
-                            fragment = new ChatTab();
+                            if (!ChatTab.class.equals(fragment.getClass()))
+                                fragment = new ChatTab();
                             break;
 
 //                            case R.id.action_trending:
@@ -89,7 +92,8 @@ public class MainActivity extends AppCompatActivity {
 //                                break;
 
                         case R.id.action_more:
-                            fragment = new MoreTab();
+                            if (!MoreTab.class.equals(fragment.getClass()))
+                                fragment = new MoreTab();
                             break;
 
                         default:
