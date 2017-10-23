@@ -1,4 +1,4 @@
-package com.apps.sky.cryptoticker.StockPage.AddToMyPortfolioForm;
+package com.apps.sky.cryptoticker.HomePage.HomePageTabs.AddToMyPortfolioForm;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.apps.sky.cryptoticker.GlobalFunctions.CryptoTradeObject;
 import com.apps.sky.cryptoticker.GlobalFunctions.MyGlobalsFunctions;
 import com.apps.sky.cryptoticker.HomePage.MainActivity;
 import com.apps.sky.cryptoticker.R;
@@ -23,14 +22,14 @@ import java.util.ArrayList;
 
 public class AddToMyPortfolioFormActivity extends AppCompatActivity {
 
-    private String cryptoName, crypto;
+    private String cryptoName, cryptoID;
     private MyGlobalsFunctions myGlobalsFunctions;
 
     private RecyclerView recyclerView;
     private TradeRecyclerViewAdapter adapter;
-    private RecyclerView.LayoutManager layoutManager;
-    private boolean onlyDetails;
-    private Button addTrade, submit;
+    RecyclerView.LayoutManager layoutManager;
+    boolean onlyDetails;
+    Button addTrade, submit;
 
     ArrayList<TradeObject> tradeArray = new ArrayList<TradeObject>();
     CryptoTradeObject cryptoTradeObject = new CryptoTradeObject();
@@ -44,15 +43,15 @@ public class AddToMyPortfolioFormActivity extends AppCompatActivity {
         Log.d("Fabs", "Currency added to your portfolio :)");
 
         Intent intent = getIntent();
-        crypto = intent.getExtras().getString("crypto");
+        cryptoID = intent.getExtras().getString("cryptoID");
         onlyDetails = intent.getExtras().getBoolean("only_details");
         myGlobalsFunctions = new MyGlobalsFunctions(this);
 
-        TextView title = (TextView) findViewById(R.id.trade_details_heading);
-        String tradeName = crypto + " Trade Details";
+        TextView title = findViewById(R.id.trade_details_heading);
+        String tradeName = cryptoID + " Trade Details";
         title.setText(tradeName);
-        addTrade = (Button) findViewById(R.id.add_trade_button);
-        submit = (Button) findViewById(R.id.submit_button);
+        addTrade = findViewById(R.id.add_trade_button);
+        submit = findViewById(R.id.submit_button);
 
         addTrade.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,7 +73,7 @@ public class AddToMyPortfolioFormActivity extends AppCompatActivity {
             }
         });
 
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
@@ -114,7 +113,7 @@ public class AddToMyPortfolioFormActivity extends AppCompatActivity {
     }
 
     private void addCurrencyToMyPortfolio() {
-        cryptoTradeObject.setCrypto(crypto);
+        cryptoTradeObject.setCryptoID(cryptoID);
         cryptoTradeObject.setTrades(tradeArray);
         cryptoTradeObjectArrayList.add(cryptoTradeObject);
         Gson gson = new Gson();

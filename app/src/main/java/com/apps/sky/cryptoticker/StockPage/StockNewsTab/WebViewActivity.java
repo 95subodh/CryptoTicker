@@ -15,17 +15,22 @@ import com.apps.sky.cryptoticker.R;
  */
 
 public class WebViewActivity extends AppCompatActivity{
-    private WebView webView;
-    private String news_url;
+    WebView webView;
+    String news_url;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.webview);
 
         Intent intent = getIntent();
-        news_url = intent.getExtras().getString("url");
+        try {
+            news_url = intent.getExtras().getString("url");
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
 
-        webView = (WebView) findViewById(R.id.webViewWindow);
+
+        webView = findViewById(R.id.webViewWindow);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.setWebViewClient(new WebViewClient() {
             public void onReceivedSslError (WebView view, SslErrorHandler handler, SslError error) {

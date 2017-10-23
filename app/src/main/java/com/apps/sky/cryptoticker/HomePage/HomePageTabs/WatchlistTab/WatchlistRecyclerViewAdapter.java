@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +21,7 @@ import java.util.ArrayList;
  * Created by ankitaverma on 06/10/17.
  */
 
-public class WatchlistRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+class WatchlistRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private ArrayList<WatchlistObject> mDataset;
     private static MyClickListener myClickListener;
     private static Context context;
@@ -32,7 +31,7 @@ public class WatchlistRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
     public static class DataObjectHolder extends RecyclerView.ViewHolder
             implements View
             .OnClickListener {
-        String crypto;
+        String cryptoID;
         TextView title;
         TextView currentPrice;
         TextView myChange;
@@ -51,7 +50,7 @@ public class WatchlistRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(context, StockPageActivity.class);
-                    intent.putExtra("crypto", "" + crypto.toLowerCase());
+                    intent.putExtra("cryptoID", "" + cryptoID.toLowerCase());
                     context.startActivity(intent);
                 }
             });
@@ -61,10 +60,6 @@ public class WatchlistRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
         public void onClick(View v) {
             myClickListener.onItemClick(getAdapterPosition(), v);
         }
-    }
-
-    public void setOnItemClickListener(MyClickListener myClickListener) {
-        this.myClickListener = myClickListener;
     }
 
     public WatchlistRecyclerViewAdapter(ArrayList<WatchlistObject> myDataset) {
@@ -79,40 +74,33 @@ public class WatchlistRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
         View view;
         view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.watchlist_card_item_view, parent, false);
-        DataObjectHolder dataObjectHolder = new DataObjectHolder(view);
-        return dataObjectHolder;
+        return new DataObjectHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-        ((DataObjectHolder)holder).crypto = mDataset.get(position).getCrypto();
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        ((DataObjectHolder)holder).cryptoID = mDataset.get(position).getCryptoID();
         ((DataObjectHolder)holder).title.setText(mDataset.get(position).getTitle());
         ((DataObjectHolder)holder).currentPrice.setText(myGlobalsFunctions.commaSeperateInteger(mDataset.get(position).getCurrentPrice()));
         ((DataObjectHolder)holder).myChange.setText(mDataset.get(position).getChange());
         ((DataObjectHolder)holder).icon.setImageBitmap(mDataset.get(position).getIcon());
 
+        final int pos = ((DataObjectHolder)holder).getAdapterPosition();
         ((DataObjectHolder)holder).closeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ArrayList<String> watchlistitems = myGlobalsFunctions.retrieveListFromFile(context.getString(R.string.crypto_watchlist_file), context.getString(R.string.crypto_watchlist_dir));
-                Log.d("watchlistbug", "before: " + ((Integer) watchlistitems.size()).toString());
-                watchlistitems.remove(position);
-                Log.d("watchlistbug", "after: " + ((Integer) watchlistitems.size()).toString());
+                watchlistitems.remove(pos);
                 myGlobalsFunctions.storeListToFile( context.getString(R.string.crypto_watchlist_file), context.getString(R.string.crypto_watchlist_dir), watchlistitems);
-                deleteItem(position);
+                deleteItem(pos);
             }
         });
 
-        if (mDataset.get(position).getChangeColor() == false) { ((DataObjectHolder)holder).myChange.setTextColor(Color.RED); }
+        if (!mDataset.get(position).getChangeColor()) { ((DataObjectHolder)holder).myChange.setTextColor(Color.RED); }
         else { ((DataObjectHolder)holder).myChange.setTextColor(Color.parseColor("#ff99cc00")); }
     }
 
-    public void addItem(WatchlistObject dataObj, int index) {
-        mDataset.add(index, dataObj);
-        notifyItemInserted(index);
-    }
-
-    public void deleteItem(int index) {
+    private void deleteItem(int index) {
         mDataset.remove(index);
         notifyItemRemoved(index);
     }

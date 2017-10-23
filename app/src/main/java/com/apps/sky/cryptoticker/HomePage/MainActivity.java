@@ -2,19 +2,18 @@ package com.apps.sky.cryptoticker.HomePage;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -60,7 +59,12 @@ public class MainActivity extends AppCompatActivity {
 
         String tab = "";
         if (intent.hasExtra("tab")) {
-            tab = intent.getExtras().getString("tab");
+            try {
+                tab = intent.getExtras().getString("tab");
+            }
+            catch (NullPointerException e) {
+                e.printStackTrace();
+            }
         }
         assignTab(tab);
 
@@ -109,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String text = listView.getItemAtPosition(i).toString();
                 Intent intent = new Intent(MainActivity.this, StockPageActivity.class);
-                intent.putExtra("crypto", "" + text.toLowerCase());
+                intent.putExtra("cryptoID", "" + text.toLowerCase());
                 startActivity(intent);
             }
         });
@@ -169,6 +173,7 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB_MR1)
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -176,8 +181,8 @@ public class MainActivity extends AppCompatActivity {
         inflater.inflate(R.menu.menu, menu);
 
         searchItem = menu.findItem(R.id.item_search);
-        searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-//        searchView.setIconifiedByDefault(false);
+        searchView = (SearchView) searchItem.getActionView();
+
 
         searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -225,14 +230,6 @@ public class MainActivity extends AppCompatActivity {
             public void onViewAttachedToWindow(View view) {
                 bottomNavigationView.setClickable(false);
                 relative.setClickable(false);
-                bottomNavigationView.setOnTouchListener(new View.OnTouchListener() {
-                    @Override
-                    public boolean onTouch(View view, MotionEvent motionEvent) {
-                        searchItem.collapseActionView();
-                        Log.d("onTouch", "onTouch");
-                        return false;
-                    }
-                });
             }
             @Override
             public void onViewDetachedFromWindow(View view) {

@@ -17,8 +17,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.text.NumberFormat;
-import java.util.Locale;
 
 /**
  * Created by subodhyadav on 16/09/17.
@@ -27,11 +25,11 @@ import java.util.Locale;
 public class StockInfoTab extends Fragment {
 
     private View rootView;
-    private static String name, price, change, rank, cap, avlsup, totsup, lstupd;
-    private TextView coinName, coinPrice, coinChange, coinRank, coinCap, coinAvailSupply, coinTotSupply, coinLstUpdate;
-    private String url;
-    public String crypto;
-    MyGlobalsFunctions mgf;
+    private String name, price, change, rank, cap, avlsup, totsup, lstupd;
+    TextView coinName, coinPrice, coinChange, coinRank, coinCap, coinAvailSupply, coinTotSupply, coinLstUpdate;
+    String url;
+    public String cryptoID;
+    MyGlobalsFunctions myGlobalsFunctions;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -41,42 +39,35 @@ public class StockInfoTab extends Fragment {
             rootView = inflater.inflate(R.layout.stock_info_tab, container, false);
         }
 
-        url = "https://api.coinmarketcap.com/v1/ticker/"+crypto+"/?convert=INR";
-        mgf = new MyGlobalsFunctions(getContext());
+        url = "https://api.coinmarketcap.com/v1/ticker/"+cryptoID+"/?convert=INR";
+        myGlobalsFunctions = new MyGlobalsFunctions(rootView.getContext());
         new JSONTask().execute(url);
 
         return rootView;
     }
 
-    private String commaSeperateInteger(String num){
-        return NumberFormat.getNumberInstance(Locale.US).format(Float.valueOf(num));
-    }
-
     private void fillInfoFromJSON() {
-
         coinName = getView().findViewById(R.id.coin_name);
         coinName.setText(name);
         coinPrice = getView().findViewById(R.id.coin_price);
-        coinPrice.setText(commaSeperateInteger(price));
+        coinPrice.setText(myGlobalsFunctions.commaSeperateInteger(price));
         coinAvailSupply = getView().findViewById(R.id.coin_avail_supply);
-        coinAvailSupply.setText(commaSeperateInteger(avlsup));
+        coinAvailSupply.setText(myGlobalsFunctions.commaSeperateInteger(avlsup));
         coinCap = getView().findViewById(R.id.coin_cap);
-        coinCap.setText(commaSeperateInteger(cap));
+        coinCap.setText(myGlobalsFunctions.commaSeperateInteger(cap));
         coinRank = getView().findViewById(R.id.coin_rank);
         coinRank.setText(rank);
         coinTotSupply = getView().findViewById(R.id.coin_tot_supply);
-        coinTotSupply.setText(commaSeperateInteger(totsup));
+        coinTotSupply.setText(myGlobalsFunctions.commaSeperateInteger(totsup));
         coinChange = getView().findViewById(R.id.coin_change);
         coinChange.setText(change);
         if (change.charAt(0) == '-') {
             coinChange.setTextColor(Color.RED);
-        }
-        else {
+        } else {
             coinChange.setTextColor(Color.parseColor("#ff99cc00"));
         }
-
         coinLstUpdate = getView().findViewById(R.id.coin_lst_update);
-        coinLstUpdate.setText(mgf.getTimeFormattedDate(mgf.getEpochToNormalDateString(lstupd)));
+        coinLstUpdate.setText(myGlobalsFunctions.getTimeFormattedDate(myGlobalsFunctions.getEpochToNormalDateString(lstupd)));
     }
 
     public void setVals(String finalJson) throws JSONException {
@@ -99,7 +90,7 @@ public class StockInfoTab extends Fragment {
         protected void onPreExecute() {
             super.onPreExecute();
             try {
-                String finalJson = mgf.retieveStringFromFile(crypto,getString(R.string.crypto_info_dir));
+                String finalJson = myGlobalsFunctions.retieveStringFromFile(cryptoID,getString(R.string.crypto_info_dir));
                 if (finalJson != null)
                     setVals(finalJson);
             } catch (JSONException e) {
@@ -111,8 +102,8 @@ public class StockInfoTab extends Fragment {
         protected String doInBackground(String... params) {
             try {
 //                final MyGlobalsFunctions myGlobalsFunctions = new MyGlobalsFunctions(getContext());
-                String finalJson = mgf.fetchJSONasString(params[0]);
-                mgf.storeStringToFile(crypto,getString(R.string.crypto_info_dir),finalJson);
+                String finalJson = myGlobalsFunctions.fetchJSONasString(params[0]);
+                myGlobalsFunctions.storeStringToFile(cryptoID,getString(R.string.crypto_info_dir),finalJson);
                 setVals(finalJson);
                 return price;
 

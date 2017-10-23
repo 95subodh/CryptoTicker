@@ -24,9 +24,9 @@ public class WatchlistTab extends Fragment {
     private View rootView;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
-    private RecyclerView.LayoutManager layoutManager;
-    private String url;
-    public String crypto;
+    RecyclerView.LayoutManager layoutManager;
+    String url;
+    public String cryptoID;
     MyGlobalsFunctions myGlobalsFunctions;
     public ArrayList<String> items;
     ArrayList<WatchlistObject> watchlistArray;
@@ -52,8 +52,8 @@ public class WatchlistTab extends Fragment {
         items = myGlobalsFunctions.retrieveListFromFile(getString(R.string.crypto_watchlist_file), getString(R.string.crypto_watchlist_dir));
         watchlistArray = new ArrayList<>();
         for (int i = 0; i < items.size(); ++i) {
-            crypto = items.get(i);
-            url = "https://api.coinmarketcap.com/v1/ticker/" + crypto + "/?convert=INR";
+            cryptoID = items.get(i);
+            url = "https://api.coinmarketcap.com/v1/ticker/" + cryptoID + "/?convert=INR";
             new JSONTask().execute(url);
         }
         adapter = new WatchlistRecyclerViewAdapter(watchlistArray);
@@ -70,7 +70,7 @@ public class WatchlistTab extends Fragment {
         currency_details.setCurrentPrice(parentObject.getString("price_inr"));
         String change = parentObject.getString("percent_change_24h");
         currency_details.setChange(change);
-        currency_details.setCrypto(parentObject.getString("id"));
+        currency_details.setCryptoID(parentObject.getString("id"));
         watchlistArray.add(currency_details);
         if (change.charAt(0) == '-') { currency_details.setChangeColor(false); }
         else { currency_details.setChangeColor(true); }
@@ -87,7 +87,7 @@ public class WatchlistTab extends Fragment {
         protected String doInBackground(String... params) {
             try {
                 String finalJson = myGlobalsFunctions.fetchJSONasString(params[0]);
-                myGlobalsFunctions.storeStringToFile(crypto,getString(R.string.crypto_info_dir),finalJson);
+                myGlobalsFunctions.storeStringToFile(cryptoID,getString(R.string.crypto_info_dir),finalJson);
                 setVals(finalJson);
                 return finalJson;
 

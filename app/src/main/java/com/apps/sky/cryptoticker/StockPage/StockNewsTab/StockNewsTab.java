@@ -27,16 +27,16 @@ public class StockNewsTab extends Fragment {
 
     private View rootView;
 
-    public  String crypto;
-    private String key = "23b11fdf774042e6bd138b5448af5403";
-    private String source = "sources=google-news";
-    private String language = "en";
-    private String status, url;
+    public String cryptoID;
+    String key = "23b11fdf774042e6bd138b5448af5403";
+    String source = "sources=google-news";
+    String language = "en";
+    String status, url;
     ArrayList<NewsObject> news = new ArrayList<NewsObject>();
 
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter adapter;
-    private RecyclerView.LayoutManager layoutManager;
+    RecyclerView.Adapter adapter;
+    RecyclerView.LayoutManager layoutManager;
     MyGlobalsFunctions myGlobalsFunctions;
 
     @Override
@@ -47,7 +47,7 @@ public class StockNewsTab extends Fragment {
             rootView = inflater.inflate(R.layout.stock_news_tab, container, false);
         }
 
-        url = "http://beta.newsapi.org/v2/everything?q=" + crypto + "&apiKey=" + key + "&language=" + language;
+        url = "http://beta.newsapi.org/v2/everything?q=" + cryptoID + "&apiKey=" + key + "&language=" + language;
         myGlobalsFunctions = new MyGlobalsFunctions(getContext());
         new JSONTask().execute(url);
 
@@ -58,18 +58,6 @@ public class StockNewsTab extends Fragment {
 
         return rootView;
     }
-
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        ((NewsRecyclerViewAdapter) adapter).setOnItemClickListener(new NewsRecyclerViewAdapter
-//                .MyClickListener() {
-//            @Override
-//            public void onItemClick(int position, View v) {
-//                System.out.println(" Clicked on Item " + position);
-//            }
-//        });
-//    }
 
     public void setVals(String finalJson) throws JSONException {
         JSONObject parentObject = new JSONObject(finalJson);
@@ -98,7 +86,7 @@ public class StockNewsTab extends Fragment {
         protected void onPreExecute() {
             super.onPreExecute();
             try {
-                String finalJson = myGlobalsFunctions.retieveStringFromFile(crypto,getString(R.string.crypto_info_dir));
+                String finalJson = myGlobalsFunctions.retieveStringFromFile(cryptoID,getString(R.string.crypto_info_dir));
                 if (finalJson != null)
                     setVals(finalJson);
             } catch (JSONException e) {
