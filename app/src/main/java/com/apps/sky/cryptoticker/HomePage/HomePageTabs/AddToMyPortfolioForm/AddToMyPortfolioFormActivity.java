@@ -56,8 +56,7 @@ public class AddToMyPortfolioFormActivity extends AppCompatActivity {
         addTrade.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (tradeArray.size() > 0)
-                    addExistingTradeToList();
+                if (tradeArray.size() > 0) addExistingTradeToList();
                 addBlankTradeCard();
             }
         });
@@ -137,7 +136,6 @@ public class AddToMyPortfolioFormActivity extends AppCompatActivity {
         try {
             if (json != null) {
                 cryptoTradeObjectArrayList = gson.fromJson(json, type);
-                cryptoTradeObject = cryptoTradeObjectArrayList.get(0);    /////// This cryptotradeobject contains retrieved values from internal storage
             }
         }
         catch (IllegalStateException | JsonSyntaxException exception) {

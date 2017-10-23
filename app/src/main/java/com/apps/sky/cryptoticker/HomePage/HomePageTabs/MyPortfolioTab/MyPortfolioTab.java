@@ -79,27 +79,18 @@ public class MyPortfolioTab extends Fragment {
         Gson gson = new Gson();
         Type type = new TypeToken<ArrayList<CryptoTradeObject>>() {}.getType();
         String json = myGlobalsFunctions.retieveStringFromFile(getString(R.string.crypto_my_portfolio_file), getString(R.string.crypto_my_portfolio_dir));
+
         try {
-            if (json != null) {
-                myPortfolioItems = gson.fromJson(json, type);
-            }
-        }
-        catch (IllegalStateException | JsonSyntaxException exception) {
+            if (json != null) myPortfolioItems = gson.fromJson(json, type);
+        } catch (IllegalStateException | JsonSyntaxException exception) {
             Log.d("error", "error in parsing json");
         }
-        Log.d("size: ", ((Integer)myPortfolioItems.size()).toString());
-        for (int i = 0; i < myPortfolioItems.size(); ++i) {
 
+        for (int i = 0; i < myPortfolioItems.size(); ++i) {
             cur_item = myPortfolioItems.get(i);
             cryptoID = cur_item.getCryptoID();
-            try {
-            } catch (NullPointerException e) {
-                e.printStackTrace();
-            }
-            if (cryptoID != null) {
-                url = "https://api.coinmarketcap.com/v1/ticker/" + cryptoID + "/?convert=INR";
-                new JSONTask().execute(url);
-            }
+            url = "https://api.coinmarketcap.com/v1/ticker/" + cryptoID + "/?convert=INR";
+            new JSONTask().execute(url);
         }
         return rootView;
     }
