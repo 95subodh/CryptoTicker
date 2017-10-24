@@ -90,7 +90,8 @@ public class MyPortfolioTab extends Fragment {
             cur_item = myPortfolioItems.get(i);
             cryptoID = cur_item.getCryptoID();
             url = "https://api.coinmarketcap.com/v1/ticker/" + cryptoID + "/?convert=INR";
-            new JSONTask().execute(url);
+            String imageUrl = "https://files.coinmarketcap.com/static/img/coins/32x32/"+cryptoID+".png";
+            new JSONTask().execute(url, imageUrl);
         }
         return rootView;
     }
@@ -113,6 +114,7 @@ public class MyPortfolioTab extends Fragment {
                 currency_details.setTitle(parentObject.getString("name"));
                 currency_details.setCurrentPrice(parentObject.getString("price_inr"));
                 currency_details.setMyProfit("34.08%");
+                currency_details.setIcon(params[1]);
                 currency_details.setCryptoID(parentObject.getString("id"));
 
                 myPortfolioArray.add(currency_details);
