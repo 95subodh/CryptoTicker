@@ -54,14 +54,15 @@ public class WatchlistTab extends Fragment {
         for (int i = 0; i < items.size(); ++i) {
             cryptoID = items.get(i);
             url = "https://api.coinmarketcap.com/v1/ticker/" + cryptoID + "/?convert=INR";
-            new JSONTask().execute(url);
+            String imageUrl = "https://files.coinmarketcap.com/static/img/coins/32x32/"+cryptoID+".png";
+            new JSONTask().execute(url, imageUrl);
         }
         adapter = new WatchlistRecyclerViewAdapter(watchlistArray);
         recyclerView.setAdapter(adapter);
         return rootView;
     }
 
-    public void setVals(String finalJson) throws JSONException {
+    public void setVals(String finalJson, String imageUrl) throws JSONException {
         JSONArray jarr = new JSONArray(finalJson);
 
         JSONObject parentObject = jarr.getJSONObject(0);
@@ -71,6 +72,7 @@ public class WatchlistTab extends Fragment {
         String change = parentObject.getString("percent_change_24h");
         currency_details.setChange(change);
         currency_details.setCryptoID(parentObject.getString("id"));
+        currency_details.setIcon(imageUrl);
         watchlistArray.add(currency_details);
         if (change.charAt(0) == '-') { currency_details.setChangeColor(false); }
         else { currency_details.setChangeColor(true); }
@@ -88,7 +90,7 @@ public class WatchlistTab extends Fragment {
             try {
                 String finalJson = myGlobalsFunctions.fetchJSONasString(params[0]);
                 myGlobalsFunctions.storeStringToFile(cryptoID,getString(R.string.crypto_info_dir),finalJson);
-                setVals(finalJson);
+                setVals(finalJson, params[1]);
                 return finalJson;
 
             } catch (IOException e) {
