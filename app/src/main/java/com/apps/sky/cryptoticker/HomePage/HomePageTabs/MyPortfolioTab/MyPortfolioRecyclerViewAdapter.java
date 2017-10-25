@@ -99,6 +99,7 @@ public class MyPortfolioRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
     private void deleteItem(int index) {
         mDataset.remove(index);
         notifyItemRemoved(index);
+        notifyItemRangeChanged(index, getItemCount() - index);
     }
 
     @Override

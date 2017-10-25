@@ -69,6 +69,7 @@ public class AddToMyPortfolioFormActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        submit.setEnabled(false);
 
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
@@ -83,6 +84,7 @@ public class AddToMyPortfolioFormActivity extends AppCompatActivity {
     }
 
     private void addBlankTradeCard() {
+        addTrade.setEnabled(false);
         TradeObject obj = new TradeObject();
         Integer tradeNum = tradeArray.size() + 1;
         obj.setTradeNumber("Trade " + tradeNum.toString());
@@ -95,6 +97,7 @@ public class AddToMyPortfolioFormActivity extends AppCompatActivity {
     void deleteItem(int position) {
         tradeArray.remove(position);
         adapter.notifyItemRemoved(position);
+        adapter.notifyItemRangeChanged(position, tradeArray.size() - position);
     }
 
     private void addCurrencyToMyPortfolio() {

@@ -95,6 +95,7 @@ class WatchlistRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     private void deleteItem(int index) {
         mDataset.remove(index);
         notifyItemRemoved(index);
+        notifyItemRangeChanged(index, getItemCount() - index);
     }
 
     @Override
