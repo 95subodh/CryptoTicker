@@ -78,33 +78,17 @@ public class TradeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
 
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (context instanceof AddToMyPortfolioFormActivity) {
-                    if (charSequence.toString().equals("")) {
-                        ((AddToMyPortfolioFormActivity) context).submit.setEnabled(false);
-                    } else {
-                        ((AddToMyPortfolioFormActivity) context).submit.setEnabled(true);
-                    }
-
-                    if (charSequence.toString().equals("")) {
-                        ((AddToMyPortfolioFormActivity) context).addTrade.setEnabled(false);
-                    } else {
-                        ((AddToMyPortfolioFormActivity) context).addTrade.setEnabled(true);
-                    }
-                }
             }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (context instanceof AddToMyPortfolioFormActivity) {
-                    if (charSequence.toString().equals("")) {
+                    if (((DataObjectHolder) holder).costInputView.getText().toString().trim().isEmpty() ||
+                            ((DataObjectHolder) holder).quantityInputView.getText().toString().trim().isEmpty()) {
                         ((AddToMyPortfolioFormActivity) context).submit.setEnabled(false);
-                    } else {
-                        ((AddToMyPortfolioFormActivity) context).submit.setEnabled(true);
-                    }
-
-                    if (charSequence.toString().equals("")) {
                         ((AddToMyPortfolioFormActivity) context).addTrade.setEnabled(false);
                     } else {
+                        ((AddToMyPortfolioFormActivity) context).submit.setEnabled(true);
                         ((AddToMyPortfolioFormActivity) context).addTrade.setEnabled(true);
                     }
                 }
@@ -118,33 +102,18 @@ public class TradeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
         ((DataObjectHolder)holder).quantityInputView.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (context instanceof AddToMyPortfolioFormActivity) {
-                    if (charSequence.toString().equals("")) {
-                        ((AddToMyPortfolioFormActivity) context).submit.setEnabled(false);
-                    } else {
-                        ((AddToMyPortfolioFormActivity) context).submit.setEnabled(true);
-                    }
-
-                    if (charSequence.toString().equals("")) {
-                        ((AddToMyPortfolioFormActivity) context).addTrade.setEnabled(false);
-                    } else {
-                        ((AddToMyPortfolioFormActivity) context).addTrade.setEnabled(true);
-                    }
-                }
             }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (context instanceof AddToMyPortfolioFormActivity) {
-                    if (charSequence.toString().equals("")) {
+                    if (((DataObjectHolder)holder).costInputView.getText().toString().trim().isEmpty() ||
+                            ((DataObjectHolder)holder).quantityInputView.getText().toString().trim().isEmpty()) {
                         ((AddToMyPortfolioFormActivity) context).submit.setEnabled(false);
-                    } else {
-                        ((AddToMyPortfolioFormActivity) context).submit.setEnabled(true);
-                    }
-
-                    if (charSequence.toString().equals("")) {
                         ((AddToMyPortfolioFormActivity) context).addTrade.setEnabled(false);
-                    } else {
+                    }
+                    else {
+                        ((AddToMyPortfolioFormActivity) context).submit.setEnabled(true);
                         ((AddToMyPortfolioFormActivity) context).addTrade.setEnabled(true);
                     }
                 }
