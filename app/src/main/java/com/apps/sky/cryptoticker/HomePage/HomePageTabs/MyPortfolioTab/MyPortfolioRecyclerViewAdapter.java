@@ -3,7 +3,6 @@ package com.apps.sky.cryptoticker.HomePage.HomePageTabs.MyPortfolioTab;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +15,6 @@ import com.apps.sky.cryptoticker.HomePage.HomePageTabs.AddToMyPortfolioForm.AddT
 import com.apps.sky.cryptoticker.HomePage.HomePageTabs.AddToMyPortfolioForm.CryptoTradeObject;
 import com.apps.sky.cryptoticker.R;
 import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
@@ -28,13 +26,11 @@ import java.util.ArrayList;
 
 public class MyPortfolioRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private ArrayList<MyPortfolioObject> mDataset;
-    private static MyClickListener myClickListener;
+    private MyPortfolioTab fragment;
     private static Context context;
     private MyGlobalsFunctions myGlobalsFunctions;
 
-    public static class DataObjectHolder extends RecyclerView.ViewHolder
-            implements View
-            .OnClickListener {
+    public static class DataObjectHolder extends RecyclerView.ViewHolder {
         String cryptoID;
         TextView title;
         TextView currentPrice;
@@ -48,7 +44,7 @@ public class MyPortfolioRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
             currentPrice = itemView.findViewById(R.id.my_portfolio_item_current_price);
             myProfit = itemView.findViewById(R.id.my_portfolio_item_my_profit);
             icon = itemView.findViewById(R.id.my_portfolio_item_icon);
-            closeBtn = (ImageButton) itemView.findViewById(R.id.close_btn);
+            closeBtn = itemView.findViewById(R.id.close_btn);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -60,15 +56,11 @@ public class MyPortfolioRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
                 }
             });
         }
-
-        @Override
-        public void onClick(View v) {
-            myClickListener.onItemClick(getAdapterPosition(), v);
-        }
     }
 
-    MyPortfolioRecyclerViewAdapter(ArrayList<MyPortfolioObject> myDataset) {
+    MyPortfolioRecyclerViewAdapter(ArrayList<MyPortfolioObject> myDataset, MyPortfolioTab fragment) {
         mDataset = myDataset;
+        this.fragment = fragment;
     }
 
     @Override
@@ -90,29 +82,16 @@ public class MyPortfolioRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
         ((DataObjectHolder)holder).myProfit.setText(mDataset.get(position).getMyProfit());
         ((DataObjectHolder)holder).icon.setImageBitmap(mDataset.get(position).getIcon());
 
-        final int pos = ((DataObjectHolder)holder).getAdapterPosition();
+        final int pos = holder.getAdapterPosition();
         ((DataObjectHolder)holder).closeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ArrayList<CryptoTradeObject> myPortfolioItems = new ArrayList<CryptoTradeObject>();
-
-                Gson gson = new Gson();
-                Type type = new TypeToken<ArrayList<CryptoTradeObject>>() {}.getType();
-                String json = myGlobalsFunctions.retieveStringFromFile(context.getString(R.string.crypto_my_portfolio_file), context.getString(R.string.crypto_my_portfolio_dir));
-
-                try {
-                    if (json != null) {
-                        myPortfolioItems = gson.fromJson(json, type);
-
-                        myPortfolioItems.remove(pos);
-                        deleteItem(pos);
-
-                        json = gson.toJson(myPortfolioItems, type);
-                        myGlobalsFunctions.storeStringToFile(context.getString(R.string.crypto_my_portfolio_file), context.getString(R.string.crypto_my_portfolio_dir), json);
-                    }
-                } catch (IllegalStateException | JsonSyntaxException exception) {
-                    Log.d("error", "error in parsing json");
-                }
+            Gson gson = new Gson();
+            Type type = new TypeToken<ArrayList<CryptoTradeObject>>() {}.getType();
+            fragment.myPortfolioItems.remove(pos);
+            deleteItem(pos);
+            String json = gson.toJson(fragment.myPortfolioItems, type);
+            myGlobalsFunctions.storeStringToFile(context.getString(R.string.crypto_my_portfolio_file), context.getString(R.string.crypto_my_portfolio_dir), json);
             }
         });
     }
@@ -125,9 +104,5 @@ public class MyPortfolioRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
     @Override
     public int getItemCount() {
         return mDataset.size();
-    }
-
-    public interface MyClickListener {
-        public void onItemClick(int position, View v);
     }
 }

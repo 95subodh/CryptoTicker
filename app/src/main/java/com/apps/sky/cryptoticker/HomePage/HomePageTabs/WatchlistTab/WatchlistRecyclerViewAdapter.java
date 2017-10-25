@@ -23,14 +23,11 @@ import java.util.ArrayList;
 
 class WatchlistRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private ArrayList<WatchlistObject> mDataset;
-    private static MyClickListener myClickListener;
+    private WatchlistTab fragment;
     private static Context context;
-    public static WatchlistTab watchlistTab;
     private MyGlobalsFunctions myGlobalsFunctions;
 
-    public static class DataObjectHolder extends RecyclerView.ViewHolder
-            implements View
-            .OnClickListener {
+    public static class DataObjectHolder extends RecyclerView.ViewHolder {
         String cryptoID;
         TextView title;
         TextView currentPrice;
@@ -38,13 +35,13 @@ class WatchlistRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         ImageView icon;
         ImageButton closeBtn;
 
-        public DataObjectHolder(final View itemView) {
+        DataObjectHolder(final View itemView) {
             super(itemView);
-            title = (TextView) itemView.findViewById(R.id.watchlist_item_title);
-            currentPrice = (TextView) itemView.findViewById(R.id.watchlist_item_current_price);
-            myChange = (TextView) itemView.findViewById(R.id.watchlist_item_change);
-            icon = (ImageView) itemView.findViewById(R.id.watchlist_item_icon);
-            closeBtn = (ImageButton) itemView.findViewById(R.id.close_btn);
+            title = itemView.findViewById(R.id.watchlist_item_title);
+            currentPrice = itemView.findViewById(R.id.watchlist_item_current_price);
+            myChange = itemView.findViewById(R.id.watchlist_item_change);
+            icon = itemView.findViewById(R.id.watchlist_item_icon);
+            closeBtn = itemView.findViewById(R.id.close_btn);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -55,15 +52,11 @@ class WatchlistRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 }
             });
         }
-
-        @Override
-        public void onClick(View v) {
-            myClickListener.onItemClick(getAdapterPosition(), v);
-        }
     }
 
-    WatchlistRecyclerViewAdapter(ArrayList<WatchlistObject> myDataset) {
+    WatchlistRecyclerViewAdapter(ArrayList<WatchlistObject> myDataset, WatchlistTab fragment) {
         mDataset = myDataset;
+        this.fragment = fragment;
     }
 
     @Override
@@ -85,13 +78,12 @@ class WatchlistRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         ((DataObjectHolder)holder).myChange.setText(mDataset.get(position).getChange());
         ((DataObjectHolder)holder).icon.setImageBitmap(mDataset.get(position).getIcon());
 
-        final int pos = ((DataObjectHolder)holder).getAdapterPosition();
+        final int pos = holder.getAdapterPosition();
         ((DataObjectHolder)holder).closeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ArrayList<String> watchlistItems = myGlobalsFunctions.retrieveListFromFile(context.getString(R.string.crypto_watchlist_file), context.getString(R.string.crypto_watchlist_dir));
-                watchlistItems.remove(pos);
-                myGlobalsFunctions.storeListToFile( context.getString(R.string.crypto_watchlist_file), context.getString(R.string.crypto_watchlist_dir), watchlistItems);
+                fragment.items.remove(pos);
+                myGlobalsFunctions.storeListToFile( context.getString(R.string.crypto_watchlist_file), context.getString(R.string.crypto_watchlist_dir), fragment.items);
                 deleteItem(pos);
             }
         });
@@ -108,9 +100,5 @@ class WatchlistRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     @Override
     public int getItemCount() {
         return mDataset.size();
-    }
-
-    public interface MyClickListener {
-        public void onItemClick(int position, View v);
     }
 }

@@ -57,7 +57,7 @@ public class WatchlistTab extends Fragment {
             String imageUrl = "https://files.coinmarketcap.com/static/img/coins/32x32/"+cryptoID+".png";
             new JSONTask().execute(url, imageUrl);
         }
-        adapter = new WatchlistRecyclerViewAdapter(watchlistArray);
+        adapter = new WatchlistRecyclerViewAdapter(watchlistArray, WatchlistTab.this);
         recyclerView.setAdapter(adapter);
         return rootView;
     }
@@ -105,7 +105,7 @@ public class WatchlistTab extends Fragment {
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
 
-            adapter = new WatchlistRecyclerViewAdapter(watchlistArray);
+            adapter = new WatchlistRecyclerViewAdapter(watchlistArray, WatchlistTab.this);
             recyclerView.setAdapter(adapter);
         }
     }

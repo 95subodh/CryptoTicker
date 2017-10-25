@@ -39,7 +39,7 @@ public class MyPortfolioTab extends Fragment {
     MyGlobalsFunctions myGlobalsFunctions;
     ArrayList<CryptoTradeObject> myPortfolioItems;
     CryptoTradeObject cur_item = new CryptoTradeObject();
-    ArrayList<MyPortfolioObject> myPortfolioArray = new ArrayList<MyPortfolioObject>();
+    ArrayList<MyPortfolioObject> myPortfolioArray = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,15 +66,14 @@ public class MyPortfolioTab extends Fragment {
         RelativeLayout my_portfolio_view = rootView.findViewById(R.id.my_portfolio_view);
         my_portfolio_view.addView(my_portfolio_layout);
         myPortfolioView = my_portfolio_view;
+        myPortfolioItems = new ArrayList<>();
 
         recyclerView = rootView.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(rootView.getContext());
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new MyPortfolioRecyclerViewAdapter(myPortfolioArray);
+        adapter = new MyPortfolioRecyclerViewAdapter(myPortfolioArray,MyPortfolioTab.this);
         recyclerView.setAdapter(adapter);
-
-        myPortfolioItems = new ArrayList<CryptoTradeObject>();
 
         Gson gson = new Gson();
         Type type = new TypeToken<ArrayList<CryptoTradeObject>>() {}.getType();
@@ -94,6 +93,12 @@ public class MyPortfolioTab extends Fragment {
             new JSONTask().execute(url, imageUrl);
         }
         return rootView;
+    }
+
+    void deleteItem(int position) {
+        myPortfolioArray.remove(position);
+        myPortfolioItems.remove(position);
+        adapter.notifyItemRemoved(position);
     }
 
     public class JSONTask extends AsyncTask<String,String, String > {
@@ -132,7 +137,7 @@ public class MyPortfolioTab extends Fragment {
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
 
-            adapter = new MyPortfolioRecyclerViewAdapter(myPortfolioArray);
+            adapter = new MyPortfolioRecyclerViewAdapter(myPortfolioArray,MyPortfolioTab.this);
             recyclerView.setAdapter(adapter);
         }
     }
