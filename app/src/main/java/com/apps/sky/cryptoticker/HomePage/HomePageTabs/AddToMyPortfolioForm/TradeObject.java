@@ -6,11 +6,17 @@ package com.apps.sky.cryptoticker.HomePage.HomePageTabs.AddToMyPortfolioForm;
 
 public class TradeObject {
 
-    private String tradeNumber, cost, quantity;
+    private String tradeNumber, cost, quantity, cryptoID;
 
-    public String getTradeNumber() {
-        return tradeNumber;
+    public String getCryptoID() {
+        return cryptoID;
     }
+
+    public void setCryptoID(String cryptoID) {
+        this.cryptoID = cryptoID;
+    }
+
+    public String getTradeNumber() { return tradeNumber; }
 
     public void setTradeNumber(String tradeNumber) {
         this.tradeNumber = tradeNumber;

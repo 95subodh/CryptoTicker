@@ -32,9 +32,9 @@ public class AddToMyPortfolioFormActivity extends AppCompatActivity {
     Button addTrade, submit;
     boolean coinPresent = false;
 
-    ArrayList<TradeObject> tradeArray = new ArrayList<TradeObject>();
+    ArrayList<TradeObject> tradeArray = new ArrayList<>();
     CryptoTradeObject cryptoTradeObject = new CryptoTradeObject();
-    ArrayList<CryptoTradeObject> cryptoTradeObjectArrayList = new ArrayList<CryptoTradeObject>();
+    ArrayList<CryptoTradeObject> cryptoTradeObjectArrayList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,9 +86,15 @@ public class AddToMyPortfolioFormActivity extends AppCompatActivity {
         TradeObject obj = new TradeObject();
         Integer tradeNum = tradeArray.size() + 1;
         obj.setTradeNumber("Trade " + tradeNum.toString());
+        obj.setCryptoID(cryptoID);
         tradeArray.add(obj);
         adapter = new TradeRecyclerViewAdapter(tradeArray);
         recyclerView.setAdapter(adapter);
+    }
+
+    void deleteItem(int position) {
+        tradeArray.remove(position);
+        adapter.notifyItemRemoved(position);
     }
 
     private void addCurrencyToMyPortfolio() {
