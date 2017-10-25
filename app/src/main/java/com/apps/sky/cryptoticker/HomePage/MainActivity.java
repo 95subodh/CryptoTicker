@@ -49,10 +49,10 @@ public class MainActivity extends AppCompatActivity {
         onCreate = true;
         Intent intent = getIntent();
 
-        relative = (RelativeLayout) findViewById(R.id.tab_content);
-        listView = (ListView) findViewById(R.id.list_view);
+        relative = findViewById(R.id.tab_content);
+        listView = findViewById(R.id.list_view);
         mainView = findViewById(R.id.main_view);
-        bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
 
         String tab = "";
@@ -153,18 +153,22 @@ public class MainActivity extends AppCompatActivity {
     private void assignTab(String tab) {
         switch (tab) {
             case "watchlist" :
+                bottomNavigationView.setSelectedItemId(R.id.action_watchlist);
                 fragment = new WatchlistTab();
                 break;
 
             case "my_portfolio" :
+                bottomNavigationView.setSelectedItemId(R.id.action_my_portfolio);
                 fragment = new MyPortfolioTab();
                 break;
 
             case "chat" :
+                bottomNavigationView.setSelectedItemId(R.id.action_chat);
                 fragment = new ChatTab();
                 break;
 
             case "more" :
+                bottomNavigationView.setSelectedItemId(R.id.action_more);
                 fragment = new MoreTab();
                 break;
 

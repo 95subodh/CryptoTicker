@@ -1,4 +1,4 @@
-package com.apps.sky.cryptoticker.GlobalFunctions;
+package com.apps.sky.cryptoticker.Global;
 
 import android.content.Context;
 import android.graphics.Bitmap;

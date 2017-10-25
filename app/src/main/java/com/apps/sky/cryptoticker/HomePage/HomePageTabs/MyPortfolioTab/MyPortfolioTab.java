@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
-import com.apps.sky.cryptoticker.GlobalFunctions.MyGlobalsFunctions;
+import com.apps.sky.cryptoticker.Global.MyGlobalsFunctions;
 import com.apps.sky.cryptoticker.HomePage.HomePageTabs.AddToMyPortfolioForm.CryptoTradeObject;
 import com.apps.sky.cryptoticker.R;
 import com.google.gson.Gson;
