@@ -10,9 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.apps.sky.cryptoticker.Global.MyGlobalsFunctions;
 import com.apps.sky.cryptoticker.HomePage.HomePageTabs.AddToMyPortfolioForm.CryptoTradeObject;
+import com.apps.sky.cryptoticker.HomePage.HomePageTabs.AddToMyPortfolioForm.TradeObject;
 import com.apps.sky.cryptoticker.R;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -36,9 +38,10 @@ public class MyPortfolioTab extends Fragment {
     RecyclerView.LayoutManager layoutManager;
 
     String url, cryptoID;
+    float totalProfit = 0, totalCost = 0, totalPrice = 0, priceDif = 0;
     MyGlobalsFunctions myGlobalsFunctions;
     ArrayList<CryptoTradeObject> myPortfolioItems;
-    CryptoTradeObject cur_item = new CryptoTradeObject();
+    CryptoTradeObject curItem = new CryptoTradeObject();
     ArrayList<MyPortfolioObject> myPortfolioArray = new ArrayList<>();
 
     @Override
@@ -56,6 +59,7 @@ public class MyPortfolioTab extends Fragment {
         }
 
         myGlobalsFunctions = new MyGlobalsFunctions(rootView.getContext());
+        myPortfolioItems = new ArrayList<>();
 
         RelativeLayout current_portfolio_layout = (RelativeLayout) inflater.inflate(R.layout.my_current_portfolio_card, null, false);
         RelativeLayout current_portfolio_view = rootView.findViewById(R.id.my_current_portfolio_view);
@@ -66,7 +70,6 @@ public class MyPortfolioTab extends Fragment {
         RelativeLayout my_portfolio_view = rootView.findViewById(R.id.my_portfolio_view);
         my_portfolio_view.addView(my_portfolio_layout);
         myPortfolioView = my_portfolio_view;
-        myPortfolioItems = new ArrayList<>();
 
         recyclerView = rootView.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
@@ -86,19 +89,50 @@ public class MyPortfolioTab extends Fragment {
         }
 
         for (int i = 0; i < myPortfolioItems.size(); ++i) {
-            cur_item = myPortfolioItems.get(i);
-            cryptoID = cur_item.getCryptoID();
+            curItem = myPortfolioItems.get(i);
+            cryptoID = curItem.getCryptoID();
             url = "https://api.coinmarketcap.com/v1/ticker/" + cryptoID + "/?convert=INR";
             String imageUrl = "https://files.coinmarketcap.com/static/img/coins/32x32/"+cryptoID+".png";
-            new JSONTask().execute(url, imageUrl);
+            float quantity = 0, cost = 0;
+            for (TradeObject item : curItem.getTrades()) {
+                cost += Float.parseFloat(item.getCost());
+                quantity += Float.parseFloat(item.getQuantity());
+            }
+            new JSONTask().execute(url, imageUrl, String.valueOf(cost), String.valueOf(quantity));
         }
         return rootView;
     }
 
-    void deleteItem(int position) {
-        myPortfolioArray.remove(position);
-        myPortfolioItems.remove(position);
-        adapter.notifyItemRemoved(position);
+    void setCurrentPortfolioValues() {
+        priceDif = totalPrice - totalCost;
+        totalProfit = 100 * ((totalPrice - totalCost)/totalCost);
+        totalProfit = (float) (Math.round(totalProfit * 100.0) / 100.0);
+        TextView currentPortfolioValue = rootView.findViewById(R.id.current_portfolio_value);
+        TextView totalCostValue = rootView.findViewById(R.id.total_cost);
+        TextView totalProfitValue = rootView.findViewById(R.id.total_profit);
+        TextView totalProfitPerValue = rootView.findViewById(R.id.total_profit_percentage);
+        currentPortfolioValue.setText(myGlobalsFunctions.commaSeperateInteger(String.valueOf(totalPrice)));
+        totalCostValue.setText(myGlobalsFunctions.commaSeperateInteger(String.valueOf(totalCost)));
+        totalProfitValue.setText(myGlobalsFunctions.commaSeperateInteger(String.valueOf(priceDif)));
+        totalProfitPerValue.setText(String.valueOf(totalProfit) + "%");
+        myCurrentPortfolioView.refreshDrawableState();
+    }
+
+    String calcMyProfitPercentage(String costStr, String quantityStr, String curPrice) {
+        float quantity = Float.parseFloat(quantityStr), cost = Float.parseFloat(costStr), profitPer, coinPrice = Float.parseFloat(curPrice);
+//        for (TradeObject item : cur_item.getTrades()) {
+//            cost += Float.parseFloat(item.getCost());
+//            quantity += Float.parseFloat(item.getQuantity());
+//        }
+        profitPer = 100 * ((coinPrice * quantity - cost)/cost);
+
+        totalCost += cost;
+        totalPrice += (coinPrice * quantity);
+
+        System.out.println("coinPrice " + coinPrice
+                + "\nquantity " + quantity + "\ncost " + cost + "\nprofit " + profitPer
+                + "\nresult " + (Math.round(profitPer * 100.0) / 100.0));
+        return String.valueOf(Math.round(profitPer * 100.0) / 100.0);
     }
 
     public class JSONTask extends AsyncTask<String,String, String > {
@@ -118,9 +152,9 @@ public class MyPortfolioTab extends Fragment {
                 MyPortfolioObject currency_details = new MyPortfolioObject();
                 currency_details.setTitle(parentObject.getString("name"));
                 currency_details.setCurrentPrice(parentObject.getString("price_inr"));
-                currency_details.setMyProfit("34.08%");
                 currency_details.setIcon(params[1]);
                 currency_details.setCryptoID(parentObject.getString("id"));
+                currency_details.setMyProfit(calcMyProfitPercentage(params[2], params[3], parentObject.getString("price_inr")) + "%");
 
                 myPortfolioArray.add(currency_details);
                 return finalJson;
@@ -137,6 +171,7 @@ public class MyPortfolioTab extends Fragment {
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
 
+            setCurrentPortfolioValues();
             adapter = new MyPortfolioRecyclerViewAdapter(myPortfolioArray,MyPortfolioTab.this);
             recyclerView.setAdapter(adapter);
         }

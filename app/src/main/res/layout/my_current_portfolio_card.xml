@@ -62,7 +62,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:fontFamily="sans-serif-condensed"
-                        android:text="$3,265,856"
+                        android:text="-"
                         android:textColor="@android:color/background_light"
                         android:textSize="28sp"
                         android:textStyle="bold" />
@@ -95,7 +95,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:fontFamily="sans-serif-condensed"
-                        android:text="$1,985,084"
+                        android:text="-"
                         android:textColor="@android:color/background_light"
                         android:textSize="20sp"
                         android:textStyle="bold" />
@@ -129,7 +129,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:fontFamily="sans-serif-condensed"
-                        android:text="$1,280,117"
+                        android:text="-"
                         android:textColor="@android:color/background_light"
                         android:textSize="20sp"
                         android:textStyle="bold" />
@@ -163,7 +163,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:fontFamily="sans-serif-condensed"
-                        android:text="65%"
+                        android:text="-"
                         android:textColor="@android:color/background_light"
                         android:textSize="20sp"
                         android:textStyle="bold" />
