@@ -2,7 +2,7 @@ package com.apps.sky.cryptoticker.HomePage.HomePageTabs.MyPortfolioTab;
 
 import android.graphics.Bitmap;
 
-import com.apps.sky.cryptoticker.GlobalFunctions.MyGlobalsFunctions;
+import com.apps.sky.cryptoticker.Global.MyGlobalsFunctions;
 
 /**
  * Created by ankitaverma on 06/10/17.
