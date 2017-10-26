@@ -18,6 +18,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
+import com.apps.sky.cryptoticker.Global.Constants;
+import com.apps.sky.cryptoticker.Global.ConstantsCrypto;
 import com.apps.sky.cryptoticker.HomePage.BottomNavigationBar.BottomNavigationViewHelper;
 import com.apps.sky.cryptoticker.HomePage.HomePageTabs.ChatTab.ChatTab;
 import com.apps.sky.cryptoticker.HomePage.HomePageTabs.MoreTab.MoreTab;
@@ -28,6 +30,7 @@ import com.apps.sky.cryptoticker.StockPage.StockPageActivity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -40,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     View mainView;
     SearchView searchView;
     MenuItem searchItem;
+    HashMap<String, String> searchMap = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,14 +110,13 @@ public class MainActivity extends AppCompatActivity {
             });
 
         items = new ArrayList<>();
-        String[] otherList = new String[] {"atc-coin","bitcoin","bitconnect","bitshares","dash","eos","ethereum","golem-network-tokens",
-                "lisk","litecoin","metal","nexus","omisego","ripple","rupee","syscoin","tether","the-champcoin","waves"};
-        items.addAll(Arrays.asList(otherList));
+        items.addAll(Arrays.asList(Constants.cryptoIDList));
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String text = listView.getItemAtPosition(i).toString();
+                String temp = searchMap.get(listView.getItemAtPosition(i).toString());
+                String text = temp.replaceAll("_", "-");
                 Intent intent = new Intent(MainActivity.this, StockPageActivity.class);
                 intent.putExtra("cryptoID", "" + text.toLowerCase());
                 startActivity(intent);
@@ -211,7 +214,10 @@ public class MainActivity extends AppCompatActivity {
                 System.out.println(newText);
 
                 if (newText.length() > 0) {
-                    for (String temp : items) {
+                    for (String iter : items) {
+                        String temp = ConstantsCrypto.cryptoMap.get(iter)[0] + " (" + ConstantsCrypto.cryptoMap.get(iter)[1] + ")";
+                        searchMap.put(temp, iter);
+
                         if (temp.toLowerCase().contains(newText.toLowerCase())) {
                             templist.add(temp);
                         }
