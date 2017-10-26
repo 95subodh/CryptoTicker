@@ -101,7 +101,6 @@ public class StockInfoTab extends Fragment {
         @Override
         protected String doInBackground(String... params) {
             try {
-//                final MyGlobalsFunctions myGlobalsFunctions = new MyGlobalsFunctions(getContext());
                 String finalJson = myGlobalsFunctions.fetchJSONasString(params[0]);
                 myGlobalsFunctions.storeStringToFile(cryptoID,getString(R.string.crypto_info_dir),finalJson);
                 setVals(finalJson);

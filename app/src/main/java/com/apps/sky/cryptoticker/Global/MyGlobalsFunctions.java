@@ -44,6 +44,7 @@ public class MyGlobalsFunctions {
     }
 
     public String commaSeperateInteger(String num){
+        if (num=="null") return "-";
         return NumberFormat.getNumberInstance(Locale.US).format(Float.valueOf(num));
     }
 
