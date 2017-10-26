@@ -85,6 +85,7 @@ public class AddToMyPortfolioFormActivity extends AppCompatActivity {
 
     private void addBlankTradeCard() {
         addTrade.setEnabled(false);
+        submit.setEnabled(false);
         TradeObject obj = new TradeObject();
         Integer tradeNum = tradeArray.size() + 1;
         obj.setTradeNumber("Trade " + tradeNum.toString());
@@ -96,8 +97,28 @@ public class AddToMyPortfolioFormActivity extends AppCompatActivity {
 
     void deleteItem(int position) {
         tradeArray.remove(position);
-        adapter.notifyItemRemoved(position);
-        adapter.notifyItemRangeChanged(position, tradeArray.size() - position);
+        boolean done = false;
+        for (int i = 1; i <= tradeArray.size(); ++i) {
+            tradeArray.get(i - 1).setTradeNumber("Trade " + ((Integer) i).toString());
+            if (!done && (tradeArray.get(tradeArray.size() - 1).getQuantity().toString().trim().isEmpty() ||
+                    tradeArray.get(tradeArray.size() - 1).getQuantity().toString().trim().isEmpty())) {
+                addTrade.setEnabled(false);
+                submit.setEnabled(false);
+                done = true;
+            }
+            else {
+                addTrade.setEnabled(true);
+                submit.setEnabled(true);
+            }
+        }
+        if (tradeArray.size() == 0) {
+            addTrade.setEnabled(true);
+            submit.setEnabled(false);
+        }
+//        adapter.notifyItemRemoved(position);
+//        adapter.notifyItemRangeChanged(position, tradeArray.size() - position);
+        adapter = new TradeRecyclerViewAdapter(tradeArray);
+        recyclerView.setAdapter(adapter);
     }
 
     private void addCurrencyToMyPortfolio() {
