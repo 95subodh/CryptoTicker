@@ -2,7 +2,6 @@ package com.apps.sky.cryptoticker.HomePage.HomePageTabs.WatchlistTab;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -88,8 +87,8 @@ class WatchlistRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             }
         });
 
-        if (!mDataset.get(position).getChangeColor()) { ((DataObjectHolder)holder).myChange.setTextColor(Color.RED); }
-        else { ((DataObjectHolder)holder).myChange.setTextColor(Color.parseColor("#ff99cc00")); }
+        if (!mDataset.get(position).getChangeColor()) { ((DataObjectHolder)holder).myChange.setTextColor(context.getResources().getColor(R.color.valueNegative)); }
+        else { ((DataObjectHolder)holder).myChange.setTextColor(context.getResources().getColor(R.color.valuePositive)); }
     }
 
     private void deleteItem(int index) {

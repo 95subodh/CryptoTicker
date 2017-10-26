@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:layout_marginTop="2dp">
+    android:orientation="vertical">
 
     <android.support.v7.widget.CardView
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
@@ -15,39 +14,27 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_gravity="center"
-        android:elevation="4dp">
+        card_view:cardElevation="4dp"
+        card_view:cardUseCompatPadding="true"
+        card_view:cardCornerRadius="6dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/background_dark">
+            android:background="@color/white">
 
             <RelativeLayout
-                android:id="@+id/close_btn_view"
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:layout_alignParentEnd="true"
-                android:background="@color/white">
-
-                <ImageButton
-                    android:id="@+id/close_btn"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/ic_action_cross"/>
-
-            </RelativeLayout>
-
-            <RelativeLayout
+                android:id="@+id/coin_heading_view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/close_btn_view" >
+                android:layout_height="wrap_content">
 
                 <ImageView
                     android:id="@+id/watchlist_item_icon"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_alignParentStart="true"
                     android:layout_marginLeft="16dp"
+                    android:layout_marginTop="16dp"
                     android:layout_centerVertical="true"
                     app:srcCompat="@android:drawable/screen_background_dark" />
 
@@ -56,40 +43,149 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
+                    android:layout_marginTop="16dp"
                     android:layout_centerVertical="true"
                     android:layout_toRightOf="@+id/watchlist_item_icon"
                     android:fontFamily="sans-serif-condensed"
                     android:text="Bitcoin"
-                    android:textColor="@android:color/background_light"
-                    android:textSize="28sp"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="24sp"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/watchlist_item_current_price"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="16dp"
-                    android:layout_marginTop="16dp"
+                <RelativeLayout
+                    android:id="@+id/close_btn_view"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_alignParentEnd="true"
-                    android:text="$2459.83008"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:textColor="@android:color/darker_gray" />
+                    android:layout_marginRight="8dp"
+                    android:layout_centerVertical="true"
+                    android:background="@color/white">
 
-                <TextView
-                    android:id="@+id/watchlist_item_change"
+                    <ImageButton
+                        android:id="@+id/close_btn"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/ic_action_cross"/>
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/line"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="@color/gray"
+                android:layout_below="@+id/coin_heading_view" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/line" >
+
+                <RelativeLayout
+                    android:id="@+id/price_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginVertical="16dp"
                     android:layout_marginRight="16dp"
-                    android:layout_marginTop="2dp"
-                    android:layout_marginBottom="16dp"
+                    android:layout_marginLeft="24dp">
+
+                    <TextView
+                        android:id="@+id/watchlist_item_current_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="$2459.830"
+                        android:textSize="30sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/colorPrimary" />
+
+                    <TextView
+                        android:id="@+id/watchlist_item_change"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:layout_alignEnd="@+id/watchlist_item_current_price"
+                        android:layout_below="@+id/watchlist_item_current_price"
+                        android:fontFamily="sans-serif-condensed"
+                        android:text="67.03%"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/colorPrimary" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/high_low_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:layout_below="@+id/watchlist_item_current_price"
-                    android:fontFamily="sans-serif-condensed"
-                    android:text="67.03%"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:textColor="@android:color/holo_green_light" />
+                    android:layout_alignTop="@+id/price_view"
+                    android:layout_alignBottom="@+id/price_view"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="24dp">
+
+                    <RelativeLayout
+                        android:id="@+id/watchlist_item_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true">
+
+                        <TextView
+                            android:id="@+id/watchlist_item_high_dummy"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="High:"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/gray" />
+
+                        <TextView
+                            android:id="@+id/watchlist_item_low_dummy"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/watchlist_item_high_dummy"
+                            android:layout_alignEnd="@id/watchlist_item_high_dummy"
+                            android:layout_marginTop="8dp"
+                            android:text="Low:"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/gray"/>
+
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/watchlist_item_value_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/watchlist_item_text_view"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="8dp">
+
+                        <TextView
+                            android:id="@+id/watchlist_item_high"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="$2459.830"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/colorPrimary" />
+
+                        <TextView
+                            android:id="@+id/watchlist_item_low"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/watchlist_item_high"
+                            android:layout_marginTop="8dp"
+                            android:text="$2459.830"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/colorPrimary" />
+
+                    </RelativeLayout>
+
+                </RelativeLayout>
 
             </RelativeLayout>
 
