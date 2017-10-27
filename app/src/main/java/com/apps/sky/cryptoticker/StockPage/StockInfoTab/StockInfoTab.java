@@ -106,9 +106,7 @@ public class StockInfoTab extends Fragment {
                 setVals(finalJson);
                 return price;
 
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
+            } catch (IOException | JSONException e) {
                 e.printStackTrace();
             }
             return  null;

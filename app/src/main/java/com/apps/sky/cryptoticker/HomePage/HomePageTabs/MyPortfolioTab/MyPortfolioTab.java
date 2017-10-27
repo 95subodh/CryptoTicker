@@ -159,9 +159,7 @@ public class MyPortfolioTab extends Fragment {
                 myPortfolioArray.add(currency_details);
                 return finalJson;
 
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
+            } catch (IOException | JSONException e) {
                 e.printStackTrace();
             }
             return  null;

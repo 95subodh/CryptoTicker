@@ -33,16 +33,16 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
 
         public DataObjectHolder(View itemView) {
             super(itemView);
-            title = (TextView) itemView.findViewById(R.id.news_title1);
-            author = (TextView) itemView.findViewById(R.id.news_url1);
-            publishedAt = (TextView) itemView.findViewById(R.id.news_date1);
-            img = (ImageView) itemView.findViewById(R.id.news_image_url1);
+            title = itemView.findViewById(R.id.news_title1);
+            author = itemView.findViewById(R.id.news_url1);
+            publishedAt = itemView.findViewById(R.id.news_date1);
+            img = itemView.findViewById(R.id.news_image_url1);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(context, WebViewActivity.class);
-                    intent.putExtra("url", url.toString());
+                    intent.putExtra("url", url);
                     context.startActivity(intent);
                 }
             });
@@ -64,8 +64,7 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
         context = parent.getContext();
             view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.news_card_item_view_1, parent, false);
-            DataObjectHolder dataObjectHolder = new DataObjectHolder(view);
-            return dataObjectHolder;
+            return new DataObjectHolder(view);
     }
 
     @Override
@@ -83,6 +82,6 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
     }
 
     public interface MyClickListener {
-        public void onItemClick(int position, View v);
+        void onItemClick(int position, View v);
     }
 }
