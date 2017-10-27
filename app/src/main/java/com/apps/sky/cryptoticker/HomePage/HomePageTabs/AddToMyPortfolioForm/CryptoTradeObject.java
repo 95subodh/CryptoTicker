@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class CryptoTradeObject {
 
     private String cryptoID;
-    private ArrayList<TradeObject> trades = new ArrayList<TradeObject>();
+    private ArrayList<TradeObject> trades = new ArrayList<>();
 
     public void setCryptoID (String cryptoID) { this.cryptoID = cryptoID; }
 

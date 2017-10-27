@@ -45,22 +45,22 @@ public class StockPageActivity extends AppCompatActivity {
         Intent intent = getIntent();
         cryptoID = intent.getExtras().getString("cryptoID");
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager = findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        TabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
         fab1_view = findViewById(R.id.fab1_view);
         fab2_view = findViewById(R.id.fab2_view);
 
-        add = (FloatingActionButton) findViewById(R.id.add_currency);
-        fab1 = (FloatingActionButton)findViewById(R.id.fab1);
-        fab2 = (FloatingActionButton)findViewById(R.id.fab2);
+        add = findViewById(R.id.add_currency);
+        fab1 = findViewById(R.id.fab1);
+        fab2 = findViewById(R.id.fab2);
 
         fab_open = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
         fab_close = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fab_close);

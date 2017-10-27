@@ -32,7 +32,7 @@ public class StockNewsTab extends Fragment {
     String source = "sources=google-news";
     String language = "en";
     String status, url;
-    ArrayList<NewsObject> news = new ArrayList<NewsObject>();
+    ArrayList<NewsObject> news = new ArrayList<>();
 
     private RecyclerView recyclerView;
     RecyclerView.Adapter adapter;
@@ -51,7 +51,7 @@ public class StockNewsTab extends Fragment {
         myGlobalsFunctions = new MyGlobalsFunctions(getContext());
         new JSONTask().execute(url);
 
-        recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
+        recyclerView = rootView.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(rootView.getContext());
         recyclerView.setLayoutManager(layoutManager);
@@ -74,7 +74,7 @@ public class StockNewsTab extends Fragment {
             currentNews.setPublishedDate(obj.getString("publishedAt"));
             currentNews.setAuthor(obj.getJSONObject("source").getString("name"));
             currentNews.setURL(obj.getString("url"));
-//                    currentNews.setImage(obj.getString("urlToImage"));
+//            currentNews.setImage(obj.getString("urlToImage"));
 
             news.add(i, currentNews);
         }
@@ -101,9 +101,7 @@ public class StockNewsTab extends Fragment {
                 setVals(finalJson);
                 return finalJson;
 
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
+            } catch (IOException | JSONException e) {
                 e.printStackTrace();
             }
             return  null;

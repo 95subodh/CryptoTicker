@@ -16,8 +16,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -39,13 +39,19 @@ public class MyGlobalsFunctions {
 
     public MyGlobalsFunctions() {}
 
-    public String getUserName(){
-        return "test";
-    }
-
     public String commaSeperateInteger(String num){
-        if (num=="null") return "-";
-        return NumberFormat.getNumberInstance(Locale.US).format(Float.valueOf(num));
+        if ("null".equals(num)) return "-";
+        Double x = Double.valueOf(num);
+        if (x>=1000) {
+            DecimalFormat newFormat = new DecimalFormat("#.#");
+            x =  Double.valueOf(newFormat.format(x));
+        }
+        else if (x>=1) {
+            DecimalFormat newFormat = new DecimalFormat("#.##");
+            x =  Double.valueOf(newFormat.format(x));
+        }
+
+        return NumberFormat.getNumberInstance(Locale.US).format(x);
     }
 
     public String getEpochToNormalDateString (String date) {
@@ -120,7 +126,6 @@ public class MyGlobalsFunctions {
             }
             r.close();
             secondInputStream.close();
-//            Log.d("File", "File contents: " + total);
             return total.toString();
         } catch (Exception e) {
             e.printStackTrace();
@@ -146,11 +151,7 @@ public class MyGlobalsFunctions {
             while ((line = reader.readLine()) != null){
                 buffer.append(line);
             }
-            String finalJson = buffer.toString();
-            return finalJson;
-
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
+            return buffer.toString();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
