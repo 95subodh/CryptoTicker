@@ -8,4 +8,6 @@
     <dimen name="large_text">24dp</dimen>
     <dimen name="medium_text">18dp</dimen>
     <dimen name="small_text">12dp</dimen>
+
+    <dimen name="spacing">8dp</dimen>
 </resources>
