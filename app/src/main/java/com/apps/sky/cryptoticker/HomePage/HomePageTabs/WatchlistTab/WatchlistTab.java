@@ -89,7 +89,7 @@ public class WatchlistTab extends Fragment {
         protected String doInBackground(String... params) {
             try {
                 String finalJson = myGlobalsFunctions.fetchJSONasString(params[0]);
-                myGlobalsFunctions.storeStringToFile(cryptoID,getString(R.string.crypto_info_dir),finalJson);
+//                myGlobalsFunctions.storeStringToFile(cryptoID,getString(R.string.crypto_info_dir),finalJson);
                 setVals(finalJson, params[1]);
                 return finalJson;
 
