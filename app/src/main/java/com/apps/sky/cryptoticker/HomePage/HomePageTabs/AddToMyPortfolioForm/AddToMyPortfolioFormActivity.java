@@ -100,8 +100,8 @@ public class AddToMyPortfolioFormActivity extends AppCompatActivity {
         boolean done = false;
         for (int i = 1; i <= tradeArray.size(); ++i) {
             tradeArray.get(i - 1).setTradeNumber("Trade " + ((Integer) i).toString());
-            if (!done && (tradeArray.get(tradeArray.size() - 1).getQuantity().toString().trim().isEmpty() ||
-                    tradeArray.get(tradeArray.size() - 1).getQuantity().toString().trim().isEmpty())) {
+            if (!done && (tradeArray.get(tradeArray.size() - 1).getQuantity().trim().isEmpty() ||
+                    tradeArray.get(tradeArray.size() - 1).getCost().trim().isEmpty())) {
                 addTrade.setEnabled(false);
                 submit.setEnabled(false);
                 done = true;
