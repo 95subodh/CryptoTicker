@@ -35,6 +35,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".HomePage.HomePageTabs.AddToMyPortfolioForm.AddToMyPortfolioFormActivity"></activity>
+        <activity
+            android:name="com.apps.sky.cryptoticker.HomePage.HomePageTabs.ChatTab.LoginActivity"
+            android:label="@string/title_activity_login"
+            android:theme="@style/Theme.AppCompat"
+            android:windowSoftInputMode="adjustResize|stateVisible" >
+        </activity>
     </application>
 
 </manifest>
