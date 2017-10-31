@@ -88,17 +88,19 @@ public class MyPortfolioTab extends Fragment {
             Log.d("error", "error in parsing json");
         }
 
-        for (int i = 0; i < myPortfolioItems.size(); ++i) {
-            curItem = myPortfolioItems.get(i);
-            cryptoID = curItem.getCryptoID();
-            url = "https://api.coinmarketcap.com/v1/ticker/" + cryptoID + "/?convert=INR";
-            String imageUrl = "https://files.coinmarketcap.com/static/img/coins/32x32/"+cryptoID+".png";
-            float quantity = 0, cost = 0;
-            for (TradeObject item : curItem.getTrades()) {
-                cost += Float.parseFloat(item.getCost());
-                quantity += Float.parseFloat(item.getQuantity());
+        if (myGlobalsFunctions.isNetworkConnected()) {
+            for (int i = 0; i < myPortfolioItems.size(); ++i) {
+                curItem = myPortfolioItems.get(i);
+                cryptoID = curItem.getCryptoID();
+                url = "https://api.coinmarketcap.com/v1/ticker/" + cryptoID + "/?convert=INR";
+                String imageUrl = "https://files.coinmarketcap.com/static/img/coins/32x32/" + cryptoID + ".png";
+                float quantity = 0, cost = 0;
+                for (TradeObject item : curItem.getTrades()) {
+                    cost += Float.parseFloat(item.getCost());
+                    quantity += Float.parseFloat(item.getQuantity());
+                }
+                new JSONTask().execute(url, imageUrl, String.valueOf(cost), String.valueOf(quantity));
             }
-            new JSONTask().execute(url, imageUrl, String.valueOf(cost), String.valueOf(quantity));
         }
         return rootView;
     }
