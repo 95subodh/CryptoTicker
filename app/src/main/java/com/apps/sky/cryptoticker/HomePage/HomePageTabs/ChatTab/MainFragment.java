@@ -3,6 +3,7 @@ package com.apps.sky.cryptoticker.HomePage.HomePageTabs.ChatTab;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -14,9 +15,6 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
@@ -25,6 +23,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.apps.sky.cryptoticker.Global.Constants;
 import com.apps.sky.cryptoticker.R;
 
 import org.json.JSONException;
@@ -49,12 +48,13 @@ public class MainFragment extends Fragment {
 
     private RecyclerView mMessagesView;
     private EditText mInputMessageView;
-    private List<Message> mMessages = new ArrayList<Message>();
+    private List<Message> mMessages = new ArrayList<>();
     private RecyclerView.Adapter mAdapter;
     private boolean mTyping = false;
     private Handler mTypingHandler = new Handler();
     private String mUsername;
     private Socket mSocket;
+    SharedPreferences pref;
 
     private Boolean isConnected = true;
 
@@ -70,9 +70,9 @@ public class MainFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         mAdapter = new MessageAdapter(context, mMessages);
-        if (context instanceof Activity){
+        //if (context instanceof Activity){
             //this.listener = (MainActivity) context;
-        }
+        //}
     }
 
 
@@ -94,6 +94,8 @@ public class MainFragment extends Fragment {
         mSocket.on("typing", onTyping);
         mSocket.on("stop typing", onStopTyping);
         mSocket.connect();
+
+        pref = getContext().getSharedPreferences("com.apps.sky.cryptoticker", Context.MODE_PRIVATE);
 
         startSignIn();
     }
@@ -182,32 +184,11 @@ public class MainFragment extends Fragment {
         }
 
         mUsername = data.getStringExtra("username");
+        pref.edit().putString(Constants.CHAT_USERNAME, mUsername).apply();
         int numUsers = data.getIntExtra("numUsers", 1);
 
-        addLog(getResources().getString(R.string.message_welcome));
+//        addLog(getResources().getString(R.string.message_welcome));
         addParticipantsLog(numUsers);
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        inflater.inflate(R.menu.menu_main, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_leave) {
-            leave();
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     private void addLog(String message) {
@@ -265,16 +246,47 @@ public class MainFragment extends Fragment {
 
     private void startSignIn() {
         mUsername = null;
-        Intent intent = new Intent(getActivity(), LoginActivity.class);
-        startActivityForResult(intent, REQUEST_LOGIN);
+        String user = pref.getString(Constants.CHAT_USERNAME, new String());
+
+        if (!user.equals("")) {
+            mUsername = user;
+            mSocket.emit("add user", mUsername);
+            mSocket.on("login", onLogin);
+        }
+        else {
+            Intent intent = new Intent(getActivity(), LoginActivity.class);
+            startActivityForResult(intent, REQUEST_LOGIN);
+        }
     }
 
-    private void leave() {
-        mUsername = null;
-        mSocket.disconnect();
-        mSocket.connect();
-        startSignIn();
-    }
+    private Emitter.Listener onLogin = new Emitter.Listener() {
+        @Override
+        public void call(final Object... args) {
+            if(getActivity() == null)
+                return;
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    JSONObject data = (JSONObject) args[0];
+
+                    int numUsers;
+                    try {
+                        numUsers = data.getInt("numUsers");
+                        addParticipantsLog(numUsers);
+                    } catch (JSONException e) {
+                        Log.e(TAG, e.getMessage());
+                    }
+                }
+            });
+        }
+    };
+
+//    private void leave() {
+//        mUsername = null;
+//        mSocket.disconnect();
+//        mSocket.connect();
+//        startSignIn();
+//    }
 
     private void scrollToBottom() {
         mMessagesView.scrollToPosition(mAdapter.getItemCount() - 1);
@@ -344,7 +356,7 @@ public class MainFragment extends Fragment {
                         return;
                     }
 
-                    removeTyping(username);
+//                    removeTyping(username);
                     addMessage(username, message);
                 }
             });
@@ -368,7 +380,7 @@ public class MainFragment extends Fragment {
                         return;
                     }
 
-                    addLog(getResources().getString(R.string.message_user_joined, username));
+//                    addLog(getResources().getString(R.string.message_user_joined, username));
                     addParticipantsLog(numUsers);
                 }
             });
@@ -392,9 +404,9 @@ public class MainFragment extends Fragment {
                         return;
                     }
 
-                    addLog(getResources().getString(R.string.message_user_left, username));
+//                    addLog(getResources().getString(R.string.message_user_left, username));
                     addParticipantsLog(numUsers);
-                    removeTyping(username);
+//                    removeTyping(username);
                 }
             });
         }
@@ -412,9 +424,8 @@ public class MainFragment extends Fragment {
                         username = data.getString("username");
                     } catch (JSONException e) {
                         Log.e(TAG, e.getMessage());
-                        return;
                     }
-                    addTyping(username);
+//                    addTyping(username);
                 }
             });
         }
@@ -432,9 +443,8 @@ public class MainFragment extends Fragment {
                         username = data.getString("username");
                     } catch (JSONException e) {
                         Log.e(TAG, e.getMessage());
-                        return;
                     }
-                    removeTyping(username);
+//                    removeTyping(username);
                 }
             });
         }

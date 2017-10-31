@@ -51,12 +51,15 @@ public class WatchlistTab extends Fragment {
 
         items = myGlobalsFunctions.retrieveListFromFile(getString(R.string.crypto_watchlist_file), getString(R.string.crypto_watchlist_dir));
         watchlistArray = new ArrayList<>();
-        for (int i = 0; i < items.size(); ++i) {
-            cryptoID = items.get(i);
-            url = "https://api.coinmarketcap.com/v1/ticker/" + cryptoID + "/?convert=INR";
-            String imageUrl = "https://files.coinmarketcap.com/static/img/coins/32x32/"+cryptoID+".png";
-            new JSONTask().execute(url, imageUrl);
+        if (myGlobalsFunctions.isNetworkConnected()) {
+            for (int i = 0; i < items.size(); ++i) {
+                cryptoID = items.get(i);
+                url = "https://api.coinmarketcap.com/v1/ticker/" + cryptoID + "/?convert=INR";
+                String imageUrl = "https://files.coinmarketcap.com/static/img/coins/32x32/"+cryptoID+".png";
+                new JSONTask().execute(url, imageUrl);
+            }
         }
+
         adapter = new WatchlistRecyclerViewAdapter(watchlistArray, WatchlistTab.this);
         recyclerView.setAdapter(adapter);
         return rootView;
