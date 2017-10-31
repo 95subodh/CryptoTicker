@@ -113,17 +113,20 @@ public class MyPortfolioTab extends Fragment {
         TextView totalProfitPerValue = rootView.findViewById(R.id.total_profit_percentage);
         currentPortfolioValue.setText(myGlobalsFunctions.commaSeperateInteger(String.valueOf(totalPrice)));
         totalCostValue.setText(myGlobalsFunctions.commaSeperateInteger(String.valueOf(totalCost)));
+
         totalProfitValue.setText(myGlobalsFunctions.commaSeperateInteger(String.valueOf(priceDif)));
-        totalProfitPerValue.setText(String.valueOf(totalProfit) + "%");
+        if (priceDif >= 0) totalProfitValue.setTextColor(getResources().getColor(R.color.valuePositive));
+        else totalProfitValue.setTextColor(getResources().getColor(R.color.valueNegative));
+
+        String tp = String.valueOf(totalProfit) + "%";
+        totalProfitPerValue.setText(tp);
+        if (totalProfit >= 0) totalProfitPerValue.setTextColor(getResources().getColor(R.color.valuePositive));
+        else totalProfitPerValue.setTextColor(getResources().getColor(R.color.valueNegative));
         myCurrentPortfolioView.refreshDrawableState();
     }
 
     String calcMyProfitPercentage(String costStr, String quantityStr, String curPrice) {
         float quantity = Float.parseFloat(quantityStr), cost = Float.parseFloat(costStr), profitPer, coinPrice = Float.parseFloat(curPrice);
-//        for (TradeObject item : cur_item.getTrades()) {
-//            cost += Float.parseFloat(item.getCost());
-//            quantity += Float.parseFloat(item.getQuantity());
-//        }
         profitPer = 100 * ((coinPrice * quantity - cost)/cost);
 
         totalCost += cost;
@@ -154,7 +157,11 @@ public class MyPortfolioTab extends Fragment {
                 currency_details.setCurrentPrice(parentObject.getString("price_inr"));
                 currency_details.setIcon(params[1]);
                 currency_details.setCryptoID(parentObject.getString("id"));
-                currency_details.setMyProfit(calcMyProfitPercentage(params[2], params[3], parentObject.getString("price_inr")) + "%");
+
+                String profitPer = calcMyProfitPercentage(params[2], params[3], parentObject.getString("price_inr")) + "%";
+                currency_details.setMyProfit(profitPer);
+                if (profitPer.charAt(0) == '-') currency_details.setChangeColor(false);
+                else currency_details.setChangeColor(true);
 
                 myPortfolioArray.add(currency_details);
                 return finalJson;

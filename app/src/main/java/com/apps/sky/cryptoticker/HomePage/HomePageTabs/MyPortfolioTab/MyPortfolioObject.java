@@ -10,6 +10,7 @@ import com.apps.sky.cryptoticker.Global.MyGlobalsFunctions;
 
 public class MyPortfolioObject {
     private String title, currentPrice, myProfit, cryptoID;
+    private boolean color;
     private Bitmap btmp;
     private MyGlobalsFunctions myGlobalsFunctions = new MyGlobalsFunctions();
 
@@ -42,6 +43,10 @@ public class MyPortfolioObject {
     public void setMyProfit(String myProfit) {
         this.myProfit = myProfit;
     }
+
+    public boolean getChangeColor() { return color; }
+
+    public void setChangeColor(boolean color) { this.color = color; }
 
     public Bitmap getIcon() {
         return btmp;

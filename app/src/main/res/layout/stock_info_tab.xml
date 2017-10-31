@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginLeft="0sp"
-    android:background="@android:color/black"
+    android:background="@color/white"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -18,7 +18,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginLeft="8sp"
         android:fontFamily="sans-serif-condensed"
-        android:textColor="@android:color/background_light"
+        android:textColor="@color/colorPrimaryDark"
         android:textSize="@dimen/large_text"
         android:textStyle="bold" />
 
@@ -32,7 +32,7 @@
         android:layout_marginRight="8sp"
         android:layout_marginLeft="16sp"
         android:fontFamily="sans-serif-condensed"
-        android:textColor="@android:color/holo_green_light"
+        android:textColor="@color/colorPrimary"
         android:textSize="@dimen/large_text"
         android:textStyle="bold" />
 
@@ -46,7 +46,7 @@
         android:layout_marginLeft="8sp"
         android:layout_marginTop="@dimen/list_item_padding"
         android:fontFamily="sans-serif-condensed"
-        android:textColor="@android:color/holo_green_light"
+        android:textColor="@color/colorPrimary"
         android:textSize="@dimen/medium_text"
         android:textStyle="bold" />
 
@@ -60,7 +60,7 @@
         android:fontFamily="sans-serif-condensed"
         android:text="Rank"
         android:textSize="@dimen/small_text"
-        android:textColor="@android:color/white"
+        android:textColor="@color/colorPrimaryDark"
         android:textStyle="bold" />
 
     <TextView
@@ -71,7 +71,7 @@
         android:layout_marginTop="@dimen/list_item_padding"
         android:layout_below="@+id/coin_rank_dummy"
         android:fontFamily="sans-serif-condensed"
-        android:textColor="@android:color/holo_green_light"
+        android:textColor="@color/colorPrimary"
         android:textSize="@dimen/medium_text"
         android:textStyle="bold" />
 
@@ -85,7 +85,7 @@
         android:fontFamily="sans-serif-condensed"
         android:text="Market Capture"
         android:textSize="@dimen/small_text"
-        android:textColor="@android:color/white"
+        android:textColor="@color/colorPrimaryDark"
         android:textStyle="bold" />
 
     <TextView
@@ -97,7 +97,7 @@
         android:layout_marginTop="@dimen/list_item_padding"
         android:layout_marginLeft="8sp"
         android:fontFamily="sans-serif-condensed"
-        android:textColor="@android:color/holo_green_light"
+        android:textColor="@color/colorPrimary"
         android:textSize="@dimen/medium_text"
         android:textStyle="bold" />
 
@@ -109,7 +109,7 @@
         android:layout_alignParentStart="true"
         android:fontFamily="sans-serif-condensed"
         android:text="Available Supply"
-        android:textColor="@android:color/white"
+        android:textColor="@color/colorPrimaryDark"
         android:textStyle="bold"
         android:layout_centerVertical="true"
         android:textSize="@dimen/small_text"
@@ -124,7 +124,7 @@
         android:layout_marginTop="@dimen/list_item_padding"
         android:layout_marginLeft="8sp"
         android:fontFamily="sans-serif-condensed"
-        android:textColor="@android:color/holo_green_light"
+        android:textColor="@color/colorPrimary"
         android:textSize="@dimen/medium_text"
         android:textStyle="bold" />
 
@@ -138,7 +138,7 @@
         android:fontFamily="sans-serif-condensed"
         android:text="Total Supply"
         android:textSize="@dimen/small_text"
-        android:textColor="@android:color/white"
+        android:textColor="@color/colorPrimaryDark"
         android:textStyle="bold" />
 
     <TextView
@@ -150,7 +150,7 @@
         android:layout_marginTop="@dimen/list_item_padding"
         android:layout_marginLeft="8sp"
         android:fontFamily="sans-serif-condensed"
-        android:textColor="@android:color/holo_green_light"
+        android:textColor="@color/colorPrimary"
         android:textSize="@dimen/medium_text"
         android:textStyle="bold" />
 
@@ -164,7 +164,7 @@
         android:fontFamily="sans-serif-condensed"
         android:text="Last Updated on"
         android:textSize="@dimen/small_text"
-        android:textColor="@android:color/white"
+        android:textColor="@color/colorPrimaryDark"
         android:textStyle="bold" />
 
     <TextView
@@ -174,7 +174,7 @@
         android:layout_alignRight="@+id/coin_price"
         android:layout_below="@+id/coin_price"
         android:fontFamily="sans-serif-condensed"
-        android:textColor="@android:color/white"
+        android:textColor="@color/colorPrimaryDark"
         android:textSize="@dimen/medium_text"
         android:textStyle="bold" />
 

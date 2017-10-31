@@ -1,6 +1,5 @@
 package com.apps.sky.cryptoticker.StockPage.StockInfoTab;
 
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -62,9 +61,9 @@ public class StockInfoTab extends Fragment {
         coinChange = getView().findViewById(R.id.coin_change);
         coinChange.setText(change);
         if (change.charAt(0) == '-') {
-            coinChange.setTextColor(Color.RED);
+            coinChange.setTextColor(getResources().getColor(R.color.valueNegative));
         } else {
-            coinChange.setTextColor(Color.parseColor("#ff99cc00"));
+            coinChange.setTextColor(getResources().getColor(R.color.valuePositive));
         }
         coinLstUpdate = getView().findViewById(R.id.coin_lst_update);
         coinLstUpdate.setText(myGlobalsFunctions.getTimeFormattedDate(myGlobalsFunctions.getEpochToNormalDateString(lstupd)));

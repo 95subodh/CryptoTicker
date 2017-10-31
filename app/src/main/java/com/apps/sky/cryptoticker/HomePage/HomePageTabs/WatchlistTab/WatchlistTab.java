@@ -74,8 +74,8 @@ public class WatchlistTab extends Fragment {
         currency_details.setCryptoID(parentObject.getString("id"));
         currency_details.setIcon(imageUrl);
         watchlistArray.add(currency_details);
-        if (change.charAt(0) == '-') { currency_details.setChangeColor(false); }
-        else { currency_details.setChangeColor(true); }
+        if (change.charAt(0) == '-') currency_details.setChangeColor(false);
+        else currency_details.setChangeColor(true);
     }
 
     public class JSONTask extends AsyncTask<String,String, String > {

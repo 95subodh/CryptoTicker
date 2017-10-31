@@ -94,6 +94,9 @@ public class MyPortfolioRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
             myGlobalsFunctions.storeStringToFile(context.getString(R.string.crypto_my_portfolio_file), context.getString(R.string.crypto_my_portfolio_dir), json);
             }
         });
+
+        if (!mDataset.get(position).getChangeColor()) { ((DataObjectHolder)holder).myProfit.setTextColor(context.getResources().getColor(R.color.valueNegative)); }
+        else { ((DataObjectHolder)holder).myProfit.setTextColor(context.getResources().getColor(R.color.valuePositive)); }
     }
 
     private void deleteItem(int index) {
