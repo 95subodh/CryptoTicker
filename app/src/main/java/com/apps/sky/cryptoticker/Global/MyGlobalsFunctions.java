@@ -92,7 +92,7 @@ public class MyGlobalsFunctions {
     public boolean isNetworkConnected() {
         ConnectivityManager cm = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo ni = cm.getActiveNetworkInfo();
-        return ni != null;
+        return (ni != null && ni.isConnectedOrConnecting());
     }
 
     public void storeStringToFile(String fileName, String fileDirectory, String outputString) {
