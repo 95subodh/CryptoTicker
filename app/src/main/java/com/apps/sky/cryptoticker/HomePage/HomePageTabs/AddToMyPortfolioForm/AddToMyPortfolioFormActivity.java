@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.apps.sky.cryptoticker.Global.ConstantsCrypto;
 import com.apps.sky.cryptoticker.Global.MyGlobalsFunctions;
 import com.apps.sky.cryptoticker.HomePage.MainActivity;
 import com.apps.sky.cryptoticker.R;
@@ -44,11 +45,12 @@ public class AddToMyPortfolioFormActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         cryptoID = intent.getExtras().getString("cryptoID");
+        cryptoName = ConstantsCrypto.cryptoMap.get(cryptoID.replace("-", "_"))[0];
         onlyDetails = intent.getExtras().getBoolean("only_details");
         myGlobalFunctions = new MyGlobalsFunctions(this);
 
         TextView title = findViewById(R.id.trade_details_heading);
-        String tradeName = cryptoID + " Trade Details";
+        String tradeName = cryptoName + " Trade Details";
         title.setText(tradeName);
         addTrade = findViewById(R.id.add_trade_button);
         submit = findViewById(R.id.submit_button);
