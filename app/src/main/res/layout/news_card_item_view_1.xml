@@ -42,6 +42,8 @@
                 android:layout_marginTop="16dp"
                 android:layout_toRightOf="@+id/news_image_url1"
                 android:fontFamily="sans-serif-condensed"
+                android:ellipsize="end"
+                android:maxLines="3"
                 android:text="-"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="18sp"
