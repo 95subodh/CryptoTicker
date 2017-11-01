@@ -19,6 +19,8 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import static java.lang.Math.min;
+
 /**
  * Created by subodhyadav on 16/09/17.
  */
@@ -65,7 +67,7 @@ public class StockNewsTab extends Fragment {
         JSONArray articles = parentObject.getJSONArray("articles");
 
         //*********      this contains 10 news articles       ***********//
-        for (int i=0 ; i<articles.length(); i++){
+        for (int i=0 ; i < min(articles.length(), 10); i++){
 
             JSONObject obj = articles.getJSONObject(i);
             NewsObject currentNews = new NewsObject();

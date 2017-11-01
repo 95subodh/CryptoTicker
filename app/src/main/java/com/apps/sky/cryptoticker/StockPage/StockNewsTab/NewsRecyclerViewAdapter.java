@@ -21,11 +21,11 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
     private ArrayList<NewsObject> mDataset;
     private static MyClickListener myClickListener;
     private static Context context;
-    private static String url;
 
     public static class DataObjectHolder extends RecyclerView.ViewHolder
             implements View
             .OnClickListener {
+        String url;
         TextView title;
         TextView author;
         TextView publishedAt;
@@ -62,18 +62,18 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view;
         context = parent.getContext();
-            view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.news_card_item_view_1, parent, false);
-            return new DataObjectHolder(view);
+        view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.news_card_item_view_1, parent, false);
+        return new DataObjectHolder(view);
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         ((DataObjectHolder)holder).title.setText(mDataset.get(position).getTitle());
-            ((DataObjectHolder)holder).author.setText(mDataset.get(position).getAuthor());
-            url = mDataset.get(position).getURL();
-            ((DataObjectHolder)holder).publishedAt.setText(mDataset.get(position).getPublishedDate());
-            ((DataObjectHolder)holder).img.setImageBitmap(mDataset.get(position).getImage());
+        ((DataObjectHolder)holder).author.setText(mDataset.get(position).getAuthor());
+        ((DataObjectHolder)holder).url = mDataset.get(position).getURL();
+        ((DataObjectHolder)holder).publishedAt.setText(mDataset.get(position).getPublishedDate());
+        ((DataObjectHolder)holder).img.setImageBitmap(mDataset.get(position).getImage());
     }
 
     @Override
