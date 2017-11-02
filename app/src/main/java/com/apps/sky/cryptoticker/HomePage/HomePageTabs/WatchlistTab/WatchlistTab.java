@@ -57,7 +57,7 @@ public class WatchlistTab extends Fragment {
                 cryptoID = items.get(i);
                 url = "https://api.coinmarketcap.com/v1/ticker/" + cryptoID + "/?convert=INR";
                 String imageUrl = "https://files.coinmarketcap.com/static/img/coins/32x32/"+cryptoID+".png";
-                String highLowUrl = "https://www.coingecko.com/en/price_charts/" + cryptoID + "/usd/24_hours.json";
+                String highLowUrl = "https://www.coingecko.com/en/price_charts/" + cryptoID + "/inr/24_hours.json";
                 new JSONTask().execute(url, imageUrl, highLowUrl);
             }
         }
