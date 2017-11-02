@@ -43,8 +43,8 @@ public class StockPageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_stock_page);
 
         Intent intent = getIntent();
-        cryptoID = intent.getExtras().getString("cryptoID");
-        cryptoName = ConstantsCrypto.cryptoMap.get(cryptoID.replace("-", "_"))[0];
+        if (intent.getExtras() != null) cryptoID = intent.getExtras().getString("cryptoID");
+        if (cryptoID != null) cryptoName = ConstantsCrypto.cryptoMap.get(cryptoID.replace("-", "_"))[0];
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("");
@@ -63,8 +63,6 @@ public class StockPageActivity extends AppCompatActivity {
         fab2_view = findViewById(R.id.fab2_view);
 
         add = findViewById(R.id.add_currency);
-        fab1 = findViewById(R.id.fab1);
-        fab2 = findViewById(R.id.fab2);
 
         fab_open = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
         fab_close = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fab_close);
@@ -79,7 +77,7 @@ public class StockPageActivity extends AppCompatActivity {
             }
         });
 
-        fab1.setOnClickListener(new View.OnClickListener() {
+        fab1_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ArrayList<String> watchlistitems = myGlobalsFunctions.retrieveListFromFile(getString(R.string.crypto_watchlist_file), getString(R.string.crypto_watchlist_dir));
@@ -93,7 +91,7 @@ public class StockPageActivity extends AppCompatActivity {
             }
         });
 
-        fab2.setOnClickListener(new View.OnClickListener() {
+        fab2_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(StockPageActivity.this, AddToMyPortfolioFormActivity.class);
@@ -110,23 +108,23 @@ public class StockPageActivity extends AppCompatActivity {
             add.startAnimation(rotate_backward);
             fab1_view.startAnimation(fab_close);
             fab2_view.startAnimation(fab_close);
-            fab1.setClickable(false);
-            fab2.setClickable(false);
+            fab1_view.setClickable(false);
+            fab2_view.setClickable(false);
             isFabOpen = false;
 
         } else {
             add.startAnimation(rotate_forward);
             fab1_view.startAnimation(fab_open);
             fab2_view.startAnimation(fab_open);
-            fab1.setClickable(true);
-            fab2.setClickable(true);
+            fab1_view.setClickable(true);
+            fab2_view.setClickable(true);
             isFabOpen = true;
         }
     }
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-        public SectionsPagerAdapter(FragmentManager fm) {
+        SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
         }
 

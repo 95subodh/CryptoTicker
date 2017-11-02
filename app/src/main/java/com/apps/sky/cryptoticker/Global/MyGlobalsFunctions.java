@@ -39,14 +39,36 @@ public class MyGlobalsFunctions {
 
     public MyGlobalsFunctions() {}
 
-    public String commaSeperateInteger(String num){
+    public String commaSeperateInteger2(String num){
         if ("null".equals(num)) return "-";
         Double x = Double.valueOf(num);
-        if (x>=1000) {
+
+        if (x >= 1000000 || x <= -1000000) {
+            DecimalFormat newFormat = new DecimalFormat("#.##");
+            x /= 1000000.0;
+            x =  Double.valueOf(newFormat.format(x));
+            return NumberFormat.getNumberInstance(Locale.US).format(x) + "M";
+        }
+        else if (x>=1000 || x<=-1000) {
             DecimalFormat newFormat = new DecimalFormat("#.#");
             x =  Double.valueOf(newFormat.format(x));
         }
-        else if (x>=1) {
+        else if (x>=1 || x<=-1) {
+            DecimalFormat newFormat = new DecimalFormat("#.##");
+            x =  Double.valueOf(newFormat.format(x));
+        }
+
+        return NumberFormat.getNumberInstance(Locale.US).format(x);
+    }
+
+    public String commaSeperateInteger(String num){
+        if ("null".equals(num)) return "-";
+        Double x = Double.valueOf(num);
+        if (x>=1000 || x<=-1000) {
+            DecimalFormat newFormat = new DecimalFormat("#.#");
+            x =  Double.valueOf(newFormat.format(x));
+        }
+        else if (x>=1 || x<=-1) {
             DecimalFormat newFormat = new DecimalFormat("#.##");
             x =  Double.valueOf(newFormat.format(x));
         }
