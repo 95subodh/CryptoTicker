@@ -100,10 +100,12 @@ public class StockInfoTab extends Fragment {
         @Override
         protected String doInBackground(String... params) {
             try {
-                String finalJson = myGlobalsFunctions.fetchJSONasString(params[0]);
-                myGlobalsFunctions.storeStringToFile(cryptoID,getString(R.string.crypto_info_dir),finalJson);
-                setVals(finalJson);
-                return price;
+                if (myGlobalsFunctions.isNetworkConnected()) {
+                    String finalJson = myGlobalsFunctions.fetchJSONasString(params[0]);
+                    myGlobalsFunctions.storeStringToFile(cryptoID, getString(R.string.crypto_info_dir), finalJson);
+                    setVals(finalJson);
+                    return price;
+                }
 
             } catch (IOException | JSONException e) {
                 e.printStackTrace();

@@ -9,7 +9,7 @@ import com.apps.sky.cryptoticker.Global.MyGlobalsFunctions;
  */
 
 public class WatchlistObject {
-    private String title, currentPrice, change, cryptoID;
+    private String title, currentPrice, change, cryptoID, minDayPrice, maxDayPrice;
     private boolean color;
     private Bitmap btmp;
     private MyGlobalsFunctions myGlobalsFunctions = new MyGlobalsFunctions();
@@ -46,6 +46,22 @@ public class WatchlistObject {
 
     public void setChange(String change) {
         this.change = change;
+    }
+
+    public String getMinDayPrice() {
+        return minDayPrice;
+    }
+
+    public void setMinDayPrice(String minDayPrice) {
+        this.minDayPrice = minDayPrice;
+    }
+
+    public String getMaxDayPrice() {
+        return maxDayPrice;
+    }
+
+    public void setMaxDayPrice(String maxDayPrice) {
+        this.maxDayPrice = maxDayPrice;
     }
 
     public Bitmap getIcon() {
