@@ -84,14 +84,21 @@ public class WatchlistTab extends Fragment {
         }
         JSONObject parentObject = jarr.getJSONObject(0);
         currency_details.setTitle(parentObject.getString("name"));
-        currency_details.setCurrentPrice(parentObject.getString("price_inr"));
+
+        String price = parentObject.getString("price_inr");
+        currency_details.setCurrentPrice(price);
+
         String change = parentObject.getString("percent_change_24h");
-        currency_details.setChange(change);
-        currency_details.setCryptoID(parentObject.getString("id"));
-        currency_details.setIcon(imageUrl);
-        watchlistArray.add(currency_details);
+        float changeNum = Float.parseFloat(price) - (Float.parseFloat(price) / (1 + ((float)0.01 * Float.parseFloat(change))));
+        currency_details.setChange(myGlobalsFunctions.commaSeperateInteger2(String.valueOf(changeNum)) + " (" + change + "%)");
+
         if (change.charAt(0) == '-') currency_details.setChangeColor(false);
         else currency_details.setChangeColor(true);
+
+        currency_details.setCryptoID(parentObject.getString("id"));
+        currency_details.setIcon(imageUrl);
+
+        watchlistArray.add(currency_details);
     }
 
     public class JSONTask extends AsyncTask<String,String, String > {

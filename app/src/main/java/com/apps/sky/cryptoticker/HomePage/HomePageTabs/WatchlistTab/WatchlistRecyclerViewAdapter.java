@@ -46,6 +46,11 @@ class WatchlistRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             minDayPrice = itemView.findViewById(R.id.watchlist_item_low);
             maxDayPrice = itemView.findViewById(R.id.watchlist_item_high);
 
+//            RelativeLayout priceView = itemView.findViewById(R.id.price_view);
+//            RelativeLayout highLowView = itemView.findViewById(R.id.high_low_view);
+//            RelativeLayout lowerLayout = itemView.findViewById(R.id.lower_layout);
+//            priceView.setW
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -77,7 +82,7 @@ class WatchlistRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         ((DataObjectHolder)holder).cryptoID = mDataset.get(position).getCryptoID();
         ((DataObjectHolder)holder).title.setText(mDataset.get(position).getTitle());
-        ((DataObjectHolder)holder).currentPrice.setText(myGlobalsFunctions.commaSeperateInteger(mDataset.get(position).getCurrentPrice()));
+        ((DataObjectHolder)holder).currentPrice.setText(myGlobalsFunctions.commaSeperateInteger2(mDataset.get(position).getCurrentPrice()));
         ((DataObjectHolder)holder).myChange.setText(mDataset.get(position).getChange());
         ((DataObjectHolder)holder).icon.setImageBitmap(mDataset.get(position).getIcon());
         ((DataObjectHolder)holder).maxDayPrice.setText(mDataset.get(position).getMaxDayPrice());
