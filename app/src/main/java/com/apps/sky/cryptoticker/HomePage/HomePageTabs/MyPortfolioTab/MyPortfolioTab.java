@@ -38,7 +38,7 @@ public class MyPortfolioTab extends Fragment {
     RecyclerView.LayoutManager layoutManager;
 
     String url, cryptoID;
-    float totalProfit = 0, totalCost = 0, totalPrice = 0, priceDif = 0;
+    float totalCost = 0, totalPrice = 0;
     MyGlobalsFunctions myGlobalsFunctions;
     ArrayList<CryptoTradeObject> myPortfolioItems;
     CryptoTradeObject curItem = new CryptoTradeObject();
@@ -106,6 +106,7 @@ public class MyPortfolioTab extends Fragment {
     }
 
     void setCurrentPortfolioValues() {
+        float totalProfit, priceDif;
         priceDif = totalPrice - totalCost;
         totalProfit = 100 * ((totalPrice - totalCost)/totalCost);
         totalProfit = (float) (Math.round(totalProfit * 100.0) / 100.0);
@@ -115,28 +116,26 @@ public class MyPortfolioTab extends Fragment {
         TextView totalProfitPerValue = rootView.findViewById(R.id.total_profit_percentage);
         currentPortfolioValue.setText(myGlobalsFunctions.commaSeperateInteger(String.valueOf(totalPrice)));
         totalCostValue.setText(myGlobalsFunctions.commaSeperateInteger(String.valueOf(totalCost)));
-
         totalProfitValue.setText(myGlobalsFunctions.commaSeperateInteger(String.valueOf(priceDif)));
-        if (priceDif >= 0) totalProfitValue.setTextColor(getResources().getColor(R.color.valuePositive));
-        else totalProfitValue.setTextColor(getResources().getColor(R.color.valueNegative));
-
         String tp = String.valueOf(totalProfit) + "%";
         totalProfitPerValue.setText(tp);
-        if (totalProfit >= 0) totalProfitPerValue.setTextColor(getResources().getColor(R.color.valuePositive));
-        else totalProfitPerValue.setTextColor(getResources().getColor(R.color.valueNegative));
+
+        if (getContext() != null) {
+            if (priceDif >= 0)
+                totalProfitValue.setTextColor(getContext().getResources().getColor(R.color.valuePositive));
+            else totalProfitValue.setTextColor(getContext().getResources().getColor(R.color.valueNegative));
+            if (totalProfit >= 0)
+                totalProfitPerValue.setTextColor(getContext().getResources().getColor(R.color.valuePositive));
+            else totalProfitPerValue.setTextColor(getContext().getResources().getColor(R.color.valueNegative));
+        }
         myCurrentPortfolioView.refreshDrawableState();
     }
 
     String calcMyProfitPercentage(String costStr, String quantityStr, String curPrice) {
         float quantity = Float.parseFloat(quantityStr), cost = Float.parseFloat(costStr), profitPer, coinPrice = Float.parseFloat(curPrice);
         profitPer = 100 * ((coinPrice * quantity - cost)/cost);
-
         totalCost += cost;
         totalPrice += (coinPrice * quantity);
-
-        System.out.println("coinPrice " + coinPrice
-                + "\nquantity " + quantity + "\ncost " + cost + "\nprofit " + profitPer
-                + "\nresult " + (Math.round(profitPer * 100.0) / 100.0));
         return String.valueOf(Math.round(profitPer * 100.0) / 100.0);
     }
 

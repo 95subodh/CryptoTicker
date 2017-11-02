@@ -10,16 +10,16 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.TextView;
 
+import com.apps.sky.cryptoticker.Global.ConstantsCrypto;
 import com.apps.sky.cryptoticker.Global.MyGlobalsFunctions;
+import com.apps.sky.cryptoticker.HomePage.HomePageTabs.AddToMyPortfolioForm.AddToMyPortfolioFormActivity;
 import com.apps.sky.cryptoticker.HomePage.MainActivity;
 import com.apps.sky.cryptoticker.R;
-import com.apps.sky.cryptoticker.HomePage.HomePageTabs.AddToMyPortfolioForm.AddToMyPortfolioFormActivity;
 import com.apps.sky.cryptoticker.StockPage.StockInfoTab.StockInfoTab;
 import com.apps.sky.cryptoticker.StockPage.StockNewsTab.StockNewsTab;
 import com.apps.sky.cryptoticker.StockPage.StockPredictionTab.StockPredictionTab;
@@ -30,7 +30,7 @@ public class StockPageActivity extends AppCompatActivity {
 
     SectionsPagerAdapter mSectionsPagerAdapter;
     ViewPager mViewPager;
-    private String cryptoID;
+    private String cryptoID, cryptoName;
     private Boolean isFabOpen = false;
     private MyGlobalsFunctions myGlobalsFunctions;
     private FloatingActionButton add, fab1, fab2;
@@ -44,8 +44,12 @@ public class StockPageActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         cryptoID = intent.getExtras().getString("cryptoID");
+        cryptoName = ConstantsCrypto.cryptoMap.get(cryptoID.replace("-", "_"))[0];
 
         Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("");
+        TextView toolbarTextView = findViewById(R.id.toolbar_title);
+        toolbarTextView.setText(cryptoName.toUpperCase());
         setSupportActionBar(toolbar);
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -118,18 +122,6 @@ public class StockPageActivity extends AppCompatActivity {
             fab2.setClickable(true);
             isFabOpen = true;
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_stock_page, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        return id == R.id.action_settings || super.onOptionsItemSelected(item);
     }
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
