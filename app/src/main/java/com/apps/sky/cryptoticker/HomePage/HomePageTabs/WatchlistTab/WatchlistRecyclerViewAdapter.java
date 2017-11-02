@@ -31,6 +31,8 @@ class WatchlistRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         TextView title;
         TextView currentPrice;
         TextView myChange;
+        TextView maxDayPrice;
+        TextView minDayPrice;
         ImageView icon;
         ImageButton closeBtn;
 
@@ -41,6 +43,8 @@ class WatchlistRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             myChange = itemView.findViewById(R.id.watchlist_item_change);
             icon = itemView.findViewById(R.id.watchlist_item_icon);
             closeBtn = itemView.findViewById(R.id.close_btn);
+            minDayPrice = itemView.findViewById(R.id.watchlist_item_low);
+            maxDayPrice = itemView.findViewById(R.id.watchlist_item_high);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -76,6 +80,8 @@ class WatchlistRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         ((DataObjectHolder)holder).currentPrice.setText(myGlobalsFunctions.commaSeperateInteger(mDataset.get(position).getCurrentPrice()));
         ((DataObjectHolder)holder).myChange.setText(mDataset.get(position).getChange());
         ((DataObjectHolder)holder).icon.setImageBitmap(mDataset.get(position).getIcon());
+        ((DataObjectHolder)holder).maxDayPrice.setText(mDataset.get(position).getMaxDayPrice());
+        ((DataObjectHolder)holder).minDayPrice.setText(mDataset.get(position).getMinDayPrice());
 
         final int pos = holder.getAdapterPosition();
         ((DataObjectHolder)holder).closeBtn.setOnClickListener(new View.OnClickListener() {

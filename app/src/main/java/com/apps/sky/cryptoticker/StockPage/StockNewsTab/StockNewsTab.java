@@ -99,9 +99,11 @@ public class StockNewsTab extends Fragment {
         @Override
         protected String doInBackground(String... params) {
             try {
-                String finalJson = myGlobalsFunctions.fetchJSONasString(params[0]);
-                setVals(finalJson);
-                return finalJson;
+                if (myGlobalsFunctions.isNetworkConnected()) {
+                    String finalJson = myGlobalsFunctions.fetchJSONasString(params[0]);
+                    setVals(finalJson);
+                    return finalJson;
+                }
 
             } catch (IOException | JSONException e) {
                 e.printStackTrace();

@@ -18,6 +18,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class WatchlistTab extends Fragment {
 
@@ -56,7 +57,8 @@ public class WatchlistTab extends Fragment {
                 cryptoID = items.get(i);
                 url = "https://api.coinmarketcap.com/v1/ticker/" + cryptoID + "/?convert=INR";
                 String imageUrl = "https://files.coinmarketcap.com/static/img/coins/32x32/"+cryptoID+".png";
-                new JSONTask().execute(url, imageUrl);
+                String highLowUrl = "https://www.coingecko.com/en/price_charts/" + cryptoID + "/usd/24_hours.json";
+                new JSONTask().execute(url, imageUrl, highLowUrl);
             }
         }
 
@@ -65,11 +67,22 @@ public class WatchlistTab extends Fragment {
         return rootView;
     }
 
-    public void setVals(String finalJson, String imageUrl) throws JSONException {
+    public void setVals(String finalJson, String imageUrl, String highLowJson) throws JSONException {
         JSONArray jarr = new JSONArray(finalJson);
-
-        JSONObject parentObject = jarr.getJSONObject(0);
         WatchlistObject currency_details = new WatchlistObject();
+        if (highLowJson!=null && !Objects.equals(highLowJson, "")) {
+            JSONObject highLowObj = new JSONObject(highLowJson);
+            JSONArray newRef = highLowObj.optJSONArray("stats");
+            float min = Float.parseFloat( newRef.optJSONArray(0).optString(1) ), max = Float.parseFloat( newRef.optJSONArray(0).optString(1) );
+            for (int i = 0; i < newRef.length(); i++) {
+                Float x = Float.parseFloat( newRef.optJSONArray(i).optString(1) );
+                if (x > max) max = x;
+                if (x < min) min = x;
+            }
+            currency_details.setMinDayPrice(Float.toString(min));
+            currency_details.setMaxDayPrice(Float.toString(max));
+        }
+        JSONObject parentObject = jarr.getJSONObject(0);
         currency_details.setTitle(parentObject.getString("name"));
         currency_details.setCurrentPrice(parentObject.getString("price_inr"));
         String change = parentObject.getString("percent_change_24h");
@@ -92,13 +105,12 @@ public class WatchlistTab extends Fragment {
         protected String doInBackground(String... params) {
             try {
                 String finalJson = myGlobalsFunctions.fetchJSONasString(params[0]);
+                String highLowJson = myGlobalsFunctions.fetchJSONasString(params[2]);
 //                myGlobalsFunctions.storeStringToFile(cryptoID,getString(R.string.crypto_info_dir),finalJson);
-                setVals(finalJson, params[1]);
+                setVals(finalJson, params[1], highLowJson);
                 return finalJson;
 
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
+            } catch (IOException | JSONException e) {
                 e.printStackTrace();
             }
             return  null;
