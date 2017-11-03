@@ -7,6 +7,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Base64;
 
+import com.apps.sky.cryptoticker.R;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -116,7 +118,7 @@ public class MyGlobalsFunctions {
     public Bitmap convertImageURLtoBitmap(String ImageUrl, Boolean... store) {
         try {
             if (ImageUrl.contains("https://files")) {
-                String temp = retieveStringFromFile(ImageUrl, "cryptoicon");
+                String temp = retieveStringFromFile(ImageUrl, mContext.getString(R.string.crypto_coin_icon_dir));
                 if (temp!=null) {
                     return stringToBitMap(temp);
                 }
@@ -128,7 +130,7 @@ public class MyGlobalsFunctions {
             InputStream in = urlcon.getInputStream();
             Bitmap icon = BitmapFactory.decodeStream(in);
             if (store.length>0) {
-                storeStringToFile(ImageUrl, "cryptoicon", bitMapToString(icon));
+                storeStringToFile(ImageUrl, mContext.getString(R.string.crypto_coin_icon_dir), bitMapToString(icon));
             }
             return icon;
         } catch (Exception e) {

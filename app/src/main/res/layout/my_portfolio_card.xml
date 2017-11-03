@@ -84,7 +84,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.75"
                     android:fontFamily="sans-serif-condensed"
-                    android:text="My Profit"
+                    android:text="My Gain"
                     android:textAlignment="viewEnd"
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="18sp"
