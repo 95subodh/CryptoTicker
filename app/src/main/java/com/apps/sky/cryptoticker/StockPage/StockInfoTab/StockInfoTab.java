@@ -39,8 +39,9 @@ public class StockInfoTab extends Fragment {
         }
 
         url = "https://api.coinmarketcap.com/v1/ticker/"+cryptoID+"/?convert=INR";
+        String iconUrl = "https://files.coinmarketcap.com/static/img/coins/32x32/"+cryptoID+".png";
         myGlobalsFunctions = new MyGlobalsFunctions(rootView.getContext());
-        new JSONTask().execute(url);
+        new JSONTask().execute(url, iconUrl);
 
         return rootView;
     }
@@ -103,6 +104,7 @@ public class StockInfoTab extends Fragment {
                 if (myGlobalsFunctions.isNetworkConnected()) {
                     String finalJson = myGlobalsFunctions.fetchJSONasString(params[0]);
                     myGlobalsFunctions.storeStringToFile(cryptoID, getString(R.string.crypto_info_dir), finalJson);
+                    myGlobalsFunctions.convertImageURLtoBitmap(params[1], Boolean.TRUE);
                     setVals(finalJson);
                     return price;
                 }
