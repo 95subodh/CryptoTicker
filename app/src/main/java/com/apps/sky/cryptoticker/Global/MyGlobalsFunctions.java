@@ -40,7 +40,7 @@ public class MyGlobalsFunctions {
     public MyGlobalsFunctions() {}
 
     public String commaSeperateInteger2(String num){
-        if ("null".equals(num)) return "-";
+        if ("null".equals(num) || "-".equals(num)) return "-";
         Double x = Double.valueOf(num);
 
         if (x >= 1000000 || x <= -1000000) {
@@ -62,7 +62,7 @@ public class MyGlobalsFunctions {
     }
 
     public String commaSeperateInteger(String num){
-        if ("null".equals(num)) return "-";
+        if ("null".equals(num) || "-".equals(num)) return "-";
         Double x = Double.valueOf(num);
         if (x>=1000 || x<=-1000) {
             DecimalFormat newFormat = new DecimalFormat("#.#");
