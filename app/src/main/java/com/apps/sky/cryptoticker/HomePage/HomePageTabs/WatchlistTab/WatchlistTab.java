@@ -79,6 +79,7 @@ public class WatchlistTab extends Fragment {
 
     public void setValsInitialise(String cryptoID, String finalJson, String iconUrl) throws JSONException {
         WatchlistObject currency_details = new WatchlistObject();
+        currency_details.setContext(getContext());
 
         if (finalJson!=null) {
             JSONArray jarr = new JSONArray(finalJson);
@@ -96,7 +97,6 @@ public class WatchlistTab extends Fragment {
             if (change.charAt(0) == '-') currency_details.setChangeColor(false);
             else currency_details.setChangeColor(true);
 
-            currency_details.setContext(getContext());
             currency_details.setIcon(iconUrl);
         }
         currency_details.setCryptoID(cryptoID);

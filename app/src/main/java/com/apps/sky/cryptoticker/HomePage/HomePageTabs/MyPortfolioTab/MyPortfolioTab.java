@@ -154,9 +154,9 @@ public class MyPortfolioTab extends Fragment {
 
                 JSONObject parentObject = jarr.getJSONObject(0);
                 MyPortfolioObject currency_details = new MyPortfolioObject();
+                currency_details.setContext(getContext());
                 currency_details.setTitle(parentObject.getString("name"));
                 currency_details.setCurrentPrice(parentObject.getString("price_inr"));
-                currency_details.setContext(getContext());
                 currency_details.setIcon(params[1]);
                 currency_details.setCryptoID(parentObject.getString("id"));
 
