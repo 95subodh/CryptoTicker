@@ -40,8 +40,6 @@ public class MyGlobalsFunctions {
         this.mContext = context;
     }
 
-    public MyGlobalsFunctions() {}
-
     public String commaSeperateInteger2(String num){
         if ("null".equals(num) || "-".equals(num)) return "-";
         Double x = Double.valueOf(num);
