@@ -1,5 +1,7 @@
 package com.apps.sky.cryptoticker.HomePage.HomePageTabs.WatchlistTab;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.apps.sky.cryptoticker.Global.Constants;
 import com.apps.sky.cryptoticker.Global.MyGlobalsFunctions;
 import com.apps.sky.cryptoticker.R;
 
@@ -26,10 +29,11 @@ public class WatchlistTab extends Fragment {
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     RecyclerView.LayoutManager layoutManager;
-    String url;
+    String url, currency;
     MyGlobalsFunctions myGlobalsFunctions;
     public ArrayList<String> items;
     ArrayList<WatchlistObject> watchlistArray;
+    SharedPreferences sharedPreferences;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,12 +46,15 @@ public class WatchlistTab extends Fragment {
         if (rootView == null) {
             rootView = inflater.inflate(R.layout.watchlist_tab, container, false);
         }
+        sharedPreferences = getContext().getSharedPreferences("com.apps.sky.cryptoticker", Context.MODE_PRIVATE);
 
         recyclerView = rootView.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(rootView.getContext());
         recyclerView.setLayoutManager(layoutManager);
         myGlobalsFunctions = new MyGlobalsFunctions(getContext());
+        currency = sharedPreferences.getString(Constants.CURRENT_CURRENCY, new String());
+        if (currency.equals("")) currency = "INR";
 
         items = myGlobalsFunctions.retrieveListFromFile(getString(R.string.crypto_watchlist_file), getString(R.string.crypto_watchlist_dir));
         watchlistArray = new ArrayList<>();
@@ -65,10 +72,10 @@ public class WatchlistTab extends Fragment {
         if (myGlobalsFunctions.isNetworkConnected()) {
             for (int i = 0; i < items.size(); ++i) {
                 String cryptoID = items.get(i);
-                url = "https://api.coinmarketcap.com/v1/ticker/" + cryptoID + "/?convert=INR";
-                String iconUrl = "https://files.coinmarketcap.com/static/img/coins/32x32/"+cryptoID+".png";
-                String highLowUrl = "https://www.coingecko.com/en/price_charts/" + cryptoID + "/inr/24_hours.json";
-                new JSONTask().execute(url, iconUrl, highLowUrl, cryptoID);
+                url = "https://api.coinmarketcap.com/v1/ticker/" + cryptoID + "/?convert=" + currency.toUpperCase();
+                String imageUrl = "https://files.coinmarketcap.com/static/img/coins/32x32/"+cryptoID+".png";
+                String highLowUrl = "https://www.coingecko.com/en/price_charts/" + cryptoID + "/" + currency.toLowerCase() + "/24_hours.json";
+                new JSONTask().execute(url, imageUrl, highLowUrl, cryptoID);
             }
         }
 
@@ -127,7 +134,7 @@ public class WatchlistTab extends Fragment {
         JSONObject parentObject = jarr.getJSONObject(0);
         watchlistArray.get(x).setTitle(parentObject.getString("name"));
 
-        String price = parentObject.getString("price_inr");
+        String price = parentObject.getString("price_" + currency.toLowerCase());
         watchlistArray.get(x).setCurrentPrice(price);
 
         String change = parentObject.getString("percent_change_24h");

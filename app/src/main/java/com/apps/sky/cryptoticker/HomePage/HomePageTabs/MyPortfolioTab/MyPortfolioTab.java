@@ -1,5 +1,7 @@
 package com.apps.sky.cryptoticker.HomePage.HomePageTabs.MyPortfolioTab;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.apps.sky.cryptoticker.Global.Constants;
 import com.apps.sky.cryptoticker.Global.MyGlobalsFunctions;
 import com.apps.sky.cryptoticker.HomePage.HomePageTabs.AddToMyPortfolioForm.CryptoTradeObject;
 import com.apps.sky.cryptoticker.HomePage.HomePageTabs.AddToMyPortfolioForm.TradeObject;
@@ -37,12 +40,13 @@ public class MyPortfolioTab extends Fragment {
     private RecyclerView.Adapter adapter;
     RecyclerView.LayoutManager layoutManager;
 
-    String url, cryptoID;
+    String url, cryptoID, currency;
     float totalCost = 0, totalPrice = 0;
     MyGlobalsFunctions myGlobalsFunctions;
     ArrayList<CryptoTradeObject> myPortfolioItems;
     CryptoTradeObject curItem = new CryptoTradeObject();
     ArrayList<MyPortfolioObject> myPortfolioArray = new ArrayList<>();
+    SharedPreferences sharedPreferences;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,9 +61,12 @@ public class MyPortfolioTab extends Fragment {
         if (rootView == null) {
             rootView = inflater.inflate(R.layout.my_portfolio_tab, container, false);
         }
+        sharedPreferences = getContext().getSharedPreferences("com.apps.sky.cryptoticker", Context.MODE_PRIVATE);
 
         myGlobalsFunctions = new MyGlobalsFunctions(rootView.getContext());
         myPortfolioItems = new ArrayList<>();
+        currency = sharedPreferences.getString(Constants.CURRENT_CURRENCY, new String());
+        if (currency.equals("")) currency = "INR";
 
         RelativeLayout current_portfolio_layout = (RelativeLayout) inflater.inflate(R.layout.my_current_portfolio_card, null, false);
         RelativeLayout current_portfolio_view = rootView.findViewById(R.id.my_current_portfolio_view);
@@ -92,7 +99,7 @@ public class MyPortfolioTab extends Fragment {
             for (int i = 0; i < myPortfolioItems.size(); ++i) {
                 curItem = myPortfolioItems.get(i);
                 cryptoID = curItem.getCryptoID();
-                url = "https://api.coinmarketcap.com/v1/ticker/" + cryptoID + "/?convert=INR";
+                url = "https://api.coinmarketcap.com/v1/ticker/" + cryptoID + "/?convert=" + currency.toUpperCase();
                 String iconUrl = "https://files.coinmarketcap.com/static/img/coins/32x32/" + cryptoID + ".png";
                 float quantity = 0, cost = 0;
                 for (TradeObject item : curItem.getTrades()) {
@@ -156,7 +163,7 @@ public class MyPortfolioTab extends Fragment {
                 MyPortfolioObject currency_details = new MyPortfolioObject();
                 currency_details.setContext(getContext());
                 currency_details.setTitle(parentObject.getString("name"));
-                currency_details.setCurrentPrice(parentObject.getString("price_inr"));
+                currency_details.setCurrentPrice(parentObject.getString("price_" + currency.toLowerCase()));
                 currency_details.setIcon(params[1]);
                 currency_details.setCryptoID(parentObject.getString("id"));
 

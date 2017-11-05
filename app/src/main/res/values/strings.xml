@@ -12,6 +12,8 @@
     <string name="text_more">More</string>
     <string name="text_chat">Discuss</string>
     <string name="text_trending">Trending</string>
+    <string name="current_currency_dir">CurrentCurrencyDir</string>
+    <string name="current_currency_file">CurrentCurrencyFile</string>
     <string name="crypto_info_dir">cryptoinfo</string>
     <string name="crypto_watchlist_dir">cryptowatch</string>
     <string name="crypto_watchlist_file">watchlist</string>
@@ -38,5 +40,6 @@
     <string name="message_user_joined">%s joined</string>
     <string name="message_user_left">%s left</string>
     <string name="user_action_typing">is typing</string>
+    <string name="title_activity_settings">SettingsActivity</string>
 
 </resources>

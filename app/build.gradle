@@ -35,7 +35,7 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:26.+'
     compile 'com.android.support:support-v4:26.+'
     compile 'com.google.code.gson:gson:2.8.0'
-    compile ('io.socket:socket.io-client:0.8.3') {
+    compile('io.socket:socket.io-client:0.8.3') {
         exclude group: 'org.json', module: 'json'
     }
     testCompile 'junit:junit:4.12'

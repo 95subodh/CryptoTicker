@@ -85,8 +85,8 @@ class WatchlistRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         ((DataObjectHolder)holder).currentPrice.setText(myGlobalsFunctions.commaSeperateInteger2(mDataset.get(position).getCurrentPrice()));
         ((DataObjectHolder)holder).myChange.setText(mDataset.get(position).getChange());
         ((DataObjectHolder)holder).icon.setImageBitmap(mDataset.get(position).getIcon());
-        ((DataObjectHolder)holder).maxDayPrice.setText(myGlobalsFunctions.commaSeperateInteger(mDataset.get(position).getMaxDayPrice()));
-        ((DataObjectHolder)holder).minDayPrice.setText(myGlobalsFunctions.commaSeperateInteger(mDataset.get(position).getMinDayPrice()));
+        ((DataObjectHolder)holder).maxDayPrice.setText(myGlobalsFunctions.commaSeperateInteger2(mDataset.get(position).getMaxDayPrice()));
+        ((DataObjectHolder)holder).minDayPrice.setText(myGlobalsFunctions.commaSeperateInteger2(mDataset.get(position).getMinDayPrice()));
 
         final int pos = holder.getAdapterPosition();
         ((DataObjectHolder)holder).closeBtn.setOnClickListener(new View.OnClickListener() {
