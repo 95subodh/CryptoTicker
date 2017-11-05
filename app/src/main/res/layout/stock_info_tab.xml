@@ -2,178 +2,251 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="0sp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
-    android:paddingVertical="@dimen/activity_vertical_margin"
-    android:paddingHorizontal="@dimen/activity_horizontal_margin"
+    android:padding="16dp"
     tools:context="com.apps.sky.cryptoticker.StockPage.StockPageActivity">
 
-    <TextView
-        android:id="@+id/coin_name"
+    <RelativeLayout
+        android:id="@+id/details_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="2">
+
+            <RelativeLayout
+                android:id="@+id/price_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/coin_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="-"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/large_text"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/coin_change"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/coin_price"
+                    android:text="-"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/coin_rank_dummy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/coin_change"
+                    android:text="Rank:"
+                    android:textSize="@dimen/small_text"
+                    android:textColor="@color/colorPrimaryDark" />
+
+                <TextView
+                    android:id="@+id/coin_rank"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/coin_rank_dummy"
+                    android:layout_alignTop="@+id/coin_rank_dummy"
+                    android:layout_marginLeft="4dp"
+                    android:text="-"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/small_text" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/high_low_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <RelativeLayout
+                    android:id="@+id/high_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/high_dummy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="High:"
+                        android:textSize="@dimen/small_text"
+                        android:textColor="@color/colorPrimaryDark" />
+
+                    <TextView
+                        android:id="@+id/high"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@id/high_dummy"
+                        android:layout_marginLeft="4dp"
+                        android:text="-"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/small_text" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/low_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/high_view">
+
+                    <TextView
+                        android:id="@+id/low_dummy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Low:"
+                        android:textSize="@dimen/small_text"
+                        android:textColor="@color/colorPrimaryDark" />
+
+                    <TextView
+                        android:id="@+id/low"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@id/low_dummy"
+                        android:layout_marginLeft="4dp"
+                        android:text="-"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/small_text" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/coin_cap_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/low_view"
+                    android:layout_marginTop="8dp">
+
+                    <TextView
+                        android:id="@+id/coin_cap_dummy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Market Capture:"
+                        android:textSize="@dimen/very_small_text"
+                        android:textColor="@color/colorPrimaryDark" />
+
+                    <TextView
+                        android:id="@+id/coin_cap"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@id/coin_cap_dummy"
+                        android:layout_marginLeft="4dp"
+                        android:text="-"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/very_small_text" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/coin_avail_supply_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/coin_cap_view">
+
+                    <TextView
+                        android:id="@+id/coin_avail_supply_dummy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Available Supply:"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="@dimen/very_small_text" />
+
+                    <TextView
+                        android:id="@+id/coin_avail_supply"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@id/coin_avail_supply_dummy"
+                        android:layout_marginLeft="4dp"
+                        android:text="-"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/very_small_text" />
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/cubic_line_chart_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/details_view"
+        android:layout_marginTop="32dp">
+
+        <RelativeLayout
+            android:id="@+id/tabs_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ListView
+                android:id="@+id/list_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:choiceMode="singleChoice">
+            </ListView>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/graph_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tabs_view"
+            android:layout_marginTop="16dp">
+
+            <org.eazegraph.lib.charts.ValueLineChart xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/cubic_line_chart"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                app:egCurveSmoothness="0.0"
+                app:egIndicatorLineColor="@color/colorPrimaryDark"
+                app:egLegendHeight="40dp"
+                app:egShowStandardValue="true"
+                app:egUseOverlapFill="true"/>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="8sp"
-        android:fontFamily="sans-serif-condensed"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="@dimen/large_text"
-        android:textStyle="bold" />
+        android:layout_alignParentBottom="true"
+        android:paddingHorizontal="8dp"
+        android:layout_centerHorizontal="true">
 
-    <TextView
-        android:id="@+id/coin_price"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/coin_name"
-        android:layout_toLeftOf="@+id/coin_name"
-        android:layout_alignParentEnd="true"
-        android:layout_marginRight="8sp"
-        android:layout_marginLeft="16sp"
-        android:fontFamily="sans-serif-condensed"
-        android:textColor="@color/colorPrimary"
-        android:textSize="@dimen/large_text"
-        android:textStyle="bold" />
+        <TextView
+            android:id="@+id/coin_lst_update_dummy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Last Updated on:"
+            android:textSize="@dimen/very_small_text"
+            android:textColor="@color/colorPrimaryDark" />
 
+        <TextView
+            android:id="@+id/coin_lst_update"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/coin_lst_update_dummy"
+            android:layout_marginLeft="4dp"
+            android:text="-"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/very_small_text" />
 
-    <TextView
-        android:id="@+id/coin_rank"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/coin_name"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="8sp"
-        android:layout_marginTop="@dimen/list_item_padding"
-        android:fontFamily="sans-serif-condensed"
-        android:textColor="@color/colorPrimary"
-        android:textSize="@dimen/medium_text"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/coin_rank_dummy"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/coin_rank"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="8sp"
-        android:fontFamily="sans-serif-condensed"
-        android:text="Rank"
-        android:textSize="@dimen/small_text"
-        android:textColor="@color/colorPrimaryDark"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/coin_cap"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8sp"
-        android:layout_marginTop="@dimen/list_item_padding"
-        android:layout_below="@+id/coin_rank_dummy"
-        android:fontFamily="sans-serif-condensed"
-        android:textColor="@color/colorPrimary"
-        android:textSize="@dimen/medium_text"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/coin_cap_dummy"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/coin_cap"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="8sp"
-        android:fontFamily="sans-serif-condensed"
-        android:text="Market Capture"
-        android:textSize="@dimen/small_text"
-        android:textColor="@color/colorPrimaryDark"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/coin_avail_supply"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/coin_cap_dummy"
-        android:layout_marginTop="@dimen/list_item_padding"
-        android:layout_marginLeft="8sp"
-        android:fontFamily="sans-serif-condensed"
-        android:textColor="@color/colorPrimary"
-        android:textSize="@dimen/medium_text"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/coin_avail_supply_dummy"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8sp"
-        android:layout_alignParentStart="true"
-        android:fontFamily="sans-serif-condensed"
-        android:text="Available Supply"
-        android:textColor="@color/colorPrimaryDark"
-        android:textStyle="bold"
-        android:layout_centerVertical="true"
-        android:textSize="@dimen/small_text"
-        android:layout_below="@+id/coin_avail_supply" />
-
-    <TextView
-        android:id="@+id/coin_tot_supply"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/coin_avail_supply_dummy"
-        android:layout_marginTop="@dimen/list_item_padding"
-        android:layout_marginLeft="8sp"
-        android:fontFamily="sans-serif-condensed"
-        android:textColor="@color/colorPrimary"
-        android:textSize="@dimen/medium_text"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/coin_tot_supply_dummy"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/coin_tot_supply"
-        android:layout_marginLeft="8sp"
-        android:fontFamily="sans-serif-condensed"
-        android:text="Total Supply"
-        android:textSize="@dimen/small_text"
-        android:textColor="@color/colorPrimaryDark"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/coin_lst_update"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/coin_tot_supply_dummy"
-        android:layout_marginTop="@dimen/list_item_padding"
-        android:layout_marginLeft="8sp"
-        android:fontFamily="sans-serif-condensed"
-        android:textColor="@color/colorPrimary"
-        android:textSize="@dimen/medium_text"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/coin_lst_update_dummy"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/coin_lst_update"
-        android:layout_marginLeft="8sp"
-        android:fontFamily="sans-serif-condensed"
-        android:text="Last Updated on"
-        android:textSize="@dimen/small_text"
-        android:textColor="@color/colorPrimaryDark"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/coin_change"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/coin_price"
-        android:layout_below="@+id/coin_price"
-        android:fontFamily="sans-serif-condensed"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="@dimen/medium_text"
-        android:textStyle="bold" />
+    </RelativeLayout>
 
 </RelativeLayout>

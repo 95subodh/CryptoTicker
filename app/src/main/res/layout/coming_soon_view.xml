@@ -5,26 +5,10 @@
     android:background="@color/white"
     android:gravity="center">
 
-    <org.eazegraph.lib.charts.ValueLineChart xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/cubiclinechart"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="37dp"
-        app:egCurveSmoothness="0.4"
-        app:egIndicatorLineColor="#FE6DA8"
-        app:egLegendHeight="40dp"
-        app:egShowStandardValue="true"
-        app:egUseCubic="true"
-        app:egUseOverlapFill="true" />
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/cubiclinechart"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="57dp"
         android:text="Coming Soon!"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="@dimen/medium_text" />
