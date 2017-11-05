@@ -1,5 +1,7 @@
 package com.apps.sky.cryptoticker.StockPage.StockInfoTab;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.apps.sky.cryptoticker.Global.Constants;
 import com.apps.sky.cryptoticker.Global.MyGlobalsFunctions;
 import com.apps.sky.cryptoticker.R;
 
@@ -26,9 +29,10 @@ public class StockInfoTab extends Fragment {
     private View rootView;
     private String name, price, change, rank, cap, avlsup, totsup, lstupd;
     TextView coinName, coinPrice, coinChange, coinRank, coinCap, coinAvailSupply, coinTotSupply, coinLstUpdate;
-    String url;
+    String url, currency;
     public String cryptoID;
     MyGlobalsFunctions myGlobalsFunctions;
+    SharedPreferences sharedPreferences;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -37,8 +41,11 @@ public class StockInfoTab extends Fragment {
         if (rootView == null) {
             rootView = inflater.inflate(R.layout.stock_info_tab, container, false);
         }
+        sharedPreferences = getContext().getSharedPreferences("com.apps.sky.cryptoticker", Context.MODE_PRIVATE);
 
-        url = "https://api.coinmarketcap.com/v1/ticker/"+cryptoID+"/?convert=INR";
+        currency = sharedPreferences.getString(Constants.CURRENT_CURRENCY, new String());
+        if (currency.equals("")) currency = "INR";
+        url = "https://api.coinmarketcap.com/v1/ticker/"+cryptoID+"/?convert=" + currency.toUpperCase();
         String iconUrl = "https://files.coinmarketcap.com/static/img/coins/32x32/"+cryptoID+".png";
         myGlobalsFunctions = new MyGlobalsFunctions(rootView.getContext());
         new JSONTask().execute(url, iconUrl);
@@ -47,27 +54,29 @@ public class StockInfoTab extends Fragment {
     }
 
     private void fillInfoFromJSON() {
-        coinName = getView().findViewById(R.id.coin_name);
-        coinName.setText(name);
-        coinPrice = getView().findViewById(R.id.coin_price);
-        coinPrice.setText(myGlobalsFunctions.commaSeperateInteger(price));
-        coinAvailSupply = getView().findViewById(R.id.coin_avail_supply);
-        coinAvailSupply.setText(myGlobalsFunctions.commaSeperateInteger(avlsup));
-        coinCap = getView().findViewById(R.id.coin_cap);
-        coinCap.setText(myGlobalsFunctions.commaSeperateInteger(cap));
-        coinRank = getView().findViewById(R.id.coin_rank);
-        coinRank.setText(rank);
-        coinTotSupply = getView().findViewById(R.id.coin_tot_supply);
-        coinTotSupply.setText(myGlobalsFunctions.commaSeperateInteger(totsup));
-        coinChange = getView().findViewById(R.id.coin_change);
-        coinChange.setText(change);
-        if (change.charAt(0) == '-') {
-            coinChange.setTextColor(getResources().getColor(R.color.valueNegative));
-        } else {
-            coinChange.setTextColor(getResources().getColor(R.color.valuePositive));
+        if (getView() != null) {
+            coinName = getView().findViewById(R.id.coin_name);
+            coinName.setText(name);
+            coinPrice = getView().findViewById(R.id.coin_price);
+            coinPrice.setText(myGlobalsFunctions.commaSeperateInteger(price));
+            coinAvailSupply = getView().findViewById(R.id.coin_avail_supply);
+            coinAvailSupply.setText(myGlobalsFunctions.commaSeperateInteger(avlsup));
+            coinCap = getView().findViewById(R.id.coin_cap);
+            coinCap.setText(myGlobalsFunctions.commaSeperateInteger(cap));
+            coinRank = getView().findViewById(R.id.coin_rank);
+            coinRank.setText(rank);
+            coinTotSupply = getView().findViewById(R.id.coin_tot_supply);
+            coinTotSupply.setText(myGlobalsFunctions.commaSeperateInteger(totsup));
+            coinChange = getView().findViewById(R.id.coin_change);
+            coinChange.setText(change);
+            if (change.charAt(0) == '-') {
+                coinChange.setTextColor(getResources().getColor(R.color.valueNegative));
+            } else {
+                coinChange.setTextColor(getResources().getColor(R.color.valuePositive));
+            }
+            coinLstUpdate = getView().findViewById(R.id.coin_lst_update);
+            coinLstUpdate.setText(myGlobalsFunctions.getTimeFormattedDate(myGlobalsFunctions.getEpochToNormalDateString(lstupd)));
         }
-        coinLstUpdate = getView().findViewById(R.id.coin_lst_update);
-        coinLstUpdate.setText(myGlobalsFunctions.getTimeFormattedDate(myGlobalsFunctions.getEpochToNormalDateString(lstupd)));
     }
 
     public void setVals(String finalJson) throws JSONException {
@@ -75,8 +84,8 @@ public class StockInfoTab extends Fragment {
 
         JSONObject parentObject = jarr.getJSONObject(0);
         name = parentObject.getString("name");
-        price = parentObject.getString("price_inr");
-        change = parentObject.getString("percent_change_24h");
+        price = parentObject.getString("price_" + currency.toLowerCase());
+        change = parentObject.getString("percent_change_24h") + "%";
         rank = parentObject.getString("rank");
         cap = parentObject.getString("market_cap_inr");
         avlsup = parentObject.getString("available_supply");
