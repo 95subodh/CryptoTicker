@@ -44,7 +44,13 @@ public class MyGlobalsFunctions {
         if ("null".equals(num) || "-".equals(num)) return "-";
         Double x = Double.valueOf(num);
 
-        if (x >= 1000000 || x <= -1000000) {
+        if (x >= 100000000 || x <= -100000000) {
+            DecimalFormat newFormat = new DecimalFormat("#.##");
+            x /= 100000000.0;
+            x =  Double.valueOf(newFormat.format(x));
+            return NumberFormat.getNumberInstance(Locale.US).format(x) + "B";
+        }
+        else if (x >= 1000000 || x <= -1000000) {
             DecimalFormat newFormat = new DecimalFormat("#.##");
             x /= 1000000.0;
             x =  Double.valueOf(newFormat.format(x));
@@ -78,7 +84,14 @@ public class MyGlobalsFunctions {
     }
 
     public String getEpochToNormalDateString (String date) {
-        return (new java.util.Date (Integer.valueOf(date)*1000)).toString();
+        if (date.contains(".")) {
+            String date2 = new java.text.SimpleDateFormat("MM/dd").format(new java.util.Date ((long)(Double.valueOf(date)*1)));
+            return date2;
+        }
+        else {
+            String date2 = new java.text.SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(new java.util.Date (Long.valueOf(date)*1000));
+            return date2;
+        }
     }
 
     private String convertDateToCalendarDate (String date) {
