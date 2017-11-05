@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.apps.sky.cryptoticker.HomePage.HomePageTabs.MoreTab.Settings.ChangeCurrencyActivity">
+    tools:context="com.apps.sky.cryptoticker.HomePage.HomePageTabs.MoreTab.Settings.ChangeCurrencyActivity"
+    android:background="@color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,42 +16,70 @@
         <RelativeLayout
             android:id="@+id/default_currency_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:padding="16dp">
 
             <TextView
                 android:id="@+id/default_currency_dummy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Default Currency: "/>
+                android:text="Default Currency: "
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold"
+                android:textSize="@dimen/small_text"/>
 
             <TextView
                 android:id="@+id/default_currency_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@+id/default_currency_dummy"
-                android:text="-"/>
+                android:text="-"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
+                android:textSize="@dimen/small_text"/>
 
         </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/choose_currency_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:padding="16dp">
 
             <TextView
                 android:id="@+id/choose_currency_dummy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Choose your Currency"/>
+                android:text="Choose your Currency"
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold"
+                android:textSize="@dimen/small_text"/>
 
             <ListView
                 android:id="@+id/choose_currency_listview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/choose_currency_dummy"
                 android:layout_marginVertical="@dimen/activity_vertical_margin"
+                android:choiceMode="singleChoice"
                 android:scrollbars="none">
 
             </ListView>
+
+            <Button
+                android:id="@+id/set_currency_btn"
+                android:layout_width="80dp"
+                android:layout_height="40dp"
+                android:layout_centerHorizontal="true"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="8dp"
+                android:layout_marginVertical="@dimen/activity_vertical_margin"
+                android:layout_below="@id/choose_currency_listview"
+                android:text="Set"
+                android:textSize="@dimen/small_text"
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimaryDark"
+                android:background="@color/colorAccentLight"/>
 
         </RelativeLayout>
 

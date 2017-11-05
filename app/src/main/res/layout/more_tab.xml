@@ -16,7 +16,7 @@
             android:id="@+id/more_tab_item_settings"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp">
+            android:padding="16dp">
 
             <ImageView
                 android:id="@+id/settings_icon"
@@ -58,7 +58,7 @@
             android:id="@+id/more_tab_item_about"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp">
+            android:padding="16dp">
 
             <ImageView
                 android:id="@+id/about_icon"
@@ -100,7 +100,7 @@
             android:id="@+id/more_tab_item_contact_us"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp">
+            android:padding="16dp">
 
             <ImageView
                 android:id="@+id/contact_us_icon"
@@ -142,7 +142,7 @@
             android:id="@+id/more_tab_item_ticker"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp">
+            android:padding="16dp">
 
             <ImageView
                 android:id="@+id/ticker_icon"
