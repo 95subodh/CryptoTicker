@@ -5,10 +5,13 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.util.Log;
+import android.util.Base64;
+
+import com.apps.sky.cryptoticker.R;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -36,8 +39,6 @@ public class MyGlobalsFunctions {
     public MyGlobalsFunctions(Context context){
         this.mContext = context;
     }
-
-    public MyGlobalsFunctions() {}
 
     public String commaSeperateInteger2(String num){
         if ("null".equals(num) || "-".equals(num)) return "-";
@@ -83,7 +84,7 @@ public class MyGlobalsFunctions {
     private String convertDateToCalendarDate (String date) {
         Calendar calendar = Calendar.getInstance();
         try { calendar.setTime(formatter.parse(date)); }
-        catch (Exception e) { System.out.println(e); }
+        catch (Exception e) { e.printStackTrace(); }
         return calendar.getTime().toString();
     }
 
@@ -95,17 +96,42 @@ public class MyGlobalsFunctions {
         return convertDateToCalendarDate(originalDate).substring(4, 10) + ", " + convertDateToCalendarDate(originalDate).substring(11, 16);
     }
 
-    public Bitmap convertImageURLtoBitmap(String ImageUrl) {
+    public String bitMapToString(Bitmap bitmap){
+        ByteArrayOutputStream baos=new  ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG,100, baos);
+        byte [] b=baos.toByteArray();
+        return Base64.encodeToString(b, Base64.DEFAULT);
+    }
+
+    public Bitmap stringToBitMap(String encodedString){
         try {
+            byte [] encodeByte=Base64.decode(encodedString,Base64.DEFAULT);
+            return BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+        } catch(Exception e) {
+            e.getMessage();
+            return null;
+        }
+    }
+
+    public Bitmap convertImageURLtoBitmap(String ImageUrl, Boolean... store) {
+        try {
+            if (ImageUrl.contains("https://files")) {
+                String temp = retieveStringFromFile(ImageUrl, mContext.getString(R.string.crypto_coin_icon_dir));
+                if (temp!=null) {
+                    return stringToBitMap(temp);
+                }
+            }
             URL url = new URL(ImageUrl);
             HttpURLConnection urlcon = (HttpURLConnection) url.openConnection();
             urlcon.setDoInput(true);
             urlcon.connect();
             InputStream in = urlcon.getInputStream();
-            Bitmap mIcon = BitmapFactory.decodeStream(in);
-            return mIcon;
+            Bitmap icon = BitmapFactory.decodeStream(in);
+            if (store.length>0) {
+                storeStringToFile(ImageUrl, mContext.getString(R.string.crypto_coin_icon_dir), bitMapToString(icon));
+            }
+            return icon;
         } catch (Exception e) {
-            Log.e("Error", e.getMessage());
             e.printStackTrace();
             return null;
         }
@@ -139,16 +165,18 @@ public class MyGlobalsFunctions {
         File myDir = mContext.getFilesDir();
         try {
             File secondInputFile = new File(myDir + "/"+ fileDirectory +"/", fileName);
-            InputStream secondInputStream = new BufferedInputStream(new FileInputStream(secondInputFile));
-            BufferedReader r = new BufferedReader(new InputStreamReader(secondInputStream));
-            StringBuilder total = new StringBuilder();
-            String line;
-            while ((line = r.readLine()) != null) {
-                total.append(line);
+            if (secondInputFile.exists()) {
+                InputStream secondInputStream = new BufferedInputStream(new FileInputStream(secondInputFile));
+                BufferedReader r = new BufferedReader(new InputStreamReader(secondInputStream));
+                StringBuilder total = new StringBuilder();
+                String line;
+                while ((line = r.readLine()) != null) {
+                    total.append(line);
+                }
+                r.close();
+                secondInputStream.close();
+                return total.toString();
             }
-            r.close();
-            secondInputStream.close();
-            return total.toString();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -169,7 +197,7 @@ public class MyGlobalsFunctions {
             InputStream stream = connection.getInputStream();
             reader = new BufferedReader(new InputStreamReader(stream));
             StringBuilder buffer = new StringBuilder();
-            String line ="";
+            String line;
             while ((line = reader.readLine()) != null){
                 buffer.append(line);
             }

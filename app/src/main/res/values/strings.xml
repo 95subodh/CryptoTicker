@@ -17,6 +17,7 @@
     <string name="crypto_watchlist_file">watchlist</string>
     <string name="crypto_my_portfolio_dir">cryptoportfolio</string>
     <string name="crypto_my_portfolio_file">myportfolio</string>
+    <string name="crypto_coin_icon_dir">cryptoicon</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

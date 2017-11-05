@@ -71,6 +71,7 @@ public class StockNewsTab extends Fragment {
 
             JSONObject obj = articles.getJSONObject(i);
             NewsObject currentNews = new NewsObject();
+            currentNews.setContext(getContext());
 
             currentNews.setTitle(obj.getString("title"));
             currentNews.setPublishedDate(obj.getString("publishedAt"));

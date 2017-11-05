@@ -1,5 +1,6 @@
 package com.apps.sky.cryptoticker.HomePage.HomePageTabs.MyPortfolioTab;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 
 import com.apps.sky.cryptoticker.Global.MyGlobalsFunctions;
@@ -12,7 +13,7 @@ public class MyPortfolioObject {
     private String title, currentPrice, myProfit, cryptoID;
     private boolean color;
     private Bitmap btmp;
-    private MyGlobalsFunctions myGlobalsFunctions = new MyGlobalsFunctions();
+    private MyGlobalsFunctions myGlobalsFunctions;
 
     public String getTitle() {
         return title;
@@ -54,4 +55,7 @@ public class MyPortfolioObject {
 
     public void setIcon(String ImageUrl) { this.btmp = myGlobalsFunctions.convertImageURLtoBitmap(ImageUrl); }
 
+    public void setContext(Context context) {
+        myGlobalsFunctions = new MyGlobalsFunctions(context);
+    }
 }

@@ -1,5 +1,6 @@
 package com.apps.sky.cryptoticker.HomePage.HomePageTabs.WatchlistTab;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 
 import com.apps.sky.cryptoticker.Global.MyGlobalsFunctions;
@@ -12,7 +13,7 @@ public class WatchlistObject {
     private String title, currentPrice, change, cryptoID, minDayPrice = "-", maxDayPrice = "-";
     private boolean color;
     private Bitmap btmp;
-    private MyGlobalsFunctions myGlobalsFunctions = new MyGlobalsFunctions();
+    private MyGlobalsFunctions myGlobalsFunctions;
 
     public String getTitle() {
         return title;
@@ -69,4 +70,8 @@ public class WatchlistObject {
     }
 
     public void setIcon(String ImageUrl) { this.btmp = myGlobalsFunctions.convertImageURLtoBitmap(ImageUrl); }
+
+    public void setContext(Context context) {
+        myGlobalsFunctions = new MyGlobalsFunctions(context);
+    }
 }

@@ -1,5 +1,6 @@
 package com.apps.sky.cryptoticker.StockPage.StockNewsTab;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 
 import com.apps.sky.cryptoticker.Global.MyGlobalsFunctions;
@@ -11,7 +12,7 @@ import com.apps.sky.cryptoticker.Global.MyGlobalsFunctions;
 public class NewsObject {
     private String title, publishedDate, link, author;
     private Bitmap btmp;
-    private MyGlobalsFunctions myGlobalsFunctions = new MyGlobalsFunctions();
+    private MyGlobalsFunctions myGlobalsFunctions;
 
     public String getAuthor() {
         return author;
@@ -48,4 +49,8 @@ public class NewsObject {
     }
 
     public void setImage(String ImageUrl) { this.btmp = myGlobalsFunctions.convertImageURLtoBitmap(ImageUrl); }
+
+    public void setContext(Context context) {
+        myGlobalsFunctions = new MyGlobalsFunctions(context);
+    }
 }

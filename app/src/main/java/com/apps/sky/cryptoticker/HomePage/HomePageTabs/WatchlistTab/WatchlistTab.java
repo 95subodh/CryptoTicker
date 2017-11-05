@@ -27,7 +27,6 @@ public class WatchlistTab extends Fragment {
     private RecyclerView.Adapter adapter;
     RecyclerView.LayoutManager layoutManager;
     String url;
-    public String cryptoID;
     MyGlobalsFunctions myGlobalsFunctions;
     public ArrayList<String> items;
     ArrayList<WatchlistObject> watchlistArray;
@@ -52,13 +51,24 @@ public class WatchlistTab extends Fragment {
 
         items = myGlobalsFunctions.retrieveListFromFile(getString(R.string.crypto_watchlist_file), getString(R.string.crypto_watchlist_dir));
         watchlistArray = new ArrayList<>();
+
+        for (int i = 0; i < items.size(); ++i) {
+            String cryptoID = items.get(i);
+            try {
+                String iconUrl = "https://files.coinmarketcap.com/static/img/coins/32x32/"+cryptoID+".png";
+                setValsInitialise(cryptoID, myGlobalsFunctions.retieveStringFromFile(cryptoID,getString(R.string.crypto_info_dir)),iconUrl);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
         if (myGlobalsFunctions.isNetworkConnected()) {
             for (int i = 0; i < items.size(); ++i) {
-                cryptoID = items.get(i);
+                String cryptoID = items.get(i);
                 url = "https://api.coinmarketcap.com/v1/ticker/" + cryptoID + "/?convert=INR";
-                String imageUrl = "https://files.coinmarketcap.com/static/img/coins/32x32/"+cryptoID+".png";
+                String iconUrl = "https://files.coinmarketcap.com/static/img/coins/32x32/"+cryptoID+".png";
                 String highLowUrl = "https://www.coingecko.com/en/price_charts/" + cryptoID + "/inr/24_hours.json";
-                new JSONTask().execute(url, imageUrl, highLowUrl);
+                new JSONTask().execute(url, iconUrl, highLowUrl, cryptoID);
             }
         }
 
@@ -67,38 +77,68 @@ public class WatchlistTab extends Fragment {
         return rootView;
     }
 
-    public void setVals(String finalJson, String imageUrl, String highLowJson) throws JSONException {
-        JSONArray jarr = new JSONArray(finalJson);
+    public void setValsInitialise(String cryptoID, String finalJson, String iconUrl) throws JSONException {
         WatchlistObject currency_details = new WatchlistObject();
+        currency_details.setContext(getContext());
+
+        if (finalJson!=null) {
+            JSONArray jarr = new JSONArray(finalJson);
+
+            JSONObject parentObject = jarr.getJSONObject(0);
+            currency_details.setTitle(parentObject.getString("name"));
+
+            String price = parentObject.getString("price_inr");
+            currency_details.setCurrentPrice(price);
+
+            String change = parentObject.getString("percent_change_24h");
+            float changeNum = Float.parseFloat(price) - (Float.parseFloat(price) / (1 + ((float) 0.01 * Float.parseFloat(change))));
+            currency_details.setChange(myGlobalsFunctions.commaSeperateInteger2(String.valueOf(changeNum)) + " (" + change + "%)");
+
+            if (change.charAt(0) == '-') currency_details.setChangeColor(false);
+            else currency_details.setChangeColor(true);
+
+            currency_details.setIcon(iconUrl);
+        }
+        currency_details.setCryptoID(cryptoID);
+        watchlistArray.add(currency_details);
+    }
+
+    public void setVals(String finalJson, String iconUrl, String highLowJson, String cryptoId) throws JSONException {
+        JSONArray jarr = new JSONArray(finalJson);
+        int x = 0;
+        for (int i=0; i<watchlistArray.size(); i++) {
+            if (watchlistArray.get(i).getCryptoID().equals(cryptoId)) {
+                x = i;break;
+            }
+        }
+
         if (highLowJson!=null && !Objects.equals(highLowJson, "")) {
             JSONObject highLowObj = new JSONObject(highLowJson);
             JSONArray newRef = highLowObj.optJSONArray("stats");
             float min = Float.parseFloat( newRef.optJSONArray(0).optString(1) ), max = Float.parseFloat( newRef.optJSONArray(0).optString(1) );
             for (int i = 0; i < newRef.length(); i++) {
-                Float x = Float.parseFloat( newRef.optJSONArray(i).optString(1) );
-                if (x > max) max = x;
-                if (x < min) min = x;
+                Float temp = Float.parseFloat( newRef.optJSONArray(i).optString(1) );
+                if (temp > max) max = temp;
+                if (temp < min) min = temp;
             }
-            currency_details.setMinDayPrice(Float.toString(min));
-            currency_details.setMaxDayPrice(Float.toString(max));
+            watchlistArray.get(x).setMinDayPrice(Float.toString(min));
+            watchlistArray.get(x).setMaxDayPrice(Float.toString(max));
         }
         JSONObject parentObject = jarr.getJSONObject(0);
-        currency_details.setTitle(parentObject.getString("name"));
+        watchlistArray.get(x).setTitle(parentObject.getString("name"));
 
         String price = parentObject.getString("price_inr");
-        currency_details.setCurrentPrice(price);
+        watchlistArray.get(x).setCurrentPrice(price);
 
         String change = parentObject.getString("percent_change_24h");
         float changeNum = Float.parseFloat(price) - (Float.parseFloat(price) / (1 + ((float)0.01 * Float.parseFloat(change))));
-        currency_details.setChange(myGlobalsFunctions.commaSeperateInteger2(String.valueOf(changeNum)) + " (" + change + "%)");
+        watchlistArray.get(x).setChange(myGlobalsFunctions.commaSeperateInteger2(String.valueOf(changeNum)) + " (" + change + "%)");
 
-        if (change.charAt(0) == '-') currency_details.setChangeColor(false);
-        else currency_details.setChangeColor(true);
+        if (change.charAt(0) == '-') watchlistArray.get(x).setChangeColor(false);
+        else watchlistArray.get(x).setChangeColor(true);
 
-        currency_details.setCryptoID(parentObject.getString("id"));
-        currency_details.setIcon(imageUrl);
-
-        watchlistArray.add(currency_details);
+        watchlistArray.get(x).setCryptoID(parentObject.getString("id"));
+        watchlistArray.get(x).setIcon(iconUrl);
     }
 
     public class JSONTask extends AsyncTask<String,String, String > {
@@ -114,7 +154,7 @@ public class WatchlistTab extends Fragment {
                 String finalJson = myGlobalsFunctions.fetchJSONasString(params[0]);
                 String highLowJson = myGlobalsFunctions.fetchJSONasString(params[2]);
 //                myGlobalsFunctions.storeStringToFile(cryptoID,getString(R.string.crypto_info_dir),finalJson);
-                setVals(finalJson, params[1], highLowJson);
+                setVals(finalJson, params[1], highLowJson, params[3]);
                 return finalJson;
 
             } catch (IOException | JSONException e) {
