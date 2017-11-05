@@ -26,6 +26,7 @@ import android.widget.Toast;
 import com.apps.sky.cryptoticker.Global.Constants;
 import com.apps.sky.cryptoticker.R;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -93,6 +94,7 @@ public class MainFragment extends Fragment {
         mSocket.on("user left", onUserLeft);
         mSocket.on("typing", onTyping);
         mSocket.on("stop typing", onStopTyping);
+        mSocket.on("prev messages2", prevMessages);
         mSocket.connect();
 
         pref = getContext().getSharedPreferences("com.apps.sky.cryptoticker", Context.MODE_PRIVATE);
@@ -121,6 +123,7 @@ public class MainFragment extends Fragment {
         mSocket.off("user left", onUserLeft);
         mSocket.off("typing", onTyping);
         mSocket.off("stop typing", onStopTyping);
+        mSocket.off("prev messages2", prevMessages);
     }
 
     @Override
@@ -186,6 +189,7 @@ public class MainFragment extends Fragment {
         mUsername = data.getStringExtra("username");
         pref.edit().putString(Constants.CHAT_USERNAME, mUsername).apply();
         int numUsers = data.getIntExtra("numUsers", 1);
+        mSocket.emit("prev messages");
 
 //        addLog(getResources().getString(R.string.message_welcome));
         addParticipantsLog(numUsers);
@@ -252,6 +256,7 @@ public class MainFragment extends Fragment {
             mUsername = user;
             mSocket.emit("add user", mUsername);
             mSocket.on("login", onLogin);
+            mSocket.emit("prev messages");
         }
         else {
             Intent intent = new Intent(getActivity(), LoginActivity.class);
@@ -358,6 +363,31 @@ public class MainFragment extends Fragment {
 
 //                    removeTyping(username);
                     addMessage(username, message);
+                }
+            });
+        }
+    };
+
+    private Emitter.Listener prevMessages = new Emitter.Listener() {
+        @Override
+        public void call(final Object... args) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    for (int i = 0; i<((JSONArray) args[0]).length(); i++) {
+                        JSONObject data;
+                        try {
+                            data = (JSONObject) (((JSONArray) args[0]).get(i));
+
+                            String username;
+                            String message;
+                            username = data.getString("username");
+                            message = data.getString("message");
+                            addMessage(username, message);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
             });
         }
