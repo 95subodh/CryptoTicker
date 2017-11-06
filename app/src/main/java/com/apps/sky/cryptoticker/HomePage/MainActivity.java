@@ -64,7 +64,6 @@ public class MainActivity extends AppCompatActivity {
 
         onCreate = true;
         Intent intent = getIntent();
-        this.overridePendingTransition(R.anim.animation_enter, R.anim.animation_leave);
 
         relative = findViewById(R.id.tab_content);
         listView = findViewById(R.id.list_view);
