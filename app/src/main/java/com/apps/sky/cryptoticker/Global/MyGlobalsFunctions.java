@@ -44,7 +44,13 @@ public class MyGlobalsFunctions {
         if ("null".equals(num) || "-".equals(num)) return "-";
         Double x = Double.valueOf(num);
 
-        if (x >= 1000000 || x <= -1000000) {
+        if (x >= 1000000000 || x <= -1000000000) {
+            DecimalFormat newFormat = new DecimalFormat("#.##");
+            x /= 1000000000.0;
+            x =  Double.valueOf(newFormat.format(x));
+            return NumberFormat.getNumberInstance(Locale.US).format(x) + "B";
+        }
+        else if (x >= 1000000 || x <= -1000000) {
             DecimalFormat newFormat = new DecimalFormat("#.##");
             x /= 1000000.0;
             x =  Double.valueOf(newFormat.format(x));

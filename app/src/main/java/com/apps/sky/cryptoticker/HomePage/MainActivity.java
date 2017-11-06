@@ -6,9 +6,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -24,6 +26,7 @@ import com.apps.sky.cryptoticker.HomePage.BottomNavigationBar.BottomNavigationVi
 import com.apps.sky.cryptoticker.HomePage.HomePageTabs.ChatTab.ChatTab;
 import com.apps.sky.cryptoticker.HomePage.HomePageTabs.MoreTab.MoreTab;
 import com.apps.sky.cryptoticker.HomePage.HomePageTabs.MyPortfolioTab.MyPortfolioTab;
+import com.apps.sky.cryptoticker.HomePage.HomePageTabs.ViewPagerAdapter;
 import com.apps.sky.cryptoticker.HomePage.HomePageTabs.WatchlistTab.WatchlistTab;
 import com.apps.sky.cryptoticker.R;
 import com.apps.sky.cryptoticker.StockPage.StockPageActivity;
@@ -43,6 +46,15 @@ public class MainActivity extends AppCompatActivity {
     View mainView;
     SearchView searchView;
     MenuItem searchItem;
+
+    ViewPager viewPager;
+    MenuItem prevMenuItem;
+
+    WatchlistTab watchlistTab;
+    MyPortfolioTab myPortfolioTab;
+    ChatTab chatTab;
+    MoreTab moreTab;
+
     HashMap<String, String> searchMap = new HashMap<>();
 
     @Override
@@ -68,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
-        assignTab(tab);
+        viewPager = findViewById(R.id.viewpager1);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(
             new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -77,37 +89,53 @@ public class MainActivity extends AppCompatActivity {
 
                     switch (item.getItemId()) {
                         case R.id.action_watchlist:
-                            if (!WatchlistTab.class.equals(fragment.getClass()))
-                                fragment = new WatchlistTab();
+                            viewPager.setCurrentItem(0);
                             break;
 
                         case R.id.action_my_portfolio:
-                            if (!MyPortfolioTab.class.equals(fragment.getClass()))
-                                fragment = new MyPortfolioTab();
+                            viewPager.setCurrentItem(1);
                             break;
 
                         case R.id.action_chat:
-                            if (!ChatTab.class.equals(fragment.getClass()))
-                                fragment = new ChatTab();
+                            viewPager.setCurrentItem(2);
                             break;
-
-//                            case R.id.action_trending:
-//                                fragment = new TrendingTab();
-//                                break;
 
                         case R.id.action_more:
-                            if (!MoreTab.class.equals(fragment.getClass()))
-                                fragment = new MoreTab();
-                            break;
-
-                        default:
-                            fragment = new Fragment();
+                            viewPager.setCurrentItem(3);
                             break;
                     }
-                    getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
-                    return true;
+                    return false;
                 }
             });
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (prevMenuItem != null) {
+                    prevMenuItem.setChecked(false);
+                }
+                else
+                {
+                    bottomNavigationView.getMenu().getItem(0).setChecked(false);
+                }
+                Log.d("page", "onPageSelected: "+position);
+                bottomNavigationView.getMenu().getItem(position).setChecked(true);
+                prevMenuItem = bottomNavigationView.getMenu().getItem(position);
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+        setupViewPager();
+        assignTab(tab);
 
         items = new ArrayList<>();
         items.addAll(Arrays.asList(Constants.cryptoIDList));
@@ -122,6 +150,20 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    private void setupViewPager()
+    {
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        watchlistTab=new WatchlistTab();
+        myPortfolioTab=new MyPortfolioTab();
+        chatTab=new ChatTab();
+        moreTab=new MoreTab();
+        adapter.addFragment(watchlistTab);
+        adapter.addFragment(myPortfolioTab);
+        adapter.addFragment(chatTab);
+        adapter.addFragment(moreTab);
+        viewPager.setAdapter(adapter);
     }
 
     @Override
@@ -156,30 +198,25 @@ public class MainActivity extends AppCompatActivity {
     private void assignTab(String tab) {
         switch (tab) {
             case "watchlist" :
+                viewPager.setCurrentItem(0);
                 bottomNavigationView.setSelectedItemId(R.id.action_watchlist);
-                fragment = new WatchlistTab();
                 break;
 
             case "my_portfolio" :
+                viewPager.setCurrentItem(1);
                 bottomNavigationView.setSelectedItemId(R.id.action_my_portfolio);
-                fragment = new MyPortfolioTab();
                 break;
 
             case "chat" :
+                viewPager.setCurrentItem(2);
                 bottomNavigationView.setSelectedItemId(R.id.action_chat);
-                fragment = new ChatTab();
                 break;
 
             case "more" :
+                viewPager.setCurrentItem(3);
                 bottomNavigationView.setSelectedItemId(R.id.action_more);
-                fragment = new MoreTab();
-                break;
-
-            default:
-                fragment = new WatchlistTab();
                 break;
         }
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
     }
 
     @Override

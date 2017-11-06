@@ -51,39 +51,11 @@ public class MyPortfolioTab extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
-        if (rootView == null) {
-            rootView = inflater.inflate(R.layout.my_portfolio_tab, container, false);
-        }
         sharedPreferences = getContext().getSharedPreferences("com.apps.sky.cryptoticker", Context.MODE_PRIVATE);
-
-        myGlobalsFunctions = new MyGlobalsFunctions(rootView.getContext());
+        myGlobalsFunctions = new MyGlobalsFunctions(getContext());
         myPortfolioItems = new ArrayList<>();
         currency = sharedPreferences.getString(Constants.CURRENT_CURRENCY, new String());
         if (currency.equals("")) currency = "INR";
-
-        RelativeLayout current_portfolio_layout = (RelativeLayout) inflater.inflate(R.layout.my_current_portfolio_card, null, false);
-        RelativeLayout current_portfolio_view = rootView.findViewById(R.id.my_current_portfolio_view);
-        current_portfolio_view.addView(current_portfolio_layout);
-        myCurrentPortfolioView = current_portfolio_view;
-
-        RelativeLayout my_portfolio_layout = (RelativeLayout) inflater.inflate(R.layout.my_portfolio_card, null, false);
-        RelativeLayout my_portfolio_view = rootView.findViewById(R.id.my_portfolio_view);
-        my_portfolio_view.addView(my_portfolio_layout);
-        myPortfolioView = my_portfolio_view;
-
-        recyclerView = rootView.findViewById(R.id.recycler_view);
-        recyclerView.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(rootView.getContext());
-        recyclerView.setLayoutManager(layoutManager);
-        adapter = new MyPortfolioRecyclerViewAdapter(myPortfolioArray,MyPortfolioTab.this);
-        recyclerView.setAdapter(adapter);
 
         Gson gson = new Gson();
         Type type = new TypeToken<ArrayList<CryptoTradeObject>>() {}.getType();
@@ -109,6 +81,33 @@ public class MyPortfolioTab extends Fragment {
                 new JSONTask().execute(url, iconUrl, String.valueOf(cost), String.valueOf(quantity));
             }
         }
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+
+        if (rootView == null) {
+            rootView = inflater.inflate(R.layout.my_portfolio_tab, container, false);
+            RelativeLayout current_portfolio_layout = (RelativeLayout) inflater.inflate(R.layout.my_current_portfolio_card, null, false);
+            RelativeLayout current_portfolio_view = rootView.findViewById(R.id.my_current_portfolio_view);
+            current_portfolio_view.addView(current_portfolio_layout);
+            myCurrentPortfolioView = current_portfolio_view;
+
+            RelativeLayout my_portfolio_layout = (RelativeLayout) inflater.inflate(R.layout.my_portfolio_card, null, false);
+            RelativeLayout my_portfolio_view = rootView.findViewById(R.id.my_portfolio_view);
+            my_portfolio_view.addView(my_portfolio_layout);
+            myPortfolioView = my_portfolio_view;
+        }
+
+        recyclerView = rootView.findViewById(R.id.recycler_view);
+        recyclerView.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(rootView.getContext());
+        recyclerView.setLayoutManager(layoutManager);
+        adapter = new MyPortfolioRecyclerViewAdapter(myPortfolioArray,MyPortfolioTab.this);
+        recyclerView.setAdapter(adapter);
+        setCurrentPortfolioValues();
+
         return rootView;
     }
 
