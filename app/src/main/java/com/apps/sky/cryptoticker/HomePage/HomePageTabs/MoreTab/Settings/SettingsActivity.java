@@ -14,7 +14,14 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         Intent intent = getIntent();
+        this.overridePendingTransition(R.anim.animation_enter, R.anim.animation_leave);
         findViewById(R.id.change_currency_view).setOnClickListener(this);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        this.overridePendingTransition(R.anim.animation_leave, R.anim.animation_enter);
     }
 
     @Override

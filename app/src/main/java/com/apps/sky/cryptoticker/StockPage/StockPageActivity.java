@@ -43,6 +43,7 @@ public class StockPageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_stock_page);
 
         Intent intent = getIntent();
+        this.overridePendingTransition(R.anim.animation_enter, R.anim.animation_leave);
         if (intent.getExtras() != null) cryptoID = intent.getExtras().getString("cryptoID");
         if (cryptoID != null) cryptoName = ConstantsCrypto.cryptoMap.get(cryptoID.replace("-", "_"))[0];
 
@@ -101,6 +102,12 @@ public class StockPageActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        this.overridePendingTransition(R.anim.animation_leave, R.anim.animation_enter);
     }
 
     public void animateFAB(){
