@@ -84,7 +84,14 @@ public class MyGlobalsFunctions {
     }
 
     public String getEpochToNormalDateString (String date) {
-        return (new java.util.Date (Integer.valueOf(date)*1000)).toString();
+        if (date.contains(".")) {
+            String date2 = new java.text.SimpleDateFormat("MM/dd").format(new java.util.Date ((long)(Double.valueOf(date)*1)));
+            return date2;
+        }
+        else {
+            String date2 = new java.text.SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(new java.util.Date (Long.valueOf(date)*1000));
+            return date2;
+        }
     }
 
     private String convertDateToCalendarDate (String date) {
