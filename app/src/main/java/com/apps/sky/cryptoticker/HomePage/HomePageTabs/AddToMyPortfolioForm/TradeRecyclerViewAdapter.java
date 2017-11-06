@@ -11,7 +11,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.apps.sky.cryptoticker.Global.MyGlobalsFunctions;
 import com.apps.sky.cryptoticker.R;
 
 import java.util.ArrayList;
@@ -23,7 +22,6 @@ import java.util.ArrayList;
 public class TradeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private ArrayList<TradeObject> mDataset;
     private static Context context;
-    private MyGlobalsFunctions myGlobalsFunctions;
 
     public static class DataObjectHolder extends RecyclerView.ViewHolder {
 
@@ -59,7 +57,6 @@ public class TradeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         context = parent.getContext();
-        myGlobalsFunctions = new MyGlobalsFunctions(context);
         View view;
         view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.trade_details_card_item_view, parent, false);
