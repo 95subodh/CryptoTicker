@@ -1,6 +1,7 @@
 package com.apps.sky.cryptoticker.HomePage.HomePageTabs.MoreTab.Settings;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -31,6 +32,8 @@ public class ChangeCurrencyActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_currency);
+        Intent intent = getIntent();
+        this.overridePendingTransition(R.anim.animation_enter, R.anim.animation_leave);
         sharedPreferences = this.getSharedPreferences("com.apps.sky.cryptoticker", Context.MODE_PRIVATE);
 
         myGlobalsFunctions = new MyGlobalsFunctions(this);
@@ -89,6 +92,12 @@ public class ChangeCurrencyActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        this.overridePendingTransition(R.anim.animation_leave, R.anim.animation_enter);
     }
 }
 
