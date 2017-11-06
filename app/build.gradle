@@ -47,6 +47,4 @@ dependencies {
     compile 'com.github.blackfizz:eazegraph:1.2.2@aar'
     compile 'com.nineoldandroids:library:2.4.0'
 //  chart dependencies end
-
-    compile 'com.github.ybq:Android-SpinKit:1.1.0' // for android spinkit (loading anim)
 }
