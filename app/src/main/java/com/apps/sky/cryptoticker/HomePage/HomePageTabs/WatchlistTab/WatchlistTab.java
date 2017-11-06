@@ -38,20 +38,7 @@ public class WatchlistTab extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        if (rootView == null) {
-            rootView = inflater.inflate(R.layout.watchlist_tab, container, false);
-        }
         sharedPreferences = getContext().getSharedPreferences("com.apps.sky.cryptoticker", Context.MODE_PRIVATE);
-
-        recyclerView = rootView.findViewById(R.id.recycler_view);
-        recyclerView.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(rootView.getContext());
-        recyclerView.setLayoutManager(layoutManager);
         myGlobalsFunctions = new MyGlobalsFunctions(getContext());
         currency = sharedPreferences.getString(Constants.CURRENT_CURRENCY, new String());
         if (currency.equals("")) currency = "INR";
@@ -78,6 +65,19 @@ public class WatchlistTab extends Fragment {
                 new JSONTask().execute(url, imageUrl, highLowUrl, cryptoID);
             }
         }
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        if (rootView == null) {
+            rootView = inflater.inflate(R.layout.watchlist_tab, container, false);
+        }
+
+        recyclerView = rootView.findViewById(R.id.recycler_view);
+        recyclerView.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(rootView.getContext());
+        recyclerView.setLayoutManager(layoutManager);
 
         adapter = new WatchlistRecyclerViewAdapter(watchlistArray, WatchlistTab.this);
         recyclerView.setAdapter(adapter);

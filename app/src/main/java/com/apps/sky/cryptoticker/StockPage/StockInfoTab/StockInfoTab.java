@@ -101,13 +101,16 @@ public class StockInfoTab extends Fragment {
         JSONObject parentObject = jarr.getJSONObject(0);
         price = parentObject.getString("price_" + currency.toLowerCase());
         change = parentObject.getString("percent_change_24h");
+        if (change.equals("null")) change = parentObject.getString("percent_change_1h");
+        if (change.equals("null")) change = parentObject.getString("percent_change_7d");
+        if (change.equals("null")) change = "0.0";
         rank = parentObject.getString("rank");
         cap = parentObject.getString("market_cap_" + currency.toLowerCase());
         avlsup = parentObject.getString("available_supply");
         lstupd = parentObject.getString("last_updated");
 
         float changeNum = Float.parseFloat(price) - (Float.parseFloat(price) / (1 + ((float) 0.01 * Float.parseFloat(change))));
-        change = myGlobalsFunctions.commaSeperateInteger2(String.valueOf(changeNum)) + " (-" + change + "%)";
+        change = myGlobalsFunctions.commaSeperateInteger2(String.valueOf(changeNum)) + " (" + change + "%)";
 
         if (highLowJson!=null && !Objects.equals(highLowJson, "")) {
             JSONObject highLowObj = new JSONObject(highLowJson);
