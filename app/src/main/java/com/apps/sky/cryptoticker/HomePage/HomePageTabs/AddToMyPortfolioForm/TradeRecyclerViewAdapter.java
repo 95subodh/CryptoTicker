@@ -21,7 +21,7 @@ import java.util.ArrayList;
 
 public class TradeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private ArrayList<TradeObject> mDataset;
-    private static Context context;
+    private Context context;
 
     public static class DataObjectHolder extends RecyclerView.ViewHolder {
 
