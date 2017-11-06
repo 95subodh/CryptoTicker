@@ -54,7 +54,7 @@ public class StockInfoTab extends Fragment {
 
         url = "https://api.coinmarketcap.com/v1/ticker/"+cryptoID+"/?convert=" + currency.toUpperCase();
         String iconUrl = "https://files.coinmarketcap.com/static/img/coins/32x32/"+cryptoID+".png";
-        String highLowUrl = "https://www.coingecko.com/en/chart/" + cryptoID + "/" + currency.toLowerCase() + ".json";
+        String highLowUrl = "https://www.coingecko.com/en/price_charts/" + cryptoID + "/" + currency.toLowerCase() + "/24_hours.json";
 
         myGlobalsFunctions = new MyGlobalsFunctions(rootView.getContext());
 
@@ -123,7 +123,7 @@ public class StockInfoTab extends Fragment {
             low = Float.toString(min);
 
             for (int i = 0; i < newRef.length(); ++i) {
-                series.addPoint(new ValueLinePoint(myGlobalsFunctions.getEpochToNormalDateString(newRef.optJSONArray(i).optString(0).toString()), Float.parseFloat(newRef.optJSONArray(i).optString(1))));
+                series.addPoint(new ValueLinePoint(myGlobalsFunctions.getEpochToNormalDateString(newRef.optJSONArray(i).optString(0)), Float.parseFloat(newRef.optJSONArray(i).optString(1))));
             }
         }
     }
