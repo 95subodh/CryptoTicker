@@ -52,10 +52,11 @@ public class MyPortfolioTab extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sharedPreferences = getContext().getSharedPreferences("com.apps.sky.cryptoticker", Context.MODE_PRIVATE);
+        currency = sharedPreferences.getString(Constants.CURRENT_CURRENCY, "");
+        if (currency.equals("")) currency = "INR";
+
         myGlobalsFunctions = new MyGlobalsFunctions(getContext());
         myPortfolioItems = new ArrayList<>();
-        currency = sharedPreferences.getString(Constants.CURRENT_CURRENCY, new String());
-        if (currency.equals("")) currency = "INR";
 
         Gson gson = new Gson();
         Type type = new TypeToken<ArrayList<CryptoTradeObject>>() {}.getType();
@@ -64,7 +65,7 @@ public class MyPortfolioTab extends Fragment {
         try {
             if (json != null) myPortfolioItems = gson.fromJson(json, type);
         } catch (IllegalStateException | JsonSyntaxException exception) {
-            Log.d("error", "error in parsing json");
+            Log.d("error", "error in parsing portfolio json");
         }
 
         if (myGlobalsFunctions.isNetworkConnected()) {
@@ -166,11 +167,10 @@ public class MyPortfolioTab extends Fragment {
                 currency_details.setIcon(params[1]);
                 currency_details.setCryptoID(parentObject.getString("id"));
 
-                String profitPer = calcMyProfitPercentage(params[2], params[3], parentObject.getString("price_inr")) + "%";
+                String profitPer = calcMyProfitPercentage(params[2], params[3], parentObject.getString("price_" + currency.toLowerCase())) + "%";
                 currency_details.setMyProfit(profitPer);
                 if (profitPer.charAt(0) == '-') currency_details.setChangeColor(false);
                 else currency_details.setChangeColor(true);
-
                 myPortfolioArray.add(currency_details);
                 return finalJson;
 

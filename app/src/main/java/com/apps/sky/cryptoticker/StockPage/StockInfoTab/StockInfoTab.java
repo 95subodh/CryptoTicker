@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,7 +35,6 @@ public class StockInfoTab extends Fragment {
     TextView coinPrice, coinChange, coinRank, coinCap, coinAvailSupply, coinLstUpdate, highVal, lowVal;
     String url, currency;
     public String cryptoID;
-    NavigationView navigationView;
     MyGlobalsFunctions myGlobalsFunctions;
     SharedPreferences sharedPreferences;
     ValueLineChart cubicValueLineChart;
