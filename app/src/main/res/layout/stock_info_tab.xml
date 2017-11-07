@@ -185,19 +185,153 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/details_view"
-        android:layout_marginTop="32dp">
+        android:layout_marginVertical="16dp">
 
         <RelativeLayout
             android:id="@+id/tabs_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="16dp">
 
-            <ListView
-                android:id="@+id/list_view"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:choiceMode="singleChoice">
-            </ListView>
+                android:weightSum="7">
+
+                <RelativeLayout
+                    android:id="@+id/h_24"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:clickable="true">
+
+                    <TextView
+                        android:id="@+id/h_24_textview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="24H"
+                        android:fontFamily="sans-serif-condensed"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="@dimen/very_small_text"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/d_7"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:clickable="true">
+
+                    <TextView
+                        android:id="@+id/d_7_textview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="7D"
+                        android:fontFamily="sans-serif-condensed"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="@dimen/very_small_text"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/d_14"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:clickable="true">
+
+                    <TextView
+                        android:id="@+id/d_14_textview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="14D"
+                        android:fontFamily="sans-serif-condensed"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="@dimen/very_small_text"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/d_30"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:clickable="true">
+
+                    <TextView
+                        android:id="@+id/d_30_textview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="30D"
+                        android:fontFamily="sans-serif-condensed"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="@dimen/very_small_text"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/d_60"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:clickable="true">
+
+                    <TextView
+                        android:id="@+id/d_60_textview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="60D"
+                        android:fontFamily="sans-serif-condensed"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="@dimen/very_small_text"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/d_90"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:clickable="true">
+
+                    <TextView
+                        android:id="@+id/d_90_textview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="90D"
+                        android:fontFamily="sans-serif-condensed"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="@dimen/very_small_text"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/alltime"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:clickable="true">
+
+                    <TextView
+                        android:id="@+id/d_alltime_textview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="ALL"
+                        android:textAlignment="center"
+                        android:fontFamily="sans-serif-condensed"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="@dimen/very_small_text"/>
+
+                </RelativeLayout>
+
+            </LinearLayout>
 
         </RelativeLayout>
 
@@ -206,13 +340,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tabs_view"
-            android:layout_marginTop="16dp">
+            android:layout_marginVertical="16dp">
 
             <org.eazegraph.lib.charts.ValueLineChart xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/cubic_line_chart"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
+                app:egShowValueIndicator="true"
                 app:egCurveSmoothness="0.0"
+                app:egIndicatorTextColor="@color/colorPrimaryDark"
                 app:egIndicatorLineColor="@color/colorPrimaryDark"
                 app:egLegendHeight="40dp"
                 app:egShowStandardValue="true"

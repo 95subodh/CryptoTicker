@@ -89,7 +89,7 @@ public class MyGlobalsFunctions {
             return date2;
         }
         else {
-            String date2 = new java.text.SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(new java.util.Date (Long.valueOf(date)*1000));
+            String date2 = new java.text.SimpleDateFormat("MM/dd HH:mm:ss").format(new java.util.Date (Long.valueOf(date)*1000));
             return date2;
         }
     }

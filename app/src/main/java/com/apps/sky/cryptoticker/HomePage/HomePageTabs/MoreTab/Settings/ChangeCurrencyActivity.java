@@ -33,7 +33,6 @@ public class ChangeCurrencyActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_currency);
         Intent intent = getIntent();
-        this.overridePendingTransition(R.anim.animation_enter, R.anim.animation_leave);
         sharedPreferences = this.getSharedPreferences("com.apps.sky.cryptoticker", Context.MODE_PRIVATE);
 
         myGlobalsFunctions = new MyGlobalsFunctions(this);
@@ -92,12 +91,6 @@ public class ChangeCurrencyActivity extends AppCompatActivity {
             }
         });
 
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        this.overridePendingTransition(R.anim.animation_leave, R.anim.animation_enter);
     }
 }
 
