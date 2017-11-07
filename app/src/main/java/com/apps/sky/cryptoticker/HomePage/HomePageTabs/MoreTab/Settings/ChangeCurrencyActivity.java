@@ -1,7 +1,6 @@
 package com.apps.sky.cryptoticker.HomePage.HomePageTabs.MoreTab.Settings;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -32,13 +31,12 @@ public class ChangeCurrencyActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_currency);
-        Intent intent = getIntent();
         sharedPreferences = this.getSharedPreferences("com.apps.sky.cryptoticker", Context.MODE_PRIVATE);
 
         myGlobalsFunctions = new MyGlobalsFunctions(this);
         final TextView currentCurrencyTextView = findViewById(R.id.default_currency_value);
         Button setCurrencyBtn = findViewById(R.id.set_currency_btn);
-        currency = sharedPreferences.getString(Constants.CURRENT_CURRENCY, new String());
+        currency = sharedPreferences.getString(Constants.CURRENT_CURRENCY, "");
         if (currency.equals("")) currency = "INR";
         currentCurrencyTextView.setText(currency);
 
