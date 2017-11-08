@@ -57,17 +57,22 @@ public class MyGlobalsFunctions {
         if (num == null || "null".equals(num) || "-".equals(num)) return "-";
         Double x = Double.valueOf(num);
 
+        String curr = "";
+        if (symbolCheck.length>0 && symbolCheck[0]) {
+            curr = getCurrencySymbol();
+        }
+
         if (x >= 1000000000 || x <= -1000000000) {
             DecimalFormat newFormat = new DecimalFormat("#.##");
             x /= 1000000000.0;
             x =  Double.valueOf(newFormat.format(x));
-            return NumberFormat.getNumberInstance(Locale.US).format(x) + "B";
+            return curr + NumberFormat.getNumberInstance(Locale.US).format(x) + "B";
         }
         else if (x >= 1000000 || x <= -1000000) {
             DecimalFormat newFormat = new DecimalFormat("#.##");
             x /= 1000000.0;
             x =  Double.valueOf(newFormat.format(x));
-            return NumberFormat.getNumberInstance(Locale.US).format(x) + "M";
+            return curr + NumberFormat.getNumberInstance(Locale.US).format(x) + "M";
         }
         else if (x>=1000 || x<=-1000) {
             DecimalFormat newFormat = new DecimalFormat("#.#");
@@ -77,8 +82,7 @@ public class MyGlobalsFunctions {
             DecimalFormat newFormat = new DecimalFormat("#.##");
             x =  Double.valueOf(newFormat.format(x));
         }
-
-        return NumberFormat.getNumberInstance(Locale.US).format(x);
+        return curr + NumberFormat.getNumberInstance(Locale.US).format(x);
     }
 
     public String commaSeperateInteger(String num, Boolean... symbolCheck){
@@ -92,8 +96,11 @@ public class MyGlobalsFunctions {
             DecimalFormat newFormat = new DecimalFormat("#.##");
             x =  Double.valueOf(newFormat.format(x));
         }
-
-        return NumberFormat.getNumberInstance(Locale.US).format(x);
+        String curr = "";
+        if (symbolCheck.length>0 && symbolCheck[0]) {
+            curr = getCurrencySymbol();
+        }
+        return curr + NumberFormat.getNumberInstance(Locale.US).format(x);
     }
 
     public String getEpochToNormalDateString (String date) {
@@ -270,5 +277,4 @@ public class MyGlobalsFunctions {
 
         return list;
     }
-
 }

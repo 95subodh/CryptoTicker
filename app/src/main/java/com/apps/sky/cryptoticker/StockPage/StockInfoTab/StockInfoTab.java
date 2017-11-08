@@ -169,11 +169,11 @@ public class StockInfoTab extends Fragment implements View.OnClickListener {
     private void fillInfoFromJSON() {
         if (getView() != null) {
             coinPrice = getView().findViewById(R.id.coin_price);
-            coinPrice.setText(myGlobalsFunctions.commaSeperateInteger2(price));
+            coinPrice.setText(myGlobalsFunctions.commaSeperateInteger2(price, true));
             coinAvailSupply = getView().findViewById(R.id.coin_avail_supply);
             coinAvailSupply.setText(myGlobalsFunctions.commaSeperateInteger(avlsup));
             coinCap = getView().findViewById(R.id.coin_cap);
-            coinCap.setText(myGlobalsFunctions.commaSeperateInteger2(cap));
+            coinCap.setText  (myGlobalsFunctions.commaSeperateInteger2(cap, true));
             coinRank = getView().findViewById(R.id.coin_rank);
             coinRank.setText(rank);
             coinChange = getView().findViewById(R.id.coin_change);
@@ -186,9 +186,9 @@ public class StockInfoTab extends Fragment implements View.OnClickListener {
             coinLstUpdate = getView().findViewById(R.id.coin_lst_update);
             coinLstUpdate.setText(myGlobalsFunctions.getEpochToNormalDateString(lstupd));
             highVal = getView().findViewById(R.id.high);
-            highVal.setText(high);
+            highVal.setText(myGlobalsFunctions.commaSeperateInteger(high, true));
             lowVal = getView().findViewById(R.id.low);
-            lowVal.setText(low);
+            lowVal.setText(myGlobalsFunctions.commaSeperateInteger(low, true));
             cubicValueLineChart.addSeries(series24);
         }
     }
@@ -277,7 +277,7 @@ public class StockInfoTab extends Fragment implements View.OnClickListener {
         lstupd = parentObject.getString("last_updated");
 
         float changeNum = Float.parseFloat(price) - (Float.parseFloat(price) / (1 + ((float) 0.01 * Float.parseFloat(change))));
-        change = myGlobalsFunctions.commaSeperateInteger2(String.valueOf(changeNum)) + " (" + change + "%)";
+        change = myGlobalsFunctions.commaSeperateInteger2(String.valueOf(changeNum), true) + " (" + change + "%)";
         fillGraphValues(highLowJson24, highLowJson7, highLowJson14, highLowJson30, highLowJson60, highLowJson90, highLowJsonAll);
     }
 
