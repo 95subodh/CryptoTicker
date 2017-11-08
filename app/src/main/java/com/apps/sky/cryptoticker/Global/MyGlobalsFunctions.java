@@ -54,7 +54,7 @@ public class MyGlobalsFunctions {
     }
 
     public String commaSeperateInteger2(String num, Boolean... symbolCheck){
-        if ("null".equals(num) || "-".equals(num)) return "-";
+        if (num == null || "null".equals(num) || "-".equals(num)) return "-";
         Double x = Double.valueOf(num);
 
         String curr = "";
@@ -86,7 +86,7 @@ public class MyGlobalsFunctions {
     }
 
     public String commaSeperateInteger(String num, Boolean... symbolCheck){
-        if ("null".equals(num) || "-".equals(num)) return "-";
+        if (num == null || "null".equals(num) || "-".equals(num)) return "-";
         Double x = Double.valueOf(num);
         if (x>=1000 || x<=-1000) {
             DecimalFormat newFormat = new DecimalFormat("#.#");

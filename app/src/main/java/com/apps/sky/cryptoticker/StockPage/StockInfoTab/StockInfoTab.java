@@ -96,19 +96,19 @@ public class StockInfoTab extends Fragment implements View.OnClickListener {
         views.add(R.id.h_24); views.add(R.id.d_7); views.add(R.id.d_14); views.add(R.id.d_30); views.add(R.id.d_60); views.add(R.id.d_90); views.add(R.id.alltime);
 
         series24 = new ValueLineSeries();
-        series24.setColor(getContext().getResources().getColor(R.color.colorAccentLight));
+        series24.setColor(getContext().getResources().getColor(R.color.colorPrimary));
         series7 = new ValueLineSeries();
-        series7.setColor(getContext().getResources().getColor(R.color.colorAccentLight));
+        series7.setColor(getContext().getResources().getColor(R.color.colorPrimary));
         series14 = new ValueLineSeries();
-        series14.setColor(getContext().getResources().getColor(R.color.colorAccentLight));
+        series14.setColor(getContext().getResources().getColor(R.color.colorPrimary));
         series30 = new ValueLineSeries();
-        series30.setColor(getContext().getResources().getColor(R.color.colorAccentLight));
+        series30.setColor(getContext().getResources().getColor(R.color.colorPrimary));
         series60 = new ValueLineSeries();
-        series60.setColor(getContext().getResources().getColor(R.color.colorAccentLight));
+        series60.setColor(getContext().getResources().getColor(R.color.colorPrimary));
         series90 = new ValueLineSeries();
-        series90.setColor(getContext().getResources().getColor(R.color.colorAccentLight));
+        series90.setColor(getContext().getResources().getColor(R.color.colorPrimary));
         seriesAll = new ValueLineSeries();
-        seriesAll.setColor(getContext().getResources().getColor(R.color.colorAccentLight));
+        seriesAll.setColor(getContext().getResources().getColor(R.color.colorPrimary));
 
         new JSONTask().execute(url, iconUrl, highLowUrl24, highLowUrl7, highLowUrl14, highLowUrl30, highLowUrl60, highLowUrl90, highLowUrlAll);
         return rootView;
