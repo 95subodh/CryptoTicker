@@ -82,11 +82,11 @@ class WatchlistRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         ((DataObjectHolder)holder).cryptoID = mDataset.get(position).getCryptoID();
         ((DataObjectHolder)holder).title.setText(mDataset.get(position).getTitle());
-        ((DataObjectHolder)holder).currentPrice.setText(myGlobalsFunctions.commaSeperateInteger2(mDataset.get(position).getCurrentPrice()));
+        ((DataObjectHolder)holder).currentPrice.setText(myGlobalsFunctions.commaSeperateInteger2(mDataset.get(position).getCurrentPrice(), true));
         ((DataObjectHolder)holder).myChange.setText(mDataset.get(position).getChange());
         ((DataObjectHolder)holder).icon.setImageBitmap(mDataset.get(position).getIcon());
-        ((DataObjectHolder)holder).maxDayPrice.setText(myGlobalsFunctions.commaSeperateInteger2(mDataset.get(position).getMaxDayPrice()));
-        ((DataObjectHolder)holder).minDayPrice.setText(myGlobalsFunctions.commaSeperateInteger2(mDataset.get(position).getMinDayPrice()));
+        ((DataObjectHolder)holder).maxDayPrice.setText(myGlobalsFunctions.commaSeperateInteger2(mDataset.get(position).getMaxDayPrice(), true));
+        ((DataObjectHolder)holder).minDayPrice.setText(myGlobalsFunctions.commaSeperateInteger2(mDataset.get(position).getMinDayPrice(), true));
 
         final int pos = holder.getAdapterPosition();
         ((DataObjectHolder)holder).closeBtn.setOnClickListener(new View.OnClickListener() {

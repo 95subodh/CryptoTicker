@@ -121,9 +121,9 @@ public class MyPortfolioTab extends Fragment {
         TextView totalCostValue = rootView.findViewById(R.id.total_cost);
         TextView totalProfitValue = rootView.findViewById(R.id.total_profit);
         TextView totalProfitPerValue = rootView.findViewById(R.id.total_profit_percentage);
-        currentPortfolioValue.setText(myGlobalsFunctions.commaSeperateInteger(String.valueOf(totalPrice)));
-        totalCostValue.setText(myGlobalsFunctions.commaSeperateInteger(String.valueOf(totalCost)));
-        totalProfitValue.setText(myGlobalsFunctions.commaSeperateInteger(String.valueOf(priceDif)));
+        currentPortfolioValue.setText(myGlobalsFunctions.commaSeperateInteger(String.valueOf(totalPrice), true));
+        totalCostValue.setText(myGlobalsFunctions.commaSeperateInteger(String.valueOf(totalCost), true));
+        totalProfitValue.setText(myGlobalsFunctions.commaSeperateInteger(String.valueOf(priceDif), true));
         String tp = String.valueOf(totalProfit) + "%";
         totalProfitPerValue.setText(tp);
 
