@@ -40,8 +40,21 @@ public class MyGlobalsFunctions {
         this.mContext = context;
     }
 
-    public String commaSeperateInteger2(String num){
-        if ("null".equals(num) || "-".equals(num)) return "-";
+    public String getCurrencySymbol() {
+        if (Constants.CURRENT_CURRENCY.equals("INR")) {
+            return "₹";
+        }
+        else if (Constants.CURRENT_CURRENCY.equals("USD")) {
+            return "$";
+        }
+        else if (Constants.CURRENT_CURRENCY.equals("JPY")) {
+            return "￥";
+        }
+        return "";
+    }
+
+    public String commaSeperateInteger2(String num, Boolean... symbolCheck){
+        if (num == null || "null".equals(num) || "-".equals(num)) return "-";
         Double x = Double.valueOf(num);
 
         if (x >= 1000000000 || x <= -1000000000) {
@@ -68,8 +81,8 @@ public class MyGlobalsFunctions {
         return NumberFormat.getNumberInstance(Locale.US).format(x);
     }
 
-    public String commaSeperateInteger(String num){
-        if ("null".equals(num) || "-".equals(num)) return "-";
+    public String commaSeperateInteger(String num, Boolean... symbolCheck){
+        if (num == null || "null".equals(num) || "-".equals(num)) return "-";
         Double x = Double.valueOf(num);
         if (x>=1000 || x<=-1000) {
             DecimalFormat newFormat = new DecimalFormat("#.#");
