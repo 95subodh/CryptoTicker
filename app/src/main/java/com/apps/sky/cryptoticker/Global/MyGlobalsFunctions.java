@@ -40,21 +40,39 @@ public class MyGlobalsFunctions {
         this.mContext = context;
     }
 
-    public String commaSeperateInteger2(String num){
+    public String getCurrencySymbol() {
+        if (Constants.CURRENT_CURRENCY.equals("INR")) {
+            return "₹";
+        }
+        else if (Constants.CURRENT_CURRENCY.equals("USD")) {
+            return "$";
+        }
+        else if (Constants.CURRENT_CURRENCY.equals("JPY")) {
+            return "￥";
+        }
+        return "";
+    }
+
+    public String commaSeperateInteger2(String num, Boolean... symbolCheck){
         if ("null".equals(num) || "-".equals(num)) return "-";
         Double x = Double.valueOf(num);
+
+        String curr = "";
+        if (symbolCheck.length>0 && symbolCheck[0]) {
+            curr = getCurrencySymbol();
+        }
 
         if (x >= 1000000000 || x <= -1000000000) {
             DecimalFormat newFormat = new DecimalFormat("#.##");
             x /= 1000000000.0;
             x =  Double.valueOf(newFormat.format(x));
-            return NumberFormat.getNumberInstance(Locale.US).format(x) + "B";
+            return curr + NumberFormat.getNumberInstance(Locale.US).format(x) + "B";
         }
         else if (x >= 1000000 || x <= -1000000) {
             DecimalFormat newFormat = new DecimalFormat("#.##");
             x /= 1000000.0;
             x =  Double.valueOf(newFormat.format(x));
-            return NumberFormat.getNumberInstance(Locale.US).format(x) + "M";
+            return curr + NumberFormat.getNumberInstance(Locale.US).format(x) + "M";
         }
         else if (x>=1000 || x<=-1000) {
             DecimalFormat newFormat = new DecimalFormat("#.#");
@@ -64,11 +82,10 @@ public class MyGlobalsFunctions {
             DecimalFormat newFormat = new DecimalFormat("#.##");
             x =  Double.valueOf(newFormat.format(x));
         }
-
-        return NumberFormat.getNumberInstance(Locale.US).format(x);
+        return curr + NumberFormat.getNumberInstance(Locale.US).format(x);
     }
 
-    public String commaSeperateInteger(String num){
+    public String commaSeperateInteger(String num, Boolean... symbolCheck){
         if ("null".equals(num) || "-".equals(num)) return "-";
         Double x = Double.valueOf(num);
         if (x>=1000 || x<=-1000) {
@@ -79,8 +96,11 @@ public class MyGlobalsFunctions {
             DecimalFormat newFormat = new DecimalFormat("#.##");
             x =  Double.valueOf(newFormat.format(x));
         }
-
-        return NumberFormat.getNumberInstance(Locale.US).format(x);
+        String curr = "";
+        if (symbolCheck.length>0 && symbolCheck[0]) {
+            curr = getCurrencySymbol();
+        }
+        return curr + NumberFormat.getNumberInstance(Locale.US).format(x);
     }
 
     public String getEpochToNormalDateString (String date) {
@@ -257,5 +277,4 @@ public class MyGlobalsFunctions {
 
         return list;
     }
-
 }

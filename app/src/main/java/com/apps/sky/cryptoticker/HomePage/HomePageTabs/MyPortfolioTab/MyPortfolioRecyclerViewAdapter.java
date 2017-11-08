@@ -78,7 +78,7 @@ public class MyPortfolioRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         ((DataObjectHolder)holder).cryptoID = mDataset.get(position).getCryptoID();
         ((DataObjectHolder)holder).title.setText(mDataset.get(position).getTitle());
-        ((DataObjectHolder)holder).currentPrice.setText(myGlobalsFunctions.commaSeperateInteger2(mDataset.get(position).getCurrentPrice()));
+        ((DataObjectHolder)holder).currentPrice.setText(myGlobalsFunctions.commaSeperateInteger2(mDataset.get(position).getCurrentPrice(), true));
         ((DataObjectHolder)holder).myProfit.setText(mDataset.get(position).getMyProfit());
         ((DataObjectHolder)holder).icon.setImageBitmap(mDataset.get(position).getIcon());
 
