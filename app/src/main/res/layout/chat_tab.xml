@@ -3,8 +3,7 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="8dp"
-    android:layout_marginRight="8dp"
+    android:padding="16dp"
     android:orientation="horizontal"
     tools:context="com.apps.sky.cryptoticker.HomePage.HomePageTabs.ChatTab.ChatTab"
     tools:ignore="MergeRootFrame">

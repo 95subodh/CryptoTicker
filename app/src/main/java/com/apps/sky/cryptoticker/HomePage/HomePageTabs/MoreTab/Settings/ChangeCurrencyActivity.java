@@ -36,7 +36,7 @@ public class ChangeCurrencyActivity extends AppCompatActivity {
         myGlobalsFunctions = new MyGlobalsFunctions(this);
         final TextView currentCurrencyTextView = findViewById(R.id.default_currency_value);
         Button setCurrencyBtn = findViewById(R.id.set_currency_btn);
-        currency = sharedPreferences.getString(Constants.CURRENT_CURRENCY, new String());
+        currency = sharedPreferences.getString(Constants.CURRENT_CURRENCY, "");
         if (currency.equals("")) currency = "INR";
         currentCurrencyTextView.setText(currency);
 
