@@ -76,7 +76,8 @@ public class MyPortfolioTab extends Fragment {
                 String iconUrl = "https://files.coinmarketcap.com/static/img/coins/32x32/" + cryptoID + ".png";
                 float quantity = 0, cost = 0;
                 for (TradeObject item : curItem.getTrades()) {
-                    cost += Float.parseFloat(item.getCost());
+                    float q = Float.parseFloat(item.getQuantity());
+                    cost += (Float.parseFloat(item.getCost()) * q);
                     quantity += Float.parseFloat(item.getQuantity());
                 }
                 new JSONTask().execute(url, iconUrl, String.valueOf(cost), String.valueOf(quantity));
@@ -105,6 +106,28 @@ public class MyPortfolioTab extends Fragment {
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(rootView.getContext());
         recyclerView.setLayoutManager(layoutManager);
+
+        String currencyNew = sharedPreferences.getString(Constants.CURRENT_CURRENCY, "");
+        if (!currency.equals(currencyNew)) {
+            currency = currencyNew;
+            totalCost = 0; totalPrice = 0;
+            myPortfolioArray = new ArrayList<>();
+            if (myGlobalsFunctions.isNetworkConnected()) {
+                for (int i = 0; i < myPortfolioItems.size(); ++i) {
+                    curItem = myPortfolioItems.get(i);
+                    cryptoID = curItem.getCryptoID();
+                    url = "https://api.coinmarketcap.com/v1/ticker/" + cryptoID + "/?convert=" + currency.toUpperCase();
+                    String iconUrl = "https://files.coinmarketcap.com/static/img/coins/32x32/" + cryptoID + ".png";
+                    float quantity = 0, cost = 0;
+                    for (TradeObject item : curItem.getTrades()) {
+                        float q = Float.parseFloat(item.getQuantity());
+                        cost += (Float.parseFloat(item.getCost()) * q);
+                        quantity += Float.parseFloat(item.getQuantity());
+                    }
+                    new JSONTask().execute(url, iconUrl, String.valueOf(cost), String.valueOf(quantity));
+                }
+            }
+        }
         adapter = new MyPortfolioRecyclerViewAdapter(myPortfolioArray,MyPortfolioTab.this);
         recyclerView.setAdapter(adapter);
         setCurrentPortfolioValues();
