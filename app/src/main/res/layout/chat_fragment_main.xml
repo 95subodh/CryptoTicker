@@ -10,12 +10,11 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp"
-        android:background="@color/white">
+        android:padding="8dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <ImageView
                 android:id="@+id/online_dot"
@@ -47,32 +46,45 @@
         android:layout_weight="1"
         android:padding="16dp"
         android:scrollbarStyle="outsideOverlay"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
         android:orientation="horizontal"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:background="@color/very_light_gray">
 
-        <EditText
-            android:id="@+id/message_input"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="@string/prompt_message"
-            android:imeActionId="@+id/send"
-            android:imeActionLabel="@string/action_send"
-            android:imeOptions="actionSend"
-            android:inputType="text"
-            android:maxLines="1"
-            android:singleLine="true"/>
-        <ImageButton
-            android:id="@+id/send_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_menu_send"
-            android:contentDescription="@string/action_send"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_margin="12dp"
+            android:background="@color/white">
+
+            <EditText
+                android:id="@+id/message_input"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="8dp"
+                android:layout_toStartOf="@id/send_button"
+                android:hint="@string/prompt_message"
+                android:background="@color/transparent"
+                android:imeActionId="@+id/send"
+                android:imeActionLabel="@string/action_send"
+                android:imeOptions="actionSend"
+                android:inputType="text"
+                android:textSize="@dimen/small_text"
+                android:maxLines="1"
+                android:singleLine="true"/>
+            <ImageButton
+                android:id="@+id/send_button"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:backgroundTint="@color/transparent"
+                android:src="@android:drawable/ic_menu_send"
+                android:contentDescription="@string/action_send"/>
+
+        </RelativeLayout>
 
     </LinearLayout>
 

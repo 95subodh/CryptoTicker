@@ -39,6 +39,8 @@
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
     <color name="gray">#A0A0A0</color>
+    <color name="light_gray">#dddddd</color>
+    <color name="very_light_gray">#efeded</color>
 
     <color name="transparent">#00000000</color>
 
@@ -58,14 +60,14 @@
     <!--<color name="colorPrimaryDark">#00695c</color>-->
     <!--<color name="colorAccent">#b2dfdb</color>-->
 
-    <color name="username0">#e21400</color>
-    <color name="username1">#91580f</color>
-    <color name="username2">#f8a700</color>
-    <color name="username3">#f78b00</color>
-    <color name="username4">#58dc00</color>
-    <color name="username5">#287b00</color>
-    <color name="username6">#a8f07a</color>
-    <color name="username7">#4ae8c4</color>
+    <color name="username0">#99004c</color>
+    <color name="username1">#990099</color>
+    <color name="username2">#4c0099</color>
+    <color name="username3">#cc0000</color>
+    <color name="username4">#004c99</color>
+    <color name="username5">#990000</color>
+    <color name="username6">#137c0b</color>
+    <color name="username7">#0000ff</color>
     <color name="username8">#3b88eb</color>
     <color name="username9">#3824aa</color>
     <color name="username10">#a700ff</color>

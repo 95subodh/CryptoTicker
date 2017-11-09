@@ -12,6 +12,7 @@
         android:textColor="?android:textColorSecondary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="@dimen/small_text"
         android:gravity="center"/>
 
 </LinearLayout>
