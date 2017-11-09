@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,6 +42,7 @@ import io.socket.emitter.Emitter;
  */
 
 public class MainFragment extends Fragment {
+    private View rootView;
     private static final String TAG = "MainFragment";
 
     private static final int REQUEST_LOGIN = 0;
@@ -56,6 +58,7 @@ public class MainFragment extends Fragment {
     private String mUsername;
     private Socket mSocket;
     SharedPreferences pref;
+    TextView usersJoined;
 
     private Boolean isConnected = true;
 
@@ -105,7 +108,11 @@ public class MainFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.chat_fragment_main, container, false);
+        if (rootView == null) {
+            rootView = inflater.inflate(R.layout.chat_fragment_main, container, false);
+        }
+        usersJoined = rootView.findViewById(R.id.users_joined);
+        return rootView;
     }
 
     @Override
@@ -196,10 +203,12 @@ public class MainFragment extends Fragment {
     }
 
     private void addLog(String message) {
-        mMessages.add(new Message.Builder(Message.TYPE_LOG)
-                .message(message).build());
-        mAdapter.notifyItemInserted(mMessages.size() - 1);
-        scrollToBottom();
+//        mMessages.add(new Message.Builder(Message.TYPE_LOG)
+//                .message(message).build());
+//        mAdapter.notifyItemInserted(mMessages.size() - 1);
+//        scrollToBottom();
+        ((ImageView)rootView.findViewById(R.id.online_dot)).setColorFilter(getResources().getColor(R.color.valuePositive));
+        usersJoined.setText(message);
     }
 
     private void addParticipantsLog(int numUsers) {
