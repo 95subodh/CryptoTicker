@@ -62,8 +62,8 @@ public class StockInfoTab extends Fragment implements View.OnClickListener {
 
         sharedPreferences = getContext().getSharedPreferences("com.apps.sky.cryptoticker", Context.MODE_PRIVATE);
 
-        currency = sharedPreferences.getString(Constants.CURRENT_CURRENCY, "");
-        if (currency.equals("")) currency = "INR";
+        currency = sharedPreferences.getString(Constants.PREFERENCE_CURRENCY, "");
+        if (currency.equals("")) currency = Constants.DEFAULT_CURRENCY;
 
         url = "https://api.coinmarketcap.com/v1/ticker/"+cryptoID+"/?convert=" + currency.toUpperCase();
         iconUrl = "https://files.coinmarketcap.com/static/img/coins/32x32/"+cryptoID+".png";
@@ -178,7 +178,7 @@ public class StockInfoTab extends Fragment implements View.OnClickListener {
             coinRank.setText(rank);
             coinChange = getView().findViewById(R.id.coin_change);
             coinChange.setText(change);
-            if (change.charAt(0) == '-') {
+            if (change.charAt(1) == '-') {
                 coinChange.setTextColor(getResources().getColor(R.color.valueNegative));
             } else {
                 coinChange.setTextColor(getResources().getColor(R.color.valuePositive));

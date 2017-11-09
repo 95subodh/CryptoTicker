@@ -1,6 +1,7 @@
 package com.apps.sky.cryptoticker.Global;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
@@ -41,16 +42,21 @@ public class MyGlobalsFunctions {
     }
 
     public String getCurrencySymbol() {
-        if (Constants.CURRENT_CURRENCY.equals("INR")) {
-            return "₹";
+        SharedPreferences sharedPreferences;
+        sharedPreferences = mContext.getSharedPreferences("com.apps.sky.cryptoticker", Context.MODE_PRIVATE);
+        String currency = sharedPreferences.getString(Constants.PREFERENCE_CURRENCY, "");
+        switch (currency) {
+            case "USD":
+                return "$";
+            case "INR":
+                return "₹";
+            case "JPY":
+                return "￥";
+            case "EUR":
+                return "€";
+            default:
+                return "₹";
         }
-        else if (Constants.CURRENT_CURRENCY.equals("USD")) {
-            return "$";
-        }
-        else if (Constants.CURRENT_CURRENCY.equals("JPY")) {
-            return "￥";
-        }
-        return "";
     }
 
     public String commaSeperateInteger2(String num, Boolean... symbolCheck){

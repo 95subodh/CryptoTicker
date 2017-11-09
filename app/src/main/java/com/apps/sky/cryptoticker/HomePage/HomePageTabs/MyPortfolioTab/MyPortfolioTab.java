@@ -40,7 +40,9 @@ public class MyPortfolioTab extends Fragment {
     private RecyclerView.Adapter adapter;
     RecyclerView.LayoutManager layoutManager;
 
-    String url, cryptoID, currency;
+    String url, exchangeRateURL, cryptoID, currency, prevCurrency, currCurrency;
+    Boolean isCurrencyChanged = Boolean.FALSE;
+    double conversion = 1.0;
     float totalCost = 0, totalPrice = 0;
     MyGlobalsFunctions myGlobalsFunctions;
     ArrayList<CryptoTradeObject> myPortfolioItems;
@@ -52,8 +54,8 @@ public class MyPortfolioTab extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sharedPreferences = getContext().getSharedPreferences("com.apps.sky.cryptoticker", Context.MODE_PRIVATE);
-        currency = sharedPreferences.getString(Constants.CURRENT_CURRENCY, "");
-        if (currency.equals("")) currency = "INR";
+        currency = sharedPreferences.getString(Constants.PREFERENCE_CURRENCY, "");
+        if (currency.equals("")) currency = Constants.DEFAULT_CURRENCY;
 
         myGlobalsFunctions = new MyGlobalsFunctions(getContext());
         myPortfolioItems = new ArrayList<>();
@@ -107,16 +109,55 @@ public class MyPortfolioTab extends Fragment {
         layoutManager = new LinearLayoutManager(rootView.getContext());
         recyclerView.setLayoutManager(layoutManager);
 
-        String currencyNew = sharedPreferences.getString(Constants.CURRENT_CURRENCY, "");
-        if (!currency.equals(currencyNew)) {
-            currency = currencyNew;
-            totalCost = 0; totalPrice = 0;
-            myPortfolioArray = new ArrayList<>();
+        prevCurrency = sharedPreferences.getString(Constants.PREV_PORTFOLIO_CURRENCY, "");
+        if (prevCurrency.equals("")) {
+            prevCurrency = Constants.DEFAULT_CURRENCY;
+        }
+
+        currCurrency = sharedPreferences.getString(Constants.PREFERENCE_CURRENCY, "");
+        if (currCurrency.equals("")) currCurrency = Constants.DEFAULT_CURRENCY;
+
+        if (!prevCurrency.equals(currCurrency)) isCurrencyChanged = Boolean.TRUE;
+
+        exchangeRateURL = "https://free.currencyconverterapi.com/api/v4/convert?q="+ prevCurrency + "_" + currCurrency + "&compact=y";
+
+        if (isCurrencyChanged) {
+            myPortfolioItems = new ArrayList<>();
+
+            Gson gson = new Gson();
+            Type type = new TypeToken<ArrayList<CryptoTradeObject>>() {}.getType();
+            String json = myGlobalsFunctions.retieveStringFromFile(getString(R.string.crypto_my_portfolio_file), getString(R.string.crypto_my_portfolio_dir));
+
+            try {
+                if (json != null) myPortfolioItems = gson.fromJson(json, type);
+            } catch (IllegalStateException | JsonSyntaxException exception) {
+                Log.d("error", "error in parsing portfolio json");
+            }
+
+            new minorJSONTask().execute();
+
+            for (int i = 0; i < myPortfolioItems.size(); ++i) {
+                curItem = myPortfolioItems.get(i);
+                cryptoID = curItem.getCryptoID();
+                float cost;
+                for (TradeObject item : curItem.getTrades()) {
+                    cost = Float.parseFloat(item.getCost());
+                    item.setCost(String.valueOf(cost*conversion));
+                }
+            }
+
+            json = gson.toJson(myPortfolioItems, type);
+            myGlobalsFunctions.storeStringToFile(getString(R.string.crypto_my_portfolio_file), getString(R.string.crypto_my_portfolio_dir), json);
+            sharedPreferences.edit().putString(Constants.PREV_PORTFOLIO_CURRENCY, currCurrency).apply();
+            isCurrencyChanged = Boolean.FALSE;
+
             if (myGlobalsFunctions.isNetworkConnected()) {
+                totalCost = 0; totalPrice = 0;
+                myPortfolioArray = new ArrayList<>();
                 for (int i = 0; i < myPortfolioItems.size(); ++i) {
                     curItem = myPortfolioItems.get(i);
                     cryptoID = curItem.getCryptoID();
-                    url = "https://api.coinmarketcap.com/v1/ticker/" + cryptoID + "/?convert=" + currency.toUpperCase();
+                    url = "https://api.coinmarketcap.com/v1/ticker/" + cryptoID + "/?convert=" + currCurrency.toUpperCase();
                     String iconUrl = "https://files.coinmarketcap.com/static/img/coins/32x32/" + cryptoID + ".png";
                     float quantity = 0, cost = 0;
                     for (TradeObject item : curItem.getTrades()) {
@@ -128,6 +169,8 @@ public class MyPortfolioTab extends Fragment {
                 }
             }
         }
+
+
         adapter = new MyPortfolioRecyclerViewAdapter(myPortfolioArray,MyPortfolioTab.this);
         recyclerView.setAdapter(adapter);
         setCurrentPortfolioValues();
@@ -167,6 +210,34 @@ public class MyPortfolioTab extends Fragment {
         totalCost += cost;
         totalPrice += (coinPrice * quantity);
         return String.valueOf(Math.round(profitPer * 100.0) / 100.0);
+    }
+
+    public class minorJSONTask extends AsyncTask<String,String, String > {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+                String exchangeRateJSON = myGlobalsFunctions.fetchJSONasString(exchangeRateURL);
+                JSONObject jsonObject = new JSONObject(exchangeRateJSON);
+                JSONObject currExRate = jsonObject.getJSONObject(prevCurrency + "_" + currCurrency);
+                conversion = currExRate.getDouble("val");
+                return exchangeRateJSON;
+
+            } catch (IOException | JSONException e) {
+                e.printStackTrace();
+            }
+            return  null;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+        }
     }
 
     public class JSONTask extends AsyncTask<String,String, String > {

@@ -40,8 +40,8 @@ public class WatchlistTab extends Fragment {
         super.onCreate(savedInstanceState);
         sharedPreferences = getContext().getSharedPreferences("com.apps.sky.cryptoticker", Context.MODE_PRIVATE);
         myGlobalsFunctions = new MyGlobalsFunctions(getContext());
-        currency = sharedPreferences.getString(Constants.CURRENT_CURRENCY, "");
-        if (currency.equals("")) currency = "INR";
+        currency = sharedPreferences.getString(Constants.PREFERENCE_CURRENCY, "");
+        if (currency.equals("")) currency = Constants.DEFAULT_CURRENCY;
 
         items = myGlobalsFunctions.retrieveListFromFile(getString(R.string.crypto_watchlist_file), getString(R.string.crypto_watchlist_dir));
         watchlistArray = new ArrayList<>();
@@ -73,7 +73,7 @@ public class WatchlistTab extends Fragment {
         layoutManager = new LinearLayoutManager(rootView.getContext());
         recyclerView.setLayoutManager(layoutManager);
 
-        String currencyNew = sharedPreferences.getString(Constants.CURRENT_CURRENCY, "");
+        String currencyNew = sharedPreferences.getString(Constants.PREFERENCE_CURRENCY, "");
         if (!currency.equals(currencyNew)) {
             currency = currencyNew;
             watchlistArray = new ArrayList<>();

@@ -36,8 +36,9 @@ public class ChangeCurrencyActivity extends AppCompatActivity {
         myGlobalsFunctions = new MyGlobalsFunctions(this);
         final TextView currentCurrencyTextView = findViewById(R.id.default_currency_value);
         Button setCurrencyBtn = findViewById(R.id.set_currency_btn);
-        currency = sharedPreferences.getString(Constants.CURRENT_CURRENCY, "");
-        if (currency.equals("")) currency = "INR";
+
+        currency = sharedPreferences.getString(Constants.PREFERENCE_CURRENCY, "");
+        if (currency.equals("")) currency = Constants.DEFAULT_CURRENCY;
         currentCurrencyTextView.setText(currency);
 
         currencies = new ArrayList<>();
@@ -50,6 +51,9 @@ public class ChangeCurrencyActivity extends AppCompatActivity {
         HashMap<String, Object> map3 = new HashMap<>();
         map3.put("currency", "EUR");
         currencies.add(map3);
+        HashMap<String, Object> map4 = new HashMap<>();
+        map4.put("currency", "JPY");
+        currencies.add(map4);
 
         for (HashMap<String, Object> m :currencies)
             m.put("checked", false);
@@ -80,7 +84,7 @@ public class ChangeCurrencyActivity extends AppCompatActivity {
                     Boolean check = (Boolean) curr.get("checked");
                     if (check) {
                         String temp = (String) curr.get("currency");
-                        sharedPreferences.edit().putString(Constants.CURRENT_CURRENCY, temp).apply();
+                        sharedPreferences.edit().putString(Constants.PREFERENCE_CURRENCY, temp).apply();
                         currency = temp;
                         currentCurrencyTextView.setText(temp);
                         break;
