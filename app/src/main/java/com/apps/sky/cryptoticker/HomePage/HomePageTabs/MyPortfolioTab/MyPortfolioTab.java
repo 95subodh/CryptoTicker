@@ -71,22 +71,6 @@ public class MyPortfolioTab extends Fragment implements SwipeRefreshLayout.OnRef
         } catch (IllegalStateException | JsonSyntaxException exception) {
             Log.d("error", "error in parsing portfolio json");
         }
-
-        if (myGlobalsFunctions.isNetworkConnected()) {
-            for (int i = 0; i < myPortfolioItems.size(); ++i) {
-                curItem = myPortfolioItems.get(i);
-                cryptoID = curItem.getCryptoID();
-                url = "https://api.coinmarketcap.com/v1/ticker/" + cryptoID + "/?convert=" + currency.toUpperCase();
-                String iconUrl = "https://files.coinmarketcap.com/static/img/coins/32x32/" + cryptoID + ".png";
-                float quantity = 0, cost = 0;
-                for (TradeObject item : curItem.getTrades()) {
-                    float q = Float.parseFloat(item.getQuantity());
-                    cost += (Float.parseFloat(item.getCost()) * q);
-                    quantity += Float.parseFloat(item.getQuantity());
-                }
-                new JSONTask().execute(url, iconUrl, String.valueOf(cost), String.valueOf(quantity));
-            }
-        }
     }
 
     @Override
@@ -163,31 +147,7 @@ public class MyPortfolioTab extends Fragment implements SwipeRefreshLayout.OnRef
             sharedPreferences.edit().putString(Constants.PREV_PORTFOLIO_CURRENCY, currCurrency).apply();
             isCurrencyChanged = Boolean.FALSE;
             currency = currCurrency;
-
-            if (myGlobalsFunctions.isNetworkConnected()) {
-                totalCost = 0; totalPrice = 0;
-                myPortfolioArray = new ArrayList<>();
-                for (int i = 0; i < myPortfolioItems.size(); ++i) {
-                    curItem = myPortfolioItems.get(i);
-                    cryptoID = curItem.getCryptoID();
-                    url = "https://api.coinmarketcap.com/v1/ticker/" + cryptoID + "/?convert=" + currCurrency.toUpperCase();
-                    String iconUrl = "https://files.coinmarketcap.com/static/img/coins/32x32/" + cryptoID + ".png";
-                    float quantity = 0, cost = 0;
-                    for (TradeObject item : curItem.getTrades()) {
-                        float q = Float.parseFloat(item.getQuantity());
-                        cost += (Float.parseFloat(item.getCost()) * q);
-                        quantity += Float.parseFloat(item.getQuantity());
-                    }
-                    new JSONTask().execute(url, iconUrl, String.valueOf(cost), String.valueOf(quantity));
-                }
-            }
         }
-
-
-        adapter = new MyPortfolioRecyclerViewAdapter(myPortfolioArray,MyPortfolioTab.this);
-        recyclerView.setAdapter(adapter);
-        setCurrentPortfolioValues();
-
         return rootView;
     }
 
@@ -215,6 +175,9 @@ public class MyPortfolioTab extends Fragment implements SwipeRefreshLayout.OnRef
                 new JSONTask().execute(url, iconUrl, String.valueOf(cost), String.valueOf(quantity));
             }
         }
+        adapter = new MyPortfolioRecyclerViewAdapter(myPortfolioArray,MyPortfolioTab.this);
+        recyclerView.setAdapter(adapter);
+        setCurrentPortfolioValues();
         swipeRefreshLayout.setRefreshing(false);
     }
 
