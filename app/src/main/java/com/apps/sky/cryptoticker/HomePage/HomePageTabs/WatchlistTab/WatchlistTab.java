@@ -117,7 +117,11 @@ public class WatchlistTab extends Fragment {
         String price = parentObject.getString("price_" + currency.toLowerCase());
         currency_details.setCurrentPrice(price);
 
-        String change = parentObject.getString("percent_change_24h");
+        String change;
+        change = parentObject.getString("percent_change_24h");
+        if (change == null) change = parentObject.getString("percent_change_1h");
+        if (change == null) change = parentObject.getString("percent_change_7d");
+        if (change == null) change = "0";
         float changeNum = Float.parseFloat(price) - (Float.parseFloat(price) / (1 + ((float)0.01 * Float.parseFloat(change))));
         currency_details.setChange(myGlobalsFunctions.commaSeperateInteger2(String.valueOf(changeNum), true) + " (" + change + "%)");
 

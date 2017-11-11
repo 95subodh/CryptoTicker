@@ -207,8 +207,10 @@ public class MainFragment extends Fragment {
 //                .message(message).build());
 //        mAdapter.notifyItemInserted(mMessages.size() - 1);
 //        scrollToBottom();
+
         ((ImageView)rootView.findViewById(R.id.online_dot)).setColorFilter(getResources().getColor(R.color.valuePositive));
         usersJoined.setText(message);
+//        ((AppCompatActivity) getActivity()).getSupportActionBar().setSubtitle("(" + message + ")");
     }
 
     private void addParticipantsLog(int numUsers) {
