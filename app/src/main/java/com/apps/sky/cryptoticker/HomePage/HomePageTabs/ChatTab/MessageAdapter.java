@@ -1,6 +1,7 @@
 package com.apps.sky.cryptoticker.HomePage.HomePageTabs.ChatTab;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,15 +20,19 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
     private List<Message> mMessages;
     private int[] mUsernameColors;
+    private List<Boolean> fromMe;
+    private Context context;
 
-    public MessageAdapter(Context context, List<Message> messages) {
+    public MessageAdapter(Context context, List<Message> messages, List<Boolean> from) {
         mMessages = messages;
         mUsernameColors = context.getResources().getIntArray(R.array.username_colors);
+        fromMe = from;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         int layout = -1;
+        context = parent.getContext();
         switch (viewType) {
             case Message.TYPE_MESSAGE:
                 layout = R.layout.chat_item_message;
@@ -50,6 +55,19 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         Message message = mMessages.get(position);
         viewHolder.setMessage(message.getMessage());
         viewHolder.setUsername(message.getUsername());
+        View view =  viewHolder.itemView;
+        RecyclerView.LayoutParams params = (RecyclerView.LayoutParams)view.getLayoutParams();
+        int width = Resources.getSystem().getDisplayMetrics().widthPixels;
+        if (fromMe.get(position)) {
+            params.setMarginStart(width/4);
+            params.setMarginEnd(0);
+            viewHolder.itemView.findViewById(R.id.main_view).setBackgroundColor(context.getResources().getColor(R.color.colorPrimary));
+        }
+        else {
+            params.setMarginEnd(width/4);
+            params.setMarginStart(0);
+            viewHolder.itemView.findViewById(R.id.main_view).setBackgroundColor(context.getResources().getColor(R.color.lightest_gray));
+        }
     }
 
     @Override
@@ -76,7 +94,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         public void setUsername(String username) {
             if (null == mUsernameView) return;
             mUsernameView.setText(username);
-            mUsernameView.setTextColor(getUsernameColor(username));
+//            mUsernameView.setTextColor(getUsernameColor(username));
         }
 
         public void setMessage(String message) {
