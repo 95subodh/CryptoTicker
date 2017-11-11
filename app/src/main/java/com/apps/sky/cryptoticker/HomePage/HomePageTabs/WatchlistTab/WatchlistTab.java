@@ -47,20 +47,6 @@ public class WatchlistTab extends Fragment implements SwipeRefreshLayout.OnRefre
 
         items = myGlobalsFunctions.retrieveListFromFile(getString(R.string.crypto_watchlist_file), getString(R.string.crypto_watchlist_dir));
         watchlistArray = new ArrayList<>();
-
-//        ProgressBar progressBar = (ProgressBar) (rootView).findViewById(R.id.spin_kit);
-//        DoubleBounce doubleBounce = new DoubleBounce();
-//        progressBar.setIndeterminateDrawable(doubleBounce);
-
-//        if (myGlobalsFunctions.isNetworkConnected()) {
-//            for (int i = 0; i < items.size(); ++i) {
-//                String cryptoID = items.get(i);
-//                url = "https://api.coinmarketcap.com/v1/ticker/" + cryptoID + "/?convert=" + currency.toUpperCase();
-//                String imageUrl = "https://files.coinmarketcap.com/static/img/coins/32x32/"+cryptoID+".png";
-//                String highLowUrl = "https://www.coingecko.com/en/price_charts/" + cryptoID + "/" + currency.toLowerCase() + "/24_hours.json";
-//                new JSONTask().execute(url, imageUrl, highLowUrl, cryptoID);
-//            }
-//        }
     }
 
     @Override
@@ -88,20 +74,7 @@ public class WatchlistTab extends Fragment implements SwipeRefreshLayout.OnRefre
         String currencyNew = sharedPreferences.getString(Constants.PREFERENCE_CURRENCY, "");
         if (!currency.equals(currencyNew) && !currencyNew.equals("")) {
             currency = currencyNew;
-//            watchlistArray = new ArrayList<>();
-//            if (myGlobalsFunctions.isNetworkConnected()) {
-//                for (int i = 0; i < items.size(); ++i) {
-//                    String cryptoID = items.get(i);
-//                    url = "https://api.coinmarketcap.com/v1/ticker/" + cryptoID + "/?convert=" + currency.toUpperCase();
-//                    String imageUrl = "https://files.coinmarketcap.com/static/img/coins/32x32/"+cryptoID+".png";
-//                    String highLowUrl = "https://www.coingecko.com/en/price_charts/" + cryptoID + "/" + currency.toLowerCase() + "/24_hours.json";
-//                    new JSONTask().execute(url, imageUrl, highLowUrl, cryptoID);
-//                }
-//            }
         }
-
-//        adapter = new WatchlistRecyclerViewAdapter(watchlistArray, WatchlistTab.this);
-//        recyclerView.setAdapter(adapter);
         return rootView;
     }
 
