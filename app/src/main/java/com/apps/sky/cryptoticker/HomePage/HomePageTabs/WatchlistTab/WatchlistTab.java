@@ -74,7 +74,7 @@ public class WatchlistTab extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
 
         String currencyNew = sharedPreferences.getString(Constants.PREFERENCE_CURRENCY, "");
-        if (!currency.equals(currencyNew)) {
+        if (!currency.equals(currencyNew) && !currencyNew.equals("")) {
             currency = currencyNew;
             watchlistArray = new ArrayList<>();
             if (myGlobalsFunctions.isNetworkConnected()) {
@@ -119,9 +119,9 @@ public class WatchlistTab extends Fragment {
 
         String change;
         change = parentObject.getString("percent_change_24h");
-        if (change == null) change = parentObject.getString("percent_change_1h");
-        if (change == null) change = parentObject.getString("percent_change_7d");
-        if (change == null) change = "0";
+        if (change.equals("null")) change = parentObject.getString("percent_change_1h");
+        if (change.equals("null")) change = parentObject.getString("percent_change_7d");
+        if (change.equals("null")) change = "0";
         float changeNum = Float.parseFloat(price) - (Float.parseFloat(price) / (1 + ((float)0.01 * Float.parseFloat(change))));
         currency_details.setChange(myGlobalsFunctions.commaSeperateInteger2(String.valueOf(changeNum), true) + " (" + change + "%)");
 

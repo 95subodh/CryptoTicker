@@ -37,10 +37,14 @@
     <color name="colorAccentLight">#d6f2fc</color>
 
     <color name="white">#FFFFFF</color>
-    <color name="black">#000000</color>
-    <color name="gray">#A0A0A0</color>
-    <color name="light_gray">#dddddd</color>
+    <color name="lightest_gray">#f2f2f2</color>
     <color name="very_light_gray">#efeded</color>
+    <color name="light_gray">#dddddd</color>
+    <color name="gray">#A0A0A0</color>
+    <color name="dark_gray">#8c8c8c</color>
+    <color name="darker_gray">#666666</color>
+    <color name="darkest_gray">#4c4c4c</color>
+    <color name="black">#000000</color>
 
     <color name="transparent">#00000000</color>
 
@@ -60,16 +64,16 @@
     <!--<color name="colorPrimaryDark">#00695c</color>-->
     <!--<color name="colorAccent">#b2dfdb</color>-->
 
-    <color name="username0">#99004c</color>
-    <color name="username1">#990099</color>
-    <color name="username2">#4c0099</color>
-    <color name="username3">#cc0000</color>
-    <color name="username4">#004c99</color>
-    <color name="username5">#990000</color>
-    <color name="username6">#137c0b</color>
-    <color name="username7">#0000ff</color>
-    <color name="username8">#3b88eb</color>
-    <color name="username9">#3824aa</color>
-    <color name="username10">#a700ff</color>
-    <color name="username11">#d300e7</color>
+    <color name="username0">#820101</color>
+    <color name="username1">#824e01</color>
+    <color name="username2">#6e8201</color>
+    <color name="username3">#278201</color>
+    <color name="username4">#a1006e</color>
+    <color name="username5">#01827b</color>
+    <color name="username6">#013d82</color>
+    <color name="username7">#180182</color>
+    <color name="username8">#6a0182</color>
+    <color name="username9">#820147</color>
+    <color name="username10">#4401a3</color>
+    <color name="username11">#00a272</color>
 </resources>

@@ -52,6 +52,7 @@ public class MainFragment extends Fragment {
     private RecyclerView mMessagesView;
     private EditText mInputMessageView;
     private List<Message> mMessages = new ArrayList<>();
+    private List<Boolean> fromMe = new ArrayList<>();
     private RecyclerView.Adapter mAdapter;
     private boolean mTyping = false;
     private Handler mTypingHandler = new Handler();
@@ -73,7 +74,7 @@ public class MainFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mAdapter = new MessageAdapter(context, mMessages);
+        mAdapter = new MessageAdapter(context, mMessages, fromMe);
         //if (context instanceof Activity){
             //this.listener = (MainActivity) context;
         //}
@@ -217,9 +218,10 @@ public class MainFragment extends Fragment {
         addLog(getResources().getQuantityString(R.plurals.message_participants, numUsers, numUsers));
     }
 
-    private void addMessage(String username, String message) {
+    private void addMessage(String username, String message, boolean me) {
         mMessages.add(new Message.Builder(Message.TYPE_MESSAGE)
                 .username(username).message(message).build());
+        fromMe.add(me);
         mAdapter.notifyItemInserted(mMessages.size() - 1);
         scrollToBottom();
     }
@@ -227,6 +229,7 @@ public class MainFragment extends Fragment {
     private void addTyping(String username) {
         mMessages.add(new Message.Builder(Message.TYPE_ACTION)
                 .username(username).build());
+        fromMe.add(false);
         mAdapter.notifyItemInserted(mMessages.size() - 1);
         scrollToBottom();
     }
@@ -234,8 +237,10 @@ public class MainFragment extends Fragment {
     private void removeTyping(String username) {
         for (int i = mMessages.size() - 1; i >= 0; i--) {
             Message message = mMessages.get(i);
+            boolean me = fromMe.get(i);
             if (message.getType() == Message.TYPE_ACTION && message.getUsername().equals(username)) {
                 mMessages.remove(i);
+                fromMe.remove(i);
                 mAdapter.notifyItemRemoved(i);
             }
         }
@@ -254,7 +259,7 @@ public class MainFragment extends Fragment {
         }
 
         mInputMessageView.setText("");
-        addMessage(mUsername, message);
+        addMessage(mUsername, message, true);
 
         mSocket.emit("chat message", message);
     }
@@ -373,7 +378,7 @@ public class MainFragment extends Fragment {
                     }
 
 //                    removeTyping(username);
-                    addMessage(username, message);
+                    addMessage(username, message, false);
                 }
             });
         }
@@ -394,7 +399,7 @@ public class MainFragment extends Fragment {
                             String message;
                             username = data.getString("username");
                             message = data.getString("message");
-                            addMessage(username, message);
+                            addMessage(username, message, false);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
