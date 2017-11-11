@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -31,7 +32,7 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
-public class MyPortfolioTab extends Fragment {
+public class MyPortfolioTab extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     View myPortfolioView, myCurrentPortfolioView;
 
@@ -49,6 +50,7 @@ public class MyPortfolioTab extends Fragment {
     CryptoTradeObject curItem = new CryptoTradeObject();
     ArrayList<MyPortfolioObject> myPortfolioArray = new ArrayList<>();
     SharedPreferences sharedPreferences;
+    SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -104,6 +106,16 @@ public class MyPortfolioTab extends Fragment {
             myPortfolioView = my_portfolio_view;
         }
 
+        swipeRefreshLayout = rootView.findViewById(R.id.swipe_refresh_layout);
+        swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                swipeRefreshLayout.setRefreshing(true);
+                loadView();
+            }
+        });
+
         recyclerView = rootView.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(rootView.getContext());
@@ -150,6 +162,7 @@ public class MyPortfolioTab extends Fragment {
             myGlobalsFunctions.storeStringToFile(getString(R.string.crypto_my_portfolio_file), getString(R.string.crypto_my_portfolio_dir), json);
             sharedPreferences.edit().putString(Constants.PREV_PORTFOLIO_CURRENCY, currCurrency).apply();
             isCurrencyChanged = Boolean.FALSE;
+            currency = currCurrency;
 
             if (myGlobalsFunctions.isNetworkConnected()) {
                 totalCost = 0; totalPrice = 0;
@@ -176,6 +189,33 @@ public class MyPortfolioTab extends Fragment {
         setCurrentPortfolioValues();
 
         return rootView;
+    }
+
+    @Override
+    public void onRefresh() {
+        loadView();
+    }
+
+    private void loadView() {
+        swipeRefreshLayout.setRefreshing(true);
+        if (myGlobalsFunctions.isNetworkConnected()) {
+            totalCost = 0; totalPrice = 0;
+            myPortfolioArray = new ArrayList<>();
+            for (int i = 0; i < myPortfolioItems.size(); ++i) {
+                curItem = myPortfolioItems.get(i);
+                cryptoID = curItem.getCryptoID();
+                url = "https://api.coinmarketcap.com/v1/ticker/" + cryptoID + "/?convert=" + currency.toUpperCase();
+                String iconUrl = "https://files.coinmarketcap.com/static/img/coins/32x32/" + cryptoID + ".png";
+                float quantity = 0, cost = 0;
+                for (TradeObject item : curItem.getTrades()) {
+                    float q = Float.parseFloat(item.getQuantity());
+                    cost += (Float.parseFloat(item.getCost()) * q);
+                    quantity += Float.parseFloat(item.getQuantity());
+                }
+                new JSONTask().execute(url, iconUrl, String.valueOf(cost), String.valueOf(quantity));
+            }
+        }
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     void setCurrentPortfolioValues() {
