@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -23,7 +24,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class WatchlistTab extends Fragment {
+public class WatchlistTab extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     private View rootView;
     private RecyclerView recyclerView;
@@ -34,6 +35,7 @@ public class WatchlistTab extends Fragment {
     public ArrayList<String> items;
     ArrayList<WatchlistObject> watchlistArray;
     SharedPreferences sharedPreferences;
+    SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -68,6 +70,16 @@ public class WatchlistTab extends Fragment {
             rootView = inflater.inflate(R.layout.watchlist_tab, container, false);
         }
 
+        swipeRefreshLayout = rootView.findViewById(R.id.swipe_refresh_layout);
+        swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                swipeRefreshLayout.setRefreshing(true);
+                loadView();
+            }
+        });
+
         recyclerView = rootView.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(rootView.getContext());
@@ -91,6 +103,28 @@ public class WatchlistTab extends Fragment {
         adapter = new WatchlistRecyclerViewAdapter(watchlistArray, WatchlistTab.this);
         recyclerView.setAdapter(adapter);
         return rootView;
+    }
+
+    @Override
+    public void onRefresh() {
+        loadView();
+    }
+
+    private void loadView() {
+        swipeRefreshLayout.setRefreshing(true);
+        watchlistArray = new ArrayList<>();
+        if (myGlobalsFunctions.isNetworkConnected()) {
+            for (int i = 0; i < items.size(); ++i) {
+                String cryptoID = items.get(i);
+                url = "https://api.coinmarketcap.com/v1/ticker/" + cryptoID + "/?convert=" + currency.toUpperCase();
+                String imageUrl = "https://files.coinmarketcap.com/static/img/coins/32x32/"+cryptoID+".png";
+                String highLowUrl = "https://www.coingecko.com/en/price_charts/" + cryptoID + "/" + currency.toLowerCase() + "/24_hours.json";
+                new JSONTask().execute(url, imageUrl, highLowUrl, cryptoID);
+            }
+        }
+        adapter = new WatchlistRecyclerViewAdapter(watchlistArray, WatchlistTab.this);
+        recyclerView.setAdapter(adapter);
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     public void setVals(String finalJson, String iconUrl, String highLowJson) throws JSONException {
