@@ -46,11 +46,6 @@ class WatchlistRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             minDayPrice = itemView.findViewById(R.id.watchlist_item_low);
             maxDayPrice = itemView.findViewById(R.id.watchlist_item_high);
 
-//            RelativeLayout priceView = itemView.findViewById(R.id.price_view);
-//            RelativeLayout highLowView = itemView.findViewById(R.id.high_low_view);
-//            RelativeLayout lowerLayout = itemView.findViewById(R.id.lower_layout);
-//            priceView.setW
-
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -82,11 +77,11 @@ class WatchlistRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         ((DataObjectHolder)holder).cryptoID = mDataset.get(position).getCryptoID();
         ((DataObjectHolder)holder).title.setText(mDataset.get(position).getTitle());
-        ((DataObjectHolder)holder).currentPrice.setText(myGlobalsFunctions.commaSeperateInteger2(mDataset.get(position).getCurrentPrice(), true));
+        ((DataObjectHolder)holder).currentPrice.setText(myGlobalsFunctions.commaSeperateIntegerMinimal(mDataset.get(position).getCurrentPrice(), true));
         ((DataObjectHolder)holder).myChange.setText(mDataset.get(position).getChange());
         ((DataObjectHolder)holder).icon.setImageBitmap(mDataset.get(position).getIcon());
-        ((DataObjectHolder)holder).maxDayPrice.setText(myGlobalsFunctions.commaSeperateInteger2(mDataset.get(position).getMaxDayPrice(), true));
-        ((DataObjectHolder)holder).minDayPrice.setText(myGlobalsFunctions.commaSeperateInteger2(mDataset.get(position).getMinDayPrice(), true));
+        ((DataObjectHolder)holder).maxDayPrice.setText(myGlobalsFunctions.commaSeperateIntegerMinimal(mDataset.get(position).getMaxDayPrice(), true));
+        ((DataObjectHolder)holder).minDayPrice.setText(myGlobalsFunctions.commaSeperateIntegerMinimal(mDataset.get(position).getMinDayPrice(), true));
 
         final int pos = holder.getAdapterPosition();
         ((DataObjectHolder)holder).closeBtn.setOnClickListener(new View.OnClickListener() {

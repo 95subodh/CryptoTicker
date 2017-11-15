@@ -40,6 +40,8 @@ public class MyPortfolioTab extends Fragment implements SwipeRefreshLayout.OnRef
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     RecyclerView.LayoutManager layoutManager;
+    Gson gson;
+    Type type;
 
     String url, exchangeRateURL, cryptoID, currency, prevCurrency, currCurrency;
     Boolean isCurrencyChanged = Boolean.FALSE;
@@ -62,8 +64,8 @@ public class MyPortfolioTab extends Fragment implements SwipeRefreshLayout.OnRef
         myGlobalsFunctions = new MyGlobalsFunctions(getContext());
         myPortfolioItems = new ArrayList<>();
 
-        Gson gson = new Gson();
-        Type type = new TypeToken<ArrayList<CryptoTradeObject>>() {}.getType();
+        gson = new Gson();
+        type = new TypeToken<ArrayList<CryptoTradeObject>>() {}.getType();
         String json = myGlobalsFunctions.retieveStringFromFile(getString(R.string.crypto_my_portfolio_file), getString(R.string.crypto_my_portfolio_dir));
 
         try {
@@ -120,8 +122,6 @@ public class MyPortfolioTab extends Fragment implements SwipeRefreshLayout.OnRef
         if (isCurrencyChanged) {
             myPortfolioItems = new ArrayList<>();
 
-            Gson gson = new Gson();
-            Type type = new TypeToken<ArrayList<CryptoTradeObject>>() {}.getType();
             String json = myGlobalsFunctions.retieveStringFromFile(getString(R.string.crypto_my_portfolio_file), getString(R.string.crypto_my_portfolio_dir));
 
             try {
@@ -131,22 +131,6 @@ public class MyPortfolioTab extends Fragment implements SwipeRefreshLayout.OnRef
             }
 
             new minorJSONTask().execute();
-
-            for (int i = 0; i < myPortfolioItems.size(); ++i) {
-                curItem = myPortfolioItems.get(i);
-                cryptoID = curItem.getCryptoID();
-                float cost;
-                for (TradeObject item : curItem.getTrades()) {
-                    cost = Float.parseFloat(item.getCost());
-                    item.setCost(String.valueOf(cost*conversion));
-                }
-            }
-
-            json = gson.toJson(myPortfolioItems, type);
-            myGlobalsFunctions.storeStringToFile(getString(R.string.crypto_my_portfolio_file), getString(R.string.crypto_my_portfolio_dir), json);
-            sharedPreferences.edit().putString(Constants.PREV_PORTFOLIO_CURRENCY, currCurrency).apply();
-            isCurrencyChanged = Boolean.FALSE;
-            currency = currCurrency;
         }
         return rootView;
     }
@@ -240,6 +224,23 @@ public class MyPortfolioTab extends Fragment implements SwipeRefreshLayout.OnRef
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
+
+
+            for (int i = 0; i < myPortfolioItems.size(); ++i) {
+                curItem = myPortfolioItems.get(i);
+                cryptoID = curItem.getCryptoID();
+                float cost;
+                for (TradeObject item : curItem.getTrades()) {
+                    cost = Float.parseFloat(item.getCost());
+                    item.setCost(String.valueOf(cost*conversion));
+                }
+            }
+
+            String json = gson.toJson(myPortfolioItems, type);
+            myGlobalsFunctions.storeStringToFile(getString(R.string.crypto_my_portfolio_file), getString(R.string.crypto_my_portfolio_dir), json);
+            sharedPreferences.edit().putString(Constants.PREV_PORTFOLIO_CURRENCY, currCurrency).apply();
+            isCurrencyChanged = Boolean.FALSE;
+            currency = currCurrency;
         }
     }
 
@@ -260,11 +261,13 @@ public class MyPortfolioTab extends Fragment implements SwipeRefreshLayout.OnRef
                 MyPortfolioObject currency_details = new MyPortfolioObject();
                 currency_details.setContext(getContext());
                 currency_details.setTitle(parentObject.getString("name"));
-                currency_details.setCurrentPrice(parentObject.getString("price_" + currency.toLowerCase()));
                 currency_details.setIcon(params[1]);
                 currency_details.setCryptoID(parentObject.getString("id"));
 
-                String profitPer = calcMyProfitPercentage(params[2], params[3], parentObject.getString("price_" + currency.toLowerCase())) + "%";
+                String price = parentObject.getString("price_" + currency.toLowerCase());
+
+                String profitPer = calcMyProfitPercentage(params[2], params[3], price) + "%";
+                currency_details.setCurrentValue(Float.toString(Float.parseFloat(params[3])*Float.parseFloat(price)));
                 currency_details.setMyProfit(profitPer);
                 if (profitPer.charAt(0) == '-') currency_details.setChangeColor(false);
                 else currency_details.setChangeColor(true);

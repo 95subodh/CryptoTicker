@@ -55,8 +55,14 @@ public class ChangeCurrencyActivity extends AppCompatActivity {
         map4.put("currency", "JPY");
         currencies.add(map4);
 
-        for (HashMap<String, Object> m :currencies)
-            m.put("checked", false);
+        for (HashMap<String, Object> m :currencies) {
+            if (m.containsValue(currency)) {
+                m.put("checked", true);
+            }
+            else {
+                m.put("checked", false);
+            }
+        }
         listView = findViewById(R.id.choose_currency_listview);
         listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 

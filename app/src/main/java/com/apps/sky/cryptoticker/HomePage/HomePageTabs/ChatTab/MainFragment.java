@@ -195,7 +195,7 @@ public class MainFragment extends Fragment {
         }
 
         mUsername = data.getStringExtra("username");
-        pref.edit().putString(Constants.CHAT_USERNAME, mUsername).apply();
+        pref.edit().putString(Constants.PREFERENCE_USERNAME, mUsername).apply();
         int numUsers = data.getIntExtra("numUsers", 1);
         mSocket.emit("prev messages");
 
@@ -266,7 +266,7 @@ public class MainFragment extends Fragment {
 
     private void startSignIn() {
         mUsername = null;
-        String user = pref.getString(Constants.CHAT_USERNAME, new String());
+        String user = pref.getString(Constants.PREFERENCE_USERNAME, "");
 
         if (!user.equals("")) {
             mUsername = user;

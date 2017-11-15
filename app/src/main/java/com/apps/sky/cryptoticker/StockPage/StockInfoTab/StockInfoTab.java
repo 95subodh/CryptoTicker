@@ -169,16 +169,16 @@ public class StockInfoTab extends Fragment implements View.OnClickListener {
     private void fillInfoFromJSON() {
         if (getView() != null) {
             coinPrice = getView().findViewById(R.id.coin_price);
-            coinPrice.setText(myGlobalsFunctions.commaSeperateInteger2(price, true));
+            coinPrice.setText(myGlobalsFunctions.commaSeperateIntegerMinimal(price, true));
             coinAvailSupply = getView().findViewById(R.id.coin_avail_supply);
             coinAvailSupply.setText(myGlobalsFunctions.commaSeperateInteger(avlsup));
             coinCap = getView().findViewById(R.id.coin_cap);
-            coinCap.setText  (myGlobalsFunctions.commaSeperateInteger2(cap, true));
+            coinCap.setText  (myGlobalsFunctions.commaSeperateIntegerMinimal(cap, true));
             coinRank = getView().findViewById(R.id.coin_rank);
             coinRank.setText(rank);
             coinChange = getView().findViewById(R.id.coin_change);
             coinChange.setText(change);
-            if (change.charAt(1) == '-') {
+            if (change.length()>1 && change.charAt(1) == '-') {
                 coinChange.setTextColor(getResources().getColor(R.color.valueNegative));
             } else {
                 coinChange.setTextColor(getResources().getColor(R.color.valuePositive));
@@ -266,18 +266,17 @@ public class StockInfoTab extends Fragment implements View.OnClickListener {
         JSONArray jarr = new JSONArray(finalJson);
 
         JSONObject parentObject = jarr.getJSONObject(0);
-        price = parentObject.getString("price_" + currency.toLowerCase());
-        change = parentObject.getString("percent_change_24h");
-        if (change.equals("null")) change = parentObject.getString("percent_change_1h");
-        if (change.equals("null")) change = parentObject.getString("percent_change_7d");
-        if (change.equals("null")) change = "0.0";
-        rank = parentObject.getString("rank");
-        cap = parentObject.getString("market_cap_" + currency.toLowerCase());
-        avlsup = parentObject.getString("available_supply");
-        lstupd = parentObject.getString("last_updated");
+        price = myGlobalsFunctions.nullCheck( parentObject.getString("price_" + currency.toLowerCase()) );
+        change = myGlobalsFunctions.nullCheck( parentObject.getString("percent_change_24h") );
+        rank = myGlobalsFunctions.nullCheck( parentObject.getString("rank") );
+        cap = myGlobalsFunctions.nullCheck( parentObject.getString("market_cap_" + currency.toLowerCase()) );
+        avlsup = myGlobalsFunctions.nullCheck( parentObject.getString("available_supply") );
+        lstupd = myGlobalsFunctions.nullCheck( parentObject.getString("last_updated") );
 
-        float changeNum = Float.parseFloat(price) - (Float.parseFloat(price) / (1 + ((float) 0.01 * Float.parseFloat(change))));
-        change = myGlobalsFunctions.commaSeperateInteger2(String.valueOf(changeNum), true) + " (" + change + "%)";
+        if (!"-".equals(change) && !"-".equals(price)) {
+            float changeNum = Float.parseFloat(price) - (Float.parseFloat(price) / (1 + ((float) 0.01 * Float.parseFloat(change))));
+            change = myGlobalsFunctions.commaSeperateIntegerMinimal(String.valueOf(changeNum), true) + " (" + change + "%)";
+        }
         fillGraphValues(highLowJson24, highLowJson7, highLowJson14, highLowJson30, highLowJson60, highLowJson90, highLowJsonAll);
     }
 

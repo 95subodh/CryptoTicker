@@ -10,7 +10,7 @@ import com.apps.sky.cryptoticker.Global.MyGlobalsFunctions;
  */
 
 public class MyPortfolioObject {
-    private String title, currentPrice, myProfit, cryptoID;
+    private String title, currentValue, myProfit, cryptoID;
     private boolean color;
     private Bitmap btmp;
     private MyGlobalsFunctions myGlobalsFunctions;
@@ -31,11 +31,11 @@ public class MyPortfolioObject {
         this.cryptoID = cryptoID;
     }
 
-    public String getCurrentPrice() {
-        return currentPrice;
+    public String getCurrentValue() {
+        return currentValue;
     }
 
-    public void setCurrentPrice(String currentPrice) { this.currentPrice = currentPrice; }
+    public void setCurrentValue(String currentValue) { this.currentValue = currentValue; }
 
     public String getMyProfit() {
         return myProfit;

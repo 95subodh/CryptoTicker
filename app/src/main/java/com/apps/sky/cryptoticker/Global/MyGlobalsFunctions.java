@@ -59,7 +59,14 @@ public class MyGlobalsFunctions {
         }
     }
 
-    public String commaSeperateInteger2(String num, Boolean... symbolCheck){
+    public String nullCheck(String data) {
+        if (data==null || "".equals(data) || "-".equals(data) || "null".equals(data)) {
+            return "-";
+        }
+        return data;
+    }
+
+    public String commaSeperateIntegerMinimal(String num, Boolean... symbolCheck){
         if (num == null || "null".equals(num) || "-".equals(num)) return "-";
         Double x = Double.valueOf(num);
 
@@ -178,6 +185,7 @@ public class MyGlobalsFunctions {
 
     public boolean isNetworkConnected() {
         ConnectivityManager cm = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        assert cm != null;
         NetworkInfo ni = cm.getActiveNetworkInfo();
         return (ni != null && ni.isConnectedOrConnecting());
     }

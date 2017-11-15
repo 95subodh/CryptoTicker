@@ -55,6 +55,7 @@ public class WatchlistTab extends Fragment implements SwipeRefreshLayout.OnRefre
         if (rootView == null) {
             rootView = inflater.inflate(R.layout.watchlist_tab, container, false);
         }
+        currency = sharedPreferences.getString(Constants.PREFERENCE_CURRENCY, "");
 
         swipeRefreshLayout = rootView.findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setOnRefreshListener(this);
@@ -71,10 +72,6 @@ public class WatchlistTab extends Fragment implements SwipeRefreshLayout.OnRefre
         layoutManager = new LinearLayoutManager(rootView.getContext());
         recyclerView.setLayoutManager(layoutManager);
 
-        String currencyNew = sharedPreferences.getString(Constants.PREFERENCE_CURRENCY, "");
-        if (!currency.equals(currencyNew) && !currencyNew.equals("")) {
-            currency = currencyNew;
-        }
         return rootView;
     }
 
@@ -115,24 +112,30 @@ public class WatchlistTab extends Fragment implements SwipeRefreshLayout.OnRefre
                 if (temp > max) max = temp;
                 if (temp < min) min = temp;
             }
-            currency_details.setMinDayPrice(Float.toString(min));
-            currency_details.setMaxDayPrice(Float.toString(max));
+            currency_details.setMinDayPrice(myGlobalsFunctions.nullCheck(Float.toString(min)));
+            currency_details.setMaxDayPrice(myGlobalsFunctions.nullCheck(Float.toString(max)));
         }
         JSONObject parentObject = jarr.getJSONObject(0);
-        currency_details.setTitle(parentObject.getString("name"));
+        currency_details.setTitle(myGlobalsFunctions.nullCheck(parentObject.getString("name")));
 
         String price = parentObject.getString("price_" + currency.toLowerCase());
-        currency_details.setCurrentPrice(price);
+        currency_details.setCurrentPrice(myGlobalsFunctions.nullCheck(price));
 
-        String change = parentObject.getString("percent_change_24h");
-        if (change.equals("null")) change = "0";
-        float changeNum = Float.parseFloat(price) - (Float.parseFloat(price) / (1 + ((float)0.01 * Float.parseFloat(change))));
-        currency_details.setChange(myGlobalsFunctions.commaSeperateInteger2(String.valueOf(changeNum), true) + " (" + change + "%)");
+        String change = myGlobalsFunctions.nullCheck( parentObject.getString("percent_change_24h") );
+        if (change.equals("-")) {
+            currency_details.setChange(change);
+        }
+        else {
+            float changeNum = Float.parseFloat(price) - (Float.parseFloat(price) / (1 + ((float) 0.01 * Float.parseFloat(change))));
+            currency_details.setChange(myGlobalsFunctions.commaSeperateIntegerMinimal(String.valueOf(changeNum), true) + " (" + change + "%)");
+        }
 
-        if (change.charAt(0) == '-') currency_details.setChangeColor(false);
-        else currency_details.setChangeColor(true);
+        if (change.length()>1) {
+            if (change.charAt(0) == '-') currency_details.setChangeColor(false);
+            else currency_details.setChangeColor(true);
+        }
 
-        currency_details.setCryptoID(parentObject.getString("id"));
+        currency_details.setCryptoID( myGlobalsFunctions.nullCheck(parentObject.getString("id")) );
         currency_details.setIcon(iconUrl);
         watchlistArray.add(currency_details);
     }
@@ -150,7 +153,9 @@ public class WatchlistTab extends Fragment implements SwipeRefreshLayout.OnRefre
                 String finalJson = myGlobalsFunctions.fetchJSONasString(params[0]);
                 String highLowJson = myGlobalsFunctions.fetchJSONasString(params[2]);
                 myGlobalsFunctions.storeStringToFile(params[3], getString(R.string.crypto_info_dir), finalJson);
-                setVals(finalJson, params[1], highLowJson);
+                if (finalJson!=null) {
+                    setVals(finalJson, params[1], highLowJson);
+                }
                 return finalJson;
 
             } catch (IOException | JSONException e) {

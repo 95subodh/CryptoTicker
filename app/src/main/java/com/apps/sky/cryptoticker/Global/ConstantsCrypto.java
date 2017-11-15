@@ -1199,5 +1199,6 @@ public class ConstantsCrypto {
         cryptoMap.put("btcgold", new String[]{"BTCGold", "XBG"});
         cryptoMap.put("etherdoge", new String[]{"EtherDoge", "EDOGE"});
         cryptoMap.put("microcoin", new String[]{"microCoin", "MRC"});
+        cryptoMap.put("testingcoin", new String[]{"testCoin (for testing)", "TEST"});
     }
 }
