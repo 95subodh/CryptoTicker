@@ -77,7 +77,7 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/my_portfolio_item_current_price"
+                        android:id="@+id/my_portfolio_item_current_value"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"

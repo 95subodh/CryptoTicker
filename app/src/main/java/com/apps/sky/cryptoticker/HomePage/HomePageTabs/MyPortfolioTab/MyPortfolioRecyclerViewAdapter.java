@@ -33,7 +33,7 @@ public class MyPortfolioRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
     public static class DataObjectHolder extends RecyclerView.ViewHolder {
         String cryptoID;
         TextView title;
-        TextView currentPrice;
+        TextView currentValue;
         TextView myProfit;
         ImageView icon;
         ImageButton closeBtn;
@@ -41,7 +41,7 @@ public class MyPortfolioRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
         private DataObjectHolder(View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.my_portfolio_item_title);
-            currentPrice = itemView.findViewById(R.id.my_portfolio_item_current_price);
+            currentValue = itemView.findViewById(R.id.my_portfolio_item_current_value);
             myProfit = itemView.findViewById(R.id.my_portfolio_item_my_profit);
             icon = itemView.findViewById(R.id.my_portfolio_item_icon);
             closeBtn = itemView.findViewById(R.id.close_btn);
@@ -78,7 +78,7 @@ public class MyPortfolioRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         ((DataObjectHolder)holder).cryptoID = mDataset.get(position).getCryptoID();
         ((DataObjectHolder)holder).title.setText(mDataset.get(position).getTitle());
-        ((DataObjectHolder)holder).currentPrice.setText(myGlobalsFunctions.commaSeperateInteger2(mDataset.get(position).getCurrentPrice(), true));
+        ((DataObjectHolder)holder).currentValue.setText(myGlobalsFunctions.commaSeperateIntegerMinimal(mDataset.get(position).getCurrentValue(), true));
         ((DataObjectHolder)holder).myProfit.setText(mDataset.get(position).getMyProfit());
         ((DataObjectHolder)holder).icon.setImageBitmap(mDataset.get(position).getIcon());
 
