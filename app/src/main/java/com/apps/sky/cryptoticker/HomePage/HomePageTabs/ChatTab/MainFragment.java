@@ -22,7 +22,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.apps.sky.cryptoticker.Global.Constants;
 import com.apps.sky.cryptoticker.R;
@@ -322,8 +321,7 @@ public class MainFragment extends Fragment {
                     if(!isConnected) {
                         if(null!=mUsername)
                             mSocket.emit("add user", mUsername);
-                        Toast.makeText(getActivity().getApplicationContext(),
-                                R.string.connect, Toast.LENGTH_LONG).show();
+//                        Toast.makeText(getActivity().getApplicationContext(), R.string.connect, Toast.LENGTH_LONG).show();
                         isConnected = true;
                     }
                 }
@@ -339,8 +337,7 @@ public class MainFragment extends Fragment {
                 public void run() {
                     Log.i(TAG, "diconnected");
                     isConnected = false;
-                    Toast.makeText(getActivity().getApplicationContext(),
-                            R.string.disconnect, Toast.LENGTH_LONG).show();
+//                    Toast.makeText(getActivity().getApplicationContext(), R.string.disconnect, Toast.LENGTH_LONG).show();
                 }
             });
         }
@@ -353,8 +350,7 @@ public class MainFragment extends Fragment {
                 @Override
                 public void run() {
                     Log.e(TAG, "Error connecting");
-                    Toast.makeText(getActivity().getApplicationContext(),
-                            R.string.error_connect, Toast.LENGTH_LONG).show();
+//                    Toast.makeText(getActivity().getApplicationContext(), R.string.error_connect, Toast.LENGTH_LONG).show();
                 }
             });
         }
