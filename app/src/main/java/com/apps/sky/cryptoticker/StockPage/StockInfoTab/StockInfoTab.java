@@ -314,7 +314,7 @@ public class StockInfoTab extends Fragment implements View.OnClickListener {
                     String highLowJson60 = myGlobalsFunctions.fetchJSONasString(params[6]);
                     String highLowJson90 = myGlobalsFunctions.fetchJSONasString(params[7]);
                     String highLowJsonAll = myGlobalsFunctions.fetchJSONasString(params[8]);
-                    myGlobalsFunctions.storeStringToFile(cryptoID, getString(R.string.crypto_info_dir), finalJson);
+//                    myGlobalsFunctions.storeStringToFile(cryptoID, getString(R.string.crypto_info_dir), finalJson);
                     myGlobalsFunctions.convertImageURLtoBitmap(params[1], Boolean.TRUE);
                     if (finalJson != null && !finalJson.equals("")) {
                         setVals(finalJson, highLowJson24, highLowJson7, highLowJson14, highLowJson30, highLowJson60, highLowJson90, highLowJsonAll);

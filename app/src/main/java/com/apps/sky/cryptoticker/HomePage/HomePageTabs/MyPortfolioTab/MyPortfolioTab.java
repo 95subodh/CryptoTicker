@@ -20,6 +20,7 @@ import com.apps.sky.cryptoticker.Global.MyGlobalsFunctions;
 import com.apps.sky.cryptoticker.HomePage.HomePageTabs.AddToMyPortfolioForm.CryptoTradeObject;
 import com.apps.sky.cryptoticker.HomePage.HomePageTabs.AddToMyPortfolioForm.TradeObject;
 import com.apps.sky.cryptoticker.R;
+import com.github.ybq.android.spinkit.SpinKitView;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
@@ -53,6 +54,8 @@ public class MyPortfolioTab extends Fragment implements SwipeRefreshLayout.OnRef
     ArrayList<MyPortfolioObject> myPortfolioArray = new ArrayList<>();
     SharedPreferences sharedPreferences;
     SwipeRefreshLayout swipeRefreshLayout;
+    SpinKitView spinKit;
+    int count;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -97,6 +100,7 @@ public class MyPortfolioTab extends Fragment implements SwipeRefreshLayout.OnRef
             ((TextView) rootView.findViewById(R.id.textview)).setText("The items that you add to your portfolio will be displayed here!");
         }
         else {
+            spinKit = rootView.findViewById(R.id.spin_kit_portfolio);
             swipeRefreshLayout = rootView.findViewById(R.id.swipe_refresh_layout);
             swipeRefreshLayout.setOnRefreshListener(this);
             swipeRefreshLayout.post(new Runnable() {
@@ -167,9 +171,12 @@ public class MyPortfolioTab extends Fragment implements SwipeRefreshLayout.OnRef
 
     private void loadView() {
         swipeRefreshLayout.setRefreshing(true);
+        spinKit.setVisibility(View.VISIBLE);
         if (myGlobalsFunctions.isNetworkConnected()) {
-            totalCost = 0; totalPrice = 0;
+            totalCost = 0; totalPrice = 0; count = 0;
             myPortfolioArray = new ArrayList<>();
+            adapter = new MyPortfolioRecyclerViewAdapter(myPortfolioArray,MyPortfolioTab.this);
+            recyclerView.setAdapter(adapter);
             for (int i = 0; i < myPortfolioItems.size(); ++i) {
                 curItem = myPortfolioItems.get(i);
                 cryptoID = curItem.getCryptoID();
@@ -184,8 +191,6 @@ public class MyPortfolioTab extends Fragment implements SwipeRefreshLayout.OnRef
                 new JSONTask().execute(url, iconUrl, String.valueOf(cost), String.valueOf(quantity));
             }
         }
-        adapter = new MyPortfolioRecyclerViewAdapter(myPortfolioArray,MyPortfolioTab.this);
-        recyclerView.setAdapter(adapter);
         setCurrentPortfolioValues();
         swipeRefreshLayout.setRefreshing(false);
     }
@@ -266,6 +271,7 @@ public class MyPortfolioTab extends Fragment implements SwipeRefreshLayout.OnRef
             sharedPreferences.edit().putString(Constants.PREV_PORTFOLIO_CURRENCY, currCurrency).apply();
             isCurrencyChanged = Boolean.FALSE;
             currency = currCurrency;
+            loadView();
         }
     }
 
@@ -309,9 +315,14 @@ public class MyPortfolioTab extends Fragment implements SwipeRefreshLayout.OnRef
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
 
-            setCurrentPortfolioValues();
-            adapter = new MyPortfolioRecyclerViewAdapter(myPortfolioArray,MyPortfolioTab.this);
-            recyclerView.setAdapter(adapter);
+            count++;
+            if (count==myPortfolioItems.size()) {
+                adapter = new MyPortfolioRecyclerViewAdapter(myPortfolioArray,MyPortfolioTab.this);
+                recyclerView.setAdapter(adapter);
+                setCurrentPortfolioValues();
+                spinKit.setVisibility(View.INVISIBLE);
+            }
+
         }
     }
 }
