@@ -21,7 +21,6 @@ android {
 
 repositories {
     maven { url 'http://clojars.org/repo' }
-    maven { url "https://jitpack.io" }
 }
 
 dependencies {

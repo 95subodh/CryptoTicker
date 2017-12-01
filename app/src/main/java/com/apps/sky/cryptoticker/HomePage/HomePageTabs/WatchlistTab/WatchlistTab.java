@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import com.apps.sky.cryptoticker.Global.Constants;
 import com.apps.sky.cryptoticker.Global.MyGlobalsFunctions;
 import com.apps.sky.cryptoticker.R;
+import com.github.ybq.android.spinkit.SpinKitView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,6 +37,8 @@ public class WatchlistTab extends Fragment implements SwipeRefreshLayout.OnRefre
     ArrayList<WatchlistObject> watchlistArray;
     SharedPreferences sharedPreferences;
     SwipeRefreshLayout swipeRefreshLayout;
+    SpinKitView spinKit;
+    int count;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,6 +58,7 @@ public class WatchlistTab extends Fragment implements SwipeRefreshLayout.OnRefre
         if (rootView == null) {
             rootView = inflater.inflate(R.layout.watchlist_tab, container, false);
         }
+        spinKit = rootView.findViewById(R.id.spin_kit_watchlist);
         currency = sharedPreferences.getString(Constants.PREFERENCE_CURRENCY, "");
 
         swipeRefreshLayout = rootView.findViewById(R.id.swipe_refresh_layout);
@@ -82,8 +86,12 @@ public class WatchlistTab extends Fragment implements SwipeRefreshLayout.OnRefre
 
     private void loadView() {
         swipeRefreshLayout.setRefreshing(true);
+        spinKit.setVisibility(View.VISIBLE);
         watchlistArray = new ArrayList<>();
+        adapter = new WatchlistRecyclerViewAdapter(watchlistArray, WatchlistTab.this);
+        recyclerView.setAdapter(adapter);
         if (myGlobalsFunctions.isNetworkConnected()) {
+            count = 0;
             for (int i = 0; i < items.size(); ++i) {
                 String cryptoID = items.get(i);
                 url = "https://api.coinmarketcap.com/v1/ticker/" + cryptoID + "/?convert=" + currency.toUpperCase();
@@ -92,8 +100,6 @@ public class WatchlistTab extends Fragment implements SwipeRefreshLayout.OnRefre
                 new JSONTask().execute(url, imageUrl, highLowUrl, cryptoID);
             }
         }
-        adapter = new WatchlistRecyclerViewAdapter(watchlistArray, WatchlistTab.this);
-        recyclerView.setAdapter(adapter);
         swipeRefreshLayout.setRefreshing(false);
     }
 
@@ -152,7 +158,7 @@ public class WatchlistTab extends Fragment implements SwipeRefreshLayout.OnRefre
             try {
                 String finalJson = myGlobalsFunctions.fetchJSONasString(params[0]);
                 String highLowJson = myGlobalsFunctions.fetchJSONasString(params[2]);
-                myGlobalsFunctions.storeStringToFile(params[3], getString(R.string.crypto_info_dir), finalJson);
+//                myGlobalsFunctions.storeStringToFile(params[3], getString(R.string.crypto_info_dir), finalJson);
                 if (finalJson!=null) {
                     setVals(finalJson, params[1], highLowJson);
                 }
@@ -168,8 +174,12 @@ public class WatchlistTab extends Fragment implements SwipeRefreshLayout.OnRefre
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
 
-            adapter = new WatchlistRecyclerViewAdapter(watchlistArray, WatchlistTab.this);
-            recyclerView.setAdapter(adapter);
+            count++;
+            if (count==items.size()) {
+                adapter = new WatchlistRecyclerViewAdapter(watchlistArray, WatchlistTab.this);
+                recyclerView.setAdapter(adapter);
+                spinKit.setVisibility(View.INVISIBLE);
+            }
         }
     }
 }
