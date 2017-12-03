@@ -286,7 +286,7 @@ public class StockInfoTab extends Fragment implements View.OnClickListener {
         protected void onPreExecute() {
             super.onPreExecute();
             try {
-                String finalJson = myGlobalsFunctions.retrieveStringFromFile(cryptoID,getString(R.string.crypto_info_dir));
+                String finalJson = myGlobalsFunctions.retieveStringFromFile(cryptoID,getString(R.string.crypto_info_dir));
                 String highLowJson24 = "";
                 String highLowJson7 = "";
                 String highLowJson14 = "";
@@ -294,7 +294,7 @@ public class StockInfoTab extends Fragment implements View.OnClickListener {
                 String highLowJson60 = "";
                 String highLowJson90 = "";
                 String highLowJsonAll = "";
-                if (finalJson != null && !finalJson.equals("")) {
+                if (finalJson != null) {
                     setVals(finalJson, highLowJson24, highLowJson7, highLowJson14, highLowJson30, highLowJson60, highLowJson90, highLowJsonAll);
                 }
             } catch (JSONException e) {
@@ -316,10 +316,8 @@ public class StockInfoTab extends Fragment implements View.OnClickListener {
                     String highLowJsonAll = myGlobalsFunctions.fetchJSONasString(params[8]);
 //                    myGlobalsFunctions.storeStringToFile(cryptoID, getString(R.string.crypto_info_dir), finalJson);
                     myGlobalsFunctions.convertImageURLtoBitmap(params[1], Boolean.TRUE);
-                    if (finalJson != null && !finalJson.equals("")) {
-                        setVals(finalJson, highLowJson24, highLowJson7, highLowJson14, highLowJson30, highLowJson60, highLowJson90, highLowJsonAll);
-                    }
-                    return finalJson;
+                    setVals(finalJson, highLowJson24, highLowJson7, highLowJson14, highLowJson30, highLowJson60, highLowJson90, highLowJsonAll);
+                    return price;
                 }
 
             } catch (IOException | JSONException e) {
@@ -331,8 +329,7 @@ public class StockInfoTab extends Fragment implements View.OnClickListener {
         @Override
         protected void onPostExecute(String result) {
 //            super.onPostExecute(result);
-            if (result != null)
-                fillInfoFromJSON();
+            fillInfoFromJSON();
         }
     }
 }

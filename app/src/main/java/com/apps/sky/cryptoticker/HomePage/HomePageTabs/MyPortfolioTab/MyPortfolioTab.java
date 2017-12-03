@@ -69,7 +69,7 @@ public class MyPortfolioTab extends Fragment implements SwipeRefreshLayout.OnRef
 
         gson = new Gson();
         type = new TypeToken<ArrayList<CryptoTradeObject>>() {}.getType();
-        String json = myGlobalsFunctions.retrieveStringFromFile(getString(R.string.crypto_my_portfolio_file), getString(R.string.crypto_my_portfolio_dir));
+        String json = myGlobalsFunctions.retieveStringFromFile(getString(R.string.crypto_my_portfolio_file), getString(R.string.crypto_my_portfolio_dir));
 
         try {
             if (json != null) myPortfolioItems = gson.fromJson(json, type);
@@ -95,71 +95,46 @@ public class MyPortfolioTab extends Fragment implements SwipeRefreshLayout.OnRef
             myPortfolioView = my_portfolio_view;
         }
 
-        if (myPortfolioItems.size() == 0) {
-            rootView = inflater.inflate(R.layout.empty_view, container, false);
-            ((TextView) rootView.findViewById(R.id.textview)).setText("The items that you add to your portfolio will be displayed here!");
+        spinKit = rootView.findViewById(R.id.spin_kit_portfolio);
+        swipeRefreshLayout = rootView.findViewById(R.id.swipe_refresh_layout);
+        swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                swipeRefreshLayout.setRefreshing(true);
+                loadView();
+            }
+        });
+
+        recyclerView = rootView.findViewById(R.id.recycler_view);
+        recyclerView.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(rootView.getContext());
+        recyclerView.setLayoutManager(layoutManager);
+
+        prevCurrency = sharedPreferences.getString(Constants.PREV_PORTFOLIO_CURRENCY, "");
+        if (prevCurrency.equals("")) {
+            prevCurrency = Constants.DEFAULT_CURRENCY;
         }
-        else {
-            spinKit = rootView.findViewById(R.id.spin_kit_portfolio);
-            swipeRefreshLayout = rootView.findViewById(R.id.swipe_refresh_layout);
-            swipeRefreshLayout.setOnRefreshListener(this);
-            swipeRefreshLayout.post(new Runnable() {
-                @Override
-                public void run() {
-                    swipeRefreshLayout.setRefreshing(true);
-                    loadView();
-                }
-            });
 
-            recyclerView = rootView.findViewById(R.id.recycler_view);
-            recyclerView.setHasFixedSize(true);
-            layoutManager = new LinearLayoutManager(rootView.getContext());
-            recyclerView.setLayoutManager(layoutManager);
+        currCurrency = sharedPreferences.getString(Constants.PREFERENCE_CURRENCY, "");
+        if (currCurrency.equals("")) currCurrency = Constants.DEFAULT_CURRENCY;
 
-            prevCurrency = sharedPreferences.getString(Constants.PREV_PORTFOLIO_CURRENCY, "");
-            if (prevCurrency.equals("")) {
-                prevCurrency = Constants.DEFAULT_CURRENCY;
+        if (!prevCurrency.equals(currCurrency)) isCurrencyChanged = Boolean.TRUE;
+
+        exchangeRateURL = "https://free.currencyconverterapi.com/api/v4/convert?q="+ prevCurrency + "_" + currCurrency + "&compact=y";
+
+        if (isCurrencyChanged) {
+            myPortfolioItems = new ArrayList<>();
+
+            String json = myGlobalsFunctions.retieveStringFromFile(getString(R.string.crypto_my_portfolio_file), getString(R.string.crypto_my_portfolio_dir));
+
+            try {
+                if (json != null) myPortfolioItems = gson.fromJson(json, type);
+            } catch (IllegalStateException | JsonSyntaxException exception) {
+                Log.d("error", "error in parsing portfolio json");
             }
 
-            currCurrency = sharedPreferences.getString(Constants.PREFERENCE_CURRENCY, "");
-            if (currCurrency.equals("")) currCurrency = Constants.DEFAULT_CURRENCY;
-
-            if (!prevCurrency.equals(currCurrency)) isCurrencyChanged = Boolean.TRUE;
-
-            exchangeRateURL = "https://free.currencyconverterapi.com/api/v4/convert?q=" + prevCurrency + "_" + currCurrency + "&compact=y";
-
-            if (isCurrencyChanged) {
-                myPortfolioItems = new ArrayList<>();
-
-                Gson gson = new Gson();
-                Type type = new TypeToken<ArrayList<CryptoTradeObject>>() {
-                }.getType();
-                String json = myGlobalsFunctions.retrieveStringFromFile(getString(R.string.crypto_my_portfolio_file), getString(R.string.crypto_my_portfolio_dir));
-
-                try {
-                    if (json != null) myPortfolioItems = gson.fromJson(json, type);
-                } catch (IllegalStateException | JsonSyntaxException exception) {
-                    Log.d("error", "error in parsing portfolio json");
-                }
-
-                new minorJSONTask().execute();
-
-                for (int i = 0; i < myPortfolioItems.size(); ++i) {
-                    curItem = myPortfolioItems.get(i);
-                    cryptoID = curItem.getCryptoID();
-                    float cost;
-                    for (TradeObject item : curItem.getTrades()) {
-                        cost = Float.parseFloat(item.getCost());
-                        item.setCost(String.valueOf(cost * conversion));
-                    }
-                }
-
-                json = gson.toJson(myPortfolioItems, type);
-                myGlobalsFunctions.storeStringToFile(getString(R.string.crypto_my_portfolio_file), getString(R.string.crypto_my_portfolio_dir), json);
-                sharedPreferences.edit().putString(Constants.PREV_PORTFOLIO_CURRENCY, currCurrency).apply();
-                isCurrencyChanged = Boolean.FALSE;
-                currency = currCurrency;
-            }
+            new minorJSONTask().execute();
         }
         return rootView;
     }
