@@ -109,8 +109,9 @@ public class StockInfoTab extends Fragment implements View.OnClickListener {
         series90.setColor(getContext().getResources().getColor(R.color.colorPrimary));
         seriesAll = new ValueLineSeries();
         seriesAll.setColor(getContext().getResources().getColor(R.color.colorPrimary));
-
-        new JSONTask().execute(url, iconUrl, highLowUrl24, highLowUrl7, highLowUrl14, highLowUrl30, highLowUrl60, highLowUrl90, highLowUrlAll);
+        if (myGlobalsFunctions.isNetworkConnected()) {
+            new JSONTask().execute(url, iconUrl, highLowUrl24, highLowUrl7, highLowUrl14, highLowUrl30, highLowUrl60, highLowUrl90, highLowUrlAll);
+        }
         return rootView;
     }
 

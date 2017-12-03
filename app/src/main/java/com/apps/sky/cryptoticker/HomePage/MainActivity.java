@@ -79,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         viewPager = findViewById(R.id.viewpager1);
+        viewPager.setOffscreenPageLimit(5);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(
             new BottomNavigationView.OnNavigationItemSelectedListener() {
