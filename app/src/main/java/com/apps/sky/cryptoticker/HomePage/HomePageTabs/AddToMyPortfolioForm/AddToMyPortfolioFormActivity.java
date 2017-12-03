@@ -144,7 +144,7 @@ public class AddToMyPortfolioFormActivity extends AppCompatActivity {
         Gson gson = new Gson();
         Type type = new TypeToken<ArrayList<CryptoTradeObject>>() {}.getType();
 
-        String json = myGlobalFunctions.retrieveStringFromFile(getString(R.string.crypto_my_portfolio_file), getString(R.string.crypto_my_portfolio_dir));
+        String json = myGlobalFunctions.retieveStringFromFile(getString(R.string.crypto_my_portfolio_file), getString(R.string.crypto_my_portfolio_dir));
 
         try {
             if (json != null) {

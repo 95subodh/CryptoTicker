@@ -89,7 +89,7 @@ public class StockNewsTab extends Fragment {
         protected void onPreExecute() {
             super.onPreExecute();
             try {
-                String finalJson = myGlobalsFunctions.retrieveStringFromFile(cryptoID,getString(R.string.crypto_info_dir));
+                String finalJson = myGlobalsFunctions.retieveStringFromFile(cryptoID,getString(R.string.crypto_info_dir));
                 if (finalJson != null)
                     setVals(finalJson);
             } catch (JSONException e) {

@@ -162,7 +162,7 @@ public class MyGlobalsFunctions {
     public Bitmap convertImageURLtoBitmap(String ImageUrl, Boolean... store) {
         try {
             if (ImageUrl.contains("https://files")) {
-                String temp = retrieveStringFromFile(ImageUrl, mContext.getString(R.string.crypto_coin_icon_dir));
+                String temp = retieveStringFromFile(ImageUrl, mContext.getString(R.string.crypto_coin_icon_dir));
                 if (temp!=null) {
                     return stringToBitMap(temp);
                 }
@@ -208,7 +208,7 @@ public class MyGlobalsFunctions {
         }
     }
 
-    public String retrieveStringFromFile(String fileName, String fileDirectory) {
+    public String retieveStringFromFile(String fileName, String fileDirectory) {
         File myDir = mContext.getFilesDir();
         try {
             File secondInputFile = new File(myDir + "/"+ fileDirectory +"/", fileName);
@@ -277,7 +277,7 @@ public class MyGlobalsFunctions {
     }
 
     public ArrayList<String> retrieveListFromFile(String fileName, String fileDirectory) {
-        String csvList = retrieveStringFromFile(fileName, fileDirectory);
+        String csvList = retieveStringFromFile(fileName, fileDirectory);
         String[] items = {};
         if (csvList!=null) {
             items = csvList.split(",");
