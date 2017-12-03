@@ -85,6 +85,8 @@ public class WatchlistTab extends Fragment implements SwipeRefreshLayout.OnRefre
     }
 
     private void loadView() {
+
+        currency = sharedPreferences.getString(Constants.PREFERENCE_CURRENCY, "");
         swipeRefreshLayout.setRefreshing(true);
         spinKit.setVisibility(View.VISIBLE);
         watchlistArray = new ArrayList<>();
@@ -109,6 +111,12 @@ public class WatchlistTab extends Fragment implements SwipeRefreshLayout.OnRefre
         WatchlistObject currency_details = new WatchlistObject();
         currency_details.setContext(getContext());
 
+        JSONObject parentObject = jarr.getJSONObject(0);
+        currency_details.setTitle(myGlobalsFunctions.nullCheck(parentObject.getString("name")));
+
+        String price = parentObject.getString("price_" + currency.toLowerCase());
+        currency_details.setCurrentPrice(myGlobalsFunctions.nullCheck(price));
+
         if (highLowJson!=null && !Objects.equals(highLowJson, "")) {
             JSONObject highLowObj = new JSONObject(highLowJson);
             JSONArray newRef = highLowObj.optJSONArray("stats");
@@ -118,14 +126,9 @@ public class WatchlistTab extends Fragment implements SwipeRefreshLayout.OnRefre
                 if (temp > max) max = temp;
                 if (temp < min) min = temp;
             }
-            currency_details.setMinDayPrice(myGlobalsFunctions.nullCheck(Float.toString(min)));
-            currency_details.setMaxDayPrice(myGlobalsFunctions.nullCheck(Float.toString(max)));
+            currency_details.setMinDayPrice(myGlobalsFunctions.nullCheck(Float.toString(Math.min(min, Float.parseFloat(price)))));
+            currency_details.setMaxDayPrice(myGlobalsFunctions.nullCheck(Float.toString(Math.max(max, Float.parseFloat(price)))));
         }
-        JSONObject parentObject = jarr.getJSONObject(0);
-        currency_details.setTitle(myGlobalsFunctions.nullCheck(parentObject.getString("name")));
-
-        String price = parentObject.getString("price_" + currency.toLowerCase());
-        currency_details.setCurrentPrice(myGlobalsFunctions.nullCheck(price));
 
         String change = myGlobalsFunctions.nullCheck( parentObject.getString("percent_change_24h") );
         if (change.equals("-")) {

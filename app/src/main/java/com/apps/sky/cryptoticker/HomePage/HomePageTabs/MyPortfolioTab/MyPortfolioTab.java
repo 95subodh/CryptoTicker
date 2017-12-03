@@ -32,6 +32,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 public class MyPortfolioTab extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
@@ -110,32 +111,6 @@ public class MyPortfolioTab extends Fragment implements SwipeRefreshLayout.OnRef
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(rootView.getContext());
         recyclerView.setLayoutManager(layoutManager);
-
-        prevCurrency = sharedPreferences.getString(Constants.PREV_PORTFOLIO_CURRENCY, "");
-        if (prevCurrency.equals("")) {
-            prevCurrency = Constants.DEFAULT_CURRENCY;
-        }
-
-        currCurrency = sharedPreferences.getString(Constants.PREFERENCE_CURRENCY, "");
-        if (currCurrency.equals("")) currCurrency = Constants.DEFAULT_CURRENCY;
-
-        if (!prevCurrency.equals(currCurrency)) isCurrencyChanged = Boolean.TRUE;
-
-        exchangeRateURL = "https://free.currencyconverterapi.com/api/v4/convert?q="+ prevCurrency + "_" + currCurrency + "&compact=y";
-
-        if (isCurrencyChanged) {
-            myPortfolioItems = new ArrayList<>();
-
-            String json = myGlobalsFunctions.retieveStringFromFile(getString(R.string.crypto_my_portfolio_file), getString(R.string.crypto_my_portfolio_dir));
-
-            try {
-                if (json != null) myPortfolioItems = gson.fromJson(json, type);
-            } catch (IllegalStateException | JsonSyntaxException exception) {
-                Log.d("error", "error in parsing portfolio json");
-            }
-
-            new minorJSONTask().execute();
-        }
         return rootView;
     }
 
@@ -147,11 +122,39 @@ public class MyPortfolioTab extends Fragment implements SwipeRefreshLayout.OnRef
     private void loadView() {
         swipeRefreshLayout.setRefreshing(true);
         spinKit.setVisibility(View.VISIBLE);
+        totalCost = 0; totalPrice = 0; count = 0;
+        myPortfolioArray = new ArrayList<>();
+        adapter = new MyPortfolioRecyclerViewAdapter(myPortfolioArray,MyPortfolioTab.this);
+        recyclerView.setAdapter(adapter);
+
         if (myGlobalsFunctions.isNetworkConnected()) {
-            totalCost = 0; totalPrice = 0; count = 0;
-            myPortfolioArray = new ArrayList<>();
-            adapter = new MyPortfolioRecyclerViewAdapter(myPortfolioArray,MyPortfolioTab.this);
-            recyclerView.setAdapter(adapter);
+
+            prevCurrency = sharedPreferences.getString(Constants.PREV_PORTFOLIO_CURRENCY, "");
+            if (prevCurrency.equals("")) {
+                prevCurrency = Constants.DEFAULT_CURRENCY;
+            }
+
+            currCurrency = sharedPreferences.getString(Constants.PREFERENCE_CURRENCY, "");
+            if (currCurrency.equals("")) currCurrency = Constants.DEFAULT_CURRENCY;
+
+            if (!prevCurrency.equals(currCurrency)) isCurrencyChanged = Boolean.TRUE;
+
+            exchangeRateURL = "https://free.currencyconverterapi.com/api/v4/convert?q="+ prevCurrency + "_" + currCurrency + "&compact=y";
+
+            if (isCurrencyChanged) {
+                myPortfolioItems = new ArrayList<>();
+
+                String json = myGlobalsFunctions.retieveStringFromFile(getString(R.string.crypto_my_portfolio_file), getString(R.string.crypto_my_portfolio_dir));
+
+                try {
+                    if (json != null) myPortfolioItems = gson.fromJson(json, type);
+                    new minorJSONTask().execute().get();
+                    Thread.sleep(1000);
+                } catch (InterruptedException | ExecutionException e) {
+                    e.printStackTrace();
+                }
+            }
+
             for (int i = 0; i < myPortfolioItems.size(); ++i) {
                 curItem = myPortfolioItems.get(i);
                 cryptoID = curItem.getCryptoID();

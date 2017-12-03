@@ -51,7 +51,10 @@ public class StockNewsTab extends Fragment {
 
         url = "http://beta.newsapi.org/v2/everything?q=" + cryptoID + "&apiKey=" + key + "&language=" + language;
         myGlobalsFunctions = new MyGlobalsFunctions(getContext());
-        new JSONTask().execute(url);
+
+        if (myGlobalsFunctions.isNetworkConnected()) {
+            new JSONTask().execute(url);
+        }
 
         recyclerView = rootView.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
