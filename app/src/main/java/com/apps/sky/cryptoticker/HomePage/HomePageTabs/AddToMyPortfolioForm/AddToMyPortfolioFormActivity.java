@@ -29,9 +29,8 @@ public class AddToMyPortfolioFormActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private TradeRecyclerViewAdapter adapter;
     RecyclerView.LayoutManager layoutManager;
-    boolean onlyDetails;
+    boolean onlyDetails, coinPresent = false, emptylist;
     Button addTrade, submit;
-    boolean coinPresent = false;
 
     ArrayList<TradeObject> tradeArray = new ArrayList<>();
     CryptoTradeObject cryptoTradeObject = new CryptoTradeObject();
@@ -48,6 +47,7 @@ public class AddToMyPortfolioFormActivity extends AppCompatActivity {
         cryptoName = ConstantsCrypto.cryptoMap.get(cryptoID.replace("-", "_"))[0];
         onlyDetails = intent.getExtras().getBoolean("only_details");
         myGlobalFunctions = new MyGlobalsFunctions(this);
+        emptylist = false;
 
         TextView title = findViewById(R.id.trade_details_heading);
         String tradeName = cryptoName + " Trade Details";
@@ -71,7 +71,6 @@ public class AddToMyPortfolioFormActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        submit.setEnabled(false);
 
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
@@ -86,6 +85,7 @@ public class AddToMyPortfolioFormActivity extends AppCompatActivity {
     }
 
     private void addBlankTradeCard() {
+        emptylist = false;
         addTrade.setEnabled(false);
         submit.setEnabled(false);
         TradeObject obj = new TradeObject();
@@ -102,8 +102,10 @@ public class AddToMyPortfolioFormActivity extends AppCompatActivity {
         boolean done = false;
         for (int i = 1; i <= tradeArray.size(); ++i) {
             tradeArray.get(i - 1).setTradeNumber("Trade " + ((Integer) i).toString());
-            if (!done && (tradeArray.get(tradeArray.size() - 1).getQuantity().trim().isEmpty() ||
-                    tradeArray.get(tradeArray.size() - 1).getCost().trim().isEmpty())) {
+            if (!done && (tradeArray.get(tradeArray.size() - 1).getQuantity() == null
+                    || tradeArray.get(tradeArray.size() - 1).getQuantity().trim().isEmpty()
+                    || tradeArray.get(tradeArray.size() - 1).getCost() == null
+                    || tradeArray.get(tradeArray.size() - 1).getCost().trim().isEmpty() )) {
                 addTrade.setEnabled(false);
                 submit.setEnabled(false);
                 done = true;
@@ -115,10 +117,9 @@ public class AddToMyPortfolioFormActivity extends AppCompatActivity {
         }
         if (tradeArray.size() == 0) {
             addTrade.setEnabled(true);
-            submit.setEnabled(false);
+            submit.setEnabled(true);
+            emptylist = true;
         }
-//        adapter.notifyItemRemoved(position);
-//        adapter.notifyItemRangeChanged(position, tradeArray.size() - position);
         adapter = new TradeRecyclerViewAdapter(tradeArray);
         recyclerView.setAdapter(adapter);
     }
@@ -126,11 +127,16 @@ public class AddToMyPortfolioFormActivity extends AppCompatActivity {
     private void addCurrencyToMyPortfolio() {
         cryptoTradeObject.setCryptoID(cryptoID);
         cryptoTradeObject.setTrades(tradeArray);
-        if (!coinPresent) cryptoTradeObjectArrayList.add(cryptoTradeObject);
+        if (!coinPresent) {
+            if (!emptylist) cryptoTradeObjectArrayList.add(cryptoTradeObject);
+        }
         else {
             for (int i = 0; i < cryptoTradeObjectArrayList.size(); ++i) {
                 if (cryptoTradeObjectArrayList.get(i).getCryptoID().equals(cryptoID)) {
-                    cryptoTradeObjectArrayList.get(i).setTrades(tradeArray);
+                    if (emptylist)
+                        cryptoTradeObjectArrayList.remove(i);
+                    else
+                        cryptoTradeObjectArrayList.get(i).setTrades(tradeArray);
                 }
             }
         }

@@ -45,8 +45,6 @@ public class WatchlistTab extends Fragment implements SwipeRefreshLayout.OnRefre
         super.onCreate(savedInstanceState);
         sharedPreferences = getContext().getSharedPreferences("com.apps.sky.cryptoticker", Context.MODE_PRIVATE);
         myGlobalsFunctions = new MyGlobalsFunctions(getContext());
-        currency = sharedPreferences.getString(Constants.PREFERENCE_CURRENCY, "");
-        if (currency.equals("")) currency = Constants.DEFAULT_CURRENCY;
 
         items = myGlobalsFunctions.retrieveListFromFile(getString(R.string.crypto_watchlist_file), getString(R.string.crypto_watchlist_dir));
         watchlistArray = new ArrayList<>();
@@ -59,7 +57,6 @@ public class WatchlistTab extends Fragment implements SwipeRefreshLayout.OnRefre
             rootView = inflater.inflate(R.layout.watchlist_tab, container, false);
         }
         spinKit = rootView.findViewById(R.id.spin_kit_watchlist);
-        currency = sharedPreferences.getString(Constants.PREFERENCE_CURRENCY, "");
 
         swipeRefreshLayout = rootView.findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setOnRefreshListener(this);
@@ -87,6 +84,7 @@ public class WatchlistTab extends Fragment implements SwipeRefreshLayout.OnRefre
     private void loadView() {
 
         currency = sharedPreferences.getString(Constants.PREFERENCE_CURRENCY, "");
+        if (currency.equals("")) currency = Constants.DEFAULT_CURRENCY;
         swipeRefreshLayout.setRefreshing(true);
         spinKit.setVisibility(View.VISIBLE);
         watchlistArray = new ArrayList<>();
