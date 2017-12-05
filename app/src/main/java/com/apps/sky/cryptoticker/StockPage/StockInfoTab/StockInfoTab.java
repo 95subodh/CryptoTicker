@@ -110,7 +110,8 @@ public class StockInfoTab extends Fragment implements View.OnClickListener {
         seriesAll = new ValueLineSeries();
         seriesAll.setColor(getContext().getResources().getColor(R.color.colorPrimary));
         if (myGlobalsFunctions.isNetworkConnected()) {
-            new JSONTask().execute(url, iconUrl, highLowUrl24, highLowUrl7, highLowUrl14, highLowUrl30, highLowUrl60, highLowUrl90, highLowUrlAll);
+            new JSONTask().execute(url, iconUrl);
+            new JSONTaskGraph().execute(highLowUrl24, highLowUrl7, highLowUrl14, highLowUrl30, highLowUrl60, highLowUrl90, highLowUrlAll);
         }
         return rootView;
     }
@@ -167,6 +168,16 @@ public class StockInfoTab extends Fragment implements View.OnClickListener {
         }
     }
 
+    private void fillInfoFromJSONGraph() {
+        if (getView() != null) {
+            highVal = getView().findViewById(R.id.high);
+            highVal.setText(myGlobalsFunctions.commaSeperateInteger(high, true));
+            lowVal = getView().findViewById(R.id.low);
+            lowVal.setText(myGlobalsFunctions.commaSeperateInteger(low, true));
+            cubicValueLineChart.addSeries(series24);
+        }
+    }
+
     private void fillInfoFromJSON() {
         if (getView() != null) {
             coinPrice = getView().findViewById(R.id.coin_price);
@@ -186,11 +197,6 @@ public class StockInfoTab extends Fragment implements View.OnClickListener {
             }
             coinLstUpdate = getView().findViewById(R.id.coin_lst_update);
             coinLstUpdate.setText(myGlobalsFunctions.getEpochToNormalDateString(lstupd));
-            highVal = getView().findViewById(R.id.high);
-            highVal.setText(myGlobalsFunctions.commaSeperateInteger(high, true));
-            lowVal = getView().findViewById(R.id.low);
-            lowVal.setText(myGlobalsFunctions.commaSeperateInteger(low, true));
-            cubicValueLineChart.addSeries(series24);
         }
     }
 
@@ -262,8 +268,12 @@ public class StockInfoTab extends Fragment implements View.OnClickListener {
         }
     }
 
-    public void setVals(String finalJson, String highLowJson24, String highLowJson7, String highLowJson14, String highLowJson30,
+    public void setValsGraph(String highLowJson24, String highLowJson7, String highLowJson14, String highLowJson30,
                         String highLowJson60, String highLowJson90, String highLowJsonAll) throws JSONException {
+        fillGraphValues(highLowJson24, highLowJson7, highLowJson14, highLowJson30, highLowJson60, highLowJson90, highLowJsonAll);
+    }
+
+    public void setVals(String finalJson) throws JSONException {
         JSONArray jarr = new JSONArray(finalJson);
 
         JSONObject parentObject = jarr.getJSONObject(0);
@@ -278,7 +288,6 @@ public class StockInfoTab extends Fragment implements View.OnClickListener {
             float changeNum = Float.parseFloat(price) - (Float.parseFloat(price) / (1 + ((float) 0.01 * Float.parseFloat(change))));
             change = myGlobalsFunctions.commaSeperateIntegerMinimal(String.valueOf(changeNum), true) + " (" + change + "%)";
         }
-        fillGraphValues(highLowJson24, highLowJson7, highLowJson14, highLowJson30, highLowJson60, highLowJson90, highLowJsonAll);
     }
 
     public class JSONTask extends AsyncTask<String,String, String > {
@@ -288,15 +297,8 @@ public class StockInfoTab extends Fragment implements View.OnClickListener {
             super.onPreExecute();
             try {
                 String finalJson = myGlobalsFunctions.retieveStringFromFile(cryptoID,getString(R.string.crypto_info_dir));
-                String highLowJson24 = "";
-                String highLowJson7 = "";
-                String highLowJson14 = "";
-                String highLowJson30 = "";
-                String highLowJson60 = "";
-                String highLowJson90 = "";
-                String highLowJsonAll = "";
                 if (finalJson != null) {
-                    setVals(finalJson, highLowJson24, highLowJson7, highLowJson14, highLowJson30, highLowJson60, highLowJson90, highLowJsonAll);
+                    setVals(finalJson);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -308,17 +310,9 @@ public class StockInfoTab extends Fragment implements View.OnClickListener {
             try {
                 if (myGlobalsFunctions.isNetworkConnected()) {
                     String finalJson = myGlobalsFunctions.fetchJSONasString(params[0]);
-                    String highLowJson24 = myGlobalsFunctions.fetchJSONasString(params[2]);
-                    String highLowJson7 = myGlobalsFunctions.fetchJSONasString(params[3]);
-                    String highLowJson14 = myGlobalsFunctions.fetchJSONasString(params[4]);
-                    String highLowJson30 = myGlobalsFunctions.fetchJSONasString(params[5]);
-                    String highLowJson60 = myGlobalsFunctions.fetchJSONasString(params[6]);
-                    String highLowJson90 = myGlobalsFunctions.fetchJSONasString(params[7]);
-                    String highLowJsonAll = myGlobalsFunctions.fetchJSONasString(params[8]);
-//                    myGlobalsFunctions.storeStringToFile(cryptoID, getString(R.string.crypto_info_dir), finalJson);
                     myGlobalsFunctions.convertImageURLtoBitmap(params[1], Boolean.TRUE);
                     if (finalJson != null)
-                        setVals(finalJson, highLowJson24, highLowJson7, highLowJson14, highLowJson30, highLowJson60, highLowJson90, highLowJsonAll);
+                        setVals(finalJson);
                     return finalJson;
                 }
 
@@ -333,6 +327,43 @@ public class StockInfoTab extends Fragment implements View.OnClickListener {
 //            super.onPostExecute(result);
             if (result != null)
                 fillInfoFromJSON();
+        }
+    }
+
+    public class JSONTaskGraph extends AsyncTask<String,String, String > {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+                if (myGlobalsFunctions.isNetworkConnected()) {
+                    String highLowJson24 = myGlobalsFunctions.fetchJSONasString(params[0]);
+                    String highLowJson7 = myGlobalsFunctions.fetchJSONasString(params[1]);
+                    String highLowJson14 = myGlobalsFunctions.fetchJSONasString(params[2]);
+                    String highLowJson30 = myGlobalsFunctions.fetchJSONasString(params[3]);
+                    String highLowJson60 = myGlobalsFunctions.fetchJSONasString(params[4]);
+                    String highLowJson90 = myGlobalsFunctions.fetchJSONasString(params[5]);
+                    String highLowJsonAll = myGlobalsFunctions.fetchJSONasString(params[6]);
+                    if (highLowJson24 != null)
+                        setValsGraph(highLowJson24, highLowJson7, highLowJson14, highLowJson30, highLowJson60, highLowJson90, highLowJsonAll);
+                    return highLowJson24;
+                }
+
+            } catch (IOException | JSONException e) {
+                e.printStackTrace();
+            }
+            return  null;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+//            super.onPostExecute(result);
+            if (result != null)
+                fillInfoFromJSONGraph();
         }
     }
 }
