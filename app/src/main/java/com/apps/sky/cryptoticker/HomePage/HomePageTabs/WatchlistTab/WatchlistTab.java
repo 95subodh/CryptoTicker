@@ -36,7 +36,7 @@ public class WatchlistTab extends Fragment implements SwipeRefreshLayout.OnRefre
     String url, currency;
     MyGlobalsFunctions myGlobalsFunctions;
     public ArrayList<String> items;
-    ArrayList<WatchlistObject> watchlistArray;
+    ArrayList<WatchlistObject> watchlistArray, watchlistArrayTemp;
     SharedPreferences sharedPreferences;
     SwipeRefreshLayout swipeRefreshLayout;
     SpinKitView spinKit;
@@ -100,6 +100,14 @@ public class WatchlistTab extends Fragment implements SwipeRefreshLayout.OnRefre
             recyclerView.setAdapter(adapter);
             if (myGlobalsFunctions.isNetworkConnected()) {
                 count = 0;
+                watchlistArrayTemp = new ArrayList<>();
+                for (int i = 0; i < items.size(); ++i) {
+                    String cryptoID = items.get(i);
+
+                    WatchlistObject x = new WatchlistObject();
+                    x.setCryptoID(cryptoID);
+                    watchlistArrayTemp.add(x);
+                }
                 for (int i = 0; i < items.size(); ++i) {
                     String cryptoID = items.get(i);
                     url = "https://api.coinmarketcap.com/v1/ticker/" + cryptoID + "/?convert=" + currency.toUpperCase();
@@ -118,17 +126,23 @@ public class WatchlistTab extends Fragment implements SwipeRefreshLayout.OnRefre
         swipeRefreshLayout.setRefreshing(false);
     }
 
-    public void setVals(String finalJson, String iconUrl, String highLowJson) throws JSONException {
+    public void setVals(String finalJson, String iconUrl, String highLowJson, String cryptoID) throws JSONException {
         JSONArray jarr = new JSONArray(finalJson);
 
-        WatchlistObject currency_details = new WatchlistObject();
-        currency_details.setContext(getContext());
+        int cardPosition = 0;
+        for (int i = 0; i < watchlistArrayTemp.size(); ++i) {
+            if (watchlistArrayTemp.get(i).getCryptoID().equals(cryptoID)) {
+                cardPosition = i; break;
+            }
+        }
+
+        watchlistArrayTemp.get(cardPosition).setContext(getContext());
 
         JSONObject parentObject = jarr.getJSONObject(0);
-        currency_details.setTitle(myGlobalsFunctions.nullCheck(parentObject.getString("name")));
+        watchlistArrayTemp.get(cardPosition).setTitle(myGlobalsFunctions.nullCheck(parentObject.getString("name")));
 
         String price = parentObject.getString("price_" + currency.toLowerCase());
-        currency_details.setCurrentPrice(myGlobalsFunctions.nullCheck(price));
+        watchlistArrayTemp.get(cardPosition).setCurrentPrice(myGlobalsFunctions.nullCheck(price));
 
         if (highLowJson!=null && !Objects.equals(highLowJson, "")) {
             JSONObject highLowObj = new JSONObject(highLowJson);
@@ -139,27 +153,26 @@ public class WatchlistTab extends Fragment implements SwipeRefreshLayout.OnRefre
                 if (temp > max) max = temp;
                 if (temp < min) min = temp;
             }
-            currency_details.setMinDayPrice(myGlobalsFunctions.nullCheck(Float.toString(Math.min(min, Float.parseFloat(price)))));
-            currency_details.setMaxDayPrice(myGlobalsFunctions.nullCheck(Float.toString(Math.max(max, Float.parseFloat(price)))));
+            watchlistArrayTemp.get(cardPosition).setMinDayPrice(myGlobalsFunctions.nullCheck(Float.toString(Math.min(min, Float.parseFloat(price)))));
+            watchlistArrayTemp.get(cardPosition).setMaxDayPrice(myGlobalsFunctions.nullCheck(Float.toString(Math.max(max, Float.parseFloat(price)))));
         }
 
         String change = myGlobalsFunctions.nullCheck( parentObject.getString("percent_change_24h") );
         if (change.equals("-")) {
-            currency_details.setChange(change);
+            watchlistArrayTemp.get(cardPosition).setChange(change);
         }
         else {
             float changeNum = Float.parseFloat(price) - (Float.parseFloat(price) / (1 + ((float) 0.01 * Float.parseFloat(change))));
-            currency_details.setChange(myGlobalsFunctions.commaSeperateIntegerMinimal(String.valueOf(changeNum), true) + " (" + change + "%)");
+            watchlistArrayTemp.get(cardPosition).setChange(myGlobalsFunctions.commaSeperateIntegerMinimal(String.valueOf(changeNum), true) + " (" + change + "%)");
         }
 
         if (change.length()>1) {
-            if (change.charAt(0) == '-') currency_details.setChangeColor(false);
-            else currency_details.setChangeColor(true);
+            if (change.charAt(0) == '-') watchlistArrayTemp.get(cardPosition).setChangeColor(false);
+            else watchlistArrayTemp.get(cardPosition).setChangeColor(true);
         }
 
-        currency_details.setCryptoID( myGlobalsFunctions.nullCheck(parentObject.getString("id")) );
-        currency_details.setIcon(iconUrl);
-         watchlistArray.add(currency_details);
+        watchlistArrayTemp.get(cardPosition).setCryptoID( myGlobalsFunctions.nullCheck(parentObject.getString("id")) );
+        watchlistArrayTemp.get(cardPosition).setIcon(iconUrl);
     }
 
     public class JSONTask extends AsyncTask<String,String, String > {
@@ -176,11 +189,12 @@ public class WatchlistTab extends Fragment implements SwipeRefreshLayout.OnRefre
                 String highLowJson = myGlobalsFunctions.fetchJSONasString(params[2]);
 //                myGlobalsFunctions.storeStringToFile(params[3], getString(R.string.crypto_info_dir), finalJson);
                 if (finalJson!=null) {
-                    setVals(finalJson, params[1], highLowJson);
+                    setVals(finalJson, params[1], highLowJson, params[3]);
                 }
+                Thread.sleep(10);
                 return finalJson;
 
-            } catch (IOException | JSONException e) {
+            } catch (IOException | JSONException | InterruptedException e) {
                 e.printStackTrace();
             }
             return  null;
@@ -192,6 +206,7 @@ public class WatchlistTab extends Fragment implements SwipeRefreshLayout.OnRefre
 
             count++;
             if (count==items.size()) {
+                watchlistArray.addAll(watchlistArrayTemp);
                 adapter = new WatchlistRecyclerViewAdapter(watchlistArray, WatchlistTab.this);
                 recyclerView.setAdapter(adapter);
                 spinKit.setVisibility(View.INVISIBLE);
