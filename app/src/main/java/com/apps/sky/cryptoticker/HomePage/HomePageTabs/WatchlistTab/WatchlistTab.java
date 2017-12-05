@@ -11,6 +11,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.apps.sky.cryptoticker.Global.Constants;
 import com.apps.sky.cryptoticker.Global.MyGlobalsFunctions;
@@ -54,25 +56,31 @@ public class WatchlistTab extends Fragment implements SwipeRefreshLayout.OnRefre
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         if (rootView == null) {
-            rootView = inflater.inflate(R.layout.watchlist_tab, container, false);
-        }
-        spinKit = rootView.findViewById(R.id.spin_kit_watchlist);
-
-        swipeRefreshLayout = rootView.findViewById(R.id.swipe_refresh_layout);
-        swipeRefreshLayout.setOnRefreshListener(this);
-        swipeRefreshLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                swipeRefreshLayout.setRefreshing(true);
-                loadView();
+            if (items == null || items.size() == 0) {
+                rootView = inflater.inflate(R.layout.empty_view_layout, container, false);
+                ((TextView) rootView.findViewById(R.id.empty_view_text)).setText("Your watchlist is empty");
             }
-        });
+            else
+                rootView = inflater.inflate(R.layout.watchlist_tab, container, false);
+        }
 
-        recyclerView = rootView.findViewById(R.id.recycler_view);
-        recyclerView.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(rootView.getContext());
-        recyclerView.setLayoutManager(layoutManager);
+        if (items != null && items.size() > 0) {
+            spinKit = rootView.findViewById(R.id.spin_kit_watchlist);
 
+            swipeRefreshLayout = rootView.findViewById(R.id.swipe_refresh_layout);
+            swipeRefreshLayout.setOnRefreshListener(this);
+            swipeRefreshLayout.post(new Runnable() {
+                @Override
+                public void run() {
+                    swipeRefreshLayout.setRefreshing(true);
+                    loadView();
+                }
+            });
+            recyclerView = rootView.findViewById(R.id.recycler_view);
+            recyclerView.setHasFixedSize(true);
+            layoutManager = new LinearLayoutManager(rootView.getContext());
+            recyclerView.setLayoutManager(layoutManager);
+        }
         return rootView;
     }
 
@@ -82,23 +90,30 @@ public class WatchlistTab extends Fragment implements SwipeRefreshLayout.OnRefre
     }
 
     private void loadView() {
-
-        currency = sharedPreferences.getString(Constants.PREFERENCE_CURRENCY, "");
-        if (currency.equals("")) currency = Constants.DEFAULT_CURRENCY;
         swipeRefreshLayout.setRefreshing(true);
-        spinKit.setVisibility(View.VISIBLE);
-        watchlistArray = new ArrayList<>();
-        adapter = new WatchlistRecyclerViewAdapter(watchlistArray, WatchlistTab.this);
-        recyclerView.setAdapter(adapter);
-        if (myGlobalsFunctions.isNetworkConnected()) {
-            count = 0;
-            for (int i = 0; i < items.size(); ++i) {
-                String cryptoID = items.get(i);
-                url = "https://api.coinmarketcap.com/v1/ticker/" + cryptoID + "/?convert=" + currency.toUpperCase();
-                String imageUrl = "https://files.coinmarketcap.com/static/img/coins/32x32/"+cryptoID+".png";
-                String highLowUrl = "https://www.coingecko.com/en/price_charts/" + cryptoID + "/" + currency.toLowerCase() + "/24_hours.json";
-                new JSONTask().execute(url, imageUrl, highLowUrl, cryptoID);
+        if (items != null && items.size() > 0) {
+            currency = sharedPreferences.getString(Constants.PREFERENCE_CURRENCY, "");
+            if (currency.equals("")) currency = Constants.DEFAULT_CURRENCY;
+            spinKit.setVisibility(View.VISIBLE);
+            watchlistArray = new ArrayList<>();
+            adapter = new WatchlistRecyclerViewAdapter(watchlistArray, WatchlistTab.this);
+            recyclerView.setAdapter(adapter);
+            if (myGlobalsFunctions.isNetworkConnected()) {
+                count = 0;
+                for (int i = 0; i < items.size(); ++i) {
+                    String cryptoID = items.get(i);
+                    url = "https://api.coinmarketcap.com/v1/ticker/" + cryptoID + "/?convert=" + currency.toUpperCase();
+                    String imageUrl = "https://files.coinmarketcap.com/static/img/coins/32x32/" + cryptoID + ".png";
+                    String highLowUrl = "https://www.coingecko.com/en/price_charts/" + cryptoID + "/" + currency.toLowerCase() + "/24_hours.json";
+                    new JSONTask().execute(url, imageUrl, highLowUrl, cryptoID);
+                }
             }
+        }
+        else {
+            LayoutInflater inflater = (LayoutInflater) this.getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            ((RelativeLayout) rootView.findViewById(R.id.main_view)).addView(inflater.inflate(R.layout.empty_view_layout, ((ViewGroup)getView().getParent()), false));
+            ((TextView) rootView.findViewById(R.id.empty_view_text)).setText("Your watchlist is empty");
+            rootView.refreshDrawableState();
         }
         swipeRefreshLayout.setRefreshing(false);
     }
@@ -144,7 +159,7 @@ public class WatchlistTab extends Fragment implements SwipeRefreshLayout.OnRefre
 
         currency_details.setCryptoID( myGlobalsFunctions.nullCheck(parentObject.getString("id")) );
         currency_details.setIcon(iconUrl);
-        watchlistArray.add(currency_details);
+         watchlistArray.add(currency_details);
     }
 
     public class JSONTask extends AsyncTask<String,String, String > {

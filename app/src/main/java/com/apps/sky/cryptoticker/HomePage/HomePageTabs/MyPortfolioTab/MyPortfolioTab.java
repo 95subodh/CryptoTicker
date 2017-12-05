@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -84,33 +85,41 @@ public class MyPortfolioTab extends Fragment implements SwipeRefreshLayout.OnRef
                              Bundle savedInstanceState) {
 
         if (rootView == null) {
-            rootView = inflater.inflate(R.layout.my_portfolio_tab, container, false);
-            RelativeLayout current_portfolio_layout = (RelativeLayout) inflater.inflate(R.layout.my_current_portfolio_card, null, false);
-            RelativeLayout current_portfolio_view = rootView.findViewById(R.id.my_current_portfolio_view);
-            current_portfolio_view.addView(current_portfolio_layout);
-            myCurrentPortfolioView = current_portfolio_view;
+            if (myPortfolioItems == null || myPortfolioItems.size() == 0) {
+                rootView = inflater.inflate(R.layout.empty_view_layout, container, false);
+                ((TextView) rootView.findViewById(R.id.empty_view_text)).setText("Your portfolio is empty");
+            }
+            else {
+                rootView = inflater.inflate(R.layout.my_portfolio_tab, container, false);
+                RelativeLayout current_portfolio_layout = (RelativeLayout) inflater.inflate(R.layout.my_current_portfolio_card, container, false);
+                RelativeLayout current_portfolio_view = rootView.findViewById(R.id.my_current_portfolio_view);
+                current_portfolio_view.addView(current_portfolio_layout);
+                myCurrentPortfolioView = current_portfolio_view;
 
-            RelativeLayout my_portfolio_layout = (RelativeLayout) inflater.inflate(R.layout.my_portfolio_card, null, false);
-            RelativeLayout my_portfolio_view = rootView.findViewById(R.id.my_portfolio_view);
-            my_portfolio_view.addView(my_portfolio_layout);
-            myPortfolioView = my_portfolio_view;
+                RelativeLayout my_portfolio_layout = (RelativeLayout) inflater.inflate(R.layout.my_portfolio_card, container, false);
+                RelativeLayout my_portfolio_view = rootView.findViewById(R.id.my_portfolio_view);
+                my_portfolio_view.addView(my_portfolio_layout);
+                myPortfolioView = my_portfolio_view;
+            }
         }
 
-        spinKit = rootView.findViewById(R.id.spin_kit_portfolio);
-        swipeRefreshLayout = rootView.findViewById(R.id.swipe_refresh_layout);
-        swipeRefreshLayout.setOnRefreshListener(this);
-        swipeRefreshLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                swipeRefreshLayout.setRefreshing(true);
-                loadView();
-            }
-        });
+        if (myPortfolioItems != null && myPortfolioItems.size() > 0) {
+            spinKit = rootView.findViewById(R.id.spin_kit_portfolio);
+            swipeRefreshLayout = rootView.findViewById(R.id.swipe_refresh_layout);
+            swipeRefreshLayout.setOnRefreshListener(this);
+            swipeRefreshLayout.post(new Runnable() {
+                @Override
+                public void run() {
+                    swipeRefreshLayout.setRefreshing(true);
+                    loadView();
+                }
+            });
 
-        recyclerView = rootView.findViewById(R.id.recycler_view);
-        recyclerView.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(rootView.getContext());
-        recyclerView.setLayoutManager(layoutManager);
+            recyclerView = rootView.findViewById(R.id.recycler_view);
+            recyclerView.setHasFixedSize(true);
+            layoutManager = new LinearLayoutManager(rootView.getContext());
+            recyclerView.setLayoutManager(layoutManager);
+        }
         return rootView;
     }
 
@@ -121,55 +130,66 @@ public class MyPortfolioTab extends Fragment implements SwipeRefreshLayout.OnRef
 
     private void loadView() {
         swipeRefreshLayout.setRefreshing(true);
-        spinKit.setVisibility(View.VISIBLE);
-        totalCost = 0; totalPrice = 0; count = 0;
-        myPortfolioArray = new ArrayList<>();
-        adapter = new MyPortfolioRecyclerViewAdapter(myPortfolioArray,MyPortfolioTab.this);
-        recyclerView.setAdapter(adapter);
+        if (myPortfolioItems != null && myPortfolioItems.size() > 0) {
+            spinKit.setVisibility(View.VISIBLE);
+            totalCost = 0;
+            totalPrice = 0;
+            count = 0;
+            myPortfolioArray = new ArrayList<>();
+            adapter = new MyPortfolioRecyclerViewAdapter(myPortfolioArray, MyPortfolioTab.this);
+            recyclerView.setAdapter(adapter);
 
-        if (myGlobalsFunctions.isNetworkConnected()) {
+            if (myGlobalsFunctions.isNetworkConnected()) {
 
-            prevCurrency = sharedPreferences.getString(Constants.PREV_PORTFOLIO_CURRENCY, "");
-            if (prevCurrency.equals("")) {
-                prevCurrency = Constants.DEFAULT_CURRENCY;
-            }
+                prevCurrency = sharedPreferences.getString(Constants.PREV_PORTFOLIO_CURRENCY, "");
+                if (prevCurrency.equals("")) {
+                    prevCurrency = Constants.DEFAULT_CURRENCY;
+                }
 
-            currCurrency = sharedPreferences.getString(Constants.PREFERENCE_CURRENCY, "");
-            if (currCurrency.equals("")) currCurrency = Constants.DEFAULT_CURRENCY;
+                currCurrency = sharedPreferences.getString(Constants.PREFERENCE_CURRENCY, "");
+                if (currCurrency.equals("")) currCurrency = Constants.DEFAULT_CURRENCY;
 
-            if (!prevCurrency.equals(currCurrency)) isCurrencyChanged = Boolean.TRUE;
+                if (!prevCurrency.equals(currCurrency)) isCurrencyChanged = Boolean.TRUE;
 
-            exchangeRateURL = "https://free.currencyconverterapi.com/api/v4/convert?q="+ prevCurrency + "_" + currCurrency + "&compact=y";
+                exchangeRateURL = "https://free.currencyconverterapi.com/api/v4/convert?q=" + prevCurrency + "_" + currCurrency + "&compact=y";
 
-            if (isCurrencyChanged) {
-                myPortfolioItems = new ArrayList<>();
+                if (isCurrencyChanged) {
+                    myPortfolioItems = new ArrayList<>();
 
-                String json = myGlobalsFunctions.retieveStringFromFile(getString(R.string.crypto_my_portfolio_file), getString(R.string.crypto_my_portfolio_dir));
+                    String json = myGlobalsFunctions.retieveStringFromFile(getString(R.string.crypto_my_portfolio_file), getString(R.string.crypto_my_portfolio_dir));
 
-                try {
-                    if (json != null) myPortfolioItems = gson.fromJson(json, type);
-                    new minorJSONTask().execute().get();
-                    Thread.sleep(1000);
-                } catch (InterruptedException | ExecutionException e) {
-                    e.printStackTrace();
+                    try {
+                        if (json != null) myPortfolioItems = gson.fromJson(json, type);
+                        new minorJSONTask().execute().get();
+                        Thread.sleep(1000);
+                    } catch (InterruptedException | ExecutionException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                for (int i = 0; i < myPortfolioItems.size(); ++i) {
+                    curItem = myPortfolioItems.get(i);
+                    cryptoID = curItem.getCryptoID();
+                    url = "https://api.coinmarketcap.com/v1/ticker/" + cryptoID + "/?convert=" + currency.toUpperCase();
+                    String iconUrl = "https://files.coinmarketcap.com/static/img/coins/32x32/" + cryptoID + ".png";
+                    float quantity = 0, cost = 0;
+                    for (TradeObject item : curItem.getTrades()) {
+                        float q = Float.parseFloat(item.getQuantity());
+                        cost += (Float.parseFloat(item.getCost()) * q);
+                        quantity += Float.parseFloat(item.getQuantity());
+                    }
+                    new JSONTask().execute(url, iconUrl, String.valueOf(cost), String.valueOf(quantity));
                 }
             }
-
-            for (int i = 0; i < myPortfolioItems.size(); ++i) {
-                curItem = myPortfolioItems.get(i);
-                cryptoID = curItem.getCryptoID();
-                url = "https://api.coinmarketcap.com/v1/ticker/" + cryptoID + "/?convert=" + currency.toUpperCase();
-                String iconUrl = "https://files.coinmarketcap.com/static/img/coins/32x32/" + cryptoID + ".png";
-                float quantity = 0, cost = 0;
-                for (TradeObject item : curItem.getTrades()) {
-                    float q = Float.parseFloat(item.getQuantity());
-                    cost += (Float.parseFloat(item.getCost()) * q);
-                    quantity += Float.parseFloat(item.getQuantity());
-                }
-                new JSONTask().execute(url, iconUrl, String.valueOf(cost), String.valueOf(quantity));
-            }
+            setCurrentPortfolioValues();
         }
-        setCurrentPortfolioValues();
+        else {
+            LayoutInflater inflater = (LayoutInflater) this.getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            ((LinearLayout) rootView.findViewById(R.id.main_view)).removeAllViews();
+            ((LinearLayout) rootView.findViewById(R.id.main_view)).addView(inflater.inflate(R.layout.empty_view_layout, ((ViewGroup)getView().getParent()), false));
+            ((TextView) rootView.findViewById(R.id.empty_view_text)).setText("Your portfolio is empty");
+            rootView.refreshDrawableState();
+        }
         swipeRefreshLayout.setRefreshing(false);
     }
 
@@ -264,23 +284,25 @@ public class MyPortfolioTab extends Fragment implements SwipeRefreshLayout.OnRef
         protected String doInBackground(String... params) {
             try {
                 String finalJson = myGlobalsFunctions.fetchJSONasString(params[0]);
-                JSONArray jarr = new JSONArray(finalJson);
+                if (finalJson != null) {
+                    JSONArray jarr = new JSONArray(finalJson);
 
-                JSONObject parentObject = jarr.getJSONObject(0);
-                MyPortfolioObject currency_details = new MyPortfolioObject();
-                currency_details.setContext(getContext());
-                currency_details.setTitle(parentObject.getString("name"));
-                currency_details.setIcon(params[1]);
-                currency_details.setCryptoID(parentObject.getString("id"));
+                    JSONObject parentObject = jarr.getJSONObject(0);
+                    MyPortfolioObject currency_details = new MyPortfolioObject();
+                    currency_details.setContext(getContext());
+                    currency_details.setTitle(parentObject.getString("name"));
+                    currency_details.setIcon(params[1]);
+                    currency_details.setCryptoID(parentObject.getString("id"));
 
-                String price = parentObject.getString("price_" + currency.toLowerCase());
+                    String price = parentObject.getString("price_" + currency.toLowerCase());
 
-                String profitPer = calcMyProfitPercentage(params[2], params[3], price) + "%";
-                currency_details.setCurrentValue(Float.toString(Float.parseFloat(params[3])*Float.parseFloat(price)));
-                currency_details.setMyProfit(profitPer);
-                if (profitPer.charAt(0) == '-') currency_details.setChangeColor(false);
-                else currency_details.setChangeColor(true);
-                myPortfolioArray.add(currency_details);
+                    String profitPer = calcMyProfitPercentage(params[2], params[3], price) + "%";
+                    currency_details.setCurrentValue(Float.toString(Float.parseFloat(params[3]) * Float.parseFloat(price)));
+                    currency_details.setMyProfit(profitPer);
+                    if (profitPer.charAt(0) == '-') currency_details.setChangeColor(false);
+                    else currency_details.setChangeColor(true);
+                    myPortfolioArray.add(currency_details);
+                }
                 return finalJson;
 
             } catch (IOException | JSONException e) {
