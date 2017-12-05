@@ -159,7 +159,7 @@ public class WatchlistTab extends Fragment implements SwipeRefreshLayout.OnRefre
 
         currency_details.setCryptoID( myGlobalsFunctions.nullCheck(parentObject.getString("id")) );
         currency_details.setIcon(iconUrl);
-         watchlistArray.add(currency_details);
+        watchlistArray.add(currency_details);
     }
 
     public class JSONTask extends AsyncTask<String,String, String > {

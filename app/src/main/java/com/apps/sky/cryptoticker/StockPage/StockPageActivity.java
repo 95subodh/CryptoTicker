@@ -33,7 +33,7 @@ public class StockPageActivity extends AppCompatActivity {
     private String cryptoID, cryptoName;
     private Boolean isFabOpen = false;
     private MyGlobalsFunctions myGlobalsFunctions;
-    private FloatingActionButton add, fab1, fab2;
+    private FloatingActionButton add;
     private View fab1_view, fab2_view;
     private Animation fab_open, fab_close, rotate_forward, rotate_backward;
 

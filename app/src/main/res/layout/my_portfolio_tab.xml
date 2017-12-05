@@ -6,17 +6,17 @@
     tools:context=".HomePage.HomePageTabs.MyPortfolioTab.MyPortfolioTab">
 
     <ScrollView
+        android:isScrollContainer="true"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:scrollbars="none">
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/main_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:orientation="vertical">
+            android:layout_marginRight="8dp">
 
             <RelativeLayout
                 android:id="@+id/my_current_portfolio_view"
@@ -27,12 +27,13 @@
 
             <RelativeLayout
                 android:id="@+id/my_portfolio_view"
+                android:layout_below="@+id/my_current_portfolio_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
             </RelativeLayout>
 
-        </LinearLayout>
+        </RelativeLayout>
 
     </ScrollView>
 
