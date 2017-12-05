@@ -284,23 +284,25 @@ public class MyPortfolioTab extends Fragment implements SwipeRefreshLayout.OnRef
         protected String doInBackground(String... params) {
             try {
                 String finalJson = myGlobalsFunctions.fetchJSONasString(params[0]);
-                JSONArray jarr = new JSONArray(finalJson);
+                if (finalJson != null) {
+                    JSONArray jarr = new JSONArray(finalJson);
 
-                JSONObject parentObject = jarr.getJSONObject(0);
-                MyPortfolioObject currency_details = new MyPortfolioObject();
-                currency_details.setContext(getContext());
-                currency_details.setTitle(parentObject.getString("name"));
-                currency_details.setIcon(params[1]);
-                currency_details.setCryptoID(parentObject.getString("id"));
+                    JSONObject parentObject = jarr.getJSONObject(0);
+                    MyPortfolioObject currency_details = new MyPortfolioObject();
+                    currency_details.setContext(getContext());
+                    currency_details.setTitle(parentObject.getString("name"));
+                    currency_details.setIcon(params[1]);
+                    currency_details.setCryptoID(parentObject.getString("id"));
 
-                String price = parentObject.getString("price_" + currency.toLowerCase());
+                    String price = parentObject.getString("price_" + currency.toLowerCase());
 
-                String profitPer = calcMyProfitPercentage(params[2], params[3], price) + "%";
-                currency_details.setCurrentValue(Float.toString(Float.parseFloat(params[3])*Float.parseFloat(price)));
-                currency_details.setMyProfit(profitPer);
-                if (profitPer.charAt(0) == '-') currency_details.setChangeColor(false);
-                else currency_details.setChangeColor(true);
-                myPortfolioArray.add(currency_details);
+                    String profitPer = calcMyProfitPercentage(params[2], params[3], price) + "%";
+                    currency_details.setCurrentValue(Float.toString(Float.parseFloat(params[3]) * Float.parseFloat(price)));
+                    currency_details.setMyProfit(profitPer);
+                    if (profitPer.charAt(0) == '-') currency_details.setChangeColor(false);
+                    else currency_details.setChangeColor(true);
+                    myPortfolioArray.add(currency_details);
+                }
                 return finalJson;
 
             } catch (IOException | JSONException e) {
