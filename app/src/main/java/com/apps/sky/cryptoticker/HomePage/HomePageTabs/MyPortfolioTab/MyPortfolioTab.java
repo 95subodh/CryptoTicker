@@ -46,7 +46,7 @@ public class MyPortfolioTab extends Fragment implements SwipeRefreshLayout.OnRef
     Gson gson;
     Type type;
 
-    String url, exchangeRateURL, cryptoID, currency, prevCurrency, currCurrency;
+    String url, exchangeRateURL, currency, prevCurrency, currCurrency;
     Boolean isCurrencyChanged = Boolean.FALSE;
     double conversion = 1.0;
     float totalCost = 0, totalPrice = 0;
@@ -161,7 +161,7 @@ public class MyPortfolioTab extends Fragment implements SwipeRefreshLayout.OnRef
                     try {
                         if (json != null) myPortfolioItems = gson.fromJson(json, type);
                         new minorJSONTask().execute().get();
-                        Thread.sleep(10);
+                        Thread.sleep(2000);
                     } catch (InterruptedException | ExecutionException e) {
                         e.printStackTrace();
                     }
@@ -177,7 +177,7 @@ public class MyPortfolioTab extends Fragment implements SwipeRefreshLayout.OnRef
                 }
                 for (int i = 0; i < myPortfolioItems.size(); ++i) {
                     curItem = myPortfolioItems.get(i);
-                    cryptoID = curItem.getCryptoID();
+                    String cryptoID = curItem.getCryptoID();
                     url = "https://api.coinmarketcap.com/v1/ticker/" + cryptoID + "/?convert=" + currency.toUpperCase();
                     String iconUrl = "https://files.coinmarketcap.com/static/img/coins/32x32/" + cryptoID + ".png";
                     float quantity = 0, cost = 0;
@@ -264,7 +264,6 @@ public class MyPortfolioTab extends Fragment implements SwipeRefreshLayout.OnRef
 
             for (int i = 0; i < myPortfolioItems.size(); ++i) {
                 curItem = myPortfolioItems.get(i);
-                cryptoID = curItem.getCryptoID();
                 float cost;
                 for (TradeObject item : curItem.getTrades()) {
                     cost = Float.parseFloat(item.getCost());
@@ -297,7 +296,7 @@ public class MyPortfolioTab extends Fragment implements SwipeRefreshLayout.OnRef
 
                     int cardPosition = 0;
                     for (int i = 0; i < myPortfolioArrayTemp.size(); ++i) {
-                        if (myPortfolioArrayTemp.get(i).getCryptoID().equals(cryptoID)) {
+                        if (myPortfolioArrayTemp.get(i).getCryptoID().equals(params[4])) {
                             cardPosition = i; break;
                         }
                     }
@@ -321,7 +320,7 @@ public class MyPortfolioTab extends Fragment implements SwipeRefreshLayout.OnRef
             } catch (IOException | JSONException e) {
                 e.printStackTrace();
             }
-            return  null;
+            return null;
         }
 
         @Override
