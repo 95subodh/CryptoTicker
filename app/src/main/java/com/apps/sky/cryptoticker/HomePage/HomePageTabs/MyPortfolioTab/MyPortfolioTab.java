@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -191,8 +192,8 @@ public class MyPortfolioTab extends Fragment implements SwipeRefreshLayout.OnRef
         }
         else {
             LayoutInflater inflater = (LayoutInflater) this.getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            ((RelativeLayout) rootView.findViewById(R.id.main_view)).removeAllViews();
-            ((RelativeLayout) rootView.findViewById(R.id.main_view)).addView(inflater.inflate(R.layout.empty_view_layout, ((ViewGroup)getView().getParent()), false));
+            ((LinearLayout) rootView.findViewById(R.id.main_view)).removeAllViews();
+            ((LinearLayout) rootView.findViewById(R.id.main_view)).addView(inflater.inflate(R.layout.empty_view_layout, ((ViewGroup)getView().getParent()), false));
             ((TextView) rootView.findViewById(R.id.empty_view_text)).setText("Your portfolio is empty");
             rootView.refreshDrawableState();
         }

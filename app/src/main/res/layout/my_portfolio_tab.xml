@@ -6,7 +6,6 @@
     tools:context=".HomePage.HomePageTabs.MyPortfolioTab.MyPortfolioTab">
 
     <ScrollView
-        android:isScrollContainer="true"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:scrollbars="none">
@@ -29,7 +28,6 @@
 
             <RelativeLayout
                 android:id="@+id/my_portfolio_view"
-                android:layout_below="@+id/my_current_portfolio_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
