@@ -11,12 +11,14 @@
         android:layout_height="fill_parent"
         android:scrollbars="none">
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/main_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp">
+            android:layout_marginRight="8dp"
+            android:descendantFocusability="blocksDescendants"
+            android:orientation="vertical">
 
             <RelativeLayout
                 android:id="@+id/my_current_portfolio_view"
@@ -33,7 +35,7 @@
 
             </RelativeLayout>
 
-        </RelativeLayout>
+        </LinearLayout>
 
     </ScrollView>
 
