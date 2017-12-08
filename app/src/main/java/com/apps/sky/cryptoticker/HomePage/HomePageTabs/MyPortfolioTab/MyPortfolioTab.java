@@ -110,7 +110,6 @@ public class MyPortfolioTab extends Fragment implements SwipeRefreshLayout.OnRef
             swipeRefreshLayout.post(new Runnable() {
                 @Override
                 public void run() {
-                    swipeRefreshLayout.setRefreshing(true);
                     loadView();
                 }
             });

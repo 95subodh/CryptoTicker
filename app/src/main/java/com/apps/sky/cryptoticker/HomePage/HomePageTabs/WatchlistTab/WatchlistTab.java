@@ -170,7 +170,6 @@ public class WatchlistTab extends Fragment implements SwipeRefreshLayout.OnRefre
             if (change.charAt(0) == '-') watchlistArrayTemp.get(cardPosition).setChangeColor(false);
             else watchlistArrayTemp.get(cardPosition).setChangeColor(true);
         }
-
         watchlistArrayTemp.get(cardPosition).setCryptoID( myGlobalsFunctions.nullCheck(parentObject.getString("id")) );
         watchlistArrayTemp.get(cardPosition).setIcon(iconUrl);
     }
