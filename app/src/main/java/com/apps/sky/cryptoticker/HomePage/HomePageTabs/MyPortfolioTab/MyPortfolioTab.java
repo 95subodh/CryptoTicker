@@ -45,14 +45,14 @@ public class MyPortfolioTab extends Fragment implements SwipeRefreshLayout.OnRef
     Gson gson;
     Type type;
 
-    String url, exchangeRateURL, cryptoID, currency, prevCurrency, currCurrency;
+    String url, exchangeRateURL, currency, prevCurrency, currCurrency;
     Boolean isCurrencyChanged = Boolean.FALSE;
     double conversion = 1.0;
     float totalCost = 0, totalPrice = 0;
     MyGlobalsFunctions myGlobalsFunctions;
     ArrayList<CryptoTradeObject> myPortfolioItems;
     CryptoTradeObject curItem = new CryptoTradeObject();
-    ArrayList<MyPortfolioObject> myPortfolioArray = new ArrayList<>();
+    ArrayList<MyPortfolioObject> myPortfolioArray, myPortfolioArrayTemp;
     SharedPreferences sharedPreferences;
     SwipeRefreshLayout swipeRefreshLayout;
     SpinKitView spinKit;
@@ -159,15 +159,23 @@ public class MyPortfolioTab extends Fragment implements SwipeRefreshLayout.OnRef
                     try {
                         if (json != null) myPortfolioItems = gson.fromJson(json, type);
                         new minorJSONTask().execute().get();
-                        Thread.sleep(1000);
+                        Thread.sleep(2000);
                     } catch (InterruptedException | ExecutionException e) {
                         e.printStackTrace();
                     }
                 }
 
+                myPortfolioArrayTemp = new ArrayList<>();
+                for (int i = 0; i < myPortfolioItems.size(); ++i) {
+                    String cryptoID = myPortfolioItems.get(i).getCryptoID();
+
+                    MyPortfolioObject x = new MyPortfolioObject();
+                    x.setCryptoID(cryptoID);
+                    myPortfolioArrayTemp.add(x);
+                }
                 for (int i = 0; i < myPortfolioItems.size(); ++i) {
                     curItem = myPortfolioItems.get(i);
-                    cryptoID = curItem.getCryptoID();
+                    String cryptoID = curItem.getCryptoID();
                     url = "https://api.coinmarketcap.com/v1/ticker/" + cryptoID + "/?convert=" + currency.toUpperCase();
                     String iconUrl = "https://files.coinmarketcap.com/static/img/coins/32x32/" + cryptoID + ".png";
                     float quantity = 0, cost = 0;
@@ -176,7 +184,7 @@ public class MyPortfolioTab extends Fragment implements SwipeRefreshLayout.OnRef
                         cost += (Float.parseFloat(item.getCost()) * q);
                         quantity += Float.parseFloat(item.getQuantity());
                     }
-                    new JSONTask().execute(url, iconUrl, String.valueOf(cost), String.valueOf(quantity));
+                    new JSONTask().execute(url, iconUrl, String.valueOf(cost), String.valueOf(quantity), cryptoID);
                 }
             }
             setCurrentPortfolioValues();
@@ -254,7 +262,6 @@ public class MyPortfolioTab extends Fragment implements SwipeRefreshLayout.OnRef
 
             for (int i = 0; i < myPortfolioItems.size(); ++i) {
                 curItem = myPortfolioItems.get(i);
-                cryptoID = curItem.getCryptoID();
                 float cost;
                 for (TradeObject item : curItem.getTrades()) {
                     cost = Float.parseFloat(item.getCost());
@@ -285,28 +292,33 @@ public class MyPortfolioTab extends Fragment implements SwipeRefreshLayout.OnRef
                 if (finalJson != null) {
                     JSONArray jarr = new JSONArray(finalJson);
 
+                    int cardPosition = 0;
+                    for (int i = 0; i < myPortfolioArrayTemp.size(); ++i) {
+                        if (myPortfolioArrayTemp.get(i).getCryptoID().equals(params[4])) {
+                            cardPosition = i; break;
+                        }
+                    }
+
                     JSONObject parentObject = jarr.getJSONObject(0);
-                    MyPortfolioObject currency_details = new MyPortfolioObject();
-                    currency_details.setContext(getContext());
-                    currency_details.setTitle(parentObject.getString("name"));
-                    currency_details.setIcon(params[1]);
-                    currency_details.setCryptoID(parentObject.getString("id"));
+                    myPortfolioArrayTemp.get(cardPosition).setContext(getContext());
+                    myPortfolioArrayTemp.get(cardPosition).setTitle(parentObject.getString("name"));
+                    myPortfolioArrayTemp.get(cardPosition).setIcon(params[1]);
+                    myPortfolioArrayTemp.get(cardPosition).setCryptoID(parentObject.getString("id"));
 
                     String price = parentObject.getString("price_" + currency.toLowerCase());
 
                     String profitPer = calcMyProfitPercentage(params[2], params[3], price) + "%";
-                    currency_details.setCurrentValue(Float.toString(Float.parseFloat(params[3]) * Float.parseFloat(price)));
-                    currency_details.setMyProfit(profitPer);
-                    if (profitPer.charAt(0) == '-') currency_details.setChangeColor(false);
-                    else currency_details.setChangeColor(true);
-                    myPortfolioArray.add(currency_details);
+                    myPortfolioArrayTemp.get(cardPosition).setCurrentValue(Float.toString(Float.parseFloat(params[3]) * Float.parseFloat(price)));
+                    myPortfolioArrayTemp.get(cardPosition).setMyProfit(profitPer);
+                    if (profitPer.charAt(0) == '-') myPortfolioArrayTemp.get(cardPosition).setChangeColor(false);
+                    else myPortfolioArrayTemp.get(cardPosition).setChangeColor(true);
                 }
                 return finalJson;
 
             } catch (IOException | JSONException e) {
                 e.printStackTrace();
             }
-            return  null;
+            return null;
         }
 
         @Override
@@ -315,6 +327,7 @@ public class MyPortfolioTab extends Fragment implements SwipeRefreshLayout.OnRef
 
             count++;
             if (count==myPortfolioItems.size()) {
+                myPortfolioArray.addAll(myPortfolioArrayTemp);
                 adapter = new MyPortfolioRecyclerViewAdapter(myPortfolioArray,MyPortfolioTab.this);
                 recyclerView.setAdapter(adapter);
                 setCurrentPortfolioValues();

@@ -354,6 +354,16 @@
                 app:egShowStandardValue="true"
                 app:egUseOverlapFill="true"/>
 
+            <com.github.ybq.android.spinkit.SpinKitView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/spin_kit_stock_info"
+                style="@style/SpinKitView.Small.Circle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                app:SpinKit_Color="@color/colorPrimary" />
+
         </RelativeLayout>
 
     </RelativeLayout>
