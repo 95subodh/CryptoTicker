@@ -1,7 +1,7 @@
 package com.apps.sky.cryptoticker.StockPage.StockNewsTab;
 
 import android.content.Context;
-import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 
 import com.apps.sky.cryptoticker.Global.MyGlobalsFunctions;
 
@@ -11,14 +11,14 @@ import com.apps.sky.cryptoticker.Global.MyGlobalsFunctions;
 
 public class NewsObject {
     private String title, publishedDate, link, author;
-    private Bitmap btmp;
+    private Drawable img;
     private MyGlobalsFunctions myGlobalsFunctions;
 
-    public String getAuthor() {
+    String getAuthor() {
         return author;
     }
 
-    public void setAuthor(String author) {
+    void setAuthor(String author) {
         this.author = author;
     }
 
@@ -30,27 +30,23 @@ public class NewsObject {
         this.title = title;
     }
 
-    public String getPublishedDate() {
+    String getPublishedDate() {
         return publishedDate;
     }
 
-    public void setPublishedDate(String originalDate) { this.publishedDate = myGlobalsFunctions.getWeekDayFormattedDate(originalDate); }
+    void setPublishedDate(String originalDate) { this.publishedDate = myGlobalsFunctions.getWeekDayFormattedDate(originalDate); }
 
-    public String getURL() {
+    String getURL() {
         return link;
     }
 
-    public void setURL(String link) {
-        this.link = link;
+    void setURL(String link) { this.link = link; }
+
+    Drawable getImage() {
+        return img;
     }
 
-    public Bitmap getImage() {
-        return btmp;
-    }
+    void setImage(Drawable image) { this.img = image; }
 
-    public void setImage(String ImageUrl) { this.btmp = myGlobalsFunctions.convertImageURLtoBitmap(ImageUrl); }
-
-    public void setContext(Context context) {
-        myGlobalsFunctions = new MyGlobalsFunctions(context);
-    }
+    public void setContext(Context context) { myGlobalsFunctions = new MyGlobalsFunctions(context);}
 }

@@ -1,5 +1,6 @@
 package com.apps.sky.cryptoticker.StockPage.StockNewsTab;
 
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -35,6 +36,7 @@ public class StockNewsTab extends Fragment {
     String language = "en";
     String status, url;
     ArrayList<NewsObject> news = new ArrayList<>();
+    private ArrayList<Drawable> mNewsIcons = new ArrayList<>();
 
     private RecyclerView recyclerView;
     RecyclerView.Adapter adapter;
@@ -55,6 +57,27 @@ public class StockNewsTab extends Fragment {
         if (myGlobalsFunctions.isNetworkConnected()) {
             new JSONTask().execute(url);
         }
+
+        mNewsIcons.add(rootView.getResources().getDrawable(R.drawable.news_image_1));
+        mNewsIcons.add(rootView.getResources().getDrawable(R.drawable.news_image_2));
+        mNewsIcons.add(rootView.getResources().getDrawable(R.drawable.news_image_3));
+        mNewsIcons.add(rootView.getResources().getDrawable(R.drawable.news_image_4));
+        mNewsIcons.add(rootView.getResources().getDrawable(R.drawable.news_image_5));
+        mNewsIcons.add(rootView.getResources().getDrawable(R.drawable.news_image_6));
+        mNewsIcons.add(rootView.getResources().getDrawable(R.drawable.news_image_7));
+        mNewsIcons.add(rootView.getResources().getDrawable(R.drawable.news_image_8));
+        mNewsIcons.add(rootView.getResources().getDrawable(R.drawable.news_image_9));
+        mNewsIcons.add(rootView.getResources().getDrawable(R.drawable.news_image_10));
+        mNewsIcons.add(rootView.getResources().getDrawable(R.drawable.news_image_11));
+        mNewsIcons.add(rootView.getResources().getDrawable(R.drawable.news_image_12));
+        mNewsIcons.add(rootView.getResources().getDrawable(R.drawable.news_image_13));
+        mNewsIcons.add(rootView.getResources().getDrawable(R.drawable.news_image_14));
+        mNewsIcons.add(rootView.getResources().getDrawable(R.drawable.news_image_15));
+        mNewsIcons.add(rootView.getResources().getDrawable(R.drawable.news_image_16));
+        mNewsIcons.add(rootView.getResources().getDrawable(R.drawable.news_image_17));
+        mNewsIcons.add(rootView.getResources().getDrawable(R.drawable.news_image_18));
+        mNewsIcons.add(rootView.getResources().getDrawable(R.drawable.news_image_19));
+        mNewsIcons.add(rootView.getResources().getDrawable(R.drawable.news_image_20));
 
         recyclerView = rootView.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
@@ -80,6 +103,14 @@ public class StockNewsTab extends Fragment {
             currentNews.setPublishedDate(obj.getString("publishedAt"));
             currentNews.setAuthor(obj.getJSONObject("source").getString("name"));
             currentNews.setURL(obj.getString("url"));
+
+            int hash = 7;
+            String title = obj.getString("title") + obj.getString("url");
+            for (int j = 0, len = title.length(); j < len; j++) {
+                hash = title.codePointAt(j) + (hash << 5) - hash;
+            }
+            int index = Math.abs(hash % mNewsIcons.size());
+            currentNews.setImage(mNewsIcons.get(index));
 //            currentNews.setImage(obj.getString("urlToImage"));
 
             news.add(i, currentNews);
