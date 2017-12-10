@@ -73,7 +73,7 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
         ((DataObjectHolder)holder).author.setText(mDataset.get(position).getAuthor());
         ((DataObjectHolder)holder).url = mDataset.get(position).getURL();
         ((DataObjectHolder)holder).publishedAt.setText(mDataset.get(position).getPublishedDate());
-        ((DataObjectHolder)holder).img.setImageBitmap(mDataset.get(position).getImage());
+        ((DataObjectHolder)holder).img.setImageDrawable(mDataset.get(position).getImage());
     }
 
     @Override
