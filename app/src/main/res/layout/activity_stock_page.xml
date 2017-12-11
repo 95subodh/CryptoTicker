@@ -31,7 +31,7 @@
                 android:textSize="@dimen/medium_text"
                 android:textStyle="bold"
                 android:fontFamily="sans-serif-condensed"
-                android:textColor="@color/white"/>
+                android:textColor="@color/pure_white"/>
 
         </android.support.v7.widget.Toolbar>
 
@@ -58,7 +58,7 @@
             android:id="@+id/add_currency"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:tint="@color/colorAccentLight"
+            android:tint="@color/pure_white"
             app:backgroundTint="@color/colorPrimary"
             android:layout_margin="6dp"
             app:elevation="4dp"
@@ -81,7 +81,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginHorizontal="@dimen/fab_margin"
-            android:background="@color/colorAccentLight"
+            android:background="@color/pure_white"
             android:elevation="4dp" >
 
             <TextView
@@ -91,7 +91,7 @@
                 android:layout_marginHorizontal="6dp"
                 android:text="Add to My Portfolio"
                 android:textSize="16sp"
-                android:textColor="@color/colorPrimaryDark"/>
+                android:textColor="@color/colorPrimary"/>
 
         </RelativeLayout>
 
@@ -99,8 +99,8 @@
             android:id="@+id/fab2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:tint="@color/colorPrimaryDark"
-            app:backgroundTint="@color/colorAccentLight"
+            android:tint="@color/pure_white"
+            app:backgroundTint="@color/colorPrimary"
             android:layout_marginVertical="6dp"
             android:layout_marginRight="6dp"
             app:elevation="4dp"
@@ -123,7 +123,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginHorizontal="@dimen/fab_margin"
-            android:background="@color/colorAccentLight"
+            android:background="@color/pure_white"
             android:elevation="4dp" >
 
             <TextView
@@ -133,7 +133,7 @@
                 android:layout_marginHorizontal="6dp"
                 android:text="Add to Watchlist"
                 android:textSize="16sp"
-                android:textColor="@color/colorPrimaryDark"/>
+                android:textColor="@color/colorPrimary"/>
 
         </RelativeLayout>
 
@@ -144,8 +144,8 @@
             android:layout_marginVertical="6dp"
             android:layout_marginRight="6dp"
             android:src="@drawable/ic_action_watchlist"
-            android:tint="@color/colorPrimaryDark"
-            app:backgroundTint="@color/colorAccentLight"
+            android:tint="@color/pure_white"
+            app:backgroundTint="@color/colorPrimary"
             app:elevation="4dp"
             app:pressedTranslationZ="12dp" />
 

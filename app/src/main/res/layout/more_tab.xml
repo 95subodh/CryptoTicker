@@ -10,7 +10,7 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white">
+        android:background="@color/pure_white">
 
         <RelativeLayout
             android:id="@+id/more_tab_item_settings"
@@ -23,7 +23,7 @@
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_centerVertical="true"
-                android:tint="@color/colorPrimaryDark"
+                android:tint="@color/light_black"
                 android:src="@drawable/ic_action_settings" />
 
             <TextView
@@ -33,7 +33,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_toEndOf="@id/settings_icon"
                 android:text="Settings"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="@color/light_black"
                 android:textSize="18sp"/>
 
             <ImageButton
@@ -42,8 +42,8 @@
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:clickable="false"
-                android:background="@color/white"
-                android:tint="@color/colorPrimaryDark"
+                android:background="@color/pure_white"
+                android:tint="@color/light_black"
                 android:src="@drawable/ic_action_go_right"/>
 
         </RelativeLayout>
@@ -65,7 +65,7 @@
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_centerVertical="true"
-                android:tint="@color/colorPrimaryDark"
+                android:tint="@color/light_black"
                 android:src="@drawable/ic_action_info" />
 
             <TextView
@@ -75,7 +75,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_toEndOf="@id/about_icon"
                 android:text="About"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="@color/light_black"
                 android:textSize="18sp" />
 
             <ImageButton
@@ -84,8 +84,8 @@
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:clickable="false"
-                android:background="@color/white"
-                android:tint="@color/colorPrimaryDark"
+                android:background="@color/pure_white"
+                android:tint="@color/light_black"
                 android:src="@drawable/ic_action_go_right"/>
 
         </RelativeLayout>
@@ -107,7 +107,7 @@
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_centerVertical="true"
-                android:tint="@color/colorPrimaryDark"
+                android:tint="@color/light_black"
                 android:src="@drawable/ic_action_contact_us" />
 
             <TextView
@@ -117,7 +117,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_toEndOf="@id/contact_us_icon"
                 android:text="Contact Us"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="@color/light_black"
                 android:textSize="18sp" />
 
             <ImageButton
@@ -126,8 +126,8 @@
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:clickable="false"
-                android:background="@color/white"
-                android:tint="@color/colorPrimaryDark"
+                android:background="@color/pure_white"
+                android:tint="@color/light_black"
                 android:src="@drawable/ic_action_go_right"/>
 
         </RelativeLayout>
@@ -149,7 +149,7 @@
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_centerVertical="true"
-                android:tint="@color/colorPrimaryDark"
+                android:tint="@color/light_black"
                 android:src="@drawable/ic_action_ticker" />
 
             <TextView
@@ -159,7 +159,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_toEndOf="@id/ticker_icon"
                 android:text="Share App"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="@color/light_black"
                 android:textSize="18sp" />
 
             <ImageButton
@@ -168,8 +168,8 @@
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:clickable="false"
-                android:background="@color/white"
-                android:tint="@color/colorPrimaryDark"
+                android:background="@color/pure_white"
+                android:tint="@color/light_black"
                 android:src="@drawable/ic_action_go_right"/>
 
         </RelativeLayout>

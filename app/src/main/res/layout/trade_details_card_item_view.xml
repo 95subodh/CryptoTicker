@@ -21,7 +21,7 @@
                 android:id="@+id/trade_number_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorAccentLight" >
+                android:background="@color/colorPrimary" >
 
                 <TextView
                     android:id="@+id/trade_number_text_view"
@@ -29,7 +29,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
                     android:text="Trade #"
-                    android:textColor="@color/colorPrimaryDark"
+                    android:textColor="@color/pure_white"
                     android:textSize="18dp"
                     android:textStyle="bold"/>
 
@@ -50,6 +50,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_marginRight="8dp"
                     android:layout_centerVertical="true"
+                    android:backgroundTint="@color/pure_white"
                     android:background="@drawable/ic_action_cross"/>
 
             </RelativeLayout>
@@ -68,7 +69,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="16dp"
-                    android:textColor="@color/black"
+                    android:textColor="@color/dark_black"
                     android:textSize="14dp"
                     android:text="Trade Quantity" />
 
@@ -81,7 +82,7 @@
                     android:layout_marginHorizontal="16dp"
                     android:ems="10"
                     android:inputType="numberDecimal|numberSigned"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/light_black"
                     android:textSize="14dp"
                     android:text="Enter your trade quantity" />
 
@@ -101,7 +102,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="16dp"
-                    android:textColor="@color/black"
+                    android:textColor="@color/dark_black"
                     android:textSize="14dp"
                     android:text="Trade Cost" />
 
@@ -114,7 +115,7 @@
                     android:layout_marginHorizontal="16dp"
                     android:ems="11"
                     android:inputType="numberDecimal|numberSigned"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/light_black"
                     android:textSize="14dp"
                     android:text="Enter the cost of your trade" />
 

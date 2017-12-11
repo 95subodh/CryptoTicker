@@ -62,11 +62,13 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
             params.setMarginStart(width/4);
             params.setMarginEnd(0);
             viewHolder.itemView.findViewById(R.id.main_view).setBackgroundColor(context.getResources().getColor(R.color.colorPrimary));
+            viewHolder.mMessageView.setTextColor(context.getResources().getColor(R.color.pure_white));
         }
         else {
             params.setMarginEnd(width/4);
             params.setMarginStart(0);
-            viewHolder.itemView.findViewById(R.id.main_view).setBackgroundColor(context.getResources().getColor(R.color.lightest_gray));
+            viewHolder.itemView.findViewById(R.id.main_view).setBackgroundColor(context.getResources().getColor(R.color.dirty_white));
+            viewHolder.mMessageView.setTextColor(context.getResources().getColor(R.color.dark_black));
         }
     }
 

@@ -39,7 +39,7 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_gravity="center"
-            android:background="@color/white"
+            android:background="@color/pure_white"
             card_view:cardElevation="2dp"
             card_view:cardUseCompatPadding="true"
             card_view:cardCornerRadius="4dp" >
@@ -50,7 +50,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_margin="16dp"
-                android:background="@color/white"
                 android:layout_centerVertical="true"
                 android:weightSum="3">
 
@@ -62,7 +61,7 @@
                     android:fontFamily="sans-serif-condensed"
                     android:text="Coin"
                     android:textAlignment="center"
-                    android:textColor="@color/colorPrimaryDark"
+                    android:textColor="@color/colorPrimary"
                     android:textSize="18sp"
                     android:textStyle="bold"/>
 
@@ -74,7 +73,7 @@
                     android:fontFamily="sans-serif-condensed"
                     android:text="Current Value"
                     android:textAlignment="viewEnd"
-                    android:textColor="@color/colorPrimaryDark"
+                    android:textColor="@color/colorPrimary"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -86,7 +85,7 @@
                     android:fontFamily="sans-serif-condensed"
                     android:text="My Gain"
                     android:textAlignment="viewEnd"
-                    android:textColor="@color/colorPrimaryDark"
+                    android:textColor="@color/colorPrimary"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 

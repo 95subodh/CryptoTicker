@@ -1,50 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="powderBlue">#B0E0E6</color>
-    <color name="lightBlue">#ADD8E6</color>
-    <color name="skyBlue">#87CEEB</color>
-    <color name="lightSkyBlue">#87CEFA</color>
-    <color name="deepSkyBlue">#00BFFF</color>
-    <color name="dodgerBlue">#1E90FF</color>
-    <color name="cornFlowerBlue">#6495ED</color>
-    <color name="steelBlue">#4682B4</color>
-    <color name="royalBlue">#4169E1</color>
-    <color name="blue">#0000FF</color>
-    <color name="mediumBlue">#0000CD</color>
-    <color name="navy">#000080</color>
-    <color name="darkBlue">#00008B</color>
-    <color name="midnightBlue">#191970</color>
-
-    <color name="try1">#001933</color>
-    <color name="try2">#003333</color>
-    <color name="try3">#000033</color>
-    <color name="try4">#1DCBEE</color>
-    <color name="try5">#39BDEE</color>
-    <color name="try6">#0BA6DE</color>
-
-    <color name="turquoise">#40E0D0</color>
-    <color name="mediumTurquoise">#48D1CC</color>
-    <color name="darkTurquoise">#00CED1</color>
-    <color name="cadetBlue">#5F9EA0</color>
-
     <color name="valuePositive">#15BA25</color>
     <color name="valueNegative">#FD183E</color>
-
-    <color name="colorPrimary">#0BA6DE</color>
-    <color name="colorPrimaryDark">#326793</color>
-    <color name="colorAccent">#87CEEB</color>
-    <color name="colorAccentLight">#d6f2fc</color>
-
-    <color name="white">#FFFFFF</color>
-    <color name="lightest_gray">#f2f2f2</color>
-    <color name="very_light_gray">#efeded</color>
-    <color name="light_gray">#dddddd</color>
-    <color name="gray">#A0A0A0</color>
-    <color name="dark_gray">#8c8c8c</color>
-    <color name="darker_gray">#666666</color>
-    <color name="darkest_gray">#4c4c4c</color>
-    <color name="black">#000000</color>
+    <color name="colorPrimary">#176FB3</color>
+    <color name="colorAccent">#F2F9FF</color>
+    <color name="pure_white">#FFFFFF</color>
+    <color name="dirty_white">#ECECEC</color>
+    <color name="dark_black">#0F0F0F</color>
+    <color name="light_black">#555555</color>
 
     <color name="transparent">#00000000</color>
 

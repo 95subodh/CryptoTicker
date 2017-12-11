@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/white"
+    android:background="@color/pure_white"
     android:padding="16dp"
     tools:context="com.apps.sky.cryptoticker.StockPage.StockPageActivity">
 
@@ -28,7 +28,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="-"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/dark_black"
                     android:textSize="@dimen/large_text"
                     android:textStyle="bold" />
 
@@ -38,7 +38,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/coin_price"
                     android:text="-"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/dark_black"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -49,7 +49,7 @@
                     android:layout_below="@id/coin_change"
                     android:text="Rank:"
                     android:textSize="@dimen/small_text"
-                    android:textColor="@color/colorPrimaryDark" />
+                    android:textColor="@color/light_black" />
 
                 <TextView
                     android:id="@+id/coin_rank"
@@ -59,7 +59,7 @@
                     android:layout_alignTop="@+id/coin_rank_dummy"
                     android:layout_marginLeft="4dp"
                     android:text="-"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/dark_black"
                     android:textSize="@dimen/small_text" />
 
             </RelativeLayout>
@@ -81,7 +81,7 @@
                         android:layout_height="wrap_content"
                         android:text="High:"
                         android:textSize="@dimen/small_text"
-                        android:textColor="@color/colorPrimaryDark" />
+                        android:textColor="@color/light_black" />
 
                     <TextView
                         android:id="@+id/high"
@@ -90,7 +90,7 @@
                         android:layout_toEndOf="@id/high_dummy"
                         android:layout_marginLeft="4dp"
                         android:text="-"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="@color/dark_black"
                         android:textSize="@dimen/small_text" />
 
                 </RelativeLayout>
@@ -107,7 +107,7 @@
                         android:layout_height="wrap_content"
                         android:text="Low:"
                         android:textSize="@dimen/small_text"
-                        android:textColor="@color/colorPrimaryDark" />
+                        android:textColor="@color/light_black" />
 
                     <TextView
                         android:id="@+id/low"
@@ -116,7 +116,7 @@
                         android:layout_toEndOf="@id/low_dummy"
                         android:layout_marginLeft="4dp"
                         android:text="-"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="@color/dark_black"
                         android:textSize="@dimen/small_text" />
 
                 </RelativeLayout>
@@ -134,7 +134,7 @@
                         android:layout_height="wrap_content"
                         android:text="Market Capture:"
                         android:textSize="@dimen/very_small_text"
-                        android:textColor="@color/colorPrimaryDark" />
+                        android:textColor="@color/light_black" />
 
                     <TextView
                         android:id="@+id/coin_cap"
@@ -143,7 +143,7 @@
                         android:layout_toEndOf="@id/coin_cap_dummy"
                         android:layout_marginLeft="4dp"
                         android:text="-"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="@color/dark_black"
                         android:textSize="@dimen/very_small_text" />
 
                 </RelativeLayout>
@@ -159,7 +159,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Available Supply:"
-                        android:textColor="@color/colorPrimaryDark"
+                        android:textColor="@color/light_black"
                         android:textSize="@dimen/very_small_text" />
 
                     <TextView
@@ -169,7 +169,7 @@
                         android:layout_toEndOf="@id/coin_avail_supply_dummy"
                         android:layout_marginLeft="4dp"
                         android:text="-"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="@color/dark_black"
                         android:textSize="@dimen/very_small_text" />
 
                 </RelativeLayout>
@@ -212,7 +212,7 @@
                         android:text="24H"
                         android:fontFamily="sans-serif-condensed"
                         android:textAlignment="center"
-                        android:textColor="@color/colorPrimaryDark"
+                        android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/very_small_text"/>
 
                 </RelativeLayout>
@@ -231,7 +231,7 @@
                         android:text="7D"
                         android:fontFamily="sans-serif-condensed"
                         android:textAlignment="center"
-                        android:textColor="@color/colorPrimaryDark"
+                        android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/very_small_text"/>
 
                 </RelativeLayout>
@@ -250,7 +250,7 @@
                         android:text="14D"
                         android:fontFamily="sans-serif-condensed"
                         android:textAlignment="center"
-                        android:textColor="@color/colorPrimaryDark"
+                        android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/very_small_text"/>
 
                 </RelativeLayout>
@@ -269,7 +269,7 @@
                         android:text="30D"
                         android:fontFamily="sans-serif-condensed"
                         android:textAlignment="center"
-                        android:textColor="@color/colorPrimaryDark"
+                        android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/very_small_text"/>
 
                 </RelativeLayout>
@@ -288,7 +288,7 @@
                         android:text="60D"
                         android:fontFamily="sans-serif-condensed"
                         android:textAlignment="center"
-                        android:textColor="@color/colorPrimaryDark"
+                        android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/very_small_text"/>
 
                 </RelativeLayout>
@@ -307,7 +307,7 @@
                         android:text="90D"
                         android:fontFamily="sans-serif-condensed"
                         android:textAlignment="center"
-                        android:textColor="@color/colorPrimaryDark"
+                        android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/very_small_text"/>
 
                 </RelativeLayout>
@@ -326,7 +326,7 @@
                         android:text="ALL"
                         android:textAlignment="center"
                         android:fontFamily="sans-serif-condensed"
-                        android:textColor="@color/colorPrimaryDark"
+                        android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/very_small_text"/>
 
                 </RelativeLayout>
@@ -348,8 +348,8 @@
                 android:layout_height="200dp"
                 app:egShowValueIndicator="true"
                 app:egCurveSmoothness="0.0"
-                app:egIndicatorTextColor="@color/colorPrimaryDark"
-                app:egIndicatorLineColor="@color/colorPrimaryDark"
+                app:egIndicatorTextColor="@color/colorPrimary"
+                app:egIndicatorLineColor="@color/colorAccent"
                 app:egLegendHeight="40dp"
                 app:egShowStandardValue="true"
                 app:egUseOverlapFill="true"/>
@@ -381,7 +381,7 @@
             android:layout_height="wrap_content"
             android:text="Last Updated on:"
             android:textSize="@dimen/very_small_text"
-            android:textColor="@color/colorPrimaryDark" />
+            android:textColor="@color/light_black" />
 
         <TextView
             android:id="@+id/coin_lst_update"
@@ -390,7 +390,7 @@
             android:layout_toEndOf="@id/coin_lst_update_dummy"
             android:layout_marginLeft="4dp"
             android:text="-"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/dark_black"
             android:textSize="@dimen/very_small_text" />
 
     </RelativeLayout>

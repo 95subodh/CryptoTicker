@@ -6,7 +6,7 @@
     android:orientation="horizontal"
     tools:context="com.apps.sky.cryptoticker.HomePage.HomePageTabs.ChatTab.ChatTab"
     tools:ignore="MergeRootFrame"
-    android:background="@color/white">
+    android:background="@color/pure_white">
 
     <fragment
         class="com.apps.sky.cryptoticker.HomePage.HomePageTabs.ChatTab.MainFragment"

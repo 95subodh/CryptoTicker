@@ -43,7 +43,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white">
+                android:background="@color/pure_white">
 
                 <RelativeLayout
                     android:id="@+id/current_portfolio_view"
@@ -60,7 +60,7 @@
                         android:layout_centerHorizontal="true"
                         android:fontFamily="sans-serif-condensed"
                         android:text="-"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="@color/dark_black"
                         android:textSize="28sp"
                         android:textStyle="bold" />
 
@@ -72,7 +72,7 @@
                         android:layout_centerHorizontal="true"
                         android:fontFamily="sans-serif-condensed"
                         android:text="MY TOTAL NETWORTH"
-                        android:textColor="@color/colorPrimaryDark"
+                        android:textColor="@color/light_black"
                         android:textSize="16sp" />
 
                 </RelativeLayout>
@@ -108,7 +108,7 @@
                                     android:layout_centerHorizontal="true"
                                     android:fontFamily="sans-serif-condensed"
                                     android:text="-"
-                                    android:textColor="@color/colorPrimary"
+                                    android:textColor="@color/dark_black"
                                     android:textSize="20sp"
                                     android:textStyle="bold" />
 
@@ -120,7 +120,7 @@
                                     android:layout_below="@+id/total_cost"
                                     android:fontFamily="sans-serif-condensed"
                                     android:text="INVESTMENT"
-                                    android:textColor="@color/colorPrimaryDark"
+                                    android:textColor="@color/light_black"
                                     android:textSize="14sp" />
 
                             </RelativeLayout>
@@ -145,7 +145,7 @@
                                     android:layout_centerHorizontal="true"
                                     android:fontFamily="sans-serif-condensed"
                                     android:text="-"
-                                    android:textColor="@color/colorPrimary"
+                                    android:textColor="@color/dark_black"
                                     android:textSize="20sp"
                                     android:textStyle="bold" />
 
@@ -157,7 +157,7 @@
                                     android:layout_below="@+id/total_profit"
                                     android:fontFamily="sans-serif-condensed"
                                     android:text="OVERALL GAIN"
-                                    android:textColor="@color/colorPrimaryDark"
+                                    android:textColor="@color/light_black"
                                     android:textSize="14sp" />
 
                             </RelativeLayout>
@@ -182,7 +182,7 @@
                                     android:layout_centerHorizontal="true"
                                     android:fontFamily="sans-serif-condensed"
                                     android:text="-"
-                                    android:textColor="@color/colorPrimary"
+                                    android:textColor="@color/dark_black"
                                     android:textSize="20sp"
                                     android:textStyle="bold" />
 
@@ -194,7 +194,7 @@
                                     android:layout_below="@+id/total_profit_percentage"
                                     android:fontFamily="sans-serif-condensed"
                                     android:text="OVERALL GAIN"
-                                    android:textColor="@color/colorPrimaryDark"
+                                    android:textColor="@color/light_black"
                                     android:textSize="14sp" />
 
                             </RelativeLayout>
