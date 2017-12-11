@@ -20,7 +20,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white">
+            android:background="@color/pure_white">
 
             <RelativeLayout
                 android:id="@+id/coin_heading_view"
@@ -47,7 +47,7 @@
                     android:layout_toRightOf="@+id/watchlist_item_icon"
                     android:fontFamily="sans-serif-condensed"
                     android:text="Bitcoin"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/dark_black"
                     android:textSize="24sp"
                     android:textStyle="bold" />
 
@@ -58,7 +58,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_marginRight="8dp"
                     android:layout_centerVertical="true"
-                    android:background="@color/white">
+                    android:background="@color/pure_white">
 
                     <ImageButton
                         android:id="@+id/close_btn"
@@ -74,7 +74,7 @@
                 android:id="@+id/line"
                 android:layout_width="fill_parent"
                 android:layout_height="1dp"
-                android:background="@color/gray"
+                android:background="@color/light_black"
                 android:layout_below="@+id/coin_heading_view" />
 
             <LinearLayout
@@ -105,7 +105,7 @@
                             android:text="-"
                             android:textSize="28sp"
                             android:textStyle="bold"
-                            android:textColor="@color/colorPrimary" />
+                            android:textColor="@color/dark_black" />
 
                         <TextView
                             android:id="@+id/watchlist_item_change"
@@ -117,7 +117,7 @@
                             android:fontFamily="sans-serif-condensed"
                             android:text="-"
                             android:textSize="18sp"
-                            android:textColor="@color/colorPrimary" />
+                            android:textColor="@color/dark_black" />
 
                     </RelativeLayout>
 
@@ -147,7 +147,7 @@
                                 android:text="High:"
                                 android:textSize="16sp"
                                 android:textStyle="bold"
-                                android:textColor="@color/gray" />
+                                android:textColor="@color/light_black" />
 
                             <TextView
                                 android:id="@+id/watchlist_item_low_dummy"
@@ -159,7 +159,7 @@
                                 android:text="Low:"
                                 android:textSize="16sp"
                                 android:textStyle="bold"
-                                android:textColor="@color/gray"/>
+                                android:textColor="@color/light_black"/>
 
 
                         </RelativeLayout>
@@ -178,7 +178,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="2459.830"
                                 android:textSize="16sp"
-                                android:textColor="@color/colorPrimary" />
+                                android:textColor="@color/dark_black" />
 
                             <TextView
                                 android:id="@+id/watchlist_item_low"
@@ -188,7 +188,7 @@
                                 android:layout_marginTop="8dp"
                                 android:text="2459.830"
                                 android:textSize="16sp"
-                                android:textColor="@color/colorPrimary" />
+                                android:textColor="@color/dark_black" />
 
                         </RelativeLayout>
 

@@ -11,7 +11,7 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white">
+        android:background="@color/pure_white">
 
         <RelativeLayout
             android:id="@+id/change_currency_view"
@@ -24,7 +24,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:text="Change Currency"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="@color/light_black"
                 android:textSize="18sp"/>
 
             <ImageButton
@@ -33,8 +33,8 @@
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:clickable="false"
-                android:background="@color/white"
-                android:tint="@color/colorPrimaryDark"
+                android:background="@color/pure_white"
+                android:tint="@color/light_black"
                 android:src="@drawable/ic_action_go_right"/>
 
         </RelativeLayout>

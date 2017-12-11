@@ -9,8 +9,8 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:padding="16dp"
-        android:background="@color/white"
-        android:textColor="@color/black"
+        android:background="@color/pure_white"
+        android:textColor="@color/dark_black"
         android:textSize="16dp"
         android:text="Test" />
 

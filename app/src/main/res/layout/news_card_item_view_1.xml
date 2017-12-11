@@ -21,7 +21,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/white">
+            android:background="@color/pure_white">
 
             <ImageView
                 android:id="@+id/news_image_url1"
@@ -45,7 +45,7 @@
                 android:ellipsize="end"
                 android:maxLines="3"
                 android:text="-"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="@color/dark_black"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -58,7 +58,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_toRightOf="@+id/news_image_url1"
                 android:text="-"
-                android:textColor="@color/colorAccent"
+                android:textColor="@color/dark_black"
                 android:textStyle="bold" />
 
             <TextView
@@ -71,7 +71,7 @@
                 android:layout_toRightOf="@+id/news_image_url1"
                 android:fontFamily="sans-serif-condensed"
                 android:text="-"
-                android:textColor="@color/gray" />
+                android:textColor="@color/light_black" />
         </RelativeLayout>
 
     </android.support.v7.widget.CardView>

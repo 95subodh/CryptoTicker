@@ -18,7 +18,7 @@
             <TextView
                 android:id="@+id/username"
                 style="?android:textAppearanceMedium"
-                android:textColor="@color/darker_gray"
+                android:textColor="@color/light_black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
@@ -43,7 +43,7 @@
                     <TextView
                         android:id="@+id/message"
                         style="?android:textAppearanceMedium"
-                        android:textColor="?android:textColorPrimary"
+                        android:textColor="@color/dark_black"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="message"
