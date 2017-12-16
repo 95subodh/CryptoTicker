@@ -30,7 +30,7 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginTop="16dp"
-                android:fontFamily="sans-serif-condensed"
+                android:fontFamily="@font/apercu_regular"
                 android:text="-"
                 android:textColor="@color/dark_black"
                 android:textSize="18sp"
@@ -54,7 +54,7 @@
                 android:layout_below="@+id/news_url2"
                 android:layout_marginBottom="16dp"
                 android:layout_marginLeft="16dp"
-                android:fontFamily="sans-serif-condensed"
+                android:fontFamily="@font/apercu_regular"
                 android:text="-"
                 android:textColor="@color/light_black" />
         </RelativeLayout>

@@ -8,6 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
+        android:fontFamily="@font/apercu_regular"
         android:padding="16dp"
         android:background="@color/pure_white"
         android:textColor="@color/dark_black"
@@ -17,7 +18,7 @@
     <RadioButton
         android:clickable="false"
         android:focusable="false"
-        android:focusableInTouchMode="false"
+        android:focusableInTouchMode="true"
         android:id="@+id/choose_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

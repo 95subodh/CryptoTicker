@@ -25,7 +25,8 @@
             <RelativeLayout
                 android:id="@+id/coin_heading_view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary">
 
                 <ImageView
                     android:id="@+id/watchlist_item_icon"
@@ -45,9 +46,9 @@
                     android:layout_marginTop="16dp"
                     android:layout_centerVertical="true"
                     android:layout_toRightOf="@+id/watchlist_item_icon"
-                    android:fontFamily="sans-serif-condensed"
+                    android:fontFamily="@font/apercu_bold"
                     android:text="Bitcoin"
-                    android:textColor="@color/dark_black"
+                    android:textColor="@color/pure_white"
                     android:textSize="24sp"
                     android:textStyle="bold" />
 
@@ -58,13 +59,14 @@
                     android:layout_alignParentEnd="true"
                     android:layout_marginRight="8dp"
                     android:layout_centerVertical="true"
-                    android:background="@color/pure_white">
+                    android:background="@color/colorPrimary">
 
                     <ImageButton
                         android:id="@+id/close_btn"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@drawable/ic_action_cross"/>
+                        android:background="@drawable/ic_action_cross"
+                        android:backgroundTint="@color/pure_white"/>
 
                 </RelativeLayout>
 
@@ -102,6 +104,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
+                            android:fontFamily="@font/apercu_bold"
                             android:text="-"
                             android:textSize="28sp"
                             android:textStyle="bold"
@@ -114,7 +117,7 @@
                             android:layout_marginTop="2dp"
                             android:layout_alignParentEnd="true"
                             android:layout_below="@+id/watchlist_item_current_price"
-                            android:fontFamily="sans-serif-condensed"
+                            android:fontFamily="@font/apercu_regular"
                             android:text="-"
                             android:textSize="18sp"
                             android:textColor="@color/dark_black" />
@@ -144,6 +147,7 @@
                                 android:id="@+id/watchlist_item_high_dummy"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:fontFamily="@font/apercu_bold"
                                 android:text="High:"
                                 android:textSize="16sp"
                                 android:textStyle="bold"
@@ -156,6 +160,7 @@
                                 android:layout_below="@+id/watchlist_item_high_dummy"
                                 android:layout_alignEnd="@id/watchlist_item_high_dummy"
                                 android:layout_marginTop="8dp"
+                                android:fontFamily="@font/apercu_bold"
                                 android:text="Low:"
                                 android:textSize="16sp"
                                 android:textStyle="bold"
@@ -176,6 +181,7 @@
                                 android:id="@+id/watchlist_item_high"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:fontFamily="@font/apercu_regular"
                                 android:text="2459.830"
                                 android:textSize="16sp"
                                 android:textColor="@color/dark_black" />
@@ -186,6 +192,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_below="@+id/watchlist_item_high"
                                 android:layout_marginTop="8dp"
+                                android:fontFamily="@font/apercu_regular"
                                 android:text="2459.830"
                                 android:textSize="16sp"
                                 android:textColor="@color/dark_black" />

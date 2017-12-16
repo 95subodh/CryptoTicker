@@ -117,14 +117,23 @@ public class MyGlobalsFunctions {
     }
 
     public String getEpochToNormalDateString (String date) {
-        if (date.contains(".")) {
-            String date2 = new java.text.SimpleDateFormat("MM/dd").format(new java.util.Date ((long)(Double.valueOf(date)*1)));
-            return date2;
-        }
-        else {
-            String date2 = new java.text.SimpleDateFormat("MM/dd HH:mm:ss").format(new java.util.Date (Long.valueOf(date)*1000));
-            return date2;
-        }
+        String date2 = new java.text.SimpleDateFormat("dd/MM").format(new java.util.Date ((long)(Double.valueOf(date)*1)));
+        return date2;
+    }
+
+    public String getEpochToNormalTimeString (String date) {
+        String date2 = new java.text.SimpleDateFormat("HH:mm").format(new java.util.Date ((long)(Double.valueOf(date)*1)));
+        return date2;
+    }
+
+    public String getEpochToNormalDateAndTimeString (String date) {
+        String date2 = new java.text.SimpleDateFormat("dd MMM, yyyy HH:mm:ss").format(new java.util.Date (Long.valueOf(date)*1000));
+        return date2;
+    }
+
+    public String getEpochToNormalYearString (String date) {
+        String date2 = new java.text.SimpleDateFormat("MMM yy").format(new java.util.Date ((long)(Double.valueOf(date)*1)));
+        return date2;
     }
 
     private String convertDateToCalendarDate (String date) {

@@ -212,7 +212,7 @@ public class StockInfoTab extends Fragment implements View.OnClickListener {
     private void fillInfoFromJSON() {
         if (getView() != null) {
             coinPrice = getView().findViewById(R.id.coin_price);
-            coinPrice.setText(myGlobalsFunctions.commaSeperateIntegerMinimal(price, true));
+            coinPrice.setText(myGlobalsFunctions.commaSeperateInteger(price, true));
             coinAvailSupply = getView().findViewById(R.id.coin_avail_supply);
             coinAvailSupply.setText(myGlobalsFunctions.commaSeperateInteger(avlsup));
             coinCap = getView().findViewById(R.id.coin_cap);
@@ -227,7 +227,7 @@ public class StockInfoTab extends Fragment implements View.OnClickListener {
                 coinChange.setTextColor(getResources().getColor(R.color.valuePositive));
             }
             coinLstUpdate = getView().findViewById(R.id.coin_lst_update);
-            coinLstUpdate.setText(myGlobalsFunctions.getEpochToNormalDateString(lstupd));
+            coinLstUpdate.setText(myGlobalsFunctions.getEpochToNormalDateAndTimeString(lstupd));
         }
     }
 
@@ -239,7 +239,7 @@ public class StockInfoTab extends Fragment implements View.OnClickListener {
 
             switch (currentSeries) {
                 case "1" :  for (int i = 0; i < newRef.length(); ++i) {
-                                series24.addPoint(new ValueLinePoint(myGlobalsFunctions.getEpochToNormalDateString(newRef.optJSONArray(i).optString(0)), Float.parseFloat(newRef.optJSONArray(i).optString(1))));
+                                series24.addPoint(new ValueLinePoint(myGlobalsFunctions.getEpochToNormalTimeString(newRef.optJSONArray(i).optString(0)), Float.parseFloat(newRef.optJSONArray(i).optString(1))));
                             }
                             cubicValueLineChart.clearChart();
                             cubicValueLineChart.addSeries(series24);
@@ -281,7 +281,7 @@ public class StockInfoTab extends Fragment implements View.OnClickListener {
                             break;
 
                 case "7" :  for (int i = 0; i < newRef.length(); ++i) {
-                                seriesAll.addPoint(new ValueLinePoint(myGlobalsFunctions.getEpochToNormalDateString(newRef.optJSONArray(i).optString(0)), Float.parseFloat(newRef.optJSONArray(i).optString(1))));
+                                seriesAll.addPoint(new ValueLinePoint(myGlobalsFunctions.getEpochToNormalYearString(newRef.optJSONArray(i).optString(0)), Float.parseFloat(newRef.optJSONArray(i).optString(1))));
                             }
                             cubicValueLineChart.clearChart();
                             cubicValueLineChart.addSeries(seriesAll);
@@ -303,7 +303,7 @@ public class StockInfoTab extends Fragment implements View.OnClickListener {
             high = Float.toString(max);
             low = Float.toString(min);
             for (int i = 0; i < newRef.length(); ++i) {
-                series24.addPoint(new ValueLinePoint(myGlobalsFunctions.getEpochToNormalDateString(newRef.optJSONArray(i).optString(0)), Float.parseFloat(newRef.optJSONArray(i).optString(1))));
+                series24.addPoint(new ValueLinePoint(myGlobalsFunctions.getEpochToNormalTimeString(newRef.optJSONArray(i).optString(0)), Float.parseFloat(newRef.optJSONArray(i).optString(1))));
             }
         }
     }

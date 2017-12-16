@@ -41,7 +41,7 @@
                 android:layout_marginRight="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_toRightOf="@+id/news_image_url1"
-                android:fontFamily="sans-serif-condensed"
+                android:fontFamily="@font/apercu_regular"
                 android:ellipsize="end"
                 android:maxLines="3"
                 android:text="-"
@@ -69,7 +69,7 @@
                 android:layout_marginBottom="16dp"
                 android:layout_marginLeft="16dp"
                 android:layout_toRightOf="@+id/news_image_url1"
-                android:fontFamily="sans-serif-condensed"
+                android:fontFamily="@font/apercu_regular"
                 android:text="-"
                 android:textColor="@color/light_black" />
         </RelativeLayout>

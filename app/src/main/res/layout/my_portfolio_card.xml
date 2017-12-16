@@ -16,7 +16,7 @@
             <!--android:layout_marginRight="16dp"-->
             <!--android:layout_marginBottom="4dp"-->
             <!--android:layout_marginTop="16dp"-->
-            <!--android:fontFamily="sans-serif-condensed"-->
+            <!--android:fontFamily="@font/apercu_regular"-->
             <!--android:text="My Portfolio"-->
             <!--android:textColor="@color/colorPrimaryDark"-->
             <!--android:textSize="18sp"-->
@@ -57,20 +57,20 @@
                     android:id="@+id/my_portfolio_coin_name"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1.25"
-                    android:fontFamily="sans-serif-condensed"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/apercu_bold"
                     android:text="Coin"
                     android:textAlignment="center"
                     android:textColor="@color/colorPrimary"
                     android:textSize="18sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/my_portfolio_current_value"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="sans-serif-condensed"
+                    android:layout_weight="1.25"
+                    android:fontFamily="@font/apercu_bold"
                     android:text="Current Value"
                     android:textAlignment="viewEnd"
                     android:textColor="@color/colorPrimary"
@@ -82,7 +82,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.75"
-                    android:fontFamily="sans-serif-condensed"
+                    android:fontFamily="@font/apercu_bold"
                     android:text="My Gain"
                     android:textAlignment="viewEnd"
                     android:textColor="@color/colorPrimary"
