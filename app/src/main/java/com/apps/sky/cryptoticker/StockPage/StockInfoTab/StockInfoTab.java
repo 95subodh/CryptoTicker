@@ -212,7 +212,7 @@ public class StockInfoTab extends Fragment implements View.OnClickListener {
     private void fillInfoFromJSON() {
         if (getView() != null) {
             coinPrice = getView().findViewById(R.id.coin_price);
-            coinPrice.setText(myGlobalsFunctions.commaSeperateIntegerMinimal(price, true));
+            coinPrice.setText(myGlobalsFunctions.commaSeperateInteger(price, true));
             coinAvailSupply = getView().findViewById(R.id.coin_avail_supply);
             coinAvailSupply.setText(myGlobalsFunctions.commaSeperateInteger(avlsup));
             coinCap = getView().findViewById(R.id.coin_cap);

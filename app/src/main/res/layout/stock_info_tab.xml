@@ -8,61 +8,76 @@
     tools:context="com.apps.sky.cryptoticker.StockPage.StockPageActivity">
 
     <RelativeLayout
-        android:id="@+id/details_view"
+        android:id="@+id/price_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/coin_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/apercu_bold"
+            android:text="-"
+            android:textColor="@color/dark_black"
+            android:textSize="@dimen/large_text"
+            android:textStyle="bold" />
+
+        <RelativeLayout
+            android:id="@+id/rank_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignBottom="@+id/coin_price"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="16dp">
+
+            <TextView
+                android:id="@+id/coin_rank_dummy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/apercu_medium"
+                android:text="Rank:"
+                android:textSize="@dimen/small_text"
+                android:textColor="@color/light_black" />
+
+            <TextView
+                android:id="@+id/coin_rank"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/apercu_regular"
+                android:layout_toEndOf="@id/coin_rank_dummy"
+                android:layout_marginLeft="4dp"
+                android:text="-"
+                android:textColor="@color/dark_black"
+                android:textSize="@dimen/small_text" />
+
+        </RelativeLayout>
+
+
+        <TextView
+            android:id="@+id/coin_change"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/coin_price"
+            android:fontFamily="@font/apercu_bold"
+            android:text="-"
+            android:textColor="@color/dark_black"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/details_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/price_view"
+        android:layout_marginVertical="16dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:weightSum="2">
-
-            <RelativeLayout
-                android:id="@+id/price_view"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
-
-                <TextView
-                    android:id="@+id/coin_price"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="-"
-                    android:textColor="@color/dark_black"
-                    android:textSize="@dimen/large_text"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/coin_change"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/coin_price"
-                    android:text="-"
-                    android:textColor="@color/dark_black"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/coin_rank_dummy"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/coin_change"
-                    android:text="Rank:"
-                    android:textSize="@dimen/small_text"
-                    android:textColor="@color/light_black" />
-
-                <TextView
-                    android:id="@+id/coin_rank"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toEndOf="@id/coin_rank_dummy"
-                    android:layout_alignTop="@+id/coin_rank_dummy"
-                    android:layout_marginLeft="4dp"
-                    android:text="-"
-                    android:textColor="@color/dark_black"
-                    android:textSize="@dimen/small_text" />
-
-            </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/high_low_view"
@@ -79,6 +94,7 @@
                         android:id="@+id/high_dummy"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/apercu_medium"
                         android:text="High:"
                         android:textSize="@dimen/small_text"
                         android:textColor="@color/light_black" />
@@ -88,6 +104,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_toEndOf="@id/high_dummy"
+                        android:fontFamily="@font/apercu_regular"
                         android:layout_marginLeft="4dp"
                         android:text="-"
                         android:textColor="@color/dark_black"
@@ -105,6 +122,7 @@
                         android:id="@+id/low_dummy"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/apercu_medium"
                         android:text="Low:"
                         android:textSize="@dimen/small_text"
                         android:textColor="@color/light_black" />
@@ -114,6 +132,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_toEndOf="@id/low_dummy"
+                        android:fontFamily="@font/apercu_regular"
                         android:layout_marginLeft="4dp"
                         android:text="-"
                         android:textColor="@color/dark_black"
@@ -121,18 +140,26 @@
 
                 </RelativeLayout>
 
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/extra_info_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
                 <RelativeLayout
                     android:id="@+id/coin_cap_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/low_view"
                     android:layout_marginTop="8dp">
 
                     <TextView
                         android:id="@+id/coin_cap_dummy"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Market Capture:"
+                        android:fontFamily="@font/apercu_medium"
+                        android:text="Market Cap:"
                         android:textSize="@dimen/very_small_text"
                         android:textColor="@color/light_black" />
 
@@ -142,6 +169,7 @@
                         android:layout_height="wrap_content"
                         android:layout_toEndOf="@id/coin_cap_dummy"
                         android:layout_marginLeft="4dp"
+                        android:fontFamily="@font/apercu_regular"
                         android:text="-"
                         android:textColor="@color/dark_black"
                         android:textSize="@dimen/very_small_text" />
@@ -158,7 +186,8 @@
                         android:id="@+id/coin_avail_supply_dummy"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Available Supply:"
+                        android:fontFamily="@font/apercu_medium"
+                        android:text="Available Sup:"
                         android:textColor="@color/light_black"
                         android:textSize="@dimen/very_small_text" />
 
@@ -168,6 +197,7 @@
                         android:layout_height="wrap_content"
                         android:layout_toEndOf="@id/coin_avail_supply_dummy"
                         android:layout_marginLeft="4dp"
+                        android:fontFamily="@font/apercu_regular"
                         android:text="-"
                         android:textColor="@color/dark_black"
                         android:textSize="@dimen/very_small_text" />
@@ -185,13 +215,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/details_view"
-        android:layout_marginVertical="16dp">
+        android:layout_marginVertical="8dp">
 
         <RelativeLayout
             android:id="@+id/tabs_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="16dp">
+            android:layout_marginVertical="8dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -210,7 +240,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="24H"
-                        android:fontFamily="sans-serif-condensed"
+                        android:fontFamily="@font/apercu_regular"
                         android:textAlignment="center"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/very_small_text"/>
@@ -229,7 +259,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="7D"
-                        android:fontFamily="sans-serif-condensed"
+                        android:fontFamily="@font/apercu_regular"
                         android:textAlignment="center"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/very_small_text"/>
@@ -248,7 +278,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="14D"
-                        android:fontFamily="sans-serif-condensed"
+                        android:fontFamily="@font/apercu_regular"
                         android:textAlignment="center"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/very_small_text"/>
@@ -267,7 +297,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="30D"
-                        android:fontFamily="sans-serif-condensed"
+                        android:fontFamily="@font/apercu_regular"
                         android:textAlignment="center"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/very_small_text"/>
@@ -286,7 +316,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="60D"
-                        android:fontFamily="sans-serif-condensed"
+                        android:fontFamily="@font/apercu_regular"
                         android:textAlignment="center"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/very_small_text"/>
@@ -305,7 +335,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="90D"
-                        android:fontFamily="sans-serif-condensed"
+                        android:fontFamily="@font/apercu_regular"
                         android:textAlignment="center"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/very_small_text"/>
@@ -325,7 +355,7 @@
                         android:layout_height="wrap_content"
                         android:text="ALL"
                         android:textAlignment="center"
-                        android:fontFamily="sans-serif-condensed"
+                        android:fontFamily="@font/apercu_regular"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/very_small_text"/>
 
@@ -340,7 +370,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tabs_view"
-            android:layout_marginVertical="16dp">
+            android:layout_marginVertical="8dp">
 
             <org.eazegraph.lib.charts.ValueLineChart xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/cubic_line_chart"
@@ -348,8 +378,8 @@
                 android:layout_height="200dp"
                 app:egShowValueIndicator="true"
                 app:egCurveSmoothness="0.0"
-                app:egIndicatorTextColor="@color/colorPrimary"
-                app:egIndicatorLineColor="@color/colorAccent"
+                app:egIndicatorTextColor="@color/dark_black"
+                app:egIndicatorLineColor="@color/dark_black"
                 app:egLegendHeight="40dp"
                 app:egShowStandardValue="true"
                 app:egUseOverlapFill="true"/>
@@ -379,6 +409,7 @@
             android:id="@+id/coin_lst_update_dummy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/apercu_medium"
             android:text="Last Updated on:"
             android:textSize="@dimen/very_small_text"
             android:textColor="@color/light_black" />
@@ -389,6 +420,7 @@
             android:layout_height="wrap_content"
             android:layout_toEndOf="@id/coin_lst_update_dummy"
             android:layout_marginLeft="4dp"
+            android:fontFamily="@font/apercu_regular"
             android:text="-"
             android:textColor="@color/dark_black"
             android:textSize="@dimen/very_small_text" />

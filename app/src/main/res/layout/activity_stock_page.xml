@@ -30,7 +30,7 @@
                 android:text="-"
                 android:textSize="@dimen/medium_text"
                 android:textStyle="bold"
-                android:fontFamily="sans-serif-condensed"
+                android:fontFamily="@font/apercu_regular"
                 android:textColor="@color/pure_white"/>
 
         </android.support.v7.widget.Toolbar>
