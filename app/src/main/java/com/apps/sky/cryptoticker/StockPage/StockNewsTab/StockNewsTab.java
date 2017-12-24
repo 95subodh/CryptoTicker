@@ -93,7 +93,7 @@ public class StockNewsTab extends Fragment {
         JSONArray articles = parentObject.getJSONArray("articles");
 
         //*********      this contains 10 news articles       ***********//
-        for (int i=0 ; i < min(articles.length(), 10); i++){
+        for (int i = 0; i < min(articles.length(), 10); i++) {
 
             JSONObject obj = articles.getJSONObject(i);
             NewsObject currentNews = new NewsObject();
@@ -117,13 +117,13 @@ public class StockNewsTab extends Fragment {
         }
     }
 
-    public class JSONTask extends AsyncTask<String,String, String > {
+    public class JSONTask extends AsyncTask<String, String, String> {
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
             try {
-                String finalJson = myGlobalsFunctions.retieveStringFromFile(cryptoID,getString(R.string.crypto_info_dir));
+                String finalJson = myGlobalsFunctions.retieveStringFromFile(cryptoID, getString(R.string.crypto_info_dir));
                 if (finalJson != null)
                     setVals(finalJson);
             } catch (JSONException e) {
@@ -143,7 +143,7 @@ public class StockNewsTab extends Fragment {
             } catch (IOException | JSONException e) {
                 e.printStackTrace();
             }
-            return  null;
+            return null;
         }
 
         @Override

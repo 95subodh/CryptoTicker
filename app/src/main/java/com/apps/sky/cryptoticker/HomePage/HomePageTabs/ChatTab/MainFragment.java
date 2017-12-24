@@ -75,7 +75,7 @@ public class MainFragment extends Fragment {
         super.onAttach(context);
         mAdapter = new MessageAdapter(context, mMessages, fromMe);
         //if (context instanceof Activity){
-            //this.listener = (MainActivity) context;
+        //this.listener = (MainActivity) context;
         //}
     }
 
@@ -88,8 +88,8 @@ public class MainFragment extends Fragment {
 
         ChatApplication app = (ChatApplication) getActivity().getApplication();
         mSocket = app.getSocket();
-        mSocket.on(Socket.EVENT_CONNECT,onConnect);
-        mSocket.on(Socket.EVENT_DISCONNECT,onDisconnect);
+        mSocket.on(Socket.EVENT_CONNECT, onConnect);
+        mSocket.on(Socket.EVENT_DISCONNECT, onDisconnect);
         mSocket.on(Socket.EVENT_CONNECT_ERROR, onConnectError);
         mSocket.on(Socket.EVENT_CONNECT_TIMEOUT, onConnectError);
         mSocket.on("chat message", onNewMessage);
@@ -208,7 +208,7 @@ public class MainFragment extends Fragment {
 //        mAdapter.notifyItemInserted(mMessages.size() - 1);
 //        scrollToBottom();
 
-        ((ImageView)rootView.findViewById(R.id.online_dot)).setColorFilter(getResources().getColor(R.color.valuePositive));
+        ((ImageView) rootView.findViewById(R.id.online_dot)).setColorFilter(getResources().getColor(R.color.valuePositive));
         usersJoined.setText(message);
 //        ((AppCompatActivity) getActivity()).getSupportActionBar().setSubtitle("(" + message + ")");
     }
@@ -272,8 +272,7 @@ public class MainFragment extends Fragment {
             mSocket.emit("add user", mUsername);
             mSocket.on("login", onLogin);
             mSocket.emit("prev messages");
-        }
-        else {
+        } else {
             Intent intent = new Intent(getActivity(), LoginActivity.class);
             startActivityForResult(intent, REQUEST_LOGIN);
         }
@@ -282,7 +281,7 @@ public class MainFragment extends Fragment {
     private Emitter.Listener onLogin = new Emitter.Listener() {
         @Override
         public void call(final Object... args) {
-            if(getActivity() == null)
+            if (getActivity() == null)
                 return;
             getActivity().runOnUiThread(new Runnable() {
                 @Override
@@ -318,8 +317,8 @@ public class MainFragment extends Fragment {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    if(!isConnected) {
-                        if(null!=mUsername)
+                    if (!isConnected) {
+                        if (null != mUsername)
                             mSocket.emit("add user", mUsername);
 //                        Toast.makeText(getActivity().getApplicationContext(), R.string.connect, Toast.LENGTH_LONG).show();
                         isConnected = true;
@@ -386,7 +385,7 @@ public class MainFragment extends Fragment {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    for (int i = 0; i<((JSONArray) args[0]).length(); i++) {
+                    for (int i = 0; i < ((JSONArray) args[0]).length(); i++) {
                         JSONObject data;
                         try {
                             data = (JSONObject) (((JSONArray) args[0]).get(i));

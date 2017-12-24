@@ -34,19 +34,27 @@ public class NewsObject {
         return publishedDate;
     }
 
-    void setPublishedDate(String originalDate) { this.publishedDate = myGlobalsFunctions.getWeekDayFormattedDate(originalDate); }
+    void setPublishedDate(String originalDate) {
+        this.publishedDate = myGlobalsFunctions.getWeekDayFormattedDate(originalDate);
+    }
 
     String getURL() {
         return link;
     }
 
-    void setURL(String link) { this.link = link; }
+    void setURL(String link) {
+        this.link = link;
+    }
 
     Drawable getImage() {
         return img;
     }
 
-    void setImage(Drawable image) { this.img = image; }
+    void setImage(Drawable image) {
+        this.img = image;
+    }
 
-    public void setContext(Context context) { myGlobalsFunctions = new MyGlobalsFunctions(context);}
+    public void setContext(Context context) {
+        myGlobalsFunctions = new MyGlobalsFunctions(context);
+    }
 }

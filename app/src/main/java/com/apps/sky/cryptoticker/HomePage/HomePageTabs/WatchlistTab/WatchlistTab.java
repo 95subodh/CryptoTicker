@@ -59,8 +59,7 @@ public class WatchlistTab extends Fragment implements SwipeRefreshLayout.OnRefre
             if (items == null || items.size() == 0) {
                 rootView = inflater.inflate(R.layout.empty_view_layout, container, false);
                 ((TextView) rootView.findViewById(R.id.empty_view_text)).setText("Your watchlist is empty");
-            }
-            else
+            } else
                 rootView = inflater.inflate(R.layout.watchlist_tab, container, false);
         }
 
@@ -116,10 +115,9 @@ public class WatchlistTab extends Fragment implements SwipeRefreshLayout.OnRefre
                     new JSONTask().execute(url, imageUrl, highLowUrl, cryptoID);
                 }
             }
-        }
-        else {
+        } else {
             LayoutInflater inflater = (LayoutInflater) this.getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            ((RelativeLayout) rootView.findViewById(R.id.main_view)).addView(inflater.inflate(R.layout.empty_view_layout, ((ViewGroup)getView().getParent()), false));
+            ((RelativeLayout) rootView.findViewById(R.id.main_view)).addView(inflater.inflate(R.layout.empty_view_layout, ((ViewGroup) getView().getParent()), false));
             ((TextView) rootView.findViewById(R.id.empty_view_text)).setText("Your watchlist is empty");
             rootView.refreshDrawableState();
         }
@@ -132,7 +130,8 @@ public class WatchlistTab extends Fragment implements SwipeRefreshLayout.OnRefre
         int cardPosition = 0;
         for (int i = 0; i < watchlistArrayTemp.size(); ++i) {
             if (watchlistArrayTemp.get(i).getCryptoID().equals(cryptoID)) {
-                cardPosition = i; break;
+                cardPosition = i;
+                break;
             }
         }
 
@@ -144,12 +143,12 @@ public class WatchlistTab extends Fragment implements SwipeRefreshLayout.OnRefre
         String price = parentObject.getString("price_" + currency.toLowerCase());
         watchlistArrayTemp.get(cardPosition).setCurrentPrice(myGlobalsFunctions.nullCheck(price));
 
-        if (highLowJson!=null && !Objects.equals(highLowJson, "")) {
+        if (highLowJson != null && !Objects.equals(highLowJson, "")) {
             JSONObject highLowObj = new JSONObject(highLowJson);
             JSONArray newRef = highLowObj.optJSONArray("stats");
-            float min = Float.parseFloat( newRef.optJSONArray(0).optString(1) ), max = Float.parseFloat( newRef.optJSONArray(0).optString(1) );
+            float min = Float.parseFloat(newRef.optJSONArray(0).optString(1)), max = Float.parseFloat(newRef.optJSONArray(0).optString(1));
             for (int i = 0; i < newRef.length(); i++) {
-                Float temp = Float.parseFloat( newRef.optJSONArray(i).optString(1) );
+                Float temp = Float.parseFloat(newRef.optJSONArray(i).optString(1));
                 if (temp > max) max = temp;
                 if (temp < min) min = temp;
             }
@@ -157,25 +156,24 @@ public class WatchlistTab extends Fragment implements SwipeRefreshLayout.OnRefre
             watchlistArrayTemp.get(cardPosition).setMaxDayPrice(myGlobalsFunctions.nullCheck(Float.toString(Math.max(max, Float.parseFloat(price)))));
         }
 
-        String change = myGlobalsFunctions.nullCheck( parentObject.getString("percent_change_24h") );
+        String change = myGlobalsFunctions.nullCheck(parentObject.getString("percent_change_24h"));
         if (change.equals("-")) {
             watchlistArrayTemp.get(cardPosition).setChange(change);
-        }
-        else {
+        } else {
             float changeNum = Float.parseFloat(price) - (Float.parseFloat(price) / (1 + ((float) 0.01 * Float.parseFloat(change))));
-            watchlistArrayTemp.get(cardPosition).setChange(myGlobalsFunctions.commaSeperateIntegerMinimal(String.valueOf(changeNum), true) + " (" + change + "%)");
+            watchlistArrayTemp.get(cardPosition).setChange(myGlobalsFunctions.floatFormatter(String.valueOf(changeNum), true, true, true) + " (" + change + "%)");
         }
 
-        if (change.length()>1) {
+        if (change.length() > 1) {
             if (change.charAt(0) == '-') watchlistArrayTemp.get(cardPosition).setChangeColor(false);
             else watchlistArrayTemp.get(cardPosition).setChangeColor(true);
         }
 
-        watchlistArrayTemp.get(cardPosition).setCryptoID( myGlobalsFunctions.nullCheck(parentObject.getString("id")) );
+        watchlistArrayTemp.get(cardPosition).setCryptoID(myGlobalsFunctions.nullCheck(parentObject.getString("id")));
         watchlistArrayTemp.get(cardPosition).setIcon(iconUrl);
     }
 
-    public class JSONTask extends AsyncTask<String,String, String > {
+    public class JSONTask extends AsyncTask<String, String, String> {
 
         @Override
         protected void onPreExecute() {
@@ -188,7 +186,7 @@ public class WatchlistTab extends Fragment implements SwipeRefreshLayout.OnRefre
                 String finalJson = myGlobalsFunctions.fetchJSONasString(params[0]);
                 String highLowJson = myGlobalsFunctions.fetchJSONasString(params[2]);
 //                myGlobalsFunctions.storeStringToFile(params[3], getString(R.string.crypto_info_dir), finalJson);
-                if (finalJson!=null) {
+                if (finalJson != null) {
                     setVals(finalJson, params[1], highLowJson, params[3]);
                 }
                 Thread.sleep(10);
@@ -197,7 +195,7 @@ public class WatchlistTab extends Fragment implements SwipeRefreshLayout.OnRefre
             } catch (IOException | JSONException | InterruptedException e) {
                 e.printStackTrace();
             }
-            return  null;
+            return null;
         }
 
         @Override
@@ -205,7 +203,7 @@ public class WatchlistTab extends Fragment implements SwipeRefreshLayout.OnRefre
             super.onPostExecute(result);
 
             count++;
-            if (count==items.size()) {
+            if (count == items.size()) {
                 watchlistArray.addAll(watchlistArrayTemp);
                 adapter = new WatchlistRecyclerViewAdapter(watchlistArray, WatchlistTab.this);
                 recyclerView.setAdapter(adapter);

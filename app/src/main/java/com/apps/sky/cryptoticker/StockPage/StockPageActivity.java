@@ -44,7 +44,8 @@ public class StockPageActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         if (intent.getExtras() != null) cryptoID = intent.getExtras().getString("cryptoID");
-        if (cryptoID != null) cryptoName = ConstantsCrypto.cryptoMap.get(cryptoID.replace("-", "_"))[0];
+        if (cryptoID != null)
+            cryptoName = ConstantsCrypto.cryptoMap.get(cryptoID.replace("-", "_"))[0];
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("");
@@ -65,11 +66,11 @@ public class StockPageActivity extends AppCompatActivity {
         add = findViewById(R.id.add_currency);
 
         fab_open = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
-        fab_close = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fab_close);
-        rotate_forward = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_forward);
-        rotate_backward = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_backward);
+        fab_close = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_close);
+        rotate_forward = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_forward);
+        rotate_backward = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_backward);
         myGlobalsFunctions = new MyGlobalsFunctions(getApplicationContext());
-      
+
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -81,9 +82,9 @@ public class StockPageActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 ArrayList<String> watchlistitems = myGlobalsFunctions.retrieveListFromFile(getString(R.string.crypto_watchlist_file), getString(R.string.crypto_watchlist_dir));
-                if(watchlistitems==null || !watchlistitems.contains(cryptoID)){
+                if (watchlistitems == null || !watchlistitems.contains(cryptoID)) {
                     watchlistitems.add(cryptoID);
-                    myGlobalsFunctions.storeListToFile( getString(R.string.crypto_watchlist_file), getString(R.string.crypto_watchlist_dir), watchlistitems);
+                    myGlobalsFunctions.storeListToFile(getString(R.string.crypto_watchlist_file), getString(R.string.crypto_watchlist_dir), watchlistitems);
                 }
                 Intent intent = new Intent(StockPageActivity.this, MainActivity.class);
                 intent.putExtra("tab", "watchlist");
@@ -103,8 +104,8 @@ public class StockPageActivity extends AppCompatActivity {
 
     }
 
-    public void animateFAB(){
-        if(isFabOpen){
+    public void animateFAB() {
+        if (isFabOpen) {
             add.startAnimation(rotate_backward);
             fab1_view.startAnimation(fab_close);
             fab2_view.startAnimation(fab_close);
@@ -130,7 +131,7 @@ public class StockPageActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-            switch (position){
+            switch (position) {
                 case 0:
                     StockInfoTab stockInfoTab = new StockInfoTab();
                     stockInfoTab.cryptoID = cryptoID;
@@ -148,7 +149,9 @@ public class StockPageActivity extends AppCompatActivity {
         }
 
         @Override
-        public int getCount() { return 3; }
+        public int getCount() {
+            return 3;
+        }
 
         @Override
         public CharSequence getPageTitle(int position) {

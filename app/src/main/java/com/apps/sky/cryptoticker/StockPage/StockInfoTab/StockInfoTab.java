@@ -68,8 +68,8 @@ public class StockInfoTab extends Fragment implements View.OnClickListener {
         currency = sharedPreferences.getString(Constants.PREFERENCE_CURRENCY, "");
         if (currency.equals("")) currency = Constants.DEFAULT_CURRENCY;
 
-        url = "https://api.coinmarketcap.com/v1/ticker/"+cryptoID+"/?convert=" + currency.toUpperCase();
-        iconUrl = "https://files.coinmarketcap.com/static/img/coins/32x32/"+cryptoID+".png";
+        url = "https://api.coinmarketcap.com/v1/ticker/" + cryptoID + "/?convert=" + currency.toUpperCase();
+        iconUrl = "https://files.coinmarketcap.com/static/img/coins/32x32/" + cryptoID + ".png";
         highLowUrl24 = "https://www.coingecko.com/en/price_charts/" + cryptoID + "/" + currency.toLowerCase() + "/24_hours.json";
         highLowUrl7 = "https://www.coingecko.com/en/price_charts/" + cryptoID + "/" + currency.toLowerCase() + "/7_days.json";
         highLowUrl14 = "https://www.coingecko.com/en/price_charts/" + cryptoID + "/" + currency.toLowerCase() + "/14_days.json";
@@ -94,10 +94,22 @@ public class StockInfoTab extends Fragment implements View.OnClickListener {
         textAll = rootView.findViewById(R.id.d_alltime_textview);
 
         texts = new ArrayList<>();
-        texts.add(text24); texts.add(text7); texts.add(text14); texts.add(text30); texts.add(text60); texts.add(text90); texts.add(textAll);
+        texts.add(text24);
+        texts.add(text7);
+        texts.add(text14);
+        texts.add(text30);
+        texts.add(text60);
+        texts.add(text90);
+        texts.add(textAll);
 
         views = new ArrayList<>();
-        views.add(R.id.h_24); views.add(R.id.d_7); views.add(R.id.d_14); views.add(R.id.d_30); views.add(R.id.d_60); views.add(R.id.d_90); views.add(R.id.alltime);
+        views.add(R.id.h_24);
+        views.add(R.id.d_7);
+        views.add(R.id.d_14);
+        views.add(R.id.d_30);
+        views.add(R.id.d_60);
+        views.add(R.id.d_90);
+        views.add(R.id.alltime);
 
         series24 = new ValueLineSeries();
         series24.setColor(getContext().getResources().getColor(R.color.colorPrimary));
@@ -129,8 +141,7 @@ public class StockInfoTab extends Fragment implements View.OnClickListener {
             if (view.getId() == views.get(i)) {
                 texts.get(i).setTypeface(null, Typeface.BOLD);
                 texts.get(i).setTextSize(16);
-            }
-            else {
+            } else {
                 texts.get(i).setTypeface(null, Typeface.NORMAL);
                 texts.get(i).setTextSize(12);
             }
@@ -202,9 +213,9 @@ public class StockInfoTab extends Fragment implements View.OnClickListener {
     private void fillInfoFromJSONHighLow() {
         if (getView() != null) {
             highVal = getView().findViewById(R.id.high);
-            highVal.setText(myGlobalsFunctions.commaSeperateInteger(high, true));
+            highVal.setText(myGlobalsFunctions.floatFormatter(high, true, true, true));
             lowVal = getView().findViewById(R.id.low);
-            lowVal.setText(myGlobalsFunctions.commaSeperateInteger(low, true));
+            lowVal.setText(myGlobalsFunctions.floatFormatter(low, true, true, true));
             cubicValueLineChart.addSeries(series24);
         }
     }
@@ -212,16 +223,16 @@ public class StockInfoTab extends Fragment implements View.OnClickListener {
     private void fillInfoFromJSON() {
         if (getView() != null) {
             coinPrice = getView().findViewById(R.id.coin_price);
-            coinPrice.setText(myGlobalsFunctions.commaSeperateInteger(price, true));
+            coinPrice.setText(myGlobalsFunctions.floatFormatter(price, true, true, false));
             coinAvailSupply = getView().findViewById(R.id.coin_avail_supply);
-            coinAvailSupply.setText(myGlobalsFunctions.commaSeperateInteger(avlsup));
+            coinAvailSupply.setText(myGlobalsFunctions.floatFormatter(avlsup, false, true, false));
             coinCap = getView().findViewById(R.id.coin_cap);
-            coinCap.setText  (myGlobalsFunctions.commaSeperateIntegerMinimal(cap, true));
+            coinCap.setText(myGlobalsFunctions.floatFormatter(cap, true, true, true));
             coinRank = getView().findViewById(R.id.coin_rank);
             coinRank.setText(rank);
             coinChange = getView().findViewById(R.id.coin_change);
             coinChange.setText(change);
-            if (change.length()>1 && change.charAt(1) == '-') {
+            if (change.length() > 1 && change.charAt(1) == '-') {
                 coinChange.setTextColor(getResources().getColor(R.color.valueNegative));
             } else {
                 coinChange.setTextColor(getResources().getColor(R.color.valuePositive));
@@ -231,72 +242,79 @@ public class StockInfoTab extends Fragment implements View.OnClickListener {
         }
     }
 
-    public void setValsGraph(String highLowJson) throws JSONException{
+    public void setValsGraph(String highLowJson) throws JSONException {
 
-        if (highLowJson!=null && !Objects.equals(highLowJson, "")) {
+        if (highLowJson != null && !Objects.equals(highLowJson, "")) {
             JSONObject highLowObj = new JSONObject(highLowJson);
             JSONArray newRef = highLowObj.optJSONArray("stats");
 
             switch (currentSeries) {
-                case "1" :  for (int i = 0; i < newRef.length(); ++i) {
-                                series24.addPoint(new ValueLinePoint(myGlobalsFunctions.getEpochToNormalTimeString(newRef.optJSONArray(i).optString(0)), Float.parseFloat(newRef.optJSONArray(i).optString(1))));
-                            }
-                            cubicValueLineChart.clearChart();
-                            cubicValueLineChart.addSeries(series24);
-                            break;
+                case "1":
+                    for (int i = 0; i < newRef.length(); ++i) {
+                        series24.addPoint(new ValueLinePoint(myGlobalsFunctions.getEpochToNormalTimeString(newRef.optJSONArray(i).optString(0)), Float.parseFloat(newRef.optJSONArray(i).optString(1))));
+                    }
+                    cubicValueLineChart.clearChart();
+                    cubicValueLineChart.addSeries(series24);
+                    break;
 
-                case "2" :  for (int i = 0; i < newRef.length(); ++i) {
-                                series7.addPoint(new ValueLinePoint(myGlobalsFunctions.getEpochToNormalDateString(newRef.optJSONArray(i).optString(0)), Float.parseFloat(newRef.optJSONArray(i).optString(1))));
-                            }
-                            cubicValueLineChart.clearChart();
-                            cubicValueLineChart.addSeries(series7);
-                            break;
+                case "2":
+                    for (int i = 0; i < newRef.length(); ++i) {
+                        series7.addPoint(new ValueLinePoint(myGlobalsFunctions.getEpochToNormalDateString(newRef.optJSONArray(i).optString(0)), Float.parseFloat(newRef.optJSONArray(i).optString(1))));
+                    }
+                    cubicValueLineChart.clearChart();
+                    cubicValueLineChart.addSeries(series7);
+                    break;
 
-                case "3" :  for (int i = 0; i < newRef.length(); ++i) {
-                                series14.addPoint(new ValueLinePoint(myGlobalsFunctions.getEpochToNormalDateString(newRef.optJSONArray(i).optString(0)), Float.parseFloat(newRef.optJSONArray(i).optString(1))));
-                            }
-                            cubicValueLineChart.clearChart();
-                            cubicValueLineChart.addSeries(series14);
-                            break;
+                case "3":
+                    for (int i = 0; i < newRef.length(); ++i) {
+                        series14.addPoint(new ValueLinePoint(myGlobalsFunctions.getEpochToNormalDateString(newRef.optJSONArray(i).optString(0)), Float.parseFloat(newRef.optJSONArray(i).optString(1))));
+                    }
+                    cubicValueLineChart.clearChart();
+                    cubicValueLineChart.addSeries(series14);
+                    break;
 
-                case "4" :  for (int i = 0; i < newRef.length(); ++i) {
-                                series30.addPoint(new ValueLinePoint(myGlobalsFunctions.getEpochToNormalDateString(newRef.optJSONArray(i).optString(0)), Float.parseFloat(newRef.optJSONArray(i).optString(1))));
-                            }
-                            cubicValueLineChart.clearChart();
-                            cubicValueLineChart.addSeries(series30);
-                            break;
+                case "4":
+                    for (int i = 0; i < newRef.length(); ++i) {
+                        series30.addPoint(new ValueLinePoint(myGlobalsFunctions.getEpochToNormalDateString(newRef.optJSONArray(i).optString(0)), Float.parseFloat(newRef.optJSONArray(i).optString(1))));
+                    }
+                    cubicValueLineChart.clearChart();
+                    cubicValueLineChart.addSeries(series30);
+                    break;
 
-                case "5" :  for (int i = 0; i < newRef.length(); ++i) {
-                                series60.addPoint(new ValueLinePoint(myGlobalsFunctions.getEpochToNormalDateString(newRef.optJSONArray(i).optString(0)), Float.parseFloat(newRef.optJSONArray(i).optString(1))));
-                            }
-                            cubicValueLineChart.clearChart();
-                            cubicValueLineChart.addSeries(series60);
-                            break;
+                case "5":
+                    for (int i = 0; i < newRef.length(); ++i) {
+                        series60.addPoint(new ValueLinePoint(myGlobalsFunctions.getEpochToNormalDateString(newRef.optJSONArray(i).optString(0)), Float.parseFloat(newRef.optJSONArray(i).optString(1))));
+                    }
+                    cubicValueLineChart.clearChart();
+                    cubicValueLineChart.addSeries(series60);
+                    break;
 
-                case "6" :  for (int i = 0; i < newRef.length(); ++i) {
-                                series90.addPoint(new ValueLinePoint(myGlobalsFunctions.getEpochToNormalDateString(newRef.optJSONArray(i).optString(0)), Float.parseFloat(newRef.optJSONArray(i).optString(1))));
-                            }
-                            cubicValueLineChart.clearChart();
-                            cubicValueLineChart.addSeries(series90);
-                            break;
+                case "6":
+                    for (int i = 0; i < newRef.length(); ++i) {
+                        series90.addPoint(new ValueLinePoint(myGlobalsFunctions.getEpochToNormalDateString(newRef.optJSONArray(i).optString(0)), Float.parseFloat(newRef.optJSONArray(i).optString(1))));
+                    }
+                    cubicValueLineChart.clearChart();
+                    cubicValueLineChart.addSeries(series90);
+                    break;
 
-                case "7" :  for (int i = 0; i < newRef.length(); ++i) {
-                                seriesAll.addPoint(new ValueLinePoint(myGlobalsFunctions.getEpochToNormalYearString(newRef.optJSONArray(i).optString(0)), Float.parseFloat(newRef.optJSONArray(i).optString(1))));
-                            }
-                            cubicValueLineChart.clearChart();
-                            cubicValueLineChart.addSeries(seriesAll);
-                            break;
+                case "7":
+                    for (int i = 0; i < newRef.length(); ++i) {
+                        seriesAll.addPoint(new ValueLinePoint(myGlobalsFunctions.getEpochToNormalYearString(newRef.optJSONArray(i).optString(0)), Float.parseFloat(newRef.optJSONArray(i).optString(1))));
+                    }
+                    cubicValueLineChart.clearChart();
+                    cubicValueLineChart.addSeries(seriesAll);
+                    break;
             }
         }
     }
 
     public void setValsHighLow(String highLowJson24) throws JSONException {
-        if (highLowJson24!=null && !Objects.equals(highLowJson24, "")) {
+        if (highLowJson24 != null && !Objects.equals(highLowJson24, "")) {
             JSONObject highLowObj = new JSONObject(highLowJson24);
             JSONArray newRef = highLowObj.optJSONArray("stats");
-            float min = Float.parseFloat( newRef.optJSONArray(0).optString(1) ), max = Float.parseFloat( newRef.optJSONArray(0).optString(1) );
+            float min = Float.parseFloat(newRef.optJSONArray(0).optString(1)), max = Float.parseFloat(newRef.optJSONArray(0).optString(1));
             for (int i = 0; i < newRef.length(); i++) {
-                Float temp = Float.parseFloat( newRef.optJSONArray(i).optString(1) );
+                Float temp = Float.parseFloat(newRef.optJSONArray(i).optString(1));
                 if (temp > max) max = temp;
                 if (temp < min) min = temp;
             }
@@ -312,26 +330,26 @@ public class StockInfoTab extends Fragment implements View.OnClickListener {
         JSONArray jarr = new JSONArray(finalJson);
 
         JSONObject parentObject = jarr.getJSONObject(0);
-        price = myGlobalsFunctions.nullCheck( parentObject.getString("price_" + currency.toLowerCase()) );
-        change = myGlobalsFunctions.nullCheck( parentObject.getString("percent_change_24h") );
-        rank = myGlobalsFunctions.nullCheck( parentObject.getString("rank") );
-        cap = myGlobalsFunctions.nullCheck( parentObject.getString("market_cap_" + currency.toLowerCase()) );
-        avlsup = myGlobalsFunctions.nullCheck( parentObject.getString("available_supply") );
-        lstupd = myGlobalsFunctions.nullCheck( parentObject.getString("last_updated") );
+        price = myGlobalsFunctions.nullCheck(parentObject.getString("price_" + currency.toLowerCase()));
+        change = myGlobalsFunctions.nullCheck(parentObject.getString("percent_change_24h"));
+        rank = myGlobalsFunctions.nullCheck(parentObject.getString("rank"));
+        cap = myGlobalsFunctions.nullCheck(parentObject.getString("market_cap_" + currency.toLowerCase()));
+        avlsup = myGlobalsFunctions.nullCheck(parentObject.getString("available_supply"));
+        lstupd = myGlobalsFunctions.nullCheck(parentObject.getString("last_updated"));
 
         if (!"-".equals(change) && !"-".equals(price)) {
             float changeNum = Float.parseFloat(price) - (Float.parseFloat(price) / (1 + ((float) 0.01 * Float.parseFloat(change))));
-            change = myGlobalsFunctions.commaSeperateIntegerMinimal(String.valueOf(changeNum), true) + " (" + change + "%)";
+            change = myGlobalsFunctions.floatFormatter(String.valueOf(changeNum), true, true, true) + " (" + change + "%)";
         }
     }
 
-    public class JSONTask extends AsyncTask<String,String, String > {
+    public class JSONTask extends AsyncTask<String, String, String> {
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
             try {
-                String finalJson = myGlobalsFunctions.retieveStringFromFile(cryptoID,getString(R.string.crypto_info_dir));
+                String finalJson = myGlobalsFunctions.retieveStringFromFile(cryptoID, getString(R.string.crypto_info_dir));
                 if (finalJson != null) {
                     setVals(finalJson);
                 }
@@ -354,7 +372,7 @@ public class StockInfoTab extends Fragment implements View.OnClickListener {
             } catch (IOException | JSONException e) {
                 e.printStackTrace();
             }
-            return  null;
+            return null;
         }
 
         @Override
@@ -365,7 +383,7 @@ public class StockInfoTab extends Fragment implements View.OnClickListener {
         }
     }
 
-    public class JSONTaskHighLow extends AsyncTask<String,String, String > {
+    public class JSONTaskHighLow extends AsyncTask<String, String, String> {
 
         @Override
         protected void onPreExecute() {
@@ -386,7 +404,7 @@ public class StockInfoTab extends Fragment implements View.OnClickListener {
             } catch (IOException | JSONException e) {
                 e.printStackTrace();
             }
-            return  null;
+            return null;
         }
 
         @Override
@@ -399,7 +417,7 @@ public class StockInfoTab extends Fragment implements View.OnClickListener {
         }
     }
 
-    public class JSONTaskGraph extends AsyncTask<String,String, String > {
+    public class JSONTaskGraph extends AsyncTask<String, String, String> {
         String num;
 
         @Override
@@ -419,7 +437,7 @@ public class StockInfoTab extends Fragment implements View.OnClickListener {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            return  null;
+            return null;
         }
 
         @Override
@@ -429,8 +447,7 @@ public class StockInfoTab extends Fragment implements View.OnClickListener {
                 if (result != null && num.equals(currentSeries)) {
                     setValsGraph(result);
                 }
-            }
-            catch (JSONException e) {
+            } catch (JSONException e) {
                 e.printStackTrace();
             }
             spinKit.setVisibility(View.INVISIBLE);

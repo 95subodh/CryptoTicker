@@ -24,6 +24,7 @@ public class TrendingTab extends Fragment {
         if (rootView == null) {
             rootView = inflater.inflate(R.layout.trending_tab, container, false);
         }
-        return rootView;    }
+        return rootView;
+    }
 
 }

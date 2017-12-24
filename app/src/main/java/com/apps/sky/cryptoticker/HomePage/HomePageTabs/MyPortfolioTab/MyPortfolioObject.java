@@ -35,7 +35,9 @@ public class MyPortfolioObject {
         return currentValue;
     }
 
-    public void setCurrentValue(String currentValue) { this.currentValue = currentValue; }
+    public void setCurrentValue(String currentValue) {
+        this.currentValue = currentValue;
+    }
 
     public String getMyProfit() {
         return myProfit;
@@ -45,15 +47,21 @@ public class MyPortfolioObject {
         this.myProfit = myProfit;
     }
 
-    public boolean getChangeColor() { return color; }
+    public boolean getChangeColor() {
+        return color;
+    }
 
-    public void setChangeColor(boolean color) { this.color = color; }
+    public void setChangeColor(boolean color) {
+        this.color = color;
+    }
 
     public Bitmap getIcon() {
         return btmp;
     }
 
-    public void setIcon(String ImageUrl) { this.btmp = myGlobalsFunctions.convertImageURLtoBitmap(ImageUrl); }
+    public void setIcon(String ImageUrl) {
+        this.btmp = myGlobalsFunctions.convertImageURLtoBitmap(ImageUrl);
+    }
 
     public void setContext(Context context) {
         myGlobalsFunctions = new MyGlobalsFunctions(context);

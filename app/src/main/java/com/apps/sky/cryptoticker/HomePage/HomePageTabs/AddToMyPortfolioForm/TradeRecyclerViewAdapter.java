@@ -65,13 +65,13 @@ public class TradeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
-        ((DataObjectHolder)holder).cryptoID = mDataset.get(position).getCryptoID();
-        ((DataObjectHolder)holder).tradeNumber.setText(mDataset.get(position).getTradeNumber());
-        ((DataObjectHolder)holder).costInputView.setText(mDataset.get(position).getCost());
-        ((DataObjectHolder)holder).quantityInputView.setText(mDataset.get(position).getQuantity());
+        ((DataObjectHolder) holder).cryptoID = mDataset.get(position).getCryptoID();
+        ((DataObjectHolder) holder).tradeNumber.setText(mDataset.get(position).getTradeNumber());
+        ((DataObjectHolder) holder).costInputView.setText(mDataset.get(position).getCost());
+        ((DataObjectHolder) holder).quantityInputView.setText(mDataset.get(position).getQuantity());
 
         final int pos = holder.getAdapterPosition();
-        ((DataObjectHolder)holder).costInputView.addTextChangedListener(new TextWatcher() {
+        ((DataObjectHolder) holder).costInputView.addTextChangedListener(new TextWatcher() {
 
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -93,10 +93,12 @@ public class TradeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
             }
 
             @Override
-            public void afterTextChanged(Editable editable) { mDataset.get(pos).setCost(editable.toString()); }
+            public void afterTextChanged(Editable editable) {
+                mDataset.get(pos).setCost(editable.toString());
+            }
         });
 
-        ((DataObjectHolder)holder).quantityInputView.addTextChangedListener(new TextWatcher() {
+        ((DataObjectHolder) holder).quantityInputView.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             }
@@ -104,12 +106,11 @@ public class TradeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (context instanceof AddToMyPortfolioFormActivity) {
-                    if (((DataObjectHolder)holder).costInputView.getText().toString().trim().isEmpty() ||
-                            ((DataObjectHolder)holder).quantityInputView.getText().toString().trim().isEmpty()) {
+                    if (((DataObjectHolder) holder).costInputView.getText().toString().trim().isEmpty() ||
+                            ((DataObjectHolder) holder).quantityInputView.getText().toString().trim().isEmpty()) {
                         ((AddToMyPortfolioFormActivity) context).submit.setEnabled(false);
                         ((AddToMyPortfolioFormActivity) context).addTrade.setEnabled(false);
-                    }
-                    else {
+                    } else {
                         ((AddToMyPortfolioFormActivity) context).submit.setEnabled(true);
                         ((AddToMyPortfolioFormActivity) context).addTrade.setEnabled(true);
                     }
@@ -119,10 +120,12 @@ public class TradeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
             }
 
             @Override
-            public void afterTextChanged(Editable editable) { mDataset.get(pos).setQuantity(editable.toString()); }
+            public void afterTextChanged(Editable editable) {
+                mDataset.get(pos).setQuantity(editable.toString());
+            }
         });
 
-        ((DataObjectHolder)holder).closeButton.setOnClickListener(new View.OnClickListener() {
+        ((DataObjectHolder) holder).closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (context instanceof AddToMyPortfolioFormActivity) {
@@ -131,11 +134,11 @@ public class TradeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
             }
         });
 
-        ((DataObjectHolder)holder).editButton.setOnClickListener(new View.OnClickListener() {
+        ((DataObjectHolder) holder).editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            ((DataObjectHolder)holder).costInputView.setEnabled(true);
-            ((DataObjectHolder)holder).quantityInputView.setEnabled(true);
+                ((DataObjectHolder) holder).costInputView.setEnabled(true);
+                ((DataObjectHolder) holder).quantityInputView.setEnabled(true);
             }
         });
     }

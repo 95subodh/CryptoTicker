@@ -8,6 +8,7 @@ import java.util.HashMap;
 
 public class ConstantsCrypto {
     public static final HashMap<String, String[]> cryptoMap = new HashMap<>();
+
     static {
         cryptoMap.put("bitcoin", new String[]{"Bitcoin", "BTC"});
         cryptoMap.put("ethereum", new String[]{"Ethereum", "ETH"});

@@ -1,7 +1,9 @@
 package com.apps.sky.cryptoticker.HomePage.HomePageTabs.ChatTab;
 
 import android.app.Application;
+
 import com.apps.sky.cryptoticker.Global.Constants;
+
 import java.net.URISyntaxException;
 
 import io.socket.client.IO;
@@ -14,6 +16,7 @@ import io.socket.client.Socket;
 public class ChatApplication extends Application {
 
     private Socket mSocket;
+
     {
         try {
             mSocket = IO.socket(Constants.CHAT_SERVER_URL);
