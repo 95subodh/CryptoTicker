@@ -37,7 +37,7 @@ public class MyGlobalsFunctions {
     private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 
     // constructor
-    public MyGlobalsFunctions(Context context){
+    public MyGlobalsFunctions(Context context) {
         this.mContext = context;
     }
 
@@ -60,86 +60,66 @@ public class MyGlobalsFunctions {
     }
 
     public String nullCheck(String data) {
-        if (data==null || "".equals(data) || "-".equals(data) || "null".equals(data)) {
+        if (data == null || "".equals(data) || "-".equals(data) || "null".equals(data)) {
             return "-";
         }
         return data;
     }
 
-    public String commaSeperateIntegerMinimal(String num, Boolean... symbolCheck){
-        if (num == null || "null".equals(num) || "-".equals(num)) return "-";
-        Double x = Double.valueOf(num);
-
-        String curr = "";
-        if (symbolCheck.length>0 && symbolCheck[0]) {
-            curr = getCurrencySymbol();
-        }
+    public String floatFormatter(String num, Boolean addSymbol, Boolean commaSeperated, Boolean minimal) {
+        if ("-".equals(nullCheck(num))) return "-";
+        Double x = Double.valueOf(num), y = 0.0, z;
+        DecimalFormat newFormat;
+        String result = "";
 
         if (x >= 1000000000 || x <= -1000000000) {
-            DecimalFormat newFormat = new DecimalFormat("#.##");
-            x /= 1000000000.0;
-            x =  Double.valueOf(newFormat.format(x));
-            return curr + NumberFormat.getNumberInstance(Locale.US).format(x) + "B";
+            newFormat = new DecimalFormat("#.##");
+            y = Double.valueOf(newFormat.format(x / 1000000000.0));
+        } else if (x >= 1000000 || x <= -1000000) {
+            newFormat = new DecimalFormat("#.##");
+            y = Double.valueOf(newFormat.format(x / 1000000.0));
+        } else if (x >= 1000 || x <= -1000) {
+            newFormat = new DecimalFormat("#");
+            y = Double.valueOf(newFormat.format(x));
+        } else if (x >= 1 || x <= -1) {
+            newFormat = new DecimalFormat("#.##");
+            y = Double.valueOf(newFormat.format(x));
         }
-        else if (x >= 1000000 || x <= -1000000) {
-            DecimalFormat newFormat = new DecimalFormat("#.##");
-            x /= 1000000.0;
-            x =  Double.valueOf(newFormat.format(x));
-            return curr + NumberFormat.getNumberInstance(Locale.US).format(x) + "M";
+        z = (minimal) ? y : x;
+        result = (commaSeperated) ? NumberFormat.getNumberInstance(Locale.US).format(z) : z.toString();
+        if (minimal && x >= 1000000) {
+            result += (x >= 1000000000 || x <= -1000000000) ? "B" : "M";
         }
-        else if (x>=1000 || x<=-1000) {
-            DecimalFormat newFormat = new DecimalFormat("#.#");
-            x =  Double.valueOf(newFormat.format(x));
-        }
-        else if (x>=1 || x<=-1) {
-            DecimalFormat newFormat = new DecimalFormat("#.##");
-            x =  Double.valueOf(newFormat.format(x));
-        }
-        return curr + NumberFormat.getNumberInstance(Locale.US).format(x);
+        return (addSymbol) ? getCurrencySymbol() + result : result;
     }
 
-    public String commaSeperateInteger(String num, Boolean... symbolCheck){
-        if (num == null || "null".equals(num) || "-".equals(num)) return "-";
-        Double x = Double.valueOf(num);
-        if (x>=1000 || x<=-1000) {
-            DecimalFormat newFormat = new DecimalFormat("#.#");
-            x =  Double.valueOf(newFormat.format(x));
-        }
-        else if (x>=1 || x<=-1) {
-            DecimalFormat newFormat = new DecimalFormat("#.##");
-            x =  Double.valueOf(newFormat.format(x));
-        }
-        String curr = "";
-        if (symbolCheck.length>0 && symbolCheck[0]) {
-            curr = getCurrencySymbol();
-        }
-        return curr + NumberFormat.getNumberInstance(Locale.US).format(x);
-    }
-
-    public String getEpochToNormalDateString (String date) {
-        String date2 = new java.text.SimpleDateFormat("dd/MM").format(new java.util.Date ((long)(Double.valueOf(date)*1)));
+    public String getEpochToNormalDateString(String date) {
+        String date2 = new java.text.SimpleDateFormat("dd/MM").format(new java.util.Date((long) (Double.valueOf(date) * 1)));
         return date2;
     }
 
-    public String getEpochToNormalTimeString (String date) {
-        String date2 = new java.text.SimpleDateFormat("HH:mm").format(new java.util.Date ((long)(Double.valueOf(date)*1)));
+    public String getEpochToNormalTimeString(String date) {
+        String date2 = new java.text.SimpleDateFormat("HH:mm").format(new java.util.Date((long) (Double.valueOf(date) * 1)));
         return date2;
     }
 
-    public String getEpochToNormalDateAndTimeString (String date) {
-        String date2 = new java.text.SimpleDateFormat("dd MMM, yyyy HH:mm:ss").format(new java.util.Date (Long.valueOf(date)*1000));
+    public String getEpochToNormalDateAndTimeString(String date) {
+        String date2 = new java.text.SimpleDateFormat("dd MMM, yyyy HH:mm:ss").format(new java.util.Date(Long.valueOf(date) * 1000));
         return date2;
     }
 
-    public String getEpochToNormalYearString (String date) {
-        String date2 = new java.text.SimpleDateFormat("MMM yy").format(new java.util.Date ((long)(Double.valueOf(date)*1)));
+    public String getEpochToNormalYearString(String date) {
+        String date2 = new java.text.SimpleDateFormat("MMM yy").format(new java.util.Date((long) (Double.valueOf(date) * 1)));
         return date2;
     }
 
-    private String convertDateToCalendarDate (String date) {
+    private String convertDateToCalendarDate(String date) {
         Calendar calendar = Calendar.getInstance();
-        try { calendar.setTime(formatter.parse(date)); }
-        catch (Exception e) { e.printStackTrace(); }
+        try {
+            calendar.setTime(formatter.parse(date));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return calendar.getTime().toString();
     }
 
@@ -151,18 +131,18 @@ public class MyGlobalsFunctions {
         return convertDateToCalendarDate(originalDate).substring(4, 10) + ", " + convertDateToCalendarDate(originalDate).substring(11, 16);
     }
 
-    public String bitMapToString(Bitmap bitmap){
-        ByteArrayOutputStream baos=new  ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG,100, baos);
-        byte [] b=baos.toByteArray();
+    public String bitMapToString(Bitmap bitmap) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] b = baos.toByteArray();
         return Base64.encodeToString(b, Base64.DEFAULT);
     }
 
-    public Bitmap stringToBitMap(String encodedString){
+    public Bitmap stringToBitMap(String encodedString) {
         try {
-            byte [] encodeByte=Base64.decode(encodedString,Base64.DEFAULT);
+            byte[] encodeByte = Base64.decode(encodedString, Base64.DEFAULT);
             return BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.getMessage();
             return null;
         }
@@ -172,7 +152,7 @@ public class MyGlobalsFunctions {
         try {
             if (ImageUrl.contains("https://files")) {
                 String temp = retieveStringFromFile(ImageUrl, mContext.getString(R.string.crypto_coin_icon_dir));
-                if (temp!=null) {
+                if (temp != null) {
                     return stringToBitMap(temp);
                 }
             }
@@ -182,7 +162,7 @@ public class MyGlobalsFunctions {
             urlcon.connect();
             InputStream in = urlcon.getInputStream();
             Bitmap icon = BitmapFactory.decodeStream(in);
-            if (store.length>0) {
+            if (store.length > 0) {
                 storeStringToFile(ImageUrl, mContext.getString(R.string.crypto_coin_icon_dir), bitMapToString(icon));
             }
             return icon;
@@ -203,7 +183,7 @@ public class MyGlobalsFunctions {
         File myDir = mContext.getFilesDir();
 
         try {
-            File secondFile = new File(myDir + "/"+ fileDirectory +"/", fileName);
+            File secondFile = new File(myDir + "/" + fileDirectory + "/", fileName);
             if (secondFile.getParentFile().mkdirs()) {
                 secondFile.createNewFile();
             }
@@ -220,7 +200,7 @@ public class MyGlobalsFunctions {
     public String retieveStringFromFile(String fileName, String fileDirectory) {
         File myDir = mContext.getFilesDir();
         try {
-            File secondInputFile = new File(myDir + "/"+ fileDirectory +"/", fileName);
+            File secondInputFile = new File(myDir + "/" + fileDirectory + "/", fileName);
             if (secondInputFile.exists()) {
                 InputStream secondInputStream = new BufferedInputStream(new FileInputStream(secondInputFile));
                 BufferedReader r = new BufferedReader(new InputStreamReader(secondInputStream));
@@ -254,30 +234,30 @@ public class MyGlobalsFunctions {
             reader = new BufferedReader(new InputStreamReader(stream));
             StringBuilder buffer = new StringBuilder();
             String line;
-            while ((line = reader.readLine()) != null){
+            while ((line = reader.readLine()) != null) {
                 buffer.append(line);
             }
             return buffer.toString();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            if(connection != null) {
+            if (connection != null) {
                 connection.disconnect();
             }
             try {
-                if(reader != null) {
+                if (reader != null) {
                     reader.close();
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        return  null;
+        return null;
     }
 
     public void storeListToFile(String fileName, String fileDirectory, ArrayList<String> arrayList) {
         StringBuilder csvList = new StringBuilder();
-        for(String s : arrayList){
+        for (String s : arrayList) {
             csvList.append(s);
             csvList.append(",");
         }
@@ -288,12 +268,12 @@ public class MyGlobalsFunctions {
     public ArrayList<String> retrieveListFromFile(String fileName, String fileDirectory) {
         String csvList = retieveStringFromFile(fileName, fileDirectory);
         String[] items = {};
-        if (csvList!=null) {
+        if (csvList != null) {
             items = csvList.split(",");
         }
         ArrayList<String> list = new ArrayList<>();
         for (String i : items) {
-            if (i.length()>0) {
+            if (i.length() > 0) {
                 list.add(i);
             }
         }

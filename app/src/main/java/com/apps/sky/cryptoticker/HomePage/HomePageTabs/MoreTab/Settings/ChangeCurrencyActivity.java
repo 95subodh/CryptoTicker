@@ -55,26 +55,24 @@ public class ChangeCurrencyActivity extends AppCompatActivity {
         map4.put("currency", "JPY");
         currencies.add(map4);
 
-        for (HashMap<String, Object> m :currencies) {
+        for (HashMap<String, Object> m : currencies) {
             if (m.containsValue(currency)) {
                 m.put("checked", true);
-            }
-            else {
+            } else {
                 m.put("checked", false);
             }
         }
         listView = findViewById(R.id.choose_currency_listview);
         listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 
-        final SimpleAdapter adapter = new SimpleAdapter(this, currencies, R.layout.radio_btn_listview_item, new String[] {"currency", "checked"}, new int[] {R.id.currency_text, R.id.choose_btn});
+        final SimpleAdapter adapter = new SimpleAdapter(this, currencies, R.layout.radio_btn_listview_item, new String[]{"currency", "checked"}, new int[]{R.id.currency_text, R.id.choose_btn});
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> arg0, View v, int arg2, long arg3) {
                 RadioButton rb = v.findViewById(R.id.choose_btn);
-                if (!rb.isChecked())
-                {
-                    for (HashMap<String, Object> curr :currencies)
+                if (!rb.isChecked()) {
+                    for (HashMap<String, Object> curr : currencies)
                         curr.put("checked", false);
 
                     currencies.get(arg2).put("checked", true);
@@ -86,7 +84,7 @@ public class ChangeCurrencyActivity extends AppCompatActivity {
         setCurrencyBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for (HashMap<String, Object> curr: currencies) {
+                for (HashMap<String, Object> curr : currencies) {
                     Boolean check = (Boolean) curr.get("checked");
                     if (check) {
                         String temp = (String) curr.get("currency");

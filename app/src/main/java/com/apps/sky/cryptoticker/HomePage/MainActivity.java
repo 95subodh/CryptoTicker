@@ -73,8 +73,7 @@ public class MainActivity extends AppCompatActivity {
         if (intent.hasExtra("tab")) {
             try {
                 tab = intent.getExtras().getString("tab");
-            }
-            catch (NullPointerException e) {
+            } catch (NullPointerException e) {
                 e.printStackTrace();
             }
         }
@@ -82,30 +81,30 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setOffscreenPageLimit(5);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(
-            new BottomNavigationView.OnNavigationItemSelectedListener() {
-                @Override
-                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                new BottomNavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-                    switch (item.getItemId()) {
-                        case R.id.action_watchlist:
-                            viewPager.setCurrentItem(0);
-                            break;
+                        switch (item.getItemId()) {
+                            case R.id.action_watchlist:
+                                viewPager.setCurrentItem(0);
+                                break;
 
-                        case R.id.action_my_portfolio:
-                            viewPager.setCurrentItem(1);
-                            break;
+                            case R.id.action_my_portfolio:
+                                viewPager.setCurrentItem(1);
+                                break;
 
-                        case R.id.action_chat:
-                            viewPager.setCurrentItem(2);
-                            break;
+                            case R.id.action_chat:
+                                viewPager.setCurrentItem(2);
+                                break;
 
-                        case R.id.action_more:
-                            viewPager.setCurrentItem(3);
-                            break;
+                            case R.id.action_more:
+                                viewPager.setCurrentItem(3);
+                                break;
+                        }
+                        return false;
                     }
-                    return false;
-                }
-            });
+                });
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -117,11 +116,10 @@ public class MainActivity extends AppCompatActivity {
             public void onPageSelected(int position) {
                 if (prevMenuItem != null) {
                     prevMenuItem.setChecked(false);
-                }
-                else {
+                } else {
                     bottomNavigationView.getMenu().getItem(0).setChecked(false);
                 }
-                Log.d("page", "onPageSelected: "+position);
+                Log.d("page", "onPageSelected: " + position);
                 bottomNavigationView.getMenu().getItem(position).setChecked(true);
                 prevMenuItem = bottomNavigationView.getMenu().getItem(position);
             }
@@ -149,13 +147,12 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void setupViewPager()
-    {
+    private void setupViewPager() {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        watchlistTab=new WatchlistTab();
-        myPortfolioTab=new MyPortfolioTab();
-        chatTab=new ChatTab();
-        moreTab=new MoreTab();
+        watchlistTab = new WatchlistTab();
+        myPortfolioTab = new MyPortfolioTab();
+        chatTab = new ChatTab();
+        moreTab = new MoreTab();
         adapter.addFragment(watchlistTab);
         adapter.addFragment(myPortfolioTab);
         adapter.addFragment(chatTab);
@@ -194,22 +191,22 @@ public class MainActivity extends AppCompatActivity {
 
     private void assignTab(String tab) {
         switch (tab) {
-            case "watchlist" :
+            case "watchlist":
                 viewPager.setCurrentItem(0);
                 bottomNavigationView.setSelectedItemId(R.id.action_watchlist);
                 break;
 
-            case "my_portfolio" :
+            case "my_portfolio":
                 viewPager.setCurrentItem(1);
                 bottomNavigationView.setSelectedItemId(R.id.action_my_portfolio);
                 break;
 
-            case "chat" :
+            case "chat":
                 viewPager.setCurrentItem(2);
                 bottomNavigationView.setSelectedItemId(R.id.action_chat);
                 break;
 
-            case "more" :
+            case "more":
                 viewPager.setCurrentItem(3);
                 bottomNavigationView.setSelectedItemId(R.id.action_more);
                 break;
@@ -229,7 +226,7 @@ public class MainActivity extends AppCompatActivity {
         searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean queryTextFocused) {
-                if(!queryTextFocused) {
+                if (!queryTextFocused) {
                     searchItem.collapseActionView();
                     searchView.setQuery("", false);
                 }
@@ -257,8 +254,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                     listView.setVisibility(View.VISIBLE);
-                }
-                else {
+                } else {
                     listView.setVisibility(View.INVISIBLE);
                 }
 
@@ -276,6 +272,7 @@ public class MainActivity extends AppCompatActivity {
                 bottomNavigationView.setClickable(false);
                 relative.setClickable(false);
             }
+
             @Override
             public void onViewDetachedFromWindow(View view) {
                 bottomNavigationView.setClickable(true);

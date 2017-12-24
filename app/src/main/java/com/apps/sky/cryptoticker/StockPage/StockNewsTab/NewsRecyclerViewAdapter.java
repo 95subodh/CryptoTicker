@@ -69,11 +69,11 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        ((DataObjectHolder)holder).title.setText(mDataset.get(position).getTitle());
-        ((DataObjectHolder)holder).author.setText(mDataset.get(position).getAuthor());
-        ((DataObjectHolder)holder).url = mDataset.get(position).getURL();
-        ((DataObjectHolder)holder).publishedAt.setText(mDataset.get(position).getPublishedDate());
-        ((DataObjectHolder)holder).img.setImageDrawable(mDataset.get(position).getImage());
+        ((DataObjectHolder) holder).title.setText(mDataset.get(position).getTitle());
+        ((DataObjectHolder) holder).author.setText(mDataset.get(position).getAuthor());
+        ((DataObjectHolder) holder).url = mDataset.get(position).getURL();
+        ((DataObjectHolder) holder).publishedAt.setText(mDataset.get(position).getPublishedDate());
+        ((DataObjectHolder) holder).img.setImageDrawable(mDataset.get(position).getImage());
     }
 
     @Override

@@ -44,11 +44,17 @@ public class WatchlistObject {
         return currentPrice;
     }
 
-    public void setCurrentPrice(String currentPrice) { this.currentPrice = currentPrice; }
+    public void setCurrentPrice(String currentPrice) {
+        this.currentPrice = currentPrice;
+    }
 
-    public boolean getChangeColor() { return color; }
+    public boolean getChangeColor() {
+        return color;
+    }
 
-    public void setChangeColor(boolean color) { this.color = color; }
+    public void setChangeColor(boolean color) {
+        this.color = color;
+    }
 
     public String getChange() {
         return change;
@@ -78,7 +84,9 @@ public class WatchlistObject {
         return btmp;
     }
 
-    public void setIcon(String ImageUrl) { this.btmp = myGlobalsFunctions.convertImageURLtoBitmap(ImageUrl); }
+    public void setIcon(String ImageUrl) {
+        this.btmp = myGlobalsFunctions.convertImageURLtoBitmap(ImageUrl);
+    }
 
     public void setContext(Context context) {
         myGlobalsFunctions = new MyGlobalsFunctions(context);

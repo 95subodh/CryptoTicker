@@ -18,15 +18,15 @@ public class Message {
 
     public int getType() {
         return mType;
-    };
+    }
 
     public String getMessage() {
         return mMessage;
-    };
+    }
 
     public String getUsername() {
         return mUsername;
-    };
+    }
 
 
     public static class Builder {

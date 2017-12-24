@@ -11,12 +11,20 @@ public class CryptoTradeObject {
     private String cryptoID;
     private ArrayList<TradeObject> trades = new ArrayList<>();
 
-    public void setCryptoID (String cryptoID) { this.cryptoID = cryptoID; }
+    public void setCryptoID(String cryptoID) {
+        this.cryptoID = cryptoID;
+    }
 
-    public String getCryptoID () { return this.cryptoID; }
+    public String getCryptoID() {
+        return this.cryptoID;
+    }
 
-    public void setTrades (ArrayList<TradeObject> trades) { this.trades = trades; }
+    public void setTrades(ArrayList<TradeObject> trades) {
+        this.trades = trades;
+    }
 
-    public ArrayList<TradeObject> getTrades () { return this.trades; }
+    public ArrayList<TradeObject> getTrades() {
+        return this.trades;
+    }
 
 }

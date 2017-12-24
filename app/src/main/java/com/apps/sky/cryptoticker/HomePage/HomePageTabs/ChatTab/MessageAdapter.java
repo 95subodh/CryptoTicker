@@ -55,17 +55,16 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         Message message = mMessages.get(position);
         viewHolder.setMessage(message.getMessage());
         viewHolder.setUsername(message.getUsername());
-        View view =  viewHolder.itemView;
-        RecyclerView.LayoutParams params = (RecyclerView.LayoutParams)view.getLayoutParams();
+        View view = viewHolder.itemView;
+        RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) view.getLayoutParams();
         int width = Resources.getSystem().getDisplayMetrics().widthPixels;
         if (fromMe.get(position)) {
-            params.setMarginStart(width/4);
+            params.setMarginStart(width / 4);
             params.setMarginEnd(0);
             viewHolder.itemView.findViewById(R.id.main_view).setBackgroundColor(context.getResources().getColor(R.color.colorPrimary));
             viewHolder.mMessageView.setTextColor(context.getResources().getColor(R.color.pure_white));
-        }
-        else {
-            params.setMarginEnd(width/4);
+        } else {
+            params.setMarginEnd(width / 4);
             params.setMarginStart(0);
             viewHolder.itemView.findViewById(R.id.main_view).setBackgroundColor(context.getResources().getColor(R.color.dirty_white));
             viewHolder.mMessageView.setTextColor(context.getResources().getColor(R.color.dark_black));

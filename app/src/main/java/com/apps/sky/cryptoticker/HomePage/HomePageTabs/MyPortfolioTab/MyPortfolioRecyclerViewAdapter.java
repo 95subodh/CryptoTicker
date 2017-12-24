@@ -76,27 +76,31 @@ public class MyPortfolioRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        ((DataObjectHolder)holder).cryptoID = mDataset.get(position).getCryptoID();
-        ((DataObjectHolder)holder).title.setText(mDataset.get(position).getTitle());
-        ((DataObjectHolder)holder).currentValue.setText(myGlobalsFunctions.commaSeperateIntegerMinimal(mDataset.get(position).getCurrentValue(), true));
-        ((DataObjectHolder)holder).myProfit.setText(mDataset.get(position).getMyProfit());
-        ((DataObjectHolder)holder).icon.setImageBitmap(mDataset.get(position).getIcon());
+        ((DataObjectHolder) holder).cryptoID = mDataset.get(position).getCryptoID();
+        ((DataObjectHolder) holder).title.setText(mDataset.get(position).getTitle());
+        ((DataObjectHolder) holder).currentValue.setText(myGlobalsFunctions.floatFormatter(mDataset.get(position).getCurrentValue(), true, true, true));
+        ((DataObjectHolder) holder).myProfit.setText(mDataset.get(position).getMyProfit());
+        ((DataObjectHolder) holder).icon.setImageBitmap(mDataset.get(position).getIcon());
 
         final int pos = holder.getAdapterPosition();
-        ((DataObjectHolder)holder).closeBtn.setOnClickListener(new View.OnClickListener() {
+        ((DataObjectHolder) holder).closeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            Gson gson = new Gson();
-            Type type = new TypeToken<ArrayList<CryptoTradeObject>>() {}.getType();
-            fragment.myPortfolioItems.remove(pos);
-            deleteItem(pos);
-            String json = gson.toJson(fragment.myPortfolioItems, type);
-            myGlobalsFunctions.storeStringToFile(context.getString(R.string.crypto_my_portfolio_file), context.getString(R.string.crypto_my_portfolio_dir), json);
+                Gson gson = new Gson();
+                Type type = new TypeToken<ArrayList<CryptoTradeObject>>() {
+                }.getType();
+                fragment.myPortfolioItems.remove(pos);
+                deleteItem(pos);
+                String json = gson.toJson(fragment.myPortfolioItems, type);
+                myGlobalsFunctions.storeStringToFile(context.getString(R.string.crypto_my_portfolio_file), context.getString(R.string.crypto_my_portfolio_dir), json);
             }
         });
 
-        if (!mDataset.get(position).getChangeColor()) { ((DataObjectHolder)holder).myProfit.setTextColor(context.getResources().getColor(R.color.valueNegative)); }
-        else { ((DataObjectHolder)holder).myProfit.setTextColor(context.getResources().getColor(R.color.valuePositive)); }
+        if (!mDataset.get(position).getChangeColor()) {
+            ((DataObjectHolder) holder).myProfit.setTextColor(context.getResources().getColor(R.color.valueNegative));
+        } else {
+            ((DataObjectHolder) holder).myProfit.setTextColor(context.getResources().getColor(R.color.valuePositive));
+        }
     }
 
     private void deleteItem(int index) {

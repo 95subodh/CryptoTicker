@@ -105,12 +105,11 @@ public class AddToMyPortfolioFormActivity extends AppCompatActivity {
             if (!done && (tradeArray.get(tradeArray.size() - 1).getQuantity() == null
                     || tradeArray.get(tradeArray.size() - 1).getQuantity().trim().isEmpty()
                     || tradeArray.get(tradeArray.size() - 1).getCost() == null
-                    || tradeArray.get(tradeArray.size() - 1).getCost().trim().isEmpty() )) {
+                    || tradeArray.get(tradeArray.size() - 1).getCost().trim().isEmpty())) {
                 addTrade.setEnabled(false);
                 submit.setEnabled(false);
                 done = true;
-            }
-            else {
+            } else {
                 addTrade.setEnabled(true);
                 submit.setEnabled(true);
             }
@@ -129,8 +128,7 @@ public class AddToMyPortfolioFormActivity extends AppCompatActivity {
         cryptoTradeObject.setTrades(tradeArray);
         if (!coinPresent) {
             if (!emptylist) cryptoTradeObjectArrayList.add(cryptoTradeObject);
-        }
-        else {
+        } else {
             for (int i = 0; i < cryptoTradeObjectArrayList.size(); ++i) {
                 if (cryptoTradeObjectArrayList.get(i).getCryptoID().equals(cryptoID)) {
                     if (emptylist)
@@ -141,14 +139,16 @@ public class AddToMyPortfolioFormActivity extends AppCompatActivity {
             }
         }
         Gson gson = new Gson();
-        Type type = new TypeToken<ArrayList<CryptoTradeObject>>() {}.getType();
+        Type type = new TypeToken<ArrayList<CryptoTradeObject>>() {
+        }.getType();
         String json = gson.toJson(cryptoTradeObjectArrayList, type);
         myGlobalFunctions.storeStringToFile(getString(R.string.crypto_my_portfolio_file), getString(R.string.crypto_my_portfolio_dir), json);
     }
 
     private void getCurrencyTradeDetails() {
         Gson gson = new Gson();
-        Type type = new TypeToken<ArrayList<CryptoTradeObject>>() {}.getType();
+        Type type = new TypeToken<ArrayList<CryptoTradeObject>>() {
+        }.getType();
 
         String json = myGlobalFunctions.retieveStringFromFile(getString(R.string.crypto_my_portfolio_file), getString(R.string.crypto_my_portfolio_dir));
 
@@ -167,8 +167,7 @@ public class AddToMyPortfolioFormActivity extends AppCompatActivity {
                     recyclerView.setAdapter(adapter);
                 }
             }
-        }
-        catch (IllegalStateException | JsonSyntaxException exception) {
+        } catch (IllegalStateException | JsonSyntaxException exception) {
             Log.d("error", "error in parsing json");
         }
     }

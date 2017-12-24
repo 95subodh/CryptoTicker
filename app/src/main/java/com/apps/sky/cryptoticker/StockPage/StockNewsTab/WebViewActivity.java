@@ -14,7 +14,7 @@ import com.apps.sky.cryptoticker.R;
  * Created by subodhyadav on 12/10/17.
  */
 
-public class WebViewActivity extends AppCompatActivity{
+public class WebViewActivity extends AppCompatActivity {
     WebView webView;
     String news_url;
 
@@ -33,8 +33,8 @@ public class WebViewActivity extends AppCompatActivity{
         webView = findViewById(R.id.webViewWindow);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.setWebViewClient(new WebViewClient() {
-            public void onReceivedSslError (WebView view, SslErrorHandler handler, SslError error) {
-                handler.proceed() ;
+            public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+                handler.proceed();
             }
         });
         webView.loadUrl(news_url);

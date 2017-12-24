@@ -16,7 +16,9 @@ public class TradeObject {
         this.cryptoID = cryptoID;
     }
 
-    public String getTradeNumber() { return tradeNumber; }
+    public String getTradeNumber() {
+        return tradeNumber;
+    }
 
     public void setTradeNumber(String tradeNumber) {
         this.tradeNumber = tradeNumber;
@@ -26,10 +28,16 @@ public class TradeObject {
         return cost;
     }
 
-    public void setCost(String cost) { this.cost = cost; }
+    public void setCost(String cost) {
+        this.cost = cost;
+    }
 
-    public String getQuantity() { return quantity; }
+    public String getQuantity() {
+        return quantity;
+    }
 
-    public void setQuantity(String quantity) { this.quantity = quantity; }
+    public void setQuantity(String quantity) {
+        this.quantity = quantity;
+    }
 
 }

@@ -70,7 +70,8 @@ public class MyPortfolioTab extends Fragment implements SwipeRefreshLayout.OnRef
         myPortfolioItems = new ArrayList<>();
 
         gson = new Gson();
-        type = new TypeToken<ArrayList<CryptoTradeObject>>() {}.getType();
+        type = new TypeToken<ArrayList<CryptoTradeObject>>() {
+        }.getType();
         String json = myGlobalsFunctions.retieveStringFromFile(getString(R.string.crypto_my_portfolio_file), getString(R.string.crypto_my_portfolio_dir));
 
         try {
@@ -88,8 +89,7 @@ public class MyPortfolioTab extends Fragment implements SwipeRefreshLayout.OnRef
             if (myPortfolioItems == null || myPortfolioItems.size() == 0) {
                 rootView = inflater.inflate(R.layout.empty_view_layout, container, false);
                 ((TextView) rootView.findViewById(R.id.empty_view_text)).setText("Your portfolio is empty");
-            }
-            else {
+            } else {
                 rootView = inflater.inflate(R.layout.my_portfolio_tab, container, false);
                 RelativeLayout current_portfolio_layout = (RelativeLayout) inflater.inflate(R.layout.my_current_portfolio_card, container, false);
                 RelativeLayout current_portfolio_view = rootView.findViewById(R.id.my_current_portfolio_view);
@@ -190,11 +190,10 @@ public class MyPortfolioTab extends Fragment implements SwipeRefreshLayout.OnRef
                 }
             }
             setCurrentPortfolioValues();
-        }
-        else {
+        } else {
             LayoutInflater inflater = (LayoutInflater) this.getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             ((LinearLayout) rootView.findViewById(R.id.main_view)).removeAllViews();
-            ((LinearLayout) rootView.findViewById(R.id.main_view)).addView(inflater.inflate(R.layout.empty_view_layout, ((ViewGroup)getView().getParent()), false));
+            ((LinearLayout) rootView.findViewById(R.id.main_view)).addView(inflater.inflate(R.layout.empty_view_layout, ((ViewGroup) getView().getParent()), false));
             ((TextView) rootView.findViewById(R.id.empty_view_text)).setText("Your portfolio is empty");
             rootView.refreshDrawableState();
         }
@@ -204,38 +203,40 @@ public class MyPortfolioTab extends Fragment implements SwipeRefreshLayout.OnRef
     void setCurrentPortfolioValues() {
         float totalProfit, priceDif;
         priceDif = totalPrice - totalCost;
-        totalProfit = 100 * ((totalPrice - totalCost)/totalCost);
+        totalProfit = 100 * ((totalPrice - totalCost) / totalCost);
         totalProfit = (float) (Math.round(totalProfit * 100.0) / 100.0);
         TextView currentPortfolioValue = rootView.findViewById(R.id.current_portfolio_value);
         TextView totalCostValue = rootView.findViewById(R.id.total_cost);
         TextView totalProfitValue = rootView.findViewById(R.id.total_profit);
         TextView totalProfitPerValue = rootView.findViewById(R.id.total_profit_percentage);
-        currentPortfolioValue.setText(myGlobalsFunctions.commaSeperateInteger(String.valueOf(totalPrice), true));
-        totalCostValue.setText(myGlobalsFunctions.commaSeperateInteger(String.valueOf(totalCost), true));
-        totalProfitValue.setText(myGlobalsFunctions.commaSeperateInteger(String.valueOf(priceDif), true));
+        currentPortfolioValue.setText(myGlobalsFunctions.floatFormatter(String.valueOf(totalPrice), true, true, false));
+        totalCostValue.setText(myGlobalsFunctions.floatFormatter(String.valueOf(totalCost), true, true, true));
+        totalProfitValue.setText(myGlobalsFunctions.floatFormatter(String.valueOf(priceDif), true, true, true));
         String tp = String.valueOf(totalProfit) + "%";
         totalProfitPerValue.setText(tp);
 
         if (getContext() != null) {
             if (priceDif >= 0)
                 totalProfitValue.setTextColor(getContext().getResources().getColor(R.color.valuePositive));
-            else totalProfitValue.setTextColor(getContext().getResources().getColor(R.color.valueNegative));
+            else
+                totalProfitValue.setTextColor(getContext().getResources().getColor(R.color.valueNegative));
             if (totalProfit >= 0)
                 totalProfitPerValue.setTextColor(getContext().getResources().getColor(R.color.valuePositive));
-            else totalProfitPerValue.setTextColor(getContext().getResources().getColor(R.color.valueNegative));
+            else
+                totalProfitPerValue.setTextColor(getContext().getResources().getColor(R.color.valueNegative));
         }
         myCurrentPortfolioView.refreshDrawableState();
     }
 
     String calcMyProfitPercentage(String costStr, String quantityStr, String curPrice) {
         float quantity = Float.parseFloat(quantityStr), cost = Float.parseFloat(costStr), profitPer, coinPrice = Float.parseFloat(curPrice);
-        profitPer = 100 * ((coinPrice * quantity - cost)/cost);
+        profitPer = 100 * ((coinPrice * quantity - cost) / cost);
         totalCost += cost;
         totalPrice += (coinPrice * quantity);
         return String.valueOf(Math.round(profitPer * 100.0) / 100.0);
     }
 
-    public class minorJSONTask extends AsyncTask<String,String, String > {
+    public class minorJSONTask extends AsyncTask<String, String, String> {
 
         @Override
         protected void onPreExecute() {
@@ -254,7 +255,7 @@ public class MyPortfolioTab extends Fragment implements SwipeRefreshLayout.OnRef
             } catch (IOException | JSONException e) {
                 e.printStackTrace();
             }
-            return  null;
+            return null;
         }
 
         @Override
@@ -267,7 +268,7 @@ public class MyPortfolioTab extends Fragment implements SwipeRefreshLayout.OnRef
                 float cost;
                 for (TradeObject item : curItem.getTrades()) {
                     cost = Float.parseFloat(item.getCost());
-                    item.setCost(String.valueOf(cost*conversion));
+                    item.setCost(String.valueOf(cost * conversion));
                 }
             }
 
@@ -280,7 +281,7 @@ public class MyPortfolioTab extends Fragment implements SwipeRefreshLayout.OnRef
         }
     }
 
-    public class JSONTask extends AsyncTask<String,String, String > {
+    public class JSONTask extends AsyncTask<String, String, String> {
 
         @Override
         protected void onPreExecute() {
@@ -297,7 +298,8 @@ public class MyPortfolioTab extends Fragment implements SwipeRefreshLayout.OnRef
                     int cardPosition = 0;
                     for (int i = 0; i < myPortfolioArrayTemp.size(); ++i) {
                         if (myPortfolioArrayTemp.get(i).getCryptoID().equals(params[4])) {
-                            cardPosition = i; break;
+                            cardPosition = i;
+                            break;
                         }
                     }
 
@@ -312,7 +314,8 @@ public class MyPortfolioTab extends Fragment implements SwipeRefreshLayout.OnRef
                     String profitPer = calcMyProfitPercentage(params[2], params[3], price) + "%";
                     myPortfolioArrayTemp.get(cardPosition).setCurrentValue(Float.toString(Float.parseFloat(params[3]) * Float.parseFloat(price)));
                     myPortfolioArrayTemp.get(cardPosition).setMyProfit(profitPer);
-                    if (profitPer.charAt(0) == '-') myPortfolioArrayTemp.get(cardPosition).setChangeColor(false);
+                    if (profitPer.charAt(0) == '-')
+                        myPortfolioArrayTemp.get(cardPosition).setChangeColor(false);
                     else myPortfolioArrayTemp.get(cardPosition).setChangeColor(true);
                 }
                 return finalJson;
@@ -328,9 +331,9 @@ public class MyPortfolioTab extends Fragment implements SwipeRefreshLayout.OnRef
             super.onPostExecute(result);
 
             count++;
-            if (count==myPortfolioItems.size()) {
+            if (count == myPortfolioItems.size()) {
                 myPortfolioArray.addAll(myPortfolioArrayTemp);
-                adapter = new MyPortfolioRecyclerViewAdapter(myPortfolioArray,MyPortfolioTab.this);
+                adapter = new MyPortfolioRecyclerViewAdapter(myPortfolioArray, MyPortfolioTab.this);
                 recyclerView.setAdapter(adapter);
                 setCurrentPortfolioValues();
                 spinKit.setVisibility(View.INVISIBLE);

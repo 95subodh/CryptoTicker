@@ -75,26 +75,29 @@ class WatchlistRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        ((DataObjectHolder)holder).cryptoID = mDataset.get(position).getCryptoID();
-        ((DataObjectHolder)holder).title.setText(mDataset.get(position).getTitle());
-        ((DataObjectHolder)holder).currentPrice.setText(myGlobalsFunctions.commaSeperateIntegerMinimal(mDataset.get(position).getCurrentPrice(), true));
-        ((DataObjectHolder)holder).myChange.setText(mDataset.get(position).getChange());
-        ((DataObjectHolder)holder).icon.setImageBitmap(mDataset.get(position).getIcon());
-        ((DataObjectHolder)holder).maxDayPrice.setText(myGlobalsFunctions.commaSeperateIntegerMinimal(mDataset.get(position).getMaxDayPrice(), true));
-        ((DataObjectHolder)holder).minDayPrice.setText(myGlobalsFunctions.commaSeperateIntegerMinimal(mDataset.get(position).getMinDayPrice(), true));
+        ((DataObjectHolder) holder).cryptoID = mDataset.get(position).getCryptoID();
+        ((DataObjectHolder) holder).title.setText(mDataset.get(position).getTitle());
+        ((DataObjectHolder) holder).currentPrice.setText(myGlobalsFunctions.floatFormatter(mDataset.get(position).getCurrentPrice(), true, true, true));
+        ((DataObjectHolder) holder).myChange.setText(mDataset.get(position).getChange());
+        ((DataObjectHolder) holder).icon.setImageBitmap(mDataset.get(position).getIcon());
+        ((DataObjectHolder) holder).maxDayPrice.setText(myGlobalsFunctions.floatFormatter(mDataset.get(position).getMaxDayPrice(), true, true, true));
+        ((DataObjectHolder) holder).minDayPrice.setText(myGlobalsFunctions.floatFormatter(mDataset.get(position).getMinDayPrice(), true, true, true));
 
         final int pos = holder.getAdapterPosition();
-        ((DataObjectHolder)holder).closeBtn.setOnClickListener(new View.OnClickListener() {
+        ((DataObjectHolder) holder).closeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 fragment.items.remove(pos);
-                myGlobalsFunctions.storeListToFile( context.getString(R.string.crypto_watchlist_file), context.getString(R.string.crypto_watchlist_dir), fragment.items);
+                myGlobalsFunctions.storeListToFile(context.getString(R.string.crypto_watchlist_file), context.getString(R.string.crypto_watchlist_dir), fragment.items);
                 deleteItem(pos);
             }
         });
 
-        if (!mDataset.get(position).getChangeColor()) { ((DataObjectHolder)holder).myChange.setTextColor(context.getResources().getColor(R.color.valueNegative)); }
-        else { ((DataObjectHolder)holder).myChange.setTextColor(context.getResources().getColor(R.color.valuePositive)); }
+        if (!mDataset.get(position).getChangeColor()) {
+            ((DataObjectHolder) holder).myChange.setTextColor(context.getResources().getColor(R.color.valueNegative));
+        } else {
+            ((DataObjectHolder) holder).myChange.setTextColor(context.getResources().getColor(R.color.valuePositive));
+        }
     }
 
     private void deleteItem(int index) {
