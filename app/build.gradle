@@ -48,4 +48,6 @@ dependencies {
     compile 'com.github.blackfizz:eazegraph:1.2.2@aar'
     compile 'com.nineoldandroids:library:2.4.0'
 //  chart dependencies end
+
+    compile 'com.github.medyo:android-about-page:1.2.2' //for about page
 }

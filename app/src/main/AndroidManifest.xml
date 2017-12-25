@@ -43,6 +43,7 @@
             android:windowSoftInputMode="adjustResize|stateVisible" />
         <activity android:name=".HomePage.HomePageTabs.MoreTab.Settings.SettingsActivity" />
         <activity android:name=".HomePage.HomePageTabs.MoreTab.Settings.ChangeCurrencyActivity"></activity>
+        <activity android:name=".HomePage.HomePageTabs.MoreTab.About.AboutActivity" />
     </application>
 
 </manifest>
