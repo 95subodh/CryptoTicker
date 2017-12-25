@@ -2,6 +2,7 @@ package com.apps.sky.cryptoticker.HomePage;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -172,7 +173,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        new AlertDialog.Builder(this).setIcon(android.R.drawable.ic_dialog_alert).setTitle("Exit")
+        AlertDialog dialog =
+                new AlertDialog.Builder(this).setIcon(android.R.drawable.ic_dialog_alert).setTitle("Exit")
                 .setMessage("Are you sure?")
                 .setPositiveButton("yes", new DialogInterface.OnClickListener() {
                     @Override
@@ -185,6 +187,8 @@ public class MainActivity extends AppCompatActivity {
                         finish();
                     }
                 }).setNegativeButton("no", null).show();
+        dialog.getButton(dialog.BUTTON_NEGATIVE).setTextColor(Color.BLACK);
+        dialog.getButton(dialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
     }
 
     private void assignTab(String tab) {
