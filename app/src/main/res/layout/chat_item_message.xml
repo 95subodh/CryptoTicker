@@ -38,12 +38,13 @@
                     android:id="@+id/main_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@color/colorPrimary"
                     android:padding="8dp">
 
                     <TextView
                         android:id="@+id/message"
                         style="?android:textAppearanceMedium"
-                        android:textColor="@color/dark_black"
+                        android:textColor="@color/pure_white"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="message"
