@@ -19,7 +19,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
-import com.apps.sky.cryptoticker.Global.Constants;
 import com.apps.sky.cryptoticker.Global.ConstantsCrypto;
 import com.apps.sky.cryptoticker.HomePage.BottomNavigationBar.BottomNavigationViewHelper;
 import com.apps.sky.cryptoticker.HomePage.HomePageTabs.ChatTab.ChatTab;
@@ -31,7 +30,6 @@ import com.apps.sky.cryptoticker.R;
 import com.apps.sky.cryptoticker.StockPage.StockPageActivity;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
@@ -133,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
         assignTab(tab);
 
         items = new ArrayList<>();
-        items.addAll(Arrays.asList(Constants.cryptoIDList));
+        items.addAll(new ArrayList<>(ConstantsCrypto.cryptoMap.keySet()));
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
