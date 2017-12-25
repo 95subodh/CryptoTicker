@@ -26,7 +26,7 @@
                 android:id="@+id/coin_heading_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorPrimary">
+                android:background="@color/pure_white">
 
                 <ImageView
                     android:id="@+id/watchlist_item_icon"
@@ -48,7 +48,7 @@
                     android:layout_toRightOf="@+id/watchlist_item_icon"
                     android:fontFamily="@font/apercu_bold"
                     android:text="Bitcoin"
-                    android:textColor="@color/pure_white"
+                    android:textColor="@color/colorPrimary"
                     android:textSize="24sp"
                     android:textStyle="bold" />
 
@@ -59,14 +59,14 @@
                     android:layout_alignParentEnd="true"
                     android:layout_marginRight="8dp"
                     android:layout_centerVertical="true"
-                    android:background="@color/colorPrimary">
+                    android:background="@color/pure_white">
 
                     <ImageButton
                         android:id="@+id/close_btn"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@drawable/ic_action_cross"
-                        android:backgroundTint="@color/pure_white"/>
+                        android:backgroundTint="@color/colorPrimary" />
 
                 </RelativeLayout>
 

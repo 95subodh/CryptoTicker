@@ -122,13 +122,6 @@ public class StockNewsTab extends Fragment {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            try {
-                String finalJson = myGlobalsFunctions.retieveStringFromFile(cryptoID, getString(R.string.crypto_info_dir));
-                if (finalJson != null)
-                    setVals(finalJson);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
         }
 
         @Override

@@ -10,6 +10,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/dirty_white"
         android:padding="8dp">
 
         <RelativeLayout
@@ -44,16 +45,17 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:paddingHorizontal="16dp"
+        android:background="@color/dirty_white"
         android:paddingBottom="16dp"
-        android:scrollbarStyle="outsideOverlay"/>
+        android:paddingHorizontal="16dp"
+        android:scrollbarStyle="outsideOverlay" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:background="@color/dirty_white">
+        android:background="@color/pure_white">
 
         <RelativeLayout
             android:layout_width="match_parent"
