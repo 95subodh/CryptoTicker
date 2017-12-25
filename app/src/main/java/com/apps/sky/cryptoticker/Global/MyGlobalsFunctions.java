@@ -68,9 +68,9 @@ public class MyGlobalsFunctions {
 
     public String floatFormatter(String num, Boolean addSymbol, Boolean commaSeperated, Boolean minimal) {
         if ("-".equals(nullCheck(num))) return "-";
-        Double x = Double.valueOf(num), y = 0.0, z;
+        Double x = Double.valueOf(num), y, z;
         DecimalFormat newFormat;
-        String result = "";
+        String result;
 
         if (x >= 1000000000 || x <= -1000000000) {
             newFormat = new DecimalFormat("#.##");
@@ -84,6 +84,8 @@ public class MyGlobalsFunctions {
         } else if (x >= 1 || x <= -1) {
             newFormat = new DecimalFormat("#.##");
             y = Double.valueOf(newFormat.format(x));
+        } else {
+            y = Double.valueOf(x);
         }
         z = (minimal) ? y : x;
         result = (commaSeperated) ? NumberFormat.getNumberInstance(Locale.US).format(z) : z.toString();
