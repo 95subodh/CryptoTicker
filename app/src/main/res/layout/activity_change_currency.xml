@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.apps.sky.cryptoticker.HomePage.HomePageTabs.MoreTab.Settings.ChangeCurrencyActivity"
+    tools:context="com.apps.pinbit.cryptoticker.HomePage.HomePageTabs.MoreTab.Settings.ChangeCurrencyActivity"
     android:background="@color/pure_white">
 
     <LinearLayout

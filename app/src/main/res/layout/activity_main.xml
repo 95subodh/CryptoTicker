@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/dirty_white"
-    tools:context="com.apps.sky.cryptoticker.HomePage.MainActivity">
+    tools:context="com.apps.pinbit.cryptoticker.HomePage.MainActivity">
 
     <RelativeLayout
         android:id="@+id/main_view"
