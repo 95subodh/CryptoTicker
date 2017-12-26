@@ -4,12 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    tools:context="com.apps.sky.cryptoticker.HomePage.HomePageTabs.ChatTab.ChatTab"
+    tools:context="com.apps.pinbit.cryptoticker.HomePage.HomePageTabs.ChatTab.ChatTab"
     tools:ignore="MergeRootFrame"
     android:background="@color/pure_white">
 
     <fragment
-        class="com.apps.sky.cryptoticker.HomePage.HomePageTabs.ChatTab.MainFragment"
+        class="com.apps.pinbit.cryptoticker.HomePage.HomePageTabs.ChatTab.MainFragment"
         android:id="@+id/fragment1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.apps.sky.cryptoticker.HomePage.HomePageTabs.ChatTab.ChatTab">
+    tools:context="com.apps.pinbit.cryptoticker.HomePage.HomePageTabs.ChatTab.ChatTab">
 
     <LinearLayout
         android:layout_width="match_parent"
