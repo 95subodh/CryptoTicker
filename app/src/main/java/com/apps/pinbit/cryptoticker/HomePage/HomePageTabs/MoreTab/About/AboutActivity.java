@@ -27,7 +27,7 @@ public class AboutActivity extends AppCompatActivity {
                 .addItem(versionElement)
                 .addGroup("Connect with us")
                 .addEmail("pinbitcorp@outlook.com")
-                .addPlayStore("com.ideashower.readitlater.pro")
+                .addPlayStore("com.apps.pinbit.cryptoticker")
                 .create();
         setContentView(aboutPage);
         Intent intent = getIntent();
