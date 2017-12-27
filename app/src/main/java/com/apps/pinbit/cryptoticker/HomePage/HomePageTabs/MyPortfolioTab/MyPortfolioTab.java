@@ -62,7 +62,7 @@ public class MyPortfolioTab extends Fragment implements SwipeRefreshLayout.OnRef
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        sharedPreferences = getContext().getSharedPreferences("com.apps.sky.cryptoticker", Context.MODE_PRIVATE);
+        sharedPreferences = getContext().getSharedPreferences("com.apps.pinbit.cryptoticker", Context.MODE_PRIVATE);
         currency = sharedPreferences.getString(Constants.PREFERENCE_CURRENCY, "");
         if (currency.equals("")) currency = Constants.DEFAULT_CURRENCY;
 

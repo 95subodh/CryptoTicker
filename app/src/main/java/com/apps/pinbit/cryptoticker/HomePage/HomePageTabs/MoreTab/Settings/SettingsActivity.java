@@ -51,7 +51,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog,int id) {
                                         String username = userInput.getText().toString();
-                                        SharedPreferences pref = getApplicationContext().getSharedPreferences("com.apps.sky.cryptoticker", Context.MODE_PRIVATE);
+                                        SharedPreferences pref = getApplicationContext().getSharedPreferences("com.apps.pinbit.cryptoticker", Context.MODE_PRIVATE);
                                         pref.edit().putString(Constants.PREFERENCE_USERNAME, username).apply();
                                     }
                                 })

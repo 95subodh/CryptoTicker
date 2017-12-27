@@ -31,7 +31,7 @@ public class ChangeCurrencyActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_currency);
-        sharedPreferences = this.getSharedPreferences("com.apps.sky.cryptoticker", Context.MODE_PRIVATE);
+        sharedPreferences = this.getSharedPreferences("com.apps.pinbit.cryptoticker", Context.MODE_PRIVATE);
 
         myGlobalsFunctions = new MyGlobalsFunctions(this);
         final TextView currentCurrencyTextView = findViewById(R.id.default_currency_value);

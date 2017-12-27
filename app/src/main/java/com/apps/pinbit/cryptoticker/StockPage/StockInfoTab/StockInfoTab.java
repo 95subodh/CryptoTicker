@@ -63,7 +63,7 @@ public class StockInfoTab extends Fragment implements View.OnClickListener {
         rootView.findViewById(R.id.d_90).setOnClickListener(this);
         rootView.findViewById(R.id.alltime).setOnClickListener(this);
 
-        sharedPreferences = getContext().getSharedPreferences("com.apps.sky.cryptoticker", Context.MODE_PRIVATE);
+        sharedPreferences = getContext().getSharedPreferences("com.apps.pinbit.cryptoticker", Context.MODE_PRIVATE);
 
         currency = sharedPreferences.getString(Constants.PREFERENCE_CURRENCY, "");
         if (currency.equals("")) currency = Constants.DEFAULT_CURRENCY;
