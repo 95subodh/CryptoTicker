@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.apps.sky.cryptoticker", appContext.getPackageName());
+        assertEquals("com.apps.pinbit.cryptoticker", appContext.getPackageName());
     }
 }

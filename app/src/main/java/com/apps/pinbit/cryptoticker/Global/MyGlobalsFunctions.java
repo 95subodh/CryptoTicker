@@ -43,7 +43,7 @@ public class MyGlobalsFunctions {
 
     public String getCurrencySymbol() {
         SharedPreferences sharedPreferences;
-        sharedPreferences = mContext.getSharedPreferences("com.apps.sky.cryptoticker", Context.MODE_PRIVATE);
+        sharedPreferences = mContext.getSharedPreferences("com.apps.pinbit.cryptoticker", Context.MODE_PRIVATE);
         String currency = sharedPreferences.getString(Constants.PREFERENCE_CURRENCY, "");
         switch (currency) {
             case "USD":

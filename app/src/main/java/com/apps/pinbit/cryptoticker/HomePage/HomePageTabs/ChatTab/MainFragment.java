@@ -100,7 +100,7 @@ public class MainFragment extends Fragment {
         mSocket.on("prev messages2", prevMessages);
         mSocket.connect();
 
-        pref = getContext().getSharedPreferences("com.apps.sky.cryptoticker", Context.MODE_PRIVATE);
+        pref = getContext().getSharedPreferences("com.apps.pinbit.cryptoticker", Context.MODE_PRIVATE);
 
         startSignIn();
     }
