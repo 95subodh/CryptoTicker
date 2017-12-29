@@ -226,7 +226,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:weightSum="7">
+                android:weightSum="6">
 
                 <RelativeLayout
                     android:id="@+id/h_24"
@@ -267,25 +267,6 @@
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:id="@+id/d_14"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:clickable="true">
-
-                    <TextView
-                        android:id="@+id/d_14_textview"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="14D"
-                        android:fontFamily="@font/apercu_regular"
-                        android:textAlignment="center"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/very_small_text"/>
-
-                </RelativeLayout>
-
-                <RelativeLayout
                     android:id="@+id/d_30"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -305,25 +286,6 @@
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:id="@+id/d_60"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:clickable="true">
-
-                    <TextView
-                        android:id="@+id/d_60_textview"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="60D"
-                        android:fontFamily="@font/apercu_regular"
-                        android:textAlignment="center"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/very_small_text"/>
-
-                </RelativeLayout>
-
-                <RelativeLayout
                     android:id="@+id/d_90"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -334,7 +296,26 @@
                         android:id="@+id/d_90_textview"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="90D"
+                        android:text="3M"
+                        android:fontFamily="@font/apercu_regular"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/very_small_text"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/d_180"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:clickable="true">
+
+                    <TextView
+                        android:id="@+id/d_180_textview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="6M"
                         android:fontFamily="@font/apercu_regular"
                         android:textAlignment="center"
                         android:textColor="@color/colorPrimary"
@@ -353,7 +334,7 @@
                         android:id="@+id/d_alltime_textview"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="ALL"
+                        android:text="1Y"
                         android:textAlignment="center"
                         android:fontFamily="@font/apercu_regular"
                         android:textColor="@color/colorPrimary"
