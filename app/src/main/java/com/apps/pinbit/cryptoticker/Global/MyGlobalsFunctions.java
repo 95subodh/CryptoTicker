@@ -96,12 +96,12 @@ public class MyGlobalsFunctions {
     }
 
     public String getEpochToNormalDateString(String date) {
-        String date2 = new java.text.SimpleDateFormat("dd/MM").format(new java.util.Date((long) (Double.valueOf(date) * 1)));
+        String date2 = new java.text.SimpleDateFormat("dd/MM").format(new java.util.Date(Long.valueOf(date)));
         return date2;
     }
 
     public String getEpochToNormalTimeString(String date) {
-        String date2 = new java.text.SimpleDateFormat("HH:mm").format(new java.util.Date((long) (Double.valueOf(date) * 1)));
+        String date2 = new java.text.SimpleDateFormat("HH:mm").format(new java.util.Date(Long.valueOf(date)));
         return date2;
     }
 
@@ -111,7 +111,7 @@ public class MyGlobalsFunctions {
     }
 
     public String getEpochToNormalYearString(String date) {
-        String date2 = new java.text.SimpleDateFormat("MMM yy").format(new java.util.Date((long) (Double.valueOf(date) * 1)));
+        String date2 = new java.text.SimpleDateFormat("MMM yy").format(new java.util.Date(Long.valueOf(date)));
         return date2;
     }
 
