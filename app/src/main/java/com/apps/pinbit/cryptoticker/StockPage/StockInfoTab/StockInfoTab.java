@@ -293,14 +293,14 @@ public class StockInfoTab extends Fragment implements View.OnClickListener {
         if (highLowJson24 != null && !Objects.equals(highLowJson24, "")) {
             JSONObject highLowObj = new JSONObject(highLowJson24);
             JSONArray newRef = highLowObj.optJSONArray("price");
-            float min = Float.parseFloat(newRef.optJSONArray(0).optString(1)) * (float) conversion, max = Float.parseFloat(newRef.optJSONArray(0).optString(1)) * (float) conversion;
+            float min = Float.parseFloat(newRef.optJSONArray(0).optString(1)), max = Float.parseFloat(newRef.optJSONArray(0).optString(1));
             for (int i = 0; i < newRef.length(); i++) {
-                Float temp = Float.parseFloat(newRef.optJSONArray(i).optString(1)) * (float) conversion;
+                Float temp = Float.parseFloat(newRef.optJSONArray(i).optString(1));
                 if (temp > max) max = temp;
                 if (temp < min) min = temp;
             }
-            high = Float.toString(max);
-            low = Float.toString(min);
+            high = Float.toString(max * (float) conversion);
+            low = Float.toString(min * (float) conversion);
             for (int i = 0; i < newRef.length(); ++i) {
                 series24.addPoint(new ValueLinePoint(myGlobalsFunctions.getEpochToNormalTimeString(newRef.optJSONArray(i).optString(0)), Float.parseFloat(newRef.optJSONArray(i).optString(1)) * (float) conversion));
             }

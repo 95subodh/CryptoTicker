@@ -15,6 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.apps.pinbit.cryptoticker.Global.Constants;
+import com.apps.pinbit.cryptoticker.Global.ConstantsCrypto;
 import com.apps.pinbit.cryptoticker.Global.MyGlobalsFunctions;
 import com.apps.pinbit.cryptoticker.R;
 import com.github.ybq.android.spinkit.SpinKitView;
@@ -33,7 +34,8 @@ public class WatchlistTab extends Fragment implements SwipeRefreshLayout.OnRefre
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     RecyclerView.LayoutManager layoutManager;
-    String url, currency;
+    String url, exchangeRateURL, currency;
+    double conversion = 1.0;
     MyGlobalsFunctions myGlobalsFunctions;
     public ArrayList<String> items;
     ArrayList<WatchlistObject> watchlistArray, watchlistArrayTemp;
@@ -93,6 +95,7 @@ public class WatchlistTab extends Fragment implements SwipeRefreshLayout.OnRefre
         if (items != null && items.size() > 0) {
             currency = sharedPreferences.getString(Constants.PREFERENCE_CURRENCY, "");
             if (currency.equals("")) currency = Constants.DEFAULT_CURRENCY;
+            exchangeRateURL = "https://free.currencyconverterapi.com/api/v4/convert?q=USD_" + currency + "&compact=y";
             spinKit.setVisibility(View.VISIBLE);
             watchlistArray = new ArrayList<>();
             adapter = new WatchlistRecyclerViewAdapter(watchlistArray, WatchlistTab.this);
@@ -111,7 +114,7 @@ public class WatchlistTab extends Fragment implements SwipeRefreshLayout.OnRefre
                     String cryptoID = items.get(i);
                     url = "https://api.coinmarketcap.com/v1/ticker/" + cryptoID + "/?convert=" + currency.toUpperCase();
                     String imageUrl = "https://files.coinmarketcap.com/static/img/coins/32x32/" + cryptoID + ".png";
-                    String highLowUrl = "https://www.coingecko.com/en/price_charts/" + cryptoID + "/" + currency.toLowerCase() + "/24_hours.json";
+                    String highLowUrl = "http://coincap.io/history/1day/" + ConstantsCrypto.cryptoMap.get(cryptoID.replace("-", "_"))[1];
                     new JSONTask().execute(url, imageUrl, highLowUrl, cryptoID);
                 }
             }
@@ -145,15 +148,15 @@ public class WatchlistTab extends Fragment implements SwipeRefreshLayout.OnRefre
 
         if (highLowJson != null && !Objects.equals(highLowJson, "")) {
             JSONObject highLowObj = new JSONObject(highLowJson);
-            JSONArray newRef = highLowObj.optJSONArray("stats");
+            JSONArray newRef = highLowObj.optJSONArray("price");
             float min = Float.parseFloat(newRef.optJSONArray(0).optString(1)), max = Float.parseFloat(newRef.optJSONArray(0).optString(1));
             for (int i = 0; i < newRef.length(); i++) {
                 Float temp = Float.parseFloat(newRef.optJSONArray(i).optString(1));
                 if (temp > max) max = temp;
                 if (temp < min) min = temp;
             }
-            watchlistArrayTemp.get(cardPosition).setMinDayPrice(myGlobalsFunctions.nullCheck(Float.toString(Math.min(min, Float.parseFloat(price)))));
-            watchlistArrayTemp.get(cardPosition).setMaxDayPrice(myGlobalsFunctions.nullCheck(Float.toString(Math.max(max, Float.parseFloat(price)))));
+            watchlistArrayTemp.get(cardPosition).setMinDayPrice(myGlobalsFunctions.nullCheck(Float.toString(Math.min(min * (float) conversion, Float.parseFloat(price)))));
+            watchlistArrayTemp.get(cardPosition).setMaxDayPrice(myGlobalsFunctions.nullCheck(Float.toString(Math.max(max * (float) conversion, Float.parseFloat(price)))));
         }
 
         String change = myGlobalsFunctions.nullCheck(parentObject.getString("percent_change_24h"));
@@ -185,6 +188,10 @@ public class WatchlistTab extends Fragment implements SwipeRefreshLayout.OnRefre
             try {
                 String finalJson = myGlobalsFunctions.fetchJSONasString(params[0]);
                 String highLowJson = myGlobalsFunctions.fetchJSONasString(params[2]);
+                String exchangeRateJSON = myGlobalsFunctions.fetchJSONasString(exchangeRateURL);
+                JSONObject jsonObject = new JSONObject(exchangeRateJSON);
+                JSONObject currExRate = jsonObject.getJSONObject("USD_" + currency);
+                conversion = currExRate.getDouble("val");
 //                myGlobalsFunctions.storeStringToFile(params[3], getString(R.string.crypto_info_dir), finalJson);
                 if (finalJson != null) {
                     setVals(finalJson, params[1], highLowJson, params[3]);
