@@ -1,7 +1,6 @@
 package com.apps.pinbit.cryptoticker.StockPage.StockNewsTab;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.apps.pinbit.cryptoticker.R;
+import com.thefinestartist.finestwebview.FinestWebView;
 
 import java.util.ArrayList;
 
@@ -41,9 +41,10 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(context, WebViewActivity.class);
-                    intent.putExtra("url", url);
-                    context.startActivity(intent);
+//                    Intent intent = new Intent(context, WebViewActivity.class);
+//                    intent.putExtra("url", url);
+//                    context.startActivity(intent);
+                    new FinestWebView.Builder(context).show(url);
                 }
             });
         }

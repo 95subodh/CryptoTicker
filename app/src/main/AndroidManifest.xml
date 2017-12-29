@@ -44,6 +44,11 @@
         <activity android:name="com.apps.pinbit.cryptoticker.HomePage.HomePageTabs.MoreTab.Settings.SettingsActivity" />
         <activity android:name="com.apps.pinbit.cryptoticker.HomePage.HomePageTabs.MoreTab.Settings.ChangeCurrencyActivity"></activity>
         <activity android:name="com.apps.pinbit.cryptoticker.HomePage.HomePageTabs.MoreTab.About.AboutActivity" />
+        <activity
+            android:name="com.thefinestartist.finestwebview.FinestWebViewActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="sensor"
+            android:theme="@style/FinestWebViewTheme.Light" />
     </application>
 
 </manifest>

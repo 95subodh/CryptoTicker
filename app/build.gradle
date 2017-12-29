@@ -50,4 +50,5 @@ dependencies {
 //  chart dependencies end
 
     compile 'com.github.medyo:android-about-page:1.2.2' //for about page
+    compile 'com.thefinestartist:finestwebview:1.2.7' //for news webview
 }
