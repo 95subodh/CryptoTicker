@@ -41,9 +41,6 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-//                    Intent intent = new Intent(context, WebViewActivity.class);
-//                    intent.putExtra("url", url);
-//                    context.startActivity(intent);
                     new FinestWebView.Builder(context).show(url);
                 }
             });
