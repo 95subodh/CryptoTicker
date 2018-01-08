@@ -30,11 +30,6 @@
             android:label="@string/title_activity_stock_page"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name="com.apps.pinbit.cryptoticker.StockPage.StockNewsTab.WebViewActivity"
-            android:label="@string/title_activity_stock_page"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name="com.apps.pinbit.cryptoticker.HomePage.HomePageTabs.AddToMyPortfolioForm.AddToMyPortfolioFormActivity" />
         <activity
             android:name="com.apps.pinbit.cryptoticker.HomePage.HomePageTabs.ChatTab.LoginActivity"

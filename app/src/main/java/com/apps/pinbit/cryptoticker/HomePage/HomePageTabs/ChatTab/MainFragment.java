@@ -218,7 +218,6 @@ public class MainFragment extends Fragment {
     }
 
     private void addMessage(String username, String message, boolean me) {
-        username = pref.getString(Constants.PREFERENCE_USERNAME, "");
         mMessages.add(new Message.Builder(Message.TYPE_MESSAGE)
                 .username(username).message(message).build());
         fromMe.add(me);
@@ -259,6 +258,7 @@ public class MainFragment extends Fragment {
         }
 
         mInputMessageView.setText("");
+        mUsername = pref.getString(Constants.PREFERENCE_USERNAME, "");
         addMessage(mUsername, message, true);
 
         mSocket.emit("chat message", message);

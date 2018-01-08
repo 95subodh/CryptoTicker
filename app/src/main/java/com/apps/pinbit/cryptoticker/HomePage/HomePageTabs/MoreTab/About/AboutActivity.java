@@ -1,6 +1,5 @@
 package com.apps.pinbit.cryptoticker.HomePage.HomePageTabs.MoreTab.About;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -19,7 +18,7 @@ public class AboutActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Element versionElement = new Element();
-        versionElement.setTitle("Version 1.0");
+        versionElement.setTitle("Version 1.0.2");
         View aboutPage = new AboutPage(getApplicationContext())
                 .isRTL(false)
                 .setImage(R.drawable.pinbit)
@@ -30,6 +29,5 @@ public class AboutActivity extends AppCompatActivity {
                 .addPlayStore("com.apps.pinbit.cryptoticker")
                 .create();
         setContentView(aboutPage);
-        Intent intent = getIntent();
     }
 }
