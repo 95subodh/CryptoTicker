@@ -95,7 +95,7 @@ public class WatchlistTab extends Fragment implements SwipeRefreshLayout.OnRefre
         if (items != null && items.size() > 0) {
             currency = sharedPreferences.getString(Constants.PREFERENCE_CURRENCY, "");
             if (currency.equals("")) currency = Constants.DEFAULT_CURRENCY;
-            exchangeRateURL = "https://free.currencyconverterapi.com/api/v4/convert?q=USD_" + currency + "&compact=y";
+            exchangeRateURL = "http://api.fixer.io/latest?base=USD";
             spinKit.setVisibility(View.VISIBLE);
             watchlistArray = new ArrayList<>();
             adapter = new WatchlistRecyclerViewAdapter(watchlistArray, WatchlistTab.this);
@@ -149,7 +149,8 @@ public class WatchlistTab extends Fragment implements SwipeRefreshLayout.OnRefre
         if (highLowJson != null && !Objects.equals(highLowJson, "")) {
             JSONObject highLowObj = new JSONObject(highLowJson);
             JSONArray newRef = highLowObj.optJSONArray("price");
-            float min = Float.parseFloat(newRef.optJSONArray(0).optString(1)), max = Float.parseFloat(newRef.optJSONArray(0).optString(1));
+            float min = Float.parseFloat(newRef.optJSONArray(0).optString(1));
+            float max = Float.parseFloat(newRef.optJSONArray(0).optString(1));
             for (int i = 0; i < newRef.length(); i++) {
                 Float temp = Float.parseFloat(newRef.optJSONArray(i).optString(1));
                 if (temp > max) max = temp;
@@ -190,8 +191,10 @@ public class WatchlistTab extends Fragment implements SwipeRefreshLayout.OnRefre
                 String highLowJson = myGlobalsFunctions.fetchJSONasString(params[2]);
                 String exchangeRateJSON = myGlobalsFunctions.fetchJSONasString(exchangeRateURL);
                 JSONObject jsonObject = new JSONObject(exchangeRateJSON);
-                JSONObject currExRate = jsonObject.getJSONObject("USD_" + currency);
-                conversion = currExRate.getDouble("val");
+                JSONObject currExRate = jsonObject.getJSONObject("rates");
+                conversion = 1.0;
+                if (!currency.equals("USD"))
+                    conversion = currExRate.getDouble(currency.toUpperCase());
 //                myGlobalsFunctions.storeStringToFile(params[3], getString(R.string.crypto_info_dir), finalJson);
                 if (finalJson != null) {
                     setVals(finalJson, params[1], highLowJson, params[3]);
