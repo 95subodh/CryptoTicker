@@ -151,7 +151,7 @@ public class MyPortfolioTab extends Fragment implements SwipeRefreshLayout.OnRef
 
                 if (!prevCurrency.equals(currCurrency)) isCurrencyChanged = Boolean.TRUE;
 
-                exchangeRateURL = "http://api.fixer.io/latest?base=USD";
+                exchangeRateURL = "http://api.fixer.io/latest?base=" + prevCurrency.toUpperCase();
 
                 if (isCurrencyChanged) {
                     myPortfolioItems = new ArrayList<>();
@@ -250,14 +250,8 @@ public class MyPortfolioTab extends Fragment implements SwipeRefreshLayout.OnRef
                 JSONObject jsonObject = new JSONObject(exchangeRateJSON);
                 JSONObject currExRate = jsonObject.getJSONObject("rates");
                 conversion = 1.0;
-                if (!currCurrency.equals("USD") && !prevCurrency.equals("USD"))
-                    conversion = currExRate.getDouble(currCurrency.toUpperCase()) / currExRate.getDouble(prevCurrency.toUpperCase());
-                else if (!currCurrency.equals("USD") && prevCurrency.equals("USD"))
+                if (!currCurrency.equals(prevCurrency))
                     conversion = currExRate.getDouble(currCurrency.toUpperCase());
-                else if (currCurrency.equals("USD") && !prevCurrency.equals("USD")) {
-                    conversion = currExRate.getDouble(prevCurrency.toUpperCase());
-                    conversion = 1.0 / conversion;
-                }
                 return exchangeRateJSON;
 
             } catch (IOException | JSONException e) {
