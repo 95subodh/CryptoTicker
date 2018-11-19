@@ -18,7 +18,7 @@ public class AboutActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Element versionElement = new Element();
-        versionElement.setTitle("Version 1.0.2");
+        versionElement.setTitle("Version 1.0.3");
         View aboutPage = new AboutPage(getApplicationContext())
                 .isRTL(false)
                 .setImage(R.drawable.pinbit)

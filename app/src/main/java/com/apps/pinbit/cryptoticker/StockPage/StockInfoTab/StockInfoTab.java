@@ -69,9 +69,9 @@ public class StockInfoTab extends Fragment implements View.OnClickListener {
         currency = sharedPreferences.getString(Constants.PREFERENCE_CURRENCY, "");
         if (currency.equals("")) currency = Constants.DEFAULT_CURRENCY;
 
-        exchangeRateURL = "http://api.fixer.io/latest?base=USD";
+        exchangeRateURL = "https://api.exchangeratesapi.io/latest?base=USD";
 
-        url = "https://api.coinmarketcap.com/v1/ticker/" + cryptoID + "/?convert=" + currency.toUpperCase();
+        url = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest?symbol=" + ConstantsCrypto.cryptoMap.get(cryptoID)[1] + "&convert=" + currency.toUpperCase() + "&CMC_PRO_API_KEY=" + Constants.COIN_MARKET_CAP_KEY;
         iconUrl = "https://files.coinmarketcap.com/static/img/coins/32x32/" + cryptoID + ".png";
         highLowUrl24 = "http://coincap.io/history/1day/" + ConstantsCrypto.cryptoMap.get(cryptoID.replace("-", "_"))[1];
         highLowUrl7 = "http://coincap.io/history/7day/" + ConstantsCrypto.cryptoMap.get(cryptoID.replace("-", "_"))[1];
@@ -308,15 +308,17 @@ public class StockInfoTab extends Fragment implements View.OnClickListener {
         }
     }
 
-    public void setVals(String finalJson) throws JSONException {
-        JSONArray jarr = new JSONArray(finalJson);
+    public void setVals(String finalJson, String tickSymbol) throws JSONException {
+        JSONObject jarr = new JSONObject(finalJson).getJSONObject("data");
 
-        JSONObject parentObject = jarr.getJSONObject(0);
-        price = myGlobalsFunctions.nullCheck(parentObject.getString("price_" + currency.toLowerCase()));
-        change = myGlobalsFunctions.nullCheck(parentObject.getString("percent_change_24h"));
-        rank = myGlobalsFunctions.nullCheck(parentObject.getString("rank"));
-        cap = myGlobalsFunctions.nullCheck(parentObject.getString("market_cap_" + currency.toLowerCase()));
-        avlsup = myGlobalsFunctions.nullCheck(parentObject.getString("available_supply"));
+        JSONObject parentObject = jarr.getJSONObject(tickSymbol);
+        JSONObject childObject = parentObject.getJSONObject("quote").getJSONObject(currency.toUpperCase());
+
+        price = myGlobalsFunctions.nullCheck(childObject.getString("price"));
+        change = myGlobalsFunctions.nullCheck(childObject.getString("percent_change_24h"));
+        rank = myGlobalsFunctions.nullCheck(parentObject.getString("cmc_rank"));
+        cap = myGlobalsFunctions.nullCheck(childObject.getString("market_cap"));
+        avlsup = myGlobalsFunctions.nullCheck(parentObject.getString("circulating_supply"));
         lstupd = myGlobalsFunctions.nullCheck(parentObject.getString("last_updated"));
 
         if (!"-".equals(change) && !"-".equals(price)) {
@@ -333,7 +335,7 @@ public class StockInfoTab extends Fragment implements View.OnClickListener {
             try {
                 String finalJson = myGlobalsFunctions.retieveStringFromFile(cryptoID, getString(R.string.crypto_info_dir));
                 if (finalJson != null) {
-                    setVals(finalJson);
+                    setVals(finalJson, ConstantsCrypto.cryptoMap.get(cryptoID)[1]);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -347,7 +349,7 @@ public class StockInfoTab extends Fragment implements View.OnClickListener {
                     String finalJson = myGlobalsFunctions.fetchJSONasString(params[0]);
                     myGlobalsFunctions.convertImageURLtoBitmap(params[1], Boolean.TRUE);
                     if (finalJson != null)
-                        setVals(finalJson);
+                        setVals(finalJson, ConstantsCrypto.cryptoMap.get(cryptoID)[1]);
                     String exchangeRateJSON = myGlobalsFunctions.fetchJSONasString(exchangeRateURL);
                     JSONObject jsonObject = new JSONObject(exchangeRateJSON);
                     JSONObject currExRate = jsonObject.getJSONObject("rates");

@@ -106,8 +106,7 @@ public class MyGlobalsFunctions {
     }
 
     public String getEpochToNormalDateAndTimeString(String date) {
-        String date2 = new java.text.SimpleDateFormat("dd MMM, yyyy HH:mm:ss").format(new java.util.Date(Long.valueOf(date) * 1000));
-        return date2;
+        return date;
     }
 
     public String getEpochToNormalYearString(String date) {
