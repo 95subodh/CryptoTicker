@@ -51,7 +51,7 @@ public class StockNewsTab extends Fragment {
             rootView = inflater.inflate(R.layout.stock_news_tab, container, false);
         }
 
-        url = "http://beta.newsapi.org/v2/everything?q=" + cryptoID + "&apiKey=" + key + "&language=" + language;
+        url = "http://newsapi.org/v2/everything?q=" + cryptoID + "&apiKey=" + key + "&language=" + language;
         myGlobalsFunctions = new MyGlobalsFunctions(getContext());
 
         if (myGlobalsFunctions.isNetworkConnected()) {

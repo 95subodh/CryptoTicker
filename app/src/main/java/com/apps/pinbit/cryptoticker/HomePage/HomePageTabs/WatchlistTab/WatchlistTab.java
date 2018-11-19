@@ -95,7 +95,7 @@ public class WatchlistTab extends Fragment implements SwipeRefreshLayout.OnRefre
         if (items != null && items.size() > 0) {
             currency = sharedPreferences.getString(Constants.PREFERENCE_CURRENCY, "");
             if (currency.equals("")) currency = Constants.DEFAULT_CURRENCY;
-            exchangeRateURL = "http://api.fixer.io/latest?base=USD";
+            exchangeRateURL = "https://api.exchangeratesapi.io/latest?base=USD";
             spinKit.setVisibility(View.VISIBLE);
             watchlistArray = new ArrayList<>();
             adapter = new WatchlistRecyclerViewAdapter(watchlistArray, WatchlistTab.this);
@@ -112,7 +112,7 @@ public class WatchlistTab extends Fragment implements SwipeRefreshLayout.OnRefre
                 }
                 for (int i = 0; i < items.size(); ++i) {
                     String cryptoID = items.get(i);
-                    url = "https://api.coinmarketcap.com/v1/ticker/" + cryptoID + "/?convert=" + currency.toUpperCase();
+                    url = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest?symbol=" + ConstantsCrypto.cryptoMap.get(cryptoID)[1] + "&convert=" + currency.toUpperCase() + "&CMC_PRO_API_KEY=" + Constants.COIN_MARKET_CAP_KEY;
                     String imageUrl = "https://files.coinmarketcap.com/static/img/coins/32x32/" + cryptoID + ".png";
                     String highLowUrl = "http://coincap.io/history/1day/" + ConstantsCrypto.cryptoMap.get(cryptoID.replace("-", "_"))[1];
                     new JSONTask().execute(url, imageUrl, highLowUrl, cryptoID);
@@ -128,7 +128,10 @@ public class WatchlistTab extends Fragment implements SwipeRefreshLayout.OnRefre
     }
 
     public void setVals(String finalJson, String iconUrl, String highLowJson, String cryptoID) throws JSONException {
-        JSONArray jarr = new JSONArray(finalJson);
+        JSONObject jarr = new JSONObject(finalJson).getJSONObject("data");
+
+        JSONObject parentObject = jarr.getJSONObject(ConstantsCrypto.cryptoMap.get(cryptoID)[1]);
+        JSONObject childObject = parentObject.getJSONObject("quote").getJSONObject(currency.toUpperCase());
 
         int cardPosition = 0;
         for (int i = 0; i < watchlistArrayTemp.size(); ++i) {
@@ -140,10 +143,9 @@ public class WatchlistTab extends Fragment implements SwipeRefreshLayout.OnRefre
 
         watchlistArrayTemp.get(cardPosition).setContext(getContext());
 
-        JSONObject parentObject = jarr.getJSONObject(0);
         watchlistArrayTemp.get(cardPosition).setTitle(myGlobalsFunctions.nullCheck(parentObject.getString("name")));
 
-        String price = parentObject.getString("price_" + currency.toLowerCase());
+        String price = childObject.getString("price");
         watchlistArrayTemp.get(cardPosition).setCurrentPrice(myGlobalsFunctions.nullCheck(price));
 
         if (highLowJson != null && !Objects.equals(highLowJson, "")) {
@@ -160,7 +162,7 @@ public class WatchlistTab extends Fragment implements SwipeRefreshLayout.OnRefre
             watchlistArrayTemp.get(cardPosition).setMaxDayPrice(myGlobalsFunctions.nullCheck(Float.toString(Math.max(max * (float) conversion, Float.parseFloat(price)))));
         }
 
-        String change = myGlobalsFunctions.nullCheck(parentObject.getString("percent_change_24h"));
+        String change = myGlobalsFunctions.nullCheck(childObject.getString("percent_change_24h"));
         if (change.equals("-")) {
             watchlistArrayTemp.get(cardPosition).setChange(change);
         } else {
@@ -173,7 +175,7 @@ public class WatchlistTab extends Fragment implements SwipeRefreshLayout.OnRefre
             else watchlistArrayTemp.get(cardPosition).setChangeColor(true);
         }
 
-        watchlistArrayTemp.get(cardPosition).setCryptoID(myGlobalsFunctions.nullCheck(parentObject.getString("id")));
+        watchlistArrayTemp.get(cardPosition).setCryptoID(myGlobalsFunctions.nullCheck(childObject.getString("symbol")));
         watchlistArrayTemp.get(cardPosition).setIcon(iconUrl);
     }
 

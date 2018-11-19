@@ -17,6 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.apps.pinbit.cryptoticker.Global.Constants;
+import com.apps.pinbit.cryptoticker.Global.ConstantsCrypto;
 import com.apps.pinbit.cryptoticker.Global.MyGlobalsFunctions;
 import com.apps.pinbit.cryptoticker.HomePage.HomePageTabs.AddToMyPortfolioForm.CryptoTradeObject;
 import com.apps.pinbit.cryptoticker.HomePage.HomePageTabs.AddToMyPortfolioForm.TradeObject;
@@ -26,7 +27,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -151,7 +151,7 @@ public class MyPortfolioTab extends Fragment implements SwipeRefreshLayout.OnRef
 
                 if (!prevCurrency.equals(currCurrency)) isCurrencyChanged = Boolean.TRUE;
 
-                exchangeRateURL = "http://api.fixer.io/latest?base=" + prevCurrency.toUpperCase();
+                exchangeRateURL = "https://api.exchangeratesapi.io/latest?base=" + prevCurrency.toUpperCase();
 
                 if (isCurrencyChanged) {
                     myPortfolioItems = new ArrayList<>();
@@ -178,7 +178,7 @@ public class MyPortfolioTab extends Fragment implements SwipeRefreshLayout.OnRef
                 for (int i = 0; i < myPortfolioItems.size(); ++i) {
                     curItem = myPortfolioItems.get(i);
                     String cryptoID = curItem.getCryptoID();
-                    url = "https://api.coinmarketcap.com/v1/ticker/" + cryptoID + "/?convert=" + currency.toUpperCase();
+                    url = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest?symbol=" + ConstantsCrypto.cryptoMap.get(cryptoID)[1] + "&convert=" + currency.toUpperCase() + "&CMC_PRO_API_KEY=" + Constants.COIN_MARKET_CAP_KEY;
                     String iconUrl = "https://files.coinmarketcap.com/static/img/coins/32x32/" + cryptoID + ".png";
                     float quantity = 0, cost = 0;
                     for (TradeObject item : curItem.getTrades()) {
@@ -295,7 +295,10 @@ public class MyPortfolioTab extends Fragment implements SwipeRefreshLayout.OnRef
             try {
                 String finalJson = myGlobalsFunctions.fetchJSONasString(params[0]);
                 if (finalJson != null) {
-                    JSONArray jarr = new JSONArray(finalJson);
+                    JSONObject jarr = new JSONObject(finalJson).getJSONObject("data");
+
+                    JSONObject parentObject = jarr.getJSONObject(ConstantsCrypto.cryptoMap.get(params[4])[1]);
+                    JSONObject childObject = parentObject.getJSONObject("quote").getJSONObject(currency.toUpperCase());
 
                     int cardPosition = 0;
                     for (int i = 0; i < myPortfolioArrayTemp.size(); ++i) {
@@ -305,13 +308,12 @@ public class MyPortfolioTab extends Fragment implements SwipeRefreshLayout.OnRef
                         }
                     }
 
-                    JSONObject parentObject = jarr.getJSONObject(0);
                     myPortfolioArrayTemp.get(cardPosition).setContext(getContext());
                     myPortfolioArrayTemp.get(cardPosition).setTitle(parentObject.getString("name"));
                     myPortfolioArrayTemp.get(cardPosition).setIcon(params[1]);
-                    myPortfolioArrayTemp.get(cardPosition).setCryptoID(parentObject.getString("id"));
+                    myPortfolioArrayTemp.get(cardPosition).setCryptoID(parentObject.getString("symbol"));
 
-                    String price = parentObject.getString("price_" + currency.toLowerCase());
+                    String price = childObject.getString("price");
 
                     String profitPer = calcMyProfitPercentage(params[2], params[3], price) + "%";
                     myPortfolioArrayTemp.get(cardPosition).setCurrentValue(Float.toString(Float.parseFloat(params[3]) * Float.parseFloat(price)));
